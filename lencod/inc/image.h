@@ -42,8 +42,8 @@
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *     - Karsten Suehring
  *     - Inge Lille-Langoy               <inge.lille-langoy@telenor.com>
- *     - Alexis Michael Tourapis         <alexismt@ieee.org> 
- *  
+ *     - Alexis Michael Tourapis         <alexismt@ieee.org>
+ *
  ************************************************************************
  */
 #ifndef _IMAGE_H_
@@ -53,10 +53,10 @@
 
 typedef struct coding_info {
   short type;
-  int   intras;   
-  int   sumFrameQP; 
-  int   num_ref_idx_l0; 
-  int   num_ref_idx_l1; 
+  int   intras;
+  int   sumFrameQP;
+  int   num_ref_idx_l0;
+  int   num_ref_idx_l1;
   pic_parameter_set_rbsp_t *active_pps;
 } CodingInfo;
 

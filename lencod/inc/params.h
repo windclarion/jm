@@ -57,14 +57,14 @@ struct inp_par_enc
   int ProfileIDC;                       //!< value of syntax element profile_idc
   int LevelIDC;                         //!< value of syntax element level_idc
   int IntraProfile;                     //!< Enable Intra profiles
-  
+
   int no_frames;                        //!< number of frames to be encoded
   int qp[NUM_SLICE_TYPES];              //!< QP values for all slice types
   int qp2frame;                         //!< frame in display order from which to apply the Change QP offsets
   int qp2off[NUM_SLICE_TYPES];          //!< Change QP offset values for all slice types
   int qpsp;                             //!< QPSP quantization value
   int frame_skip;                       //!< number of frames to skip in input sequence (e.g 2 takes frame 0,3,6,9...)
-  int jumpd;                            /*!< number of frames to skip in input sequence including intermediate pictures 
+  int jumpd;                            /*!< number of frames to skip in input sequence including intermediate pictures
                                              (e.g 2 takes frame 0,3,6,9...) */
   int DisableSubpelME[2];               //!< Disable sub-pixel motion estimation
   int search_range[2];                  /*!< search range - integer pel search and 16x16 blocks.  The search window is
@@ -145,7 +145,7 @@ struct inp_par_enc
   int ResendPPS;
 
   int SendAUD;                          //!< send Access Unit Delimiter NALU
-  int skip_gl_stats; 
+  int skip_gl_stats;
 
   // B pictures
   int NumberBFrames;                    //!< number of B frames that will be used
@@ -155,7 +155,7 @@ struct inp_par_enc
   int directInferenceFlag;              //!< Direct Mode Inference Flag
 
   int BiPredMotionEstimation;           //!< Use of Bipredictive motion estimation
-  int BiPredSearch[4];                  //!< Bipredictive motion estimation for modes 16x16, 16x8, 8x16, and 8x8  
+  int BiPredSearch[4];                  //!< Bipredictive motion estimation for modes 16x16, 16x8, 8x16, and 8x8
   int BiPredMERefinements;              //!< Max number of Iterations for Bi-predictive motion estimation
   int BiPredMESearchRange[2];           //!< Search range of Bi-predictive motion estimation
   int BiPredMESubPel;                   //!< Use of subpixel refinement for Bi-predictive motion estimation
@@ -220,8 +220,8 @@ struct inp_par_enc
 
   int DisableIntra4x4;
   int DisableIntra16x16;
-  int FastMDEnable; 
-  int FastIntraMD; 
+  int FastMDEnable;
+  int FastIntraMD;
   int FastIntra4x4;
   int FastIntra16x16;
   int FastIntra8x8;
@@ -245,7 +245,7 @@ struct inp_par_enc
 
   int rdopt;
   int de;     //!< the algorithm to estimate the distortion in the decoder
-  int I16rdo; 
+  int I16rdo;
   int MDReference[2];
   int subMBCodingState;
   int Distortion[TOTAL_DIST_TYPES];
@@ -291,7 +291,7 @@ struct inp_par_enc
   int MEErrorMetric[3];
   int ModeDecisionMetric;
   int SkipDeBlockNonRef;
-  
+
   //  Deblocking Filter parameters
   int DFSendParameters;
   int DFDisableIdc[2][NUM_SLICE_TYPES];
@@ -348,7 +348,7 @@ struct inp_par_enc
 
   // Search Algorithm
   SearchType SearchMode[2];
-  
+
   // UMHEX related parameters
   int UMHexDSR;
   int UMHexScale;
@@ -361,7 +361,7 @@ struct inp_par_enc
 #if (MVC_EXTENSION_ENABLE)
   int EPZSTemporal[2];
 #else
-  int EPZSTemporal;  
+  int EPZSTemporal;
 #endif
   int EPZSSpatialMem;
   int EPZSBlockType;
@@ -382,13 +382,13 @@ struct inp_par_enc
   int EPZSSubPelME;
   int EPZSSubPelMEBiPred;
   int EPZSUseHMEPredictors;
- 
+
   // HME Related parameter
   int HMEEnable;
   int HMEDisableMMCO;
   int PyramidLevels;
-  
-  
+
+
   // IDR min distance
   int MinIDRDistance;
   // Lambda Params
@@ -450,7 +450,7 @@ struct inp_par_enc
   int UseRDOQuant;
   int RDOQ_DC;
   int RDOQ_CR;
-  int RDOQ_DC_CR; 
+  int RDOQ_DC_CR;
   int RDOQ_QP_Num;
   int RDOQ_CP_Mode;
   int RDOQ_CP_MV;

@@ -39,7 +39,7 @@
 *    Quantization process header file
 *
 * \author
-*    Alexis Michael Tourapis         <alexismt@ieee.org>                
+*    Alexis Michael Tourapis         <alexismt@ieee.org>
 *
 ************************************************************************
 */
@@ -53,9 +53,9 @@ extern int quant_8x8_normal (Macroblock *currMB, int **tblock, struct quant_meth
 extern int quant_8x8_around (Macroblock *currMB, int **tblock, struct quant_methods *q_method);
 extern int quant_8x8_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_method);
 
-extern int quant_8x8cavlc_around (Macroblock *currMB, int **tblock, struct quant_methods *q_method, int***  cofAC); 
-extern int quant_8x8cavlc_normal (Macroblock *currMB, int **tblock, struct quant_methods *q_method, int***  cofAC); 
-extern int quant_8x8cavlc_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_method, int***  cofAC); 
+extern int quant_8x8cavlc_around (Macroblock *currMB, int **tblock, struct quant_methods *q_method, int***  cofAC);
+extern int quant_8x8cavlc_normal (Macroblock *currMB, int **tblock, struct quant_methods *q_method, int***  cofAC);
+extern int quant_8x8cavlc_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_method, int***  cofAC);
 
 #endif
 

@@ -54,23 +54,23 @@
 
 #define RDOQ_SQ 0
 
-static const int entropyBits[128]= 
+static const int entropyBits[128]=
 {
-     895,    943,    994,   1048,   1105,   1165,   1228,   1294, 
-    1364,   1439,   1517,   1599,   1686,   1778,   1875,   1978, 
-    2086,   2200,   2321,   2448,   2583,   2725,   2876,   3034, 
-    3202,   3380,   3568,   3767,   3977,   4199,   4435,   4684, 
-    4948,   5228,   5525,   5840,   6173,   6527,   6903,   7303, 
-    7727,   8178,   8658,   9169,   9714,  10294,  10914,  11575, 
-   12282,  13038,  13849,  14717,  15650,  16653,  17734,  18899, 
-   20159,  21523,  23005,  24617,  26378,  28306,  30426,  32768, 
-   32768,  35232,  37696,  40159,  42623,  45087,  47551,  50015, 
-   52479,  54942,  57406,  59870,  62334,  64798,  67262,  69725, 
-   72189,  74653,  77117,  79581,  82044,  84508,  86972,  89436, 
-   91900,  94363,  96827,  99291, 101755, 104219, 106683, 109146, 
-  111610, 114074, 116538, 119002, 121465, 123929, 126393, 128857, 
-  131321, 133785, 136248, 138712, 141176, 143640, 146104, 148568, 
-  151031, 153495, 155959, 158423, 160887, 163351, 165814, 168278, 
+     895,    943,    994,   1048,   1105,   1165,   1228,   1294,
+    1364,   1439,   1517,   1599,   1686,   1778,   1875,   1978,
+    2086,   2200,   2321,   2448,   2583,   2725,   2876,   3034,
+    3202,   3380,   3568,   3767,   3977,   4199,   4435,   4684,
+    4948,   5228,   5525,   5840,   6173,   6527,   6903,   7303,
+    7727,   8178,   8658,   9169,   9714,  10294,  10914,  11575,
+   12282,  13038,  13849,  14717,  15650,  16653,  17734,  18899,
+   20159,  21523,  23005,  24617,  26378,  28306,  30426,  32768,
+   32768,  35232,  37696,  40159,  42623,  45087,  47551,  50015,
+   52479,  54942,  57406,  59870,  62334,  64798,  67262,  69725,
+   72189,  74653,  77117,  79581,  82044,  84508,  86972,  89436,
+   91900,  94363,  96827,  99291, 101755, 104219, 106683, 109146,
+  111610, 114074, 116538, 119002, 121465, 123929, 126393, 128857,
+  131321, 133785, 136248, 138712, 141176, 143640, 146104, 148568,
+  151031, 153495, 155959, 158423, 160887, 163351, 165814, 168278,
   170742, 173207, 175669, 178134, 180598, 183061, 185525, 187989
 };
 
@@ -88,7 +88,7 @@ static int biari_no_bits(signed short symbol, BiContextTypePtr bi_ct )
 }
 
 static int biari_state(signed short symbol, BiContextTypePtr bi_ct )
-{ 
+{
   int ctx_state;
 
   symbol = (short) (symbol != 0);
@@ -170,7 +170,7 @@ static void est_significant_coefficients (Macroblock* currMB, int type)
   int maxCtx = imin(4, max_c2[type]);
   estBitsCabacStruct *cabacEstBits = &currSlice->estBitsCabac[type];
 
-  for (ctx=0; ctx<=4; ctx++){    
+  for (ctx=0; ctx<=4; ctx++){
     cabacEstBits->greaterOneBits[0][ctx][0]=
       biari_no_bits (0, currSlice->tex_ctx->one_contexts[type2ctx_one[type]] + ctx);
 
@@ -216,12 +216,12 @@ static int est_unary_exp_golomb_level_encode(Macroblock *currMB, unsigned int sy
     {
       estBits += cabacEstBits->greaterOneBits[1][ctx][1];
     }
-    
+
     if (symbol < exp_start)
     {
       estBits += cabacEstBits->greaterOneBits[1][ctx][0];
     }
-    else 
+    else
     {
       estBits += est_exp_golomb_encode_eq_prob(symbol - exp_start);
     }
@@ -274,7 +274,7 @@ int est_unary_exp_golomb_level_bits(unsigned int symbol, int bits0, int bits1)
     {
       estBits += bits0;
     }
-    else 
+    else
     {
       estBits += est_exp_golomb_encode_eq_prob(symbol - exp_start);
     }
@@ -285,7 +285,7 @@ int est_unary_exp_golomb_level_bits(unsigned int symbol, int bits0, int bits1)
 /*!
 ****************************************************************************
 * \brief
-*    estimate exp golomb bit cost 
+*    estimate exp golomb bit cost
 ****************************************************************************
 */
 int est_exp_golomb_encode_eq_prob(unsigned int symbol)
@@ -294,15 +294,15 @@ int est_exp_golomb_encode_eq_prob(unsigned int symbol)
 
   for(;;)
   {
-    if (symbol >= (unsigned int)(1<<k))   
+    if (symbol >= (unsigned int)(1<<k))
     {
       estBits++;
       symbol -= (1 << k);
       k++;
     }
-    else                  
+    else
     {
-      estBits += (k + 1);  
+      estBits += (k + 1);
       break;
     }
   }
@@ -315,11 +315,11 @@ int est_exp_golomb_encode_eq_prob(unsigned int symbol)
 *   estimate bit cost for CBP, significant map and significant coefficients
 ****************************************************************************
 */
-void estRunLevel_CABAC (Macroblock *currMB, int context) // writes CABAC run/level 
+void estRunLevel_CABAC (Macroblock *currMB, int context) // writes CABAC run/level
 {
-  est_CBP_block_bit  (currMB, context);      
+  est_CBP_block_bit  (currMB, context);
   //===== encode significance map =====
-  est_significance_map         (currMB, context);      
+  est_significance_map         (currMB, context);
   //===== encode significant coefficients =====
   est_significant_coefficients (currMB, context);
 }
@@ -331,16 +331,16 @@ void estRunLevel_CABAC (Macroblock *currMB, int context) // writes CABAC run/lev
 *    estimate CABAC CBP bits
 ****************************************************************************
 */
-int est_write_and_store_CBP_block_bit(Macroblock* currMB, int type) 
+int est_write_and_store_CBP_block_bit(Macroblock* currMB, int type)
 {
   Slice *currSlice = currMB->p_Slice;
   VideoParameters *p_Vid = currMB->p_Vid;
-  estBitsCabacStruct *cabacEstBits = &currSlice->estBitsCabac[type];  
+  estBitsCabacStruct *cabacEstBits = &currSlice->estBitsCabac[type];
 
   int y_ac        = (type==LUMA_16AC || type==LUMA_8x8 || type==LUMA_8x4 || type==LUMA_4x8 || type==LUMA_4x4
     || type==CB_16AC || type==CB_8x8 || type==CB_8x4 || type==CB_4x8 || type==CB_4x4
     || type==CR_16AC || type==CR_8x8 || type==CR_8x4 || type==CR_4x8 || type==CR_4x4);
-  int y_dc        = (type==LUMA_16DC || type==CB_16DC || type==CR_16DC); 
+  int y_dc        = (type==LUMA_16DC || type==CB_16DC || type==CR_16DC);
   int u_ac        = (type==CHROMA_AC && !p_Vid->is_v_block);
   int v_ac        = (type==CHROMA_AC &&  p_Vid->is_v_block);
   int chroma_dc   = (type==CHROMA_DC || type==CHROMA_DC_2x4 || type==CHROMA_DC_4x4);
@@ -411,7 +411,7 @@ int est_write_and_store_CBP_block_bit(Macroblock* currMB, int type)
       estBits = cabacEstBits->blockCbpBits[ctx][0] - cabacEstBits->blockCbpBits[ctx][1];
     }
   }
-  else 
+  else
   {
     if (block_b.available)
     {
@@ -469,7 +469,7 @@ int est_write_and_store_CBP_block_bit(Macroblock* currMB, int type)
 *    Rate distortion optimized trellis quantization
 ****************************************************************************
 */
-void est_writeRunLevel_CABAC(Macroblock *currMB, levelDataStruct levelData[], int levelTabMin[], int type, double lambda, int kInit, int kStop, 
+void est_writeRunLevel_CABAC(Macroblock *currMB, levelDataStruct levelData[], int levelTabMin[], int type, double lambda, int kInit, int kStop,
                              int noCoeff, int estCBP)
 {
   VideoParameters *p_Vid = currMB->p_Vid;
@@ -492,8 +492,8 @@ void est_writeRunLevel_CABAC(Macroblock *currMB, levelDataStruct levelData[], in
   {
     if (noCoeff > 1)
     {
-      kStart = kInit; kBest = 0; first = 1; 
-      lagrAcc = 0.0; 
+      kStart = kInit; kBest = 0; first = 1;
+      lagrAcc = 0.0;
 
       for (k = kStart; k <= kStop; k++)
       {
@@ -512,14 +512,14 @@ void est_writeRunLevel_CABAC(Macroblock *currMB, levelDataStruct levelData[], in
       }
 
       for (k = kStart; k <= kStop; k++)
-      {        
+      {
         dataLevel = &levelData[k];
         significant_bits = cabacEstBits->significantBits[pos2ctx_map[type][k]];
         lagrMin  = dataLevel->errLevel[0] + lambda * significant_bits[0];
         lagrAcc -= dataLevel->errLevel[0];
 
         if (dataLevel->noLevels > 1)
-        { 
+        {
           last_bits = cabacEstBits->lastBits[pos2ctx_last[type][k]];
           estBits = SIGN_BITS + significant_bits[1] + cabacEstBits->greaterOneBits[0][4][0];
 
@@ -580,10 +580,10 @@ void est_writeRunLevel_CABAC(Macroblock *currMB, levelDataStruct levelData[], in
         // greater than 1
         greater_one = (dataLevel->level[i] > 1);
 
-        c1Tab[i] = c1;   
+        c1Tab[i] = c1;
         c2Tab[i] = c2;
 
-        ctx = imin(c1Tab[i], 4);  
+        ctx = imin(c1Tab[i], 4);
         estBits += cabacEstBits->greaterOneBits[0][ctx][greater_one];
 
         // magnitude if greater than 1
@@ -618,7 +618,7 @@ void est_writeRunLevel_CABAC(Macroblock *currMB, levelDataStruct levelData[], in
 
       if (iBest > 0)
       {
-        c1 = c1Tab[iBest]; 
+        c1 = c1Tab[iBest];
         c2 = c2Tab[iBest];
       }
 
@@ -638,11 +638,11 @@ void est_writeRunLevel_CABAC(Macroblock *currMB, levelDataStruct levelData[], in
 /*!
 ****************************************************************************
 * \brief
-*    Initialize levelData 
+*    Initialize levelData
 ****************************************************************************
 */
-int init_trellis_data_4x4_CABAC(Macroblock *currMB, int **tblock, 
-                                struct quant_methods *q_method, const byte *p_scan, 
+int init_trellis_data_4x4_CABAC(Macroblock *currMB, int **tblock,
+                                struct quant_methods *q_method, const byte *p_scan,
                                 levelDataStruct *dataLevel, int* kStart, int* kStop, int type)
 {
   VideoParameters *p_Vid = currMB->p_Vid;
@@ -658,11 +658,11 @@ int init_trellis_data_4x4_CABAC(Macroblock *currMB, int **tblock,
   int i, j, coeff_ctr;
   int *m7;
   int end_coeff_ctr = ( ( type == LUMA_4x4 ) ? 16 : 15 );
-  int q_bits = Q_BITS + qp_per; 
+  int q_bits = Q_BITS + qp_per;
   int q_offset = ( 1 << (q_bits - 1) );
   int scaled_coeff, level, lowerInt, k;
   double err, estErr;
-  
+
   for (coeff_ctr = 0; coeff_ctr < end_coeff_ctr; coeff_ctr++)
   {
     i = *p_scan++;  // horizontal position
@@ -671,12 +671,12 @@ int init_trellis_data_4x4_CABAC(Macroblock *currMB, int **tblock,
     m7 = &tblock[j][block_x + i];
 
     if (*m7 == 0)
-    {      
+    {
       dataLevel->level[0] = 0;
       dataLevel->levelDouble = 0;
       dataLevel->errLevel[0] = 0.0;
       dataLevel->noLevels = 1;
-      //err = 0.0;      
+      //err = 0.0;
     }
     else
     {
@@ -727,7 +727,7 @@ int init_trellis_data_4x4_CABAC(Macroblock *currMB, int **tblock,
       for (k = 0; k < dataLevel->noLevels; k++)
       {
         err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-        dataLevel->errLevel[k] = (err * err * estErr); 
+        dataLevel->errLevel[k] = (err * err * estErr);
       }
     }
 
@@ -739,10 +739,10 @@ int init_trellis_data_4x4_CABAC(Macroblock *currMB, int **tblock,
 /*
 ****************************************************************************
 * \brief
-*    Initialize levelData 
+*    Initialize levelData
 ****************************************************************************
 */
-int init_trellis_data_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x, int qp_per, int qp_rem, LevelQuantParams **q_params, const byte *p_scan, 
+int init_trellis_data_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x, int qp_per, int qp_rem, LevelQuantParams **q_params, const byte *p_scan,
                       levelDataStruct *dataLevel, int* kStart, int* kStop)
 {
   Slice *currSlice = currMB->p_Slice;
@@ -751,21 +751,21 @@ int init_trellis_data_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x, i
   int i, j, coeff_ctr, end_coeff_ctr = 64;
   int q_bits = Q_BITS_8 + qp_per;
   int q_offset = ( 1 << (q_bits - 1) );
-  double err, estErr; 
+  double err, estErr;
   int level, lowerInt, k;
   int scaled_coeff;
-  
+
   for (coeff_ctr = 0; coeff_ctr < end_coeff_ctr; coeff_ctr++)
   {
     i = *p_scan++;  // horizontal position
     j = *p_scan++;  // vertical position
-    
+
     m7 = &tblock[j][block_x + i];
 
     if (*m7 == 0)
     {
       dataLevel->level[0] = 0;
-      dataLevel->levelDouble = 0;      
+      dataLevel->levelDouble = 0;
       dataLevel->errLevel[0] = 0.0;
       dataLevel->noLevels = 1;
       //err = 0.0;
@@ -819,10 +819,10 @@ int init_trellis_data_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x, i
       for (k = 0; k < dataLevel->noLevels; k++)
       {
         err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-        dataLevel->errLevel[k] = (err * err * estErr); 
+        dataLevel->errLevel[k] = (err * err * estErr);
       }
     }
- 
+
     dataLevel++;
   }
   return (noCoeff);
@@ -834,14 +834,14 @@ int init_trellis_data_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x, i
 *    Initialize levelData for Luma DC
 ****************************************************************************
 */
-int init_trellis_data_DC_CABAC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, 
-                         LevelQuantParams *q_params, const byte *p_scan, 
+int init_trellis_data_DC_CABAC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem,
+                         LevelQuantParams *q_params, const byte *p_scan,
                          levelDataStruct *dataLevel, int* kStart, int* kStop)
 {
   Slice *currSlice = currMB->p_Slice;
   int noCoeff = 0;
   int i, j, coeff_ctr, end_coeff_ctr = 16;
-  int q_bits   = Q_BITS + qp_per + 1; 
+  int q_bits   = Q_BITS + qp_per + 1;
   int q_offset = ( 1 << (q_bits - 1) );
   int scaled_coeff, level, lowerInt, k;
   int *m7;
@@ -856,10 +856,10 @@ int init_trellis_data_DC_CABAC(Macroblock *currMB, int **tblock, int qp_per, int
     if (*m7 == 0)
     {
       dataLevel->level[0] = 0;
-      dataLevel->levelDouble = 0;    
+      dataLevel->levelDouble = 0;
       dataLevel->errLevel[0] = 0.0;
       dataLevel->noLevels = 1;
-      //err = 0.0;  
+      //err = 0.0;
     }
     else
     {
@@ -908,7 +908,7 @@ int init_trellis_data_DC_CABAC(Macroblock *currMB, int **tblock, int qp_per, int
       for (k = 0; k < dataLevel->noLevels; k++)
       {
         err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-        dataLevel->errLevel[k] = (err * err * estErr); 
+        dataLevel->errLevel[k] = (err * err * estErr);
       }
     }
     dataLevel++;

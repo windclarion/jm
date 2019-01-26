@@ -88,7 +88,7 @@ void DeblockPicture(VideoParameters *p_Vid, StorablePicture *p)
   else
   {
    // deblock_normal( p_Vid, p);
-    
+
     for (i = 0; i < p->PicSizeInMbs; ++i)
     {
       get_db_strength( p_Vid, p, i ) ;
@@ -97,14 +97,14 @@ void DeblockPicture(VideoParameters *p_Vid, StorablePicture *p)
     {
       perform_db( p_Vid, p, i ) ;
     }
-    
+
   }
 }
 #else
 static void DeblockParallel(VideoParameters *p_Vid, StorablePicture *p, unsigned int column, int block, int n_last)
 {
   int i, j;
-  
+
   for (j = 0; j < GROUP_SIZE; j++)
   {
     i = block++ * (p_Vid->PicWidthInMbs - 2) + column;
@@ -133,10 +133,10 @@ void DeblockPicture(VideoParameters *p_Vid, StorablePicture *p)
   {
     get_db_strength( p_Vid, p, j ) ;
   }
- 
+
   for (i = 0; i < k; i++)
   {
-    int nn;    
+    int nn;
     int n_last = imin(iheightMBs, (i >> 1) + 1);
     int n_start = (i < p->PicWidthInMbs) ? 0 : ((i - p->PicWidthInMbs) >> 1) + 1;
 
@@ -162,7 +162,7 @@ static void init_neighbors(VideoParameters *p_Vid)
   currMB->mbleft = NULL;
   currMB++;
   // do top row
-  for (i = 1; i < width; i++) 
+  for (i = 1; i < width; i++)
   {
     currMB->mbup = NULL;
     currMB->mbleft = currMB - 1;
@@ -170,17 +170,17 @@ static void init_neighbors(VideoParameters *p_Vid)
   }
 
   // do left edge
-  for (i = width; i < size; i += width) 
+  for (i = width; i < size; i += width)
   {
     currMB->mbup = currMB - width;
-    currMB->mbleft = NULL;   
+    currMB->mbleft = NULL;
     currMB += width;
   }
   // do all others
-  for (j = width + 1; j < width * height + 1; j += width) 
+  for (j = width + 1; j < width * height + 1; j += width)
   {
     currMB = &p_Vid->mb_data[j];
-    for (i = 1; i < width; i++) 
+    for (i = 1; i < width; i++)
     {
       currMB->mbup   = currMB - width;
       currMB->mbleft = currMB - 1;
@@ -202,9 +202,9 @@ void  init_Deblock(VideoParameters *p_Vid, int mb_aff_frame_flag)
     init_neighbors(p_Dec->p_Vid);
     change_plane_JV(p_Vid, PLANE_Y, NULL);
   }
-  else 
+  else
     init_neighbors(p_Dec->p_Vid);
-  if (mb_aff_frame_flag == 1) 
+  if (mb_aff_frame_flag == 1)
   {
     set_loop_filter_functions_mbaff(p_Vid);
   }
@@ -226,7 +226,7 @@ static void DeblockMb(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
   Macroblock   *MbQ = &(p_Vid->mb_data[MbQAddr]) ; // current Mb
 
   // return, if filter is disabled
-  if (MbQ->DFDisableIdc == 1) 
+  if (MbQ->DFDisableIdc == 1)
   {
     MbQ->DeblockCall = 0;
   }
@@ -272,11 +272,11 @@ static void DeblockMb(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
       filterTopMbEdgeFlag  = (p->mb_aff_frame_flag && !MbQ->mb_field && (MbQAddr & 0x01)) ? 1 : MbQ->mbAvailB;
     }
 
-    if (p->mb_aff_frame_flag == 1) 
+    if (p->mb_aff_frame_flag == 1)
       CheckAvailabilityOfNeighborsMBAFF(MbQ);
 
     // Vertical deblocking
-    for (edge = 0; edge < 4 ; ++edge )    
+    for (edge = 0; edge < 4 ; ++edge )
     {
       // If cbp == 0 then deblocking for some macroblock types could be skipped
       if (MbQ->cbp == 0 && (currSlice->slice_type == P_SLICE || currSlice->slice_type == B_SLICE))
@@ -293,7 +293,7 @@ static void DeblockMb(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
       }
 
       if( edge || filterLeftMbEdgeFlag )
-      {   
+      {
         // Strength for 4 blks in 1 stripe
         get_strength_ver_MBAff(Strength, MbQ, edge << 2, mvlimit, p);
 
@@ -320,11 +320,11 @@ static void DeblockMb(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
               p_Vid->EdgeLoopChromaVer( imgUV[1], Strength, MbQ, edge_cr, 1, p);
             }
           }
-        }        
+        }
       }
     }//end edge
 
-    // horizontal deblocking  
+    // horizontal deblocking
     for( edge = 0; edge < 4 ; ++edge )
     {
       // If cbp == 0 then deblocking for some macroblock types could be skipped
@@ -372,8 +372,8 @@ static void DeblockMb(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
           }
         }
 
-        if (!edge && !MbQ->mb_field && MbQ->mixedModeEdgeFlag) //currSlice->mixedModeEdgeFlag) 
-        {        
+        if (!edge && !MbQ->mb_field && MbQ->mixedModeEdgeFlag) //currSlice->mixedModeEdgeFlag)
+        {
           // this is the extra horizontal edge between a frame macroblock pair and a field above it
           MbQ->DeblockCall = 2;
           get_strength_hor_MBAff(Strength, MbQ, MB_BLOCK_SIZE, mvlimit, p); // Strength for 4 blks in 1 stripe
@@ -390,7 +390,7 @@ static void DeblockMb(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
                 p_Vid->EdgeLoopLumaHor(PLANE_V, imgUV[1], Strength, MbQ, MB_BLOCK_SIZE, p) ;
               }
             }
-            if (active_sps->chroma_format_idc==YUV420 || active_sps->chroma_format_idc==YUV422) 
+            if (active_sps->chroma_format_idc==YUV420 || active_sps->chroma_format_idc==YUV422)
             {
               edge_cr = chroma_edge[1][edge][p->chroma_format_idc];
               if( (imgUV != NULL) && (edge_cr >= 0))
@@ -403,7 +403,7 @@ static void DeblockMb(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
           MbQ->DeblockCall = 1;
         }
       }
-    }//end edge  
+    }//end edge
 
     MbQ->DeblockCall = 0;
   }
@@ -420,7 +420,7 @@ static void get_db_strength(VideoParameters *p_Vid, StorablePicture *p, int MbQA
   Macroblock   *MbQ = &(p_Vid->mb_data[MbQAddr]) ; // current Mb
 
   // return, if filter is disabled
-  if (MbQ->DFDisableIdc == 1) 
+  if (MbQ->DFDisableIdc == 1)
   {
     MbQ->DeblockCall = 0;
   }
@@ -462,11 +462,11 @@ static void get_db_strength(VideoParameters *p_Vid, StorablePicture *p, int MbQA
       filterTopMbEdgeFlag  = (p->mb_aff_frame_flag && !MbQ->mb_field && (MbQAddr & 0x01)) ? 1 : MbQ->mbAvailB;
     }
 
-    if (p->mb_aff_frame_flag == 1) 
+    if (p->mb_aff_frame_flag == 1)
       CheckAvailabilityOfNeighborsMBAFF(MbQ);
 
     // Vertical deblocking
-    for (edge = 0; edge < 4 ; ++edge )    
+    for (edge = 0; edge < 4 ; ++edge )
     {
       // If cbp == 0 then deblocking for some macroblock types could be skipped
       if (MbQ->cbp == 0 && (currSlice->slice_type == P_SLICE || currSlice->slice_type == B_SLICE))
@@ -483,13 +483,13 @@ static void get_db_strength(VideoParameters *p_Vid, StorablePicture *p, int MbQA
       }
 
       if( edge || filterLeftMbEdgeFlag )
-      {      
+      {
         // Strength for 4 blks in 1 stripe
         p_Vid->GetStrengthVer(MbQ, edge, mvlimit, p);
       }
     }//end edge
 
-    // horizontal deblocking  
+    // horizontal deblocking
     for( edge = 0; edge < 4 ; ++edge )
     {
       // If cbp == 0 then deblocking for some macroblock types could be skipped
@@ -522,7 +522,7 @@ static void perform_db(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
   Macroblock   *MbQ = &(p_Vid->mb_data[MbQAddr]) ; // current Mb
 
   // return, if filter is disabled
-  if (MbQ->DFDisableIdc == 1) 
+  if (MbQ->DFDisableIdc == 1)
   {
     MbQ->DeblockCall = 0;
   }
@@ -567,11 +567,11 @@ static void perform_db(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
       filterTopMbEdgeFlag  = (p->mb_aff_frame_flag && !MbQ->mb_field && (MbQAddr & 0x01)) ? 1 : MbQ->mbAvailB;
     }
 
-    if (p->mb_aff_frame_flag == 1) 
+    if (p->mb_aff_frame_flag == 1)
       CheckAvailabilityOfNeighborsMBAFF(MbQ);
 
     // Vertical deblocking
-    for (edge = 0; edge < 4 ; ++edge )    
+    for (edge = 0; edge < 4 ; ++edge )
     {
       // If cbp == 0 then deblocking for some macroblock types could be skipped
       if (MbQ->cbp == 0 && (currSlice->slice_type == P_SLICE || currSlice->slice_type == B_SLICE))
@@ -588,7 +588,7 @@ static void perform_db(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
       }
 
       if( edge || filterLeftMbEdgeFlag )
-      {      
+      {
         byte *Strength = MbQ->strength_ver[edge];
 
         if ( Strength[0] != 0 || Strength[1] != 0 || Strength[2] != 0 || Strength[3] != 0 ) // only if one of the 4 first Strength bytes is != 0
@@ -611,11 +611,11 @@ static void perform_db(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
               p_Vid->EdgeLoopChromaVer( imgUV[1], Strength, MbQ, edge_cr, 1, p);
             }
           }
-        }        
+        }
       }
     }//end edge
 
-    // horizontal deblocking  
+    // horizontal deblocking
     for( edge = 0; edge < 4 ; ++edge )
     {
       // If cbp == 0 then deblocking for some macroblock types could be skipped
@@ -662,8 +662,8 @@ static void perform_db(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
           }
         }
 
-        if (!edge && !MbQ->mb_field && MbQ->mixedModeEdgeFlag) //currSlice->mixedModeEdgeFlag) 
-        {          
+        if (!edge && !MbQ->mb_field && MbQ->mixedModeEdgeFlag) //currSlice->mixedModeEdgeFlag)
+        {
           // this is the extra horizontal edge between a frame macroblock pair and a field above it
           MbQ->DeblockCall = 2;
           p_Vid->GetStrengthHor(MbQ, 4, mvlimit, p); // Strength for 4 blks in 1 stripe
@@ -680,7 +680,7 @@ static void perform_db(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
                 p_Vid->EdgeLoopLumaHor(PLANE_V, imgUV[1], Strength, MbQ, MB_BLOCK_SIZE, p) ;
               }
             }
-            if (active_sps->chroma_format_idc==YUV420 || active_sps->chroma_format_idc==YUV422) 
+            if (active_sps->chroma_format_idc==YUV420 || active_sps->chroma_format_idc==YUV422)
             {
               edge_cr = chroma_edge[1][edge][p->chroma_format_idc];
               if( (imgUV != NULL) && (edge_cr >= 0))
@@ -693,7 +693,7 @@ static void perform_db(VideoParameters *p_Vid, StorablePicture *p, int MbQAddr)
           MbQ->DeblockCall = 1;
         }
       }
-    }//end edge  
+    }//end edge
 
     MbQ->DeblockCall = 0;
   }

@@ -77,13 +77,13 @@ int quant_4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_me
   int   block_x = q_method->block_x;
   int  qp = q_method->qp;
   int*  ACL = &q_method->ACLevel[0];
-  int*  ACR = &q_method->ACRun[0];  
+  int*  ACR = &q_method->ACRun[0];
   LevelQuantParams **q_params_4x4 = q_method->q_params;
   const byte (*pos_scan)[2] = q_method->pos_scan;
   const byte *c_cost = q_method->c_cost;
   int *coeff_cost = q_method->coeff_cost;
 
-  
+
   LevelQuantParams *q_params = NULL;
   int i,j, coeff_ctr;
 
@@ -123,10 +123,10 @@ int quant_4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_me
         // arithmetic is satisfied.
         // *m7 = (qp_per<4) ? rshift_rnd_sf((level*q_params->InvScaleComp),4-qp_per) : (level*q_params->InvScaleComp)<<(qp_per-4);
         *ACL++ = level;
-        *ACR++ = run; 
+        *ACR++ = run;
         // reset zero level counter
         run    = 0;
-        nonzero = TRUE;        
+        nonzero = TRUE;
       }
       else
       {
@@ -137,7 +137,7 @@ int quant_4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_me
     else
     {
       ++run;
-    } 
+    }
   }
 
   *ACL = 0;
@@ -151,7 +151,7 @@ int quant_ac4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_
 
   int   qp = q_method->qp;
   int*  ACL = &q_method->ACLevel[0];
-  int*  ACR = &q_method->ACRun[0]; 
+  int*  ACR = &q_method->ACRun[0];
   LevelQuantParams **q_params_4x4 = q_method->q_params;
   const byte (*pos_scan)[2] = q_method->pos_scan;
   const byte *c_cost = q_method->c_cost;
@@ -168,7 +168,7 @@ int quant_ac4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_
   int scaled_coeff;
 
   int   level, run = 0;
-  int   nonzero = FALSE;  
+  int   nonzero = FALSE;
   int   qp_per = p_Quant->qp_per_matrix[qp];
   int   q_bits = Q_BITS + qp_per;
   const byte *p_scan1 = &pos_scan[1][0];
@@ -179,7 +179,7 @@ int quant_ac4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_
   int   q_bits2 = Q_BITS + qp_per2;
   int   coeff;
 
- 
+
   // First pass quantization
   for (coeff_ctr = 1; coeff_ctr < 16; ++coeff_ctr)
   {
@@ -240,7 +240,7 @@ int quant_ac4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_
         // arithmetic is satisfied.
         // *m7 = (qp_per<4) ? rshift_rnd_sf((level*q_params->InvScaleComp),4-qp_per) : (level*q_params->InvScaleComp)<<(qp_per-4);
         *ACL++  = level;
-        *ACR++  = run; 
+        *ACR++  = run;
         // reset zero level counter
         run     = 0;
         nonzero = TRUE;
@@ -248,21 +248,21 @@ int quant_ac4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_
       else
       {
         *m7 = 0;
-        ++run;        
+        ++run;
       }
     }
     else
     {
       *m7 = 0;
       ++run;
-    }          
+    }
   }
 
   *ACL = 0;
 
   return nonzero;
 }
- 
+
 /*!
  ************************************************************************
  * \brief
@@ -270,7 +270,7 @@ int quant_ac4x4_2step(Macroblock *currMB, int **tblock, struct quant_methods *q_
  *
  ************************************************************************
  */
-int quant_dc4x4_2step(Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun, 
+int quant_dc4x4_2step(Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun,
                        LevelQuantParams *q_params_4x4, const byte (*pos_scan)[2])
 {
   QuantParameters *p_Quant = currMB->p_Vid->p_Quant;
@@ -281,7 +281,7 @@ int quant_dc4x4_2step(Macroblock *currMB, int **tblock, int qp, int* DCLevel, in
   int scaled_coeff;
 
   int   level, run = 0;
-  int   nonzero = FALSE;  
+  int   nonzero = FALSE;
   int   qp_per = p_Quant->qp_per_matrix[qp];
   int   q_bits = Q_BITS + qp_per + 1;
   const byte *p_scan = &pos_scan[0][0];
@@ -297,7 +297,7 @@ int quant_dc4x4_2step(Macroblock *currMB, int **tblock, int qp, int* DCLevel, in
     m7 = &tblock[j][i];
 
     if (*m7 != 0)
-    {    
+    {
       scaled_coeff = iabs (*m7) * q_params_4x4->ScaleComp;
       level = (scaled_coeff + (q_params_4x4->OffsetComp << 1) ) >> q_bits;
 
@@ -323,7 +323,7 @@ int quant_dc4x4_2step(Macroblock *currMB, int **tblock, int qp, int* DCLevel, in
     else
     {
       ++run;
-    }                    
+    }
   }
 
   *DCL = 0;

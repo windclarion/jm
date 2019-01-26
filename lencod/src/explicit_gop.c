@@ -96,7 +96,7 @@ void interpret_gop_structure(VideoParameters *p_Vid, InputParameters *p_Inp)
   int i =0, k, dqp, display_no;
   int slice_read =0, order_read = 0, stored_read = 0, qp_read =0;
   int coded_frame = 0;
-  int tlyr, temporal_layer_read = 0; 
+  int tlyr, temporal_layer_read = 0;
 
   if (nLength > 0)
   {
@@ -201,12 +201,12 @@ void interpret_gop_structure(VideoParameters *p_Vid, InputParameters *p_Inp)
             {
               if (p_Inp->ExplicitHierarchyFormat[i] == 't' || p_Inp->ExplicitHierarchyFormat[i] == 'T')
               {
-                p_Vid->gop_structure[coded_frame].temporal_layer = 0; 
+                p_Vid->gop_structure[coded_frame].temporal_layer = 0;
                 if (isdigit((int)(*(p_Inp->ExplicitHierarchyFormat+i+1))))
                 {
                   sscanf(p_Inp->ExplicitHierarchyFormat+i+1,"%d",&tlyr);
 
-                  p_Vid->gop_structure[coded_frame].temporal_layer = tlyr; 
+                  p_Vid->gop_structure[coded_frame].temporal_layer = tlyr;
                   i++; // temporal layer number is specified
                 }
               }

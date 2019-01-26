@@ -202,7 +202,7 @@ void Sort(unsigned long NumberLeakyBuckets, unsigned long *Rmin)
   {
     for(j=i+1; j<NumberLeakyBuckets; j++)
     {
-      if(Rmin[i] > Rmin[j]) 
+      if(Rmin[i] > Rmin[j])
       {
         temp = Rmin[i];
         Rmin[i] = Rmin[j];
@@ -318,7 +318,7 @@ void calc_buffer(VideoParameters *p_Vid, InputParameters *p_Inp)
     for(iFrame=0; iFrame < FrameIndex+1; iFrame++)
     {
       buffer_frame[iFrame] = buffer_frame[iFrame] - p_Vid->Bit_Buffer[iFrame];
-      if(buffer_frame[iFrame] < 0) 
+      if(buffer_frame[iFrame] < 0)
       {
         InitFullness -= buffer_frame[iFrame];
         buffer_frame[iFrame] = 0;

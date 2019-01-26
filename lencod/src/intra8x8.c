@@ -89,7 +89,7 @@
 #define P_W (PredPel[23])
 #define P_X (PredPel[24])
 
-void generate_pred_error_8x8(imgpel **cur_img, imgpel **prd_img, imgpel **cur_prd, 
+void generate_pred_error_8x8(imgpel **cur_img, imgpel **prd_img, imgpel **cur_prd,
                          int **m7, int pic_opix_x, int block_x)
 {
   int j, i, *m7_line;
@@ -99,7 +99,7 @@ void generate_pred_error_8x8(imgpel **cur_img, imgpel **prd_img, imgpel **cur_pr
   {
     prd_line = prd_img[j];
     memcpy(&cur_prd[j][block_x], prd_line, BLOCK_SIZE_8x8 * sizeof(imgpel));
-    cur_line = &cur_img[j][pic_opix_x];    
+    cur_line = &cur_img[j][pic_opix_x];
     m7_line = &m7[j][block_x];
     for (i = 0; i < BLOCK_SIZE_8x8; i++)
     {
@@ -582,7 +582,7 @@ void set_intrapred_8x8(Macroblock *currMB, ColorPlane pl, int img_x,int img_y, i
   }
 
   if (block_available_up_right)
-  {    
+  {
     memcpy(&PredPel[9], &img_enc[pix_c.pos_y][pix_c.pos_x], 8 * sizeof(imgpel));
   }
   else
@@ -697,7 +697,7 @@ void set_intrapred_8x8_mbaff(Macroblock *currMB, ColorPlane pl, int img_x,int im
   }
 
   if (block_available_up_right)
-  {    
+  {
     memcpy(&PredPel[9], &img_enc[pix_c.pos_y][pix_c.pos_x], 8 * sizeof(imgpel));
   }
   else
@@ -753,7 +753,7 @@ void get_intrapred_8x8(Macroblock *currMB, ColorPlane pl, int i8x8_mode, int lef
 
   switch (i8x8_mode)
   {
-  case VERT_PRED :    
+  case VERT_PRED :
     get_i8x8_vertical(curr_mpr_8x8[VERT_PRED], PredPel);
     break;
   case HOR_PRED :

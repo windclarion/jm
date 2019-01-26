@@ -40,7 +40,7 @@
  *    motion compensation header
  *
  * \author
- *      Main contributors (see contributors.h for copyright, 
+ *      Main contributors (see contributors.h for copyright,
  *                         address and affiliation details)
  *      - Alexis Michael Tourapis  <alexismt@ieee.org>
  *
@@ -54,7 +54,7 @@
 extern void luma_prediction       ( Macroblock* currMB, int, int, int, int, int, int[2], char *, short );
 extern void luma_prediction_bi    ( Macroblock* currMB, int, int, int, int, int, int, short, short, int );
 extern void chroma_prediction     ( Macroblock* currMB, int, int, int, int, int, int, int, int, short, short, short );
-extern void chroma_prediction_4x4 ( Macroblock* currMB, int, int, int, int, int, int, short, short, short);   
+extern void chroma_prediction_4x4 ( Macroblock* currMB, int, int, int, int, int, int, short, short, short);
 
 extern void rdo_low_intra_chroma_decision              (Macroblock *currMB, int mb_available_up, int mb_available_left[2], int mb_available_up_left);
 extern void rdo_low_intra_chroma_decision_mbaff        (Macroblock *currMB, int mb_available_up, int mb_available_left[2], int mb_available_up_left);

@@ -40,7 +40,7 @@
 * \author
 *    Main contributors (see contributors.h for copyright, address and affiliation details)
 *      - Alexis Michael Tourapis <alexismt@gmail.com>
-*      - Yuwen He               
+*      - Yuwen He
 *
 *************************************************************************************
 */
@@ -90,7 +90,7 @@ distblk computeSAD_hme(StorablePicture *ref1,
       mcost += iabs( *src_line++ - *ref_line++ );
       mcost += iabs( *src_line++ - *ref_line++ );
     }
-    if(mcost > imin_cost) 
+    if(mcost > imin_cost)
       return (dist_scale_f((distblk)mcost));
     ref_line += pad_size_x;
   }
@@ -118,7 +118,7 @@ distblk computeSADWP_hme(StorablePicture *ref1,
   short blocksize_y = mv_block->blocksize_y;
 
   VideoParameters *p_Vid = mv_block->p_Vid;
-  Slice *currSlice = mv_block->p_Slice;  
+  Slice *currSlice = mv_block->p_Slice;
   int pad_size_x = mv_block->hme_ref_size_x_pad - blocksize_x;
   int max_imgpel_value = p_Vid->max_imgpel_value;
   short weight = mv_block->weight_luma;

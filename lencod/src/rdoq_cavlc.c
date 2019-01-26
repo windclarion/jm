@@ -93,7 +93,7 @@ int estSyntaxElement_Level_VLC1(SyntaxElement *se)
 int estSyntaxElement_Level_VLCN(SyntaxElement *se, int vlc)//, DataPartition *this_dataPart)
 {
   int level = se->value1;
-  int levabs = iabs(level) - 1;  
+  int levabs = iabs(level) - 1;
 
   int shift = vlc - 1;
   int escape = (15 << shift);
@@ -131,7 +131,7 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
 
   int coeff_ctr, scan_pos = 0;
   int k, level = 1, run = -1, vlcnum;
-  int numcoeff = 0, lastcoeff = 0, numtrailingones = 0; 
+  int numcoeff = 0, lastcoeff = 0, numtrailingones = 0;
   int numones = 0, totzeros = 0, zerosleft, numcoef;
   int numcoeff_vlc;
   int level_two_or_higher;
@@ -142,7 +142,7 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
   int  pLevel[16] = {0};
   int  pRun[16] = {0};
 
-  static const int Token_lentab[3][4][17] = 
+  static const int Token_lentab[3][4][17] =
   {
     {
       { 1, 6, 8, 9,10,11,13,13,13,14,14,15,15,16,16,16,16},
@@ -150,13 +150,13 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
       { 0, 0, 3, 7, 8, 9,10,11,13,13,14,14,15,15,16,16,16},
       { 0, 0, 0, 5, 6, 7, 8, 9,10,11,13,14,14,15,15,16,16}
     },
-    {                                                  
+    {
       { 2, 6, 6, 7, 8, 8, 9,11,11,12,12,12,13,13,13,14,14},
       { 0, 2, 5, 6, 6, 7, 8, 9,11,11,12,12,13,13,14,14,14},
       { 0, 0, 3, 6, 6, 7, 8, 9,11,11,12,12,13,13,13,14,14},
       { 0, 0, 0, 4, 4, 5, 6, 6, 7, 9,11,11,12,13,13,13,14}
     },
-    {                                                  
+    {
       { 4, 6, 6, 6, 7, 7, 7, 7, 8, 8, 9, 9, 9,10,10,10,10},
       { 0, 4, 5, 5, 5, 5, 6, 6, 7, 8, 8, 9, 9, 9,10,10,10},
       { 0, 0, 4, 5, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9,10,10,10},
@@ -164,25 +164,25 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
     }
   };
 
-  static const int Totalzeros_lentab[TOTRUN_NUM][16] = 
+  static const int Totalzeros_lentab[TOTRUN_NUM][16] =
   {
-    { 1,3,3,4,4,5,5,6,6,7,7,8,8,9,9,9},  
-    { 3,3,3,3,3,4,4,4,4,5,5,6,6,6,6},  
-    { 4,3,3,3,4,4,3,3,4,5,5,6,5,6},  
-    { 5,3,4,4,3,3,3,4,3,4,5,5,5},  
-    { 4,4,4,3,3,3,3,3,4,5,4,5},  
-    { 6,5,3,3,3,3,3,3,4,3,6},  
-    { 6,5,3,3,3,2,3,4,3,6},  
-    { 6,4,5,3,2,2,3,3,6},  
-    { 6,6,4,2,2,3,2,5},  
-    { 5,5,3,2,2,2,4},  
-    { 4,4,3,3,1,3},  
-    { 4,4,2,1,3},  
-    { 3,3,1,2},  
-    { 2,2,1},  
-    { 1,1},  
+    { 1,3,3,4,4,5,5,6,6,7,7,8,8,9,9,9},
+    { 3,3,3,3,3,4,4,4,4,5,5,6,6,6,6},
+    { 4,3,3,3,4,4,3,3,4,5,5,6,5,6},
+    { 5,3,4,4,3,3,3,4,3,4,5,5,5},
+    { 4,4,4,3,3,3,3,3,4,5,4,5},
+    { 6,5,3,3,3,3,3,3,4,3,6},
+    { 6,5,3,3,3,2,3,4,3,6},
+    { 6,4,5,3,2,2,3,3,6},
+    { 6,6,4,2,2,3,2,5},
+    { 5,5,3,2,2,2,4},
+    { 4,4,3,3,1,3},
+    { 4,4,2,1,3},
+    { 3,3,1,2},
+    { 2,2,1},
+    { 1,1},
   };
-  static const int Run_lentab[TOTRUN_NUM][16] = 
+  static const int Run_lentab[TOTRUN_NUM][16] =
   {
     {1,1},
     {1,2,2},
@@ -242,7 +242,7 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
     { 1,1}}
   };
 
-  max_coeff_num = ( (block_type == CHROMA_DC) ? p_Vid->num_cdc_coeff : 
+  max_coeff_num = ( (block_type == CHROMA_DC) ? p_Vid->num_cdc_coeff :
   ( (block_type == LUMA_INTRA16x16AC || block_type == CB_INTRA16x16AC || block_type == CR_INTRA16x16AC || block_type == CHROMA_AC) ? 15 : 16) );
 
   //convert zigzag scan to (run, level) pairs
@@ -260,7 +260,7 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
   }
 
   level = 1;
-  for(k = 0; (k < max_coeff_num) && level != 0; k++)    
+  for(k = 0; (k < max_coeff_num) && level != 0; k++)
   {
     level = pLevel[k]; // level
     run   = pRun[k];   // run
@@ -306,7 +306,7 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
       no_bits += Token_lentab[se.len][se.value2][se.value1];
   }
   else
-    no_bits += Token_lentab_cdc[yuv][se.value2][se.value1];  
+    no_bits += Token_lentab_cdc[yuv][se.value2][se.value1];
 
   if (!numcoeff)
     return no_bits;
@@ -380,7 +380,7 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
       if ((!zerosleft) || (numcoeff <= 1 ))
         break;
 
-      if (numcoef > 1 && zerosleft) 
+      if (numcoef > 1 && zerosleft)
       {
         vlcnum = imin(zerosleft - 1, RUNBEFORE_NUM_M1);
         se.len = vlcnum;
@@ -398,33 +398,33 @@ int est_CAVLC_bits (VideoParameters *p_Vid, int level_to_enc[16], int sign_to_en
 /*!
 ****************************************************************************
 * \brief
-*    estimate run and level for CAVLC 
+*    estimate run and level for CAVLC
 ****************************************************************************
 */
-void est_RunLevel_CAVLC(Macroblock *currMB, levelDataStruct *levelData, int *levelTrellis, int block_type, 
+void est_RunLevel_CAVLC(Macroblock *currMB, levelDataStruct *levelData, int *levelTrellis, int block_type,
                         int b8, int b4, int coeff_num, double lambda)
 {
   int k, lastnonzero = -1, coeff_ctr;
   int level_to_enc[16] = {0}, sign_to_enc[16] = {0};
-  int cstat, bestcstat = 0; 
+  int cstat, bestcstat = 0;
   int nz_coeff=0;
   double lagr, lagrAcc = 0, minlagr = 0;
   VideoParameters *p_Vid = currMB->p_Vid;
 
-  int subblock_x = ((b8 & 0x1) == 0) ? (((b4 & 0x1) == 0) ? 0 : 1) : (((b4 & 0x1) == 0) ? 2 : 3); 
-  // horiz. position for coeff_count context  
-  int subblock_y = (b8 < 2) ? ((b4 < 2) ? 0 : 1) :((b4 < 2) ? 2 : 3); 
-  // vert.  position for coeff_count context      
-  int nnz; 
+  int subblock_x = ((b8 & 0x1) == 0) ? (((b4 & 0x1) == 0) ? 0 : 1) : (((b4 & 0x1) == 0) ? 2 : 3);
+  // horiz. position for coeff_count context
+  int subblock_y = (b8 < 2) ? ((b4 < 2) ? 0 : 1) :((b4 < 2) ? 2 : 3);
+  // vert.  position for coeff_count context
+  int nnz;
   levelDataStruct *dataLevel = &levelData[0];
 
   if (block_type != CHROMA_AC)
-    nnz = predict_nnz(currMB, LUMA, subblock_x, subblock_y); 
+    nnz = predict_nnz(currMB, LUMA, subblock_x, subblock_y);
   else
     nnz = predict_nnz_chroma(currMB, currMB->subblock_x >> 2, (currMB->subblock_y >> 2) + 4);
 
   for (coeff_ctr=0;coeff_ctr < coeff_num;coeff_ctr++)
-  { 
+  {
     levelTrellis[coeff_ctr] = 0;
 
     for(k=0; k < dataLevel->noLevels; k++)
@@ -493,17 +493,17 @@ void est_RunLevel_CAVLC(Macroblock *currMB, levelDataStruct *levelData, int *lev
 /*!
 ****************************************************************************
 * \brief
-*    Initialize levelData 
+*    Initialize levelData
 ****************************************************************************
 */
 void init_trellis_data_4x4_CAVLC(Macroblock *currMB, int **tblock, int block_x, int qp_per, int qp_rem, LevelQuantParams **q_params,
                                  const byte *p_scan, levelDataStruct *dataLevel, int type)
 {
   Slice *currSlice = currMB->p_Slice;
-  int i, j, coeff_ctr; 
+  int i, j, coeff_ctr;
   int *m7;
   int end_coeff_ctr = ( ( type == LUMA_4x4 ) ? 16 : 15 );
-  int q_bits = Q_BITS + qp_per; 
+  int q_bits = Q_BITS + qp_per;
   int q_offset = ( 1 << (q_bits - 1) );
   int scaled_coeff, level, lowerInt, k;
   double err, estErr;
@@ -535,7 +535,7 @@ void init_trellis_data_4x4_CAVLC(Macroblock *currMB, int **tblock, int block_x, 
       level = (scaled_coeff >> q_bits);
 
       lowerInt = ((scaled_coeff - (level << q_bits)) < q_offset )? 1 : 0;
-      
+
       dataLevel->level[0] = 0;
       if (level == 0 && lowerInt == 1)
       {
@@ -561,7 +561,7 @@ void init_trellis_data_4x4_CAVLC(Macroblock *currMB, int **tblock, int block_x, 
       for (k = 0; k < dataLevel->noLevels; k++)
       {
         err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-        dataLevel->errLevel[k] = (err * err * estErr); 
+        dataLevel->errLevel[k] = (err * err * estErr);
       }
 
       if(dataLevel->noLevels == 1)
@@ -580,13 +580,13 @@ void init_trellis_data_4x4_CAVLC(Macroblock *currMB, int **tblock, int block_x, 
 *    Initialize levelData for Luma DC
 ****************************************************************************
 */
-void init_trellis_data_DC_CAVLC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, 
-                         LevelQuantParams *q_params, const byte *p_scan, 
+void init_trellis_data_DC_CAVLC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem,
+                         LevelQuantParams *q_params, const byte *p_scan,
                          levelDataStruct *dataLevel)
 {
   Slice *currSlice = currMB->p_Slice;
   int i, j, coeff_ctr, end_coeff_ctr = 16;
-  int q_bits   = Q_BITS + qp_per + 1; 
+  int q_bits   = Q_BITS + qp_per + 1;
   int q_offset = ( 1 << (q_bits - 1) );
   int scaled_coeff, level, lowerInt, k;
   int *m7;
@@ -616,7 +616,7 @@ void init_trellis_data_DC_CAVLC(Macroblock *currMB, int **tblock, int qp_per, in
 
       lowerInt=( (scaled_coeff - (level<<q_bits)) < q_offset )? 1 : 0;
 
-      dataLevel->level[0] = 0;    
+      dataLevel->level[0] = 0;
       if (level == 0 && lowerInt == 1)
       {
         dataLevel->noLevels = 1;
@@ -641,7 +641,7 @@ void init_trellis_data_DC_CAVLC(Macroblock *currMB, int **tblock, int qp_per, in
       for (k = 0; k < dataLevel->noLevels; k++)
       {
         err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-        dataLevel->errLevel[k] = (err * err * estErr); 
+        dataLevel->errLevel[k] = (err * err * estErr);
       }
 
       if(dataLevel->noLevels == 1)
@@ -657,10 +657,10 @@ void init_trellis_data_DC_CAVLC(Macroblock *currMB, int **tblock, int qp_per, in
 /*!
 ****************************************************************************
 * \brief
-*    Initialize levelData 
+*    Initialize levelData
 ****************************************************************************
 */
-void init_trellis_data_8x8_CAVLC(Macroblock *currMB, int **tblock, int block_x, int qp_per, int qp_rem, LevelQuantParams **q_params, 
+void init_trellis_data_8x8_CAVLC(Macroblock *currMB, int **tblock, int block_x, int qp_per, int qp_rem, LevelQuantParams **q_params,
                                  const byte *p_scan, levelDataStruct levelData[4][16])
 {
   Slice *currSlice = currMB->p_Slice;
@@ -670,8 +670,8 @@ void init_trellis_data_8x8_CAVLC(Macroblock *currMB, int **tblock, int block_x, 
   int q_offset = ( 1 << (q_bits - 1) );
   double err, estErr;
   int scaled_coeff, level, lowerInt, k;
-  
-  levelDataStruct *dataLevel = &levelData[0][0];  
+
+  levelDataStruct *dataLevel = &levelData[0][0];
 
   for (coeff_ctr = 0; coeff_ctr < 16; coeff_ctr++)
   {
@@ -737,7 +737,7 @@ void init_trellis_data_8x8_CAVLC(Macroblock *currMB, int **tblock, int block_x, 
         for (k = 0; k < dataLevel->noLevels; k++)
         {
           err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-          dataLevel->errLevel[k] = err * err * estErr; 
+          dataLevel->errLevel[k] = err * err * estErr;
         }
 
         if(dataLevel->noLevels == 1)

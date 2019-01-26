@@ -42,7 +42,7 @@
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *     - Woo-Shik Kim                    <wooshik.kim@usc.edu>
  *     - Peshala Pahalawatta             <ppaha@dolby.com>
- *     - Zhen Li                         <zli@dolby.com> 
+ *     - Zhen Li                         <zli@dolby.com>
  *     - Alexis Michael Tourapis         <alexismt@ieee.org>
  *************************************************************************************
  */
@@ -95,7 +95,7 @@ float compute_structural_components (VideoParameters *p_Vid, InputParameters *p_
     for (i = 0; i <= width - win_width; i += overlapSize)
     {
       imeanOrg = 0;
-      imeanEnc = 0; 
+      imeanEnc = 0;
       ivarOrg  = 0;
       ivarEnc  = 0;
       icovOrgEnc = 0;
@@ -155,8 +155,8 @@ float compute_luminance_component (VideoParameters *p_Vid, InputParameters *p_In
     for (i = 0; i <= width - win_width; i += overlapSize)
     {
       imeanOrg = 0;
-      imeanEnc = 0; 
-      
+      imeanEnc = 0;
+
       for ( n = j;n < j + win_height;n ++)
       {
         for (m = i;m < i + win_width;m ++)
@@ -189,7 +189,7 @@ void horizontal_symmetric_extension(int **buffer, int width, int height )
 {
   int j;
   int* buf;
- 
+
   int height_plus_pad2 = height + MS_SSIM_PAD2;
   int width_plus_pad2_minus_one  = width  + MS_SSIM_PAD2 - 1;
 
@@ -223,7 +223,7 @@ void vertical_symmetric_extension(int **buffer, int width, int height)
   int *bufhplus1  = &buffer[height + MS_SSIM_PAD2][MS_SSIM_PAD2];
   int *bufhplus2  = &buffer[height + MS_SSIM_PAD2+1][MS_SSIM_PAD2];
   int *bufhplus3  = &buffer[height + MS_SSIM_PAD2+2][MS_SSIM_PAD2];
-  
+
   for (i = 0; i < width; i++)
   {
     //Top Rows
@@ -264,13 +264,13 @@ void downsample(imgpel** src, imgpel** out, int height, int width)
   int tmp, tmp1, tmp2;
   int* tmpDst;
   int* tmpSrc;
-  
+
   int** itemp;
   int** dest;
 
   get_mem2Dint(&itemp, height + MS_SSIM_PAD, width + MS_SSIM_PAD);
   get_mem2Dint(&dest, height + MS_SSIM_PAD, width2 + MS_SSIM_PAD);
-  
+
   imgpel_to_padded_int(src, itemp, width, height);
   horizontal_symmetric_extension(itemp, width, height);
 
@@ -288,11 +288,11 @@ void downsample(imgpel** src, imgpel** out, int height, int width)
       tmpDst[iDst] >>= 6;
     }
   }
- 
+
   //Periodic extension
   vertical_symmetric_extension(dest, width2, height);
 
-  for (i = 0; i < width2; i++) 
+  for (i = 0; i < width2; i++)
   {
     ii = i + MS_SSIM_PAD2;
     for (j = 0; j < height2; j++)
@@ -354,7 +354,7 @@ float compute_ms_ssim(VideoParameters *p_Vid, InputParameters *p_Inp, imgpel **r
 
   return cur_distortion;
 }
-  
+
 /*!
  ************************************************************************
  * \brief
@@ -369,7 +369,7 @@ void find_ms_ssim (VideoParameters *p_Vid, InputParameters *p_Inp, ImageStructur
   metricSSIM->value[0] = compute_ms_ssim (p_Vid, p_Inp, ref->data[0], src->data[0], format->height[0], format->width[0], BLOCK_SIZE_8x8, BLOCK_SIZE_8x8, 0);
   // Chroma.
   if (format->yuv_format != YUV400)
-  {     
+  {
     metricSSIM->value[1]  = compute_ms_ssim (p_Vid, p_Inp, ref->data[1], src->data[1], format->height[1], format->width[1], p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x, 1);
     metricSSIM->value[2]  = compute_ms_ssim (p_Vid, p_Inp, ref->data[2], src->data[2], format->height[1], format->width[1], p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x, 2);
   }

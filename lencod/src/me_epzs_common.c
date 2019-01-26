@@ -36,7 +36,7 @@
 * \file me_epzs_common.c
 *
 * \brief
-*    Common functions for EPZS scheme 
+*    Common functions for EPZS scheme
 *
 * \author
 *    Main contributors (see contributors.h for copyright, address and affiliation details)
@@ -154,7 +154,7 @@ freeEPZSpattern (EPZSStructure * p)
 /*!
 ************************************************************************
 * \brief
-*    Assign EPZS pattern 
+*    Assign EPZS pattern
 *
 *
 ************************************************************************
@@ -419,7 +419,7 @@ EPZSWindowPredictorInit (short search_range, EPZSStructure * predictor, short mo
         point[++prednum].motion.mv_x = -i * fieldsearchpos;
         point[  prednum].motion.mv_y = i * fieldsearchpos;
       }
-      
+
       for (i = 1; i >= -1; i -= 2)
       {
         point[++prednum].motion.mv_x = i * searchpos;
@@ -535,13 +535,13 @@ EPZSStructInit (Slice * currSlice)
   {
 #if EPZSREF
     memory_size += get_mem5Dmv (&(p_EPZS->p_motion), 6, p_Vid->max_num_references, 7, 4, p_Vid->width / BLOCK_SIZE);
-#else 
+#else
     memory_size += get_mem4Dmv (&(p_EPZS->p_motion), 6, 7, 4, p_Vid->width / BLOCK_SIZE);
 #endif
   }
 
 #if (MVC_EXTENSION_ENABLE)
-  if ( p_Inp->EPZSTemporal[currSlice->view_id] ) 
+  if ( p_Inp->EPZSTemporal[currSlice->view_id] )
 #else
   if (p_Inp->EPZSTemporal)
 #endif
@@ -1568,8 +1568,8 @@ EPZS_temporal_predictors (Macroblock *currMB,                 //! <-- Current Ma
                         StorablePicture *ref_picture,       //! <-- Current reference picture
                         EPZSParameters * p_EPZS,            //! <-- EPZS structure
                         MEBlock *mv_block,                  //! <-- motion estimation information block
-                        int *prednum, 
-                        distblk stopCriterion, 
+                        int *prednum,
+                        distblk stopCriterion,
                         distblk min_mcost)
 {
   int list_offset  = currMB->list_offset;
@@ -1650,12 +1650,12 @@ EPZSBlockTypePredictors (Slice * currSlice, MEBlock *mv_block, SPoint * point, i
   int block_x   = mv_block->block_x;
   int block_y   = mv_block->block_y;
   int list      = mv_block->list;
-  int ref       = mv_block->ref_idx; 
+  int ref       = mv_block->ref_idx;
   MotionVector ****all_mv = currSlice->all_mv[list];
   MotionVector *cur_mv = &point[*prednum].motion;
 
   *cur_mv = all_mv[ref][BLOCK_PARENT[blocktype]][block_y][block_x];
-  
+
   //*prednum += ((cur_mv->mv_x | cur_mv->mv_y) != 0);
   *prednum += (*((int *) cur_mv) != 0);
 
@@ -1829,7 +1829,7 @@ EPZS_hierarchical_predictors (EPZSParameters * p_EPZS,  //!< EPZS Parameters
   }
 
   hme_mv = pHMEInfo->p_hme_mv[0][list][ref];
-  
+
   //printf("reference poc %d %lld\n", ref_picture->poc, pHMEInfo->poc[0][list][ref]);
   // co-located
   *cur_mv = hme_mv[by][bx];

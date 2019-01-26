@@ -65,7 +65,7 @@ extern NALU_t *GenerateSubsetSeq_parameter_set_NALU (VideoParameters *p_Vid);
 
 // The following are local helpers, but may come handy in the future, hence public
 extern void GenerateSequenceParameterSet(seq_parameter_set_rbsp_t *sps, VideoParameters *p_Vid, int SPS_id);
-extern void GeneratePictureParameterSet( pic_parameter_set_rbsp_t *pps, seq_parameter_set_rbsp_t *sps, 
+extern void GeneratePictureParameterSet( pic_parameter_set_rbsp_t *pps, seq_parameter_set_rbsp_t *sps,
                                  VideoParameters *p_Vid,
                                  InputParameters *p_Inp, int PPS_id,
                                  int WeightedPrediction, int WeightedBiprediction,

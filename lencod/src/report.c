@@ -75,8 +75,8 @@ void   report_log_mode (VideoParameters *p_Vid, InputParameters *p_Inp, StatPara
 void report_frame_statistic(VideoParameters *p_Vid, InputParameters *p_Inp)
 {
   DistortionParams *p_Dist = p_Vid->p_Dist;
-  FILE *p_stat_frm = NULL;  
-  
+  FILE *p_stat_frm = NULL;
+
   int i;
   char name[30];
   int bitcounter;
@@ -166,7 +166,7 @@ void report_frame_statistic(VideoParameters *p_Vid, InputParameters *p_Inp)
   //report bitrate
   fprintf(p_stat_frm, " %9d|", bitcounter);
 
-  //report snr's  
+  //report snr's
   fprintf(p_stat_frm, " %2.4f| %2.4f| %2.4f|", p_Dist->metric[PSNR].value[0], p_Dist->metric[PSNR].value[1], p_Dist->metric[PSNR].value[2]);
 
   //report modes
@@ -190,7 +190,7 @@ void report_frame_statistic(VideoParameters *p_Vid, InputParameters *p_Inp)
   fprintf(p_stat_frm, " %5" FORMAT_OFF_T  "|", cur_stats->mode_use[P_SLICE][1    ]);
   fprintf(p_stat_frm, " %5" FORMAT_OFF_T  "|", cur_stats->mode_use[P_SLICE][2    ]);
   fprintf(p_stat_frm, " %5" FORMAT_OFF_T  "|", cur_stats->mode_use[P_SLICE][3    ]);
-  
+
   fprintf(p_stat_frm, " %5" FORMAT_OFF_T  "|", cur_stats->mode_use_transform[P_SLICE][1][0]);
   fprintf(p_stat_frm, " %5" FORMAT_OFF_T  "|", cur_stats->mode_use_transform[P_SLICE][1][1]);
   fprintf(p_stat_frm, " %5" FORMAT_OFF_T  "|", cur_stats->mode_use_transform[P_SLICE][2][0]);
@@ -401,7 +401,7 @@ void report_stats(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters
     p_Dist->metric[PSNR].avslice[I_SLICE][1], p_Dist->metric[PSNR].avslice[P_SLICE][1], p_Dist->metric[PSNR].avslice[B_SLICE][1]);
   fprintf(p_stat,"\n SNR V(dB)            |      %5.3f    |     %5.3f    |     %5.3f    |",
     p_Dist->metric[PSNR].avslice[I_SLICE][2], p_Dist->metric[PSNR].avslice[P_SLICE][2], p_Dist->metric[PSNR].avslice[B_SLICE][2]);
-  fprintf(p_stat,"\n ---------------------|----------------|---------------|---------------|");  
+  fprintf(p_stat,"\n ---------------------|----------------|---------------|---------------|");
   fprintf(p_stat,"\n");
 
   // QUANT.
@@ -412,7 +412,7 @@ void report_stats(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters
     (float)p_Stats->quant[I_SLICE]/dmax(1.0,(float)p_Stats->num_macroblocks[I_SLICE]),
     (float)p_Stats->quant[P_SLICE]/dmax(1.0,(float)p_Stats->num_macroblocks[P_SLICE]),
     (float)p_Stats->quant[B_SLICE]/dmax(1.0,(float)p_Stats->num_macroblocks[B_SLICE]));
-  fprintf(p_stat,"\n ---------------------|----------------|---------------|---------------|");  
+  fprintf(p_stat,"\n ---------------------|----------------|---------------|---------------|");
   fprintf(p_stat,"\n");
 
   // MODE
@@ -426,7 +426,7 @@ void report_stats(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters
 
   // P slices
   if (p_Stats->frame_ctr[P_SLICE]!=0)
-  {    
+  {
     mean_motion_info_bit_use[P_SLICE] = report_slice_pred_stats(p_stat, p_Stats, P_SLICE,(double) bit_use[P_SLICE][0], "P Slice ");
   }
   // B slices
@@ -436,7 +436,7 @@ void report_stats(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters
   }
   // SP slices
   if (p_Stats->frame_ctr[SP_SLICE]!=0)
-  {    
+  {
     mean_motion_info_bit_use[SP_SLICE] = report_slice_pred_stats(p_stat, p_Stats, SP_SLICE,(double) bit_use[SP_SLICE][0], "SP Slice");
   }
 
@@ -465,42 +465,42 @@ void report_stats(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters
 
   fprintf(p_stat,"\n CBP Y/C              |");
   fprintf(p_stat," %10.2f     |", (float) p_Stats->tmp_bit_use_cbp[I_SLICE] / bit_use[I_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->tmp_bit_use_cbp[P_SLICE] / bit_use[P_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->tmp_bit_use_cbp[P_SLICE] / bit_use[P_SLICE][0]);
   fprintf(p_stat," %10.2f     |", (float) p_Stats->tmp_bit_use_cbp[B_SLICE] / bit_use[B_SLICE][0]);
 
   // Print SP_SLICE
   fprintf(p_stat,"\n Coeffs. Y            |");
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[0][I_SLICE] / bit_use[I_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[0][P_SLICE] / bit_use[P_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[0][P_SLICE] / bit_use[P_SLICE][0]);
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[0][B_SLICE] / bit_use[B_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[0][SP_SLICE] / bit_use[SP_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[0][SP_SLICE] / bit_use[SP_SLICE][0]);
 
   fprintf(p_stat,"\n Coeffs. C            |");
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeffC[I_SLICE] / bit_use[I_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeffC[P_SLICE] / bit_use[P_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeffC[P_SLICE] / bit_use[P_SLICE][0]);
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeffC[B_SLICE] / bit_use[B_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeffC[SP_SLICE] / bit_use[SP_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeffC[SP_SLICE] / bit_use[SP_SLICE][0]);
 
   fprintf(p_stat,"\n Coeffs. CB           |");
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[1][I_SLICE] / bit_use[I_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[1][P_SLICE] / bit_use[P_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[1][P_SLICE] / bit_use[P_SLICE][0]);
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[1][B_SLICE] / bit_use[B_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[1][SP_SLICE] / bit_use[SP_SLICE][0]);   
-  
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[1][SP_SLICE] / bit_use[SP_SLICE][0]);
+
   fprintf(p_stat,"\n Coeffs. CR           |");
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[2][I_SLICE] / bit_use[I_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[2][P_SLICE] / bit_use[P_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[2][P_SLICE] / bit_use[P_SLICE][0]);
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[2][B_SLICE] / bit_use[B_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[2][SP_SLICE] / bit_use[SP_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_coeff[2][SP_SLICE] / bit_use[SP_SLICE][0]);
 
   fprintf(p_stat,"\n Delta quant          |");
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_delta_quant[I_SLICE] / bit_use[I_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_delta_quant[P_SLICE] / bit_use[P_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_delta_quant[P_SLICE] / bit_use[P_SLICE][0]);
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_delta_quant[B_SLICE] / bit_use[B_SLICE][0]);
 
   fprintf(p_stat,"\n Stuffing Bits        |");
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_stuffing_bits[I_SLICE] / bit_use[I_SLICE][0]);
-  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_stuffing_bits[P_SLICE] / bit_use[P_SLICE][0]);   
+  fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_stuffing_bits[P_SLICE] / bit_use[P_SLICE][0]);
   fprintf(p_stat," %10.2f     |", (float) p_Stats->bit_use_stuffing_bits[B_SLICE] / bit_use[B_SLICE][0]);
 
   fprintf(p_stat,"\n ---------------------|----------------|----------------|----------------|");
@@ -585,7 +585,7 @@ void report_log(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *
   fprintf(p_log,"  %3d  |%3d |", p_Inp->intra_period, p_Stats->NumberBFrames);
 
 
-  switch( p_Inp->SearchMode[0] ) 
+  switch( p_Inp->SearchMode[0] )
   {
   case UM_HEX:
     fprintf(p_log,"  HEX |");
@@ -606,7 +606,7 @@ void report_log(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *
 #if (MVC_EXTENSION_ENABLE)
   if ( p_Inp->SepViewInterSearch )
   {
-    switch( p_Inp->SearchMode[1] ) 
+    switch( p_Inp->SearchMode[1] )
     {
     case UM_HEX:
       fprintf(p_log,"  HEX |");
@@ -654,7 +654,7 @@ void report_log(VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *
 
   fprintf(p_log,"  %d  |", p_Inp->Transform8x8Mode);
 
-  fprintf(p_log,"%7.3f|%7.3f|%7.3f|", 
+  fprintf(p_log,"%7.3f|%7.3f|%7.3f|",
     p_Dist->metric[PSNR].avslice[I_SLICE][0],
     p_Dist->metric[PSNR].avslice[I_SLICE][1],
     p_Dist->metric[PSNR].avslice[I_SLICE][2]);
@@ -764,17 +764,17 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
       bit_use[j][1] += p_Stats->bit_use_mode[j][i];
 
     bit_use[j][1] += p_Stats->bit_use_mb_type[j];
-    bit_use[j][1] += p_Stats->bit_use_header[j];    
+    bit_use[j][1] += p_Stats->bit_use_header[j];
     bit_use[j][1] += p_Stats->tmp_bit_use_cbp[j];
     bit_use[j][1] += p_Stats->bit_use_coeffC[j];
-    bit_use[j][1] += p_Stats->bit_use_coeff[0][j];   
-    bit_use[j][1] += p_Stats->bit_use_coeff[1][j]; 
-    bit_use[j][1] += p_Stats->bit_use_coeff[2][j]; 
+    bit_use[j][1] += p_Stats->bit_use_coeff[0][j];
+    bit_use[j][1] += p_Stats->bit_use_coeff[1][j];
+    bit_use[j][1] += p_Stats->bit_use_coeff[2][j];
     bit_use[j][1] += p_Stats->bit_use_delta_quant[j];
     bit_use[j][1] += p_Stats->bit_use_stuffing_bits[j];
   }
 
-  //! Currently adding NVB bits on P rate. Maybe additional p_Stats info should be created instead and added in log file  
+  //! Currently adding NVB bits on P rate. Maybe additional p_Stats info should be created instead and added in log file
   p_Stats->bitrate_st[ I_SLICE] = (p_Stats->bit_counter[ I_SLICE]) * (float) (p_Inp->output.frame_rate) / (float) (p_Stats->frame_counter);
   p_Stats->bitrate_st[ P_SLICE] = (p_Stats->bit_counter[ P_SLICE]) * (float) (p_Inp->output.frame_rate) / (float) (p_Stats->frame_counter);
   p_Stats->bitrate_st[ B_SLICE] = (p_Stats->bit_counter[ B_SLICE]) * (float) (p_Inp->output.frame_rate) / (float) (p_Stats->frame_counter);
@@ -783,7 +783,7 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
   switch (p_Inp->Verbose)
   {
   case 0:
-  case 1:  
+  case 1:
   default:
     fprintf(stdout,"------------------ Average data all frames  -----------------------------------\n\n");
     break;
@@ -834,7 +834,7 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
     fprintf(stdout,  " Total encoding time for the seq.  : %7.3f sec (%3.2f fps)\n", (float) p_Vid->tot_time * 0.001, 1000.0 * (float) (p_Stats->frame_counter) / (float)p_Vid->tot_time);
     fprintf(stdout,  " Total ME time for sequence        : %7.3f sec \n\n", (float)p_Vid->me_tot_time * 0.001);
 
-    fprintf(stdout," Y { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n", 
+    fprintf(stdout," Y { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
       snr->average[0], csnr_y, sse->average[0]/(float)impix);
     fprintf(stdout," U { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
       snr->average[1], csnr_u, sse->average[1]/(float)impix_cr);
@@ -844,14 +844,14 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
     if (p_Inp->num_of_views == 2)
     {
       fprintf( stdout, "\n" );
-      fprintf(stdout," View0_Y { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n", 
+      fprintf(stdout," View0_Y { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
         snr_v[0]->average[0], csnr_y_v[0], sse_v[0]->average[0]/(float)impix);
       fprintf(stdout," View0_U { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
         snr_v[0]->average[1], csnr_u_v[0], sse_v[0]->average[1]/(float)impix_cr);
       fprintf(stdout," View0_V { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
         snr_v[0]->average[2], csnr_v_v[0], sse_v[0]->average[2]/(float)impix_cr);
       fprintf( stdout, "\n" );
-      fprintf(stdout," View1_Y { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n", 
+      fprintf(stdout," View1_Y { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
         snr_v[1]->average[0], csnr_y_v[1], sse_v[1]->average[0]/(float)impix);
       fprintf(stdout," View1_U { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
         snr_v[1]->average[1], csnr_u_v[1], sse_v[1]->average[1]/(float)impix_cr);
@@ -866,7 +866,7 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
       float csnr_g = psnr(p_Vid->max_imgpel_value_comp_sq[1], impix, sse_rgb->average[1]);
       float csnr_b = psnr(p_Vid->max_imgpel_value_comp_sq[2], impix, sse_rgb->average[2]);
 
-      fprintf(stdout," R { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n", 
+      fprintf(stdout," R { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
         snr_rgb->average[0], csnr_r, sse_rgb->average[0] / (float) impix);
       fprintf(stdout," G { PSNR (dB), cSNR (dB), MSE }   : { %7.3f, %7.3f, %9.5f }\n",
         snr_rgb->average[1], csnr_g, sse_rgb->average[1] / (float) impix);
@@ -930,18 +930,18 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
     if (p_Stats->frame_ctr[B_SLICE] != 0)
     {
       fprintf(stdout, " Total bits                        : %" FORMAT_OFF_T  " (I %" FORMAT_OFF_T  ", P %" FORMAT_OFF_T  ", B %" FORMAT_OFF_T  " NVB %d) \n",
-        total_bits_v[0] + total_bits_v[1], 
+        total_bits_v[0] + total_bits_v[1],
         p_Stats->bit_counter_v[0][I_SLICE] + p_Stats->bit_counter_v[1][I_SLICE],
-        p_Stats->bit_counter_v[0][P_SLICE] + p_Stats->bit_counter_v[1][P_SLICE], 
-        p_Stats->bit_counter_v[0][B_SLICE] + p_Stats->bit_counter_v[1][B_SLICE], 
+        p_Stats->bit_counter_v[0][P_SLICE] + p_Stats->bit_counter_v[1][P_SLICE],
+        p_Stats->bit_counter_v[0][B_SLICE] + p_Stats->bit_counter_v[1][B_SLICE],
         p_Stats->bit_ctr_parametersets_v[0] + p_Stats->bit_ctr_parametersets_v[1]);
     }
     else
     {
       fprintf(stdout, " Total bits                        : %" FORMAT_OFF_T  " (I %" FORMAT_OFF_T  ", P %" FORMAT_OFF_T  ", NVB %d) \n",
-        total_bits_v[0] + total_bits_v[1], 
+        total_bits_v[0] + total_bits_v[1],
         p_Stats->bit_counter_v[0][I_SLICE] + p_Stats->bit_counter_v[1][I_SLICE],
-        p_Stats->bit_counter_v[0][P_SLICE] + p_Stats->bit_counter_v[1][P_SLICE], 
+        p_Stats->bit_counter_v[0][P_SLICE] + p_Stats->bit_counter_v[1][P_SLICE],
         p_Stats->bit_ctr_parametersets_v[0] + p_Stats->bit_ctr_parametersets_v[1]);
     }
   }
@@ -996,7 +996,7 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
     fprintf(stdout, " View 1 BR (kbit/s)  @ %2.2f Hz    : %5.2f\n", p_Inp->output.frame_rate, p_Stats->bitrate_v[1] / 1000.0);
   }
 #endif
-  
+
   for (i = 0; i < 5; i++)
   {
     p_Stats->bit_ctr_emulation_prevention += p_Stats->bit_use_stuffing_bits[i];
@@ -1022,13 +1022,13 @@ void report( VideoParameters *p_Vid, InputParameters *p_Inp, StatParameters *p_S
   default:
     fprintf(stdout,"-------------------------------------------------------------------------------\n");
     break;
-  case 2:  
+  case 2:
     fprintf(stdout,"------------------------------------------------------------------------------------------------\n");
     break;
   case 3:
     fprintf(stdout,"-------------------------------------------------------------------------------------------------------\n");
     break;
-  }  
+  }
   fprintf(stdout,"Exit JM %s encoder ver %s ", JM, VERSION);
   fprintf(stdout,"\n");
 
@@ -1145,15 +1145,15 @@ void information_init ( VideoParameters *p_Vid, InputParameters *p_Inp, StatPara
 
     fprintf(stdout,  " Total number of references        : %d\n", p_Inp->num_ref_frames_org);
     fprintf(stdout,  " References for P slices           : %d\n", p_Inp->P_List0_refs_org[0] ? p_Inp->P_List0_refs_org[0] : p_Inp->num_ref_frames_org);
-    fprintf(stdout,  " References for B slices (L0, L1)  : %d, %d\n", 
-      p_Inp->B_List0_refs_org[0] ? p_Inp->B_List0_refs_org[0] : p_Inp->num_ref_frames_org, 
+    fprintf(stdout,  " References for B slices (L0, L1)  : %d, %d\n",
+      p_Inp->B_List0_refs_org[0] ? p_Inp->B_List0_refs_org[0] : p_Inp->num_ref_frames_org,
       p_Inp->B_List1_refs_org[0] ? p_Inp->B_List1_refs_org[0] : p_Inp->num_ref_frames_org);
 
     if ( p_Vid->num_of_layers > 1 )
     {
       fprintf(stdout,  " View 1 refs for P slices          : %d\n", p_Inp->P_List0_refs_org[1] ? p_Inp->P_List0_refs_org[1] : p_Inp->num_ref_frames_org);
-      fprintf(stdout,  " View 1 refs for B slices (L0, L1) : %d, %d\n", 
-        p_Inp->B_List0_refs_org[1] ? p_Inp->B_List0_refs_org[1] : p_Inp->num_ref_frames_org, 
+      fprintf(stdout,  " View 1 refs for B slices (L0, L1) : %d, %d\n",
+        p_Inp->B_List0_refs_org[1] ? p_Inp->B_List0_refs_org[1] : p_Inp->num_ref_frames_org,
         p_Inp->B_List1_refs_org[1] ? p_Inp->B_List1_refs_org[1] : p_Inp->num_ref_frames_org);
     }
 
@@ -1187,11 +1187,11 @@ void information_init ( VideoParameters *p_Vid, InputParameters *p_Inp, StatPara
       else
         fprintf(stdout, " %s (QP: I %d, P %d, B %d) \n", seqtype, p_Inp->qp[I_SLICE], p_Inp->qp[P_SLICE], p_Inp->qp[B_SLICE]);
     }
-    else if (p_Stats->NumberBFrames == 0 && (p_Inp->intra_period == 1 || p_Inp->idr_period == 1)) 
+    else if (p_Stats->NumberBFrames == 0 && (p_Inp->intra_period == 1 || p_Inp->idr_period == 1))
       fprintf(stdout, " IIII (QP: I %d) \n", p_Inp->qp[I_SLICE]);
-    else if (p_Stats->NumberBFrames == 0 && p_Inp->sp_periodicity == 0) 
+    else if (p_Stats->NumberBFrames == 0 && p_Inp->sp_periodicity == 0)
       fprintf(stdout, " IPPP (QP: I %d, P %d) \n", p_Inp->qp[I_SLICE], p_Inp->qp[P_SLICE]);
-    else 
+    else
       fprintf(stdout, " I-P-P-SP-P (QP: I %d, P %d, SP (%d, %d)) \n",  p_Inp->qp[I_SLICE], p_Inp->qp[P_SLICE], p_Inp->qp[SP_SLICE], p_Inp->qpsp);
 
     // report on entropy coding  method
@@ -1281,7 +1281,7 @@ void information_init ( VideoParameters *p_Vid, InputParameters *p_Inp, StatPara
   default:
     printf("-------------------------------------------------------------------------------\n");
     printf("\nEncoding. Please Wait.\n\n");
-    break;    
+    break;
   case 1:
 #if (MVC_EXTENSION_ENABLE)
     if (p_Inp->num_of_views == 2)
@@ -1495,7 +1495,7 @@ void report_log_mode(VideoParameters *p_Vid, InputParameters *p_Inp, StatParamet
   fprintf(p_stat, " %5" FORMAT_OFF_T  "|", p_Stats->mode_use[P_SLICE][1    ]);
   fprintf(p_stat, " %5" FORMAT_OFF_T  "|", p_Stats->mode_use[P_SLICE][2    ]);
   fprintf(p_stat, " %5" FORMAT_OFF_T  "|", p_Stats->mode_use[P_SLICE][3    ]);
-  
+
   fprintf(p_stat, " %5" FORMAT_OFF_T  "|", p_Stats->mode_use_transform[P_SLICE][1][0]);
   fprintf(p_stat, " %5" FORMAT_OFF_T  "|", p_Stats->mode_use_transform[P_SLICE][1][1]);
   fprintf(p_stat, " %5" FORMAT_OFF_T  "|", p_Stats->mode_use_transform[P_SLICE][2][0]);

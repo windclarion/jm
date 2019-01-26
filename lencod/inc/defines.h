@@ -41,8 +41,8 @@
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *     - Detlev Marpe
  *     - Karsten Suehring
- *     - Alexis Michael Tourapis         <alexismt@ieee.org> 
- *   
+ *     - Alexis Michael Tourapis         <alexismt@ieee.org>
+ *
  *
  * \date
  *    21. March 2001
@@ -76,14 +76,14 @@
 #define JM_INT_DIVIDE             1
 #define JM_MEM_DISTORTION         0
 #define JCOST_CALC_SCALEUP        1    //!< 1: J = (D<<LAMBDA_ACCURACY_BITS)+Lambda*R; 0: J = D + ((Lambda*R+Rounding)>>LAMBDA_ACCURACY_BITS)
-#define INTRA_RDCOSTCALC_ET       1    //!< Early termination 
+#define INTRA_RDCOSTCALC_ET       1    //!< Early termination
 #define INTRA_RDCOSTCALC_NNZ      1    //1: to recover block's nzn after rdcost calculation;
 #define JCOST_OVERFLOWCHECK       0    //!<1: to check the J cost if it is overflow>
 #define JM_PARALLEL_DEBLOCK       0    //!< Enables Parallel Deblocking
 #define SIMULCAST_ENABLE          0
 
 #define MVC_EXTENSION_ENABLE      1    //!< enable support for the Multiview High Profile
-#define EOS_OUTPUT                0 
+#define EOS_OUTPUT                0
 
 #define EPZSREF                   1
 
@@ -132,7 +132,7 @@ enum {
 #define CAVLC_LEVEL_LIMIT 2063
 
 #if (ENABLE_HIGH444_CTX == 1)
-# define NUM_BLOCK_TYPES 22  
+# define NUM_BLOCK_TYPES 22
 #else
 # define NUM_BLOCK_TYPES 10
 #endif
@@ -286,7 +286,7 @@ enum {
 #define MAX_QP          51
 #define SHIFT_QP        12
 
-// 4x4 intra prediction modes 
+// 4x4 intra prediction modes
 enum {
   VERT_PRED            = 0,
   HOR_PRED             = 1,
@@ -377,7 +377,7 @@ enum // JLT : on-the-fly levels/modes
 {
   OTF_L0 = 0, // Disable, interpolate & store all positions
   OTF_L1 = 1, // Store full pel & interpolated 1/2 pel positions; 1/4 pel positions interpolate on-the-fly
-  OTF_L2 = 2  // Store only full pell positions; 1/2 & 1/4 pel positions interpolate on-the-fly  
+  OTF_L2 = 2  // Store only full pell positions; 1/2 & 1/4 pel positions interpolate on-the-fly
 } OTFMode;
 
 enum

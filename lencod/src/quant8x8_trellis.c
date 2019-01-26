@@ -62,12 +62,12 @@
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
+*    Rate distortion optimized Quantization process for
 *    all coefficients in a 8x8 block
 *
 ************************************************************************
 */
-static void rdoq_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x,int qp_per, int qp_rem, 
+static void rdoq_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x,int qp_per, int qp_rem,
               LevelQuantParams **q_params_8x8, const byte *p_scan, int levelTrellis[64])
 {
   VideoParameters *p_Vid = currMB->p_Vid;
@@ -75,7 +75,7 @@ static void rdoq_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x,int qp_
   double  lambda_md = 0.0;
   int kStart = 0, kStop = 0, noCoeff = 0;
 
-  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
 
   noCoeff = init_trellis_data_8x8_CABAC(currMB, tblock, block_x, qp_per, qp_rem, q_params_8x8, p_scan, &levelData[0], &kStart, &kStop);
   est_writeRunLevel_CABAC(currMB, levelData, levelTrellis, LUMA_8x8, lambda_md, kStart, kStop, noCoeff, 0);
@@ -84,7 +84,7 @@ static void rdoq_8x8_CABAC(Macroblock *currMB, int **tblock, int block_x,int qp_
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
+*    Rate distortion optimized Quantization process for
 *    all coefficients in a 8x8 block
 *
 ************************************************************************
@@ -94,12 +94,12 @@ static void rdoq_8x8_CAVLC(Macroblock *currMB, int **tblock, int block_y, int bl
 {
   VideoParameters *p_Vid = currMB->p_Vid;
   int k;
-  levelDataStruct levelData[4][16]; 
+  levelDataStruct levelData[4][16];
   double lambda_md = 0.0;
-  
+
   int b8 = ((block_y >> 3) << 1) + (block_x >> 3);
 
-  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
 
   init_trellis_data_8x8_CAVLC (currMB, tblock, block_x, qp_per, qp_rem, q_params_8x8, p_scan, levelData);
 
@@ -153,7 +153,7 @@ int quant_8x8_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
 
     m7 = &tblock[j][block_x + i];
     if (*m7 != 0)
-    {    
+    {
       level = levelTrellis[coeff_ctr];
 
       if (level != 0)
@@ -165,7 +165,7 @@ int quant_8x8_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
         level  = isignab(level, *m7);
         *m7    = rshift_rnd_sf(((level * q_params_8x8[j][i].InvScaleComp) << qp_per), 6);
         *ACL++ = level;
-        *ACR++ = run; 
+        *ACR++ = run;
         // reset zero level counter
         run    = 0;
       }
@@ -173,7 +173,7 @@ int quant_8x8_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
       {
         run++;
         *m7 = 0;
-      }      
+      }
     }
     else
     {
@@ -189,7 +189,7 @@ int quant_8x8_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
 /*!
  ************************************************************************
  * \brief
- *    Quantization process for All coefficients for a 8x8 block 
+ *    Quantization process for All coefficients for a 8x8 block
  *    CAVLC version
  *
  * \par Input:
@@ -213,11 +213,11 @@ int quant_8x8cavlc_trellis(Macroblock *currMB, int **tblock, struct quant_method
 
   int *m7;
   int level, runs[4] = { 0 };
-  int nonzero = FALSE; 
-  int qp_per = p_Quant->qp_per_matrix[qp];  
+  int nonzero = FALSE;
+  int qp_per = p_Quant->qp_per_matrix[qp];
   int qp_rem = p_Quant->qp_rem_matrix[qp];
   const byte *p_scan = &pos_scan[0][0];
-  int*  ACL[4];  
+  int*  ACL[4];
   int*  ACR[4];
 
   int levelTrellis[4][16];
@@ -259,9 +259,9 @@ int quant_8x8cavlc_trellis(Macroblock *currMB, int **tblock, struct quant_method
           runs[k] = 0;
         }
         else
-        {        
+        {
           runs[k]++;
-          *m7 = 0;      
+          *m7 = 0;
         }
       }
       else

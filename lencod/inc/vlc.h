@@ -93,11 +93,11 @@ extern void writeUVLC_CAVLC (Macroblock *currMB, SyntaxElement *se, DataPartitio
 extern void writeSVLC_CAVLC (Macroblock *currMB, SyntaxElement *se, DataPartition *dp);
 extern void writeFlag_CAVLC (Macroblock *currMB, SyntaxElement *se, DataPartition *dp);
 
-extern void reset_mb_nz_coeff(VideoParameters *p_Vid, int mb_number); 
+extern void reset_mb_nz_coeff(VideoParameters *p_Vid, int mb_number);
 extern int bs_bitlength(Bitstream *bitstream);
 extern int GetBits(byte *buffer,
                    int totbitoffset,
-                   int *info, 
+                   int *info,
                    int bitcount,
                    int numbits);
 #endif

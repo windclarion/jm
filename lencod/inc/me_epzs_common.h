@@ -137,7 +137,7 @@ extern void    EPZSBlockTypePredictors   (Slice *currSlice, MEBlock *mv_block, S
 extern void    EPZSWindowPredictors      (MotionVector *mv, EPZSStructure *predictor, int *prednum, EPZSStructure *windowPred);
 extern void    EPZS_spatial_memory_predictors  (EPZSParameters *p_EPZS, MEBlock *mv_block, int list, int *prednum, int img_width);
 extern void    EPZS_hierarchical_predictors    (EPZSParameters * p_EPZS, MEBlock * mv_block, int *prednum, StorablePicture *ref_picture, Slice *currSlice);
- 
+
 extern void  EPZSDelete                (VideoParameters *p_Vid);
 extern void  EPZSStructDelete          (Slice *currSlice);
 extern void  EPZSSliceInit             (Slice *currSlice);
@@ -150,8 +150,8 @@ extern void  EPZS_setup_engine         (Macroblock *, InputParameters *);
 * \brief
 *    Add Predictor/normalize function
 *    Returns if succesfully added (i.e. if not 0)
-*     
-*    
+*
+*
 ***********************************************************************
 */
 static inline int add_predictor(MotionVector *cur_mv, MotionVector prd_mv, int mvScale, int shift_mv)

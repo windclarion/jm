@@ -30,7 +30,7 @@
 ************************************************************************
 */
 
-      
+
 /*!
  ***********************************************************************
  * \file
@@ -123,13 +123,13 @@ static void SetVUIScaleAndTicks(InputParameters *p_Inp, double frame_rate);
 
 static void set_jm_vui_params( InputParameters *p_Inp )
 {
-  SetVUIScaleAndTicks(p_Inp, 1.25 * p_Inp->output.frame_rate); 
+  SetVUIScaleAndTicks(p_Inp, 1.25 * p_Inp->output.frame_rate);
 
   p_Inp->EnableVUISupport             = 1;
 
   p_Inp->VUI.nal_hrd_parameters_present_flag = 0;
   p_Inp->VUI.vcl_hrd_parameters_present_flag = 0;
-  p_Inp->VUI.timing_info_present_flag = 1;   
+  p_Inp->VUI.timing_info_present_flag = 1;
   p_Inp->VUI.pic_struct_present_flag  = 1;
   p_Inp->VUI.fixed_frame_rate_flag    = 1;
 }
@@ -183,17 +183,17 @@ void JMHelpExit (void)
 /*!
  ************************************************************************
  * \brief
- *    Reads Input File Size 
+ *    Reads Input File Size
  *
  ************************************************************************
  */
 int64 getVideoFileSize(int video_file)
 {
-   int64 fsize;   
+   int64 fsize;
 
-   lseek(video_file, 0, SEEK_END); 
-   fsize = tell((int) video_file); 
-   lseek(video_file, 0, SEEK_SET); 
+   lseek(video_file, 0, SEEK_END);
+   fsize = tell((int) video_file);
+   lseek(video_file, 0, SEEK_SET);
 
    return fsize;
 }
@@ -301,17 +301,17 @@ static void updateOutFormat(InputParameters *p_Inp)
   // both chroma components have the same bitdepth
   source->bit_depth[2] = source->bit_depth[1];
   output->bit_depth[2] = output->bit_depth[1];
-  
+
   // if no bitdepth rescale ensure bitdepth is same
-  if (p_Inp->src_BitDepthRescale == 0) 
-  {    
+  if (p_Inp->src_BitDepthRescale == 0)
+  {
     output->bit_depth[0] = source->bit_depth[0];
     output->bit_depth[1] = source->bit_depth[1];
     output->bit_depth[2] = source->bit_depth[2];
   }
   output->pic_unit_size_on_disk = (imax(output->bit_depth[0], output->bit_depth[1]) > 8) ? 16 : 8;
   output->pic_unit_size_shift3 = output->pic_unit_size_on_disk >> 3;
-  
+
   if (p_Inp->enable_32_pulldown)
   {
     source->frame_rate  = source->frame_rate  * 5 / 4;
@@ -424,7 +424,7 @@ void Configure (VideoParameters *p_Vid, InputParameters *p_Inp, int ac, char *av
       printf ("\n");
       free (content);
       CLcount += 2;
-    } 
+    }
     else
     {
       if (0 == strncasecmp (av[CLcount], "-p", 2))  // A config change?
@@ -457,7 +457,7 @@ void Configure (VideoParameters *p_Vid, InputParameters *p_Inp, int ac, char *av
             if (*source == '=')  // The Parser expects whitespace before and after '='
             {
               *destin++=' '; *destin++='='; *destin++=' ';  // Hence make sure we add it
-            } 
+            }
             else
               *destin++=*source;
             source++;
@@ -558,13 +558,13 @@ static int TestEncoderParams(Mapping *Map, int bitdepth_qp_scale[3])
     }
     else if (Map[i].param_limits == 3) // Only used for QPs
     {
-      
+
       if (Map[i].Type == 0)
       {
         int cur_qp = * (int *) (Map[i].Place);
         int min_qp = (int) (Map[i].min_limit - bitdepth_qp_scale[0]);
         int max_qp = (int) Map[i].max_limit;
-        
+
         if (( cur_qp < min_qp ) || ( cur_qp > max_qp ))
         {
           snprintf(errortext, ET_SIZE, "Error in input parameter %s. Check configuration file. Value should be in [%d, %d] range.", Map[i].TokenName, min_qp, max_qp );
@@ -632,7 +632,7 @@ void read_slice_group_info(VideoParameters *p_Vid, InputParameters *p_Inp)
   // do we have a file name (not only NULL character)
   if ((int) strlen (p_Inp->SliceGroupConfigFileName) <= 1)
     error ("No slice group config file name specified", 500);
-    
+
   // open file
   sgfile = fopen(p_Inp->SliceGroupConfigFileName,"r");
 
@@ -670,18 +670,18 @@ void read_slice_group_info(VideoParameters *p_Vid, InputParameters *p_Inp)
   case 2:
     // determine expected frame size in map units
     PicSizeInMapUnits = (p_Inp->output.width[0] >> 4) * (p_Inp->output.height[0] >> 4);
-    if (p_Inp->MbInterlace||p_Inp->PicInterlace) 
+    if (p_Inp->MbInterlace||p_Inp->PicInterlace)
       PicSizeInMapUnits >>= 1;
 
     p_Inp->top_left     = (unsigned *)malloc(sizeof(unsigned)*p_Inp->num_slice_groups_minus1);
     p_Inp->bottom_right = (unsigned *)malloc(sizeof(unsigned)*p_Inp->num_slice_groups_minus1);
-    
+
     if (NULL==p_Inp->top_left)
     {
       fclose(sgfile);
       no_mem_exit("PatchInp: p_Inp->top_left");
     }
-    
+
     if (NULL==p_Inp->bottom_right)
     {
       fclose(sgfile);
@@ -821,7 +821,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
   {
     if (ParseSizeFromString (&p_Inp->input_file1, &(p_Inp->source.width[0]), &(p_Inp->source.height[0]), &(p_Inp->source.frame_rate)) == 0)
     {
-      snprintf(errortext, ET_SIZE, "File name does not contain resolution information.");    
+      snprintf(errortext, ET_SIZE, "File name does not contain resolution information.");
       error (errortext, 500);
     }
   }
@@ -829,7 +829,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
 #if (!ENABLE_FIELD_CTX)
   if ( (p_Inp->PicInterlace || p_Inp->MbInterlace) && p_Inp->symbol_mode )
   {
-    snprintf(errortext, ET_SIZE, "Recompile with ENABLE_FIELD_CTX set to one to enable interlaced coding with CABAC.");    
+    snprintf(errortext, ET_SIZE, "Recompile with ENABLE_FIELD_CTX set to one to enable interlaced coding with CABAC.");
     error (errortext, 500);
   }
 #endif
@@ -837,7 +837,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
 #if (!ENABLE_HIGH444_CTX)
   if ( (p_Inp->ProfileIDC == FREXT_Hi444 || p_Inp->ProfileIDC == NO_PROFILE )&& p_Inp->symbol_mode )
   {
-    snprintf(errortext, ET_SIZE, "Recompile with ENABLE_HIGH444_CTX set to one to enable the High 4:4:4 Profile with CABAC.");    
+    snprintf(errortext, ET_SIZE, "Recompile with ENABLE_HIGH444_CTX set to one to enable the High 4:4:4 Profile with CABAC.");
     error (errortext, 500);
   }
 #endif
@@ -897,7 +897,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
     error (errortext, 500);
   }
   if ( p_Inp->SEIVUI32Pulldown )
-  {    
+  {
     set_jm_vui_params( p_Inp );
   }
 
@@ -909,11 +909,11 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
   }
 
   if (p_Inp->no_frames < 1)
-  {      
+  {
     snprintf(errortext, ET_SIZE, "Not enough frames to encode (%d)", p_Inp->no_frames);
     error (errortext, 500);
   }
-  
+
   // Check IntraProfile settings
   if (p_Inp->IntraProfile)
   {
@@ -932,7 +932,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
     {
       printf("Warning: ReferenceReorder not supported for Intra Profiles. Process Disabled.\n");
       p_Inp->ReferenceReorder = 0;
-    }    
+    }
   }
 
   // Direct Mode consistency check
@@ -962,8 +962,8 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
   }
 #endif
 
-  
-  
+
+
   if ((p_Inp->slice_mode == 1)&&(p_Inp->MbInterlace != 0))
   {
     if ((p_Inp->slice_argument & 0x01)!=0)
@@ -979,7 +979,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
       }
       fprintf ( stderr, "Using %d MBs per slice.\n", p_Inp->slice_argument);
     }
-  }  
+  }
 
   if (p_Inp->WPMCPrecision && (p_Inp->RDPictureDecision != 1 || p_Inp->GenerateMultiplePPS != 1) )
   {
@@ -1004,7 +1004,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
     else
     {
       p_Inp->P_List0_refs[0] = p_Inp->num_ref_frames;
-    }    
+    }
     if ( p_Inp->B_List0_refs[0] )
     {
       p_Inp->B_List0_refs[0]++;
@@ -1055,7 +1055,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
     error (errortext, 400);
   }
 
-  if (p_Inp->PicInterlace) 
+  if (p_Inp->PicInterlace)
   {
     if (p_Inp->ReferenceReorder == 2)
     {
@@ -1147,13 +1147,13 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
   // Rate control
   if(p_Inp->RCEnable)
   {
-    if ( p_Inp->RCUpdateMode == RC_MODE_1 && 
+    if ( p_Inp->RCUpdateMode == RC_MODE_1 &&
       !( (p_Inp->intra_period == 1 || p_Inp->idr_period == 1 || p_Inp->BRefPictures == 2 ) && !p_Inp->NumberBFrames ) )
     {
       snprintf(errortext, ET_SIZE, "Use RCUpdateMode = 1 only for all intra or all B-slice coding.");
       error (errortext, 500);
     }
-    if ( (p_Inp->RCUpdateMode == RC_MODE_0 || p_Inp->RCUpdateMode == RC_MODE_2 || p_Inp->RCUpdateMode == RC_MODE_3) && 
+    if ( (p_Inp->RCUpdateMode == RC_MODE_0 || p_Inp->RCUpdateMode == RC_MODE_2 || p_Inp->RCUpdateMode == RC_MODE_3) &&
       (p_Inp->PReplaceBSlice && p_Inp->NumberBFrames ) )
     {
       snprintf(errortext, ET_SIZE, "PReplaceBSlice is not supported with RCUpdateMode=0,2,3.");
@@ -1258,13 +1258,13 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
   }
 
   // check consistency
-  if ( p_Inp->ChromaMEEnable && !(p_Inp->ChromaMCBuffer) ) 
+  if ( p_Inp->ChromaMEEnable && !(p_Inp->ChromaMCBuffer) )
   {
     snprintf(errortext, ET_SIZE, "\nChromaMCBuffer must be set to 1 if ChromaMEEnable is set.");
     error (errortext, 500);
   }
 
-  if ( p_Inp->ChromaMEEnable && p_Inp->yuv_format ==  YUV400) 
+  if ( p_Inp->ChromaMEEnable && p_Inp->yuv_format ==  YUV400)
   {
     fprintf(stderr, "Warning: ChromaMEEnable cannot be used with monochrome color format, disabling ChromaMEEnable.\n");
     p_Inp->ChromaMEEnable = FALSE;
@@ -1284,7 +1284,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
   if (p_Inp->EnableOpenGOP)
     p_Inp->ReferenceReorder = 1;
 
-  if (p_Inp->SearchMode[0] != EPZS 
+  if (p_Inp->SearchMode[0] != EPZS
 #if (MVC_EXTENSION_ENABLE)
     && (!p_Inp->SepViewInterSearch || p_Inp->SearchMode[1] != EPZS )
 #endif
@@ -1379,7 +1379,7 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
 
   if(p_Inp->num_slice_groups_minus1 > 0 && (p_Inp->GenerateMultiplePPS ==1 && p_Inp->RDPictureDecision == 1))
   {
-    printf("Warning: Weighted Prediction may not function correctly for multiple slices\n"); 
+    printf("Warning: Weighted Prediction may not function correctly for multiple slices\n");
   }
 
 #if KEEP_B_SAME_LIST
@@ -1486,10 +1486,10 @@ static void PatchInp (VideoParameters *p_Vid, InputParameters *p_Inp)
 
 static void SetVUIScaleAndTicks(InputParameters *p_Inp, double frame_rate)
 {
-  double frame_rate_integer = (double)ceil( frame_rate );  
+  double frame_rate_integer = (double)ceil( frame_rate );
 
   if ( frame_rate_integer != frame_rate )
-  {    
+  {
     // frame rate is a floating-point number
     // check whether multiplying it with 1001/1000=1.001 brings it closer to frame_rate_integer
     double new_frame_rate = 1.001 * frame_rate;
@@ -1497,19 +1497,19 @@ static void SetVUIScaleAndTicks(InputParameters *p_Inp, double frame_rate)
     if ( dabs( new_frame_rate - frame_rate_integer ) < dabs( frame_rate - frame_rate_integer ) )
     {
       p_Inp->VUI.num_units_in_tick = 1001;
-      p_Inp->VUI.time_scale        = (int)floor( frame_rate_integer * (1000 << 1) ); // two ticks per frame    
+      p_Inp->VUI.time_scale        = (int)floor( frame_rate_integer * (1000 << 1) ); // two ticks per frame
     }
     else
     {
       p_Inp->VUI.num_units_in_tick = 1000;
-      p_Inp->VUI.time_scale        = (int)floor( frame_rate * (p_Inp->VUI.num_units_in_tick << 1) + 0.5 ); // two ticks per frame    
+      p_Inp->VUI.time_scale        = (int)floor( frame_rate * (p_Inp->VUI.num_units_in_tick << 1) + 0.5 ); // two ticks per frame
     }
   }
   else
   {
     // frame rate is an integer
     p_Inp->VUI.num_units_in_tick = 1000;
-    p_Inp->VUI.time_scale        = (int)floor( frame_rate * (p_Inp->VUI.num_units_in_tick << 1) ); // two ticks per frame    
+    p_Inp->VUI.time_scale        = (int)floor( frame_rate * (p_Inp->VUI.num_units_in_tick << 1) ); // two ticks per frame
   }
 }
 

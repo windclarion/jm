@@ -43,7 +43,7 @@
  *    05 December 2013
  *
  * \brief
- *    Header file for Hierarchical Motion Estimation (for pre-analysis) 
+ *    Header file for Hierarchical Motion Estimation (for pre-analysis)
  **************************************************************************
  */
 
@@ -52,7 +52,7 @@
 #define _ME_HME_H_
 #include "defines.h"
 
-typedef enum 
+typedef enum
 {
   MECOST_CALC_RDNORM = 0,
   MECOST_CALC_RDN_PLUS_MVN,
@@ -63,7 +63,7 @@ typedef enum
 
 typedef struct hmeBlockInfo
 {
-  int plist;            //Prediction list indicator  
+  int plist;            //Prediction list indicator
   int ref[2];           // reference index for L0 and/or L1
   MotionVector mv[2];   // Motion vector for L0  and/or L1
   // char weights[2];   // Weight for L0 and/or L1
@@ -78,7 +78,7 @@ typedef struct hme_info
   int iImageWidth;
   int iPyramidLevels;
   int HMEBlockSizeIdx;  // Currently only supports value of 3 => 8x8;
-  int curLevel; 
+  int curLevel;
   int iMaxRefNum;       //number of reference pictures
   int iMVCostMtd;       //?
 
@@ -86,7 +86,7 @@ typedef struct hme_info
   int imgtype;
   imgpel ***p_orig_img_pointer;            //[level][y][x];
   imgpel ***p_orig_img_pointer_layers[2];  //[level][y][x];
-  
+
   //HME
   struct storable_picture *pTmpEncPic;
   Slice* pTmpSlice;
@@ -96,12 +96,12 @@ typedef struct hme_info
   MotionVector *****p_hme_mv;  //[level][list][ref][py][px];
   distblk      *****p_hme_mcost;  //[level][list][ref][py][px];  //[py][px] is ok;
   distblk      *****p_hme_mdist;  //[level][list][ref][py][px], SAD only, does not include motion cost
-  
-  int64  ***hme_distortion;     //! [level][list][ref] overall distortion information 
+
+  int64  ***hme_distortion;     //! [level][list][ref] overall distortion information
   int64  ***poc;
   int64  hme_tot_time;
   int64  hme_time;
-  
+
   //analysis result;
   int distmin;
   int distmax;
@@ -116,17 +116,17 @@ typedef struct hme_info
   //end;
 
   // whether to perform HME refinement
-  int refine_hme; 
+  int refine_hme;
   int weighted_bipred_idc_save;
 
   // ref picture reordering related memory
   int ***hme_blk_good_store;
-  int ***hme_blk_weight_store, ***hme_blk_offset_store; 
+  int ***hme_blk_weight_store, ***hme_blk_offset_store;
   int ***hme_blk_res_DC_store;
   int ***hme_blk_seg_store;
-  int hme_blk_good_cnt[2]; 
+  int hme_blk_good_cnt[2];
   int hme_blk_seg_cnt[2][3];
-  int hme_blk_tot_cnt; 
+  int hme_blk_tot_cnt;
   struct wp_reorder_type **pWPReorderType;  // level/list
   int ***ref_idx_map;   // level/list/ref
   int ***dup_ref_flag;  // level/list/ref
@@ -159,15 +159,15 @@ typedef struct hme_info
                                     MotionVector *cand
                                     );
   distblk (*pf_computeSAD_hme)(StorablePicture *ref1, MEBlock*, distblk, MotionVector *);
-  distblk (*pf_computeBiPredSAD_hme)(StorablePicture *ref1, 
-                                    StorablePicture *ref2, 
+  distblk (*pf_computeBiPredSAD_hme)(StorablePicture *ref1,
+                                    StorablePicture *ref2,
                                     MEBlock *mv_block,
                                     distblk min_mcost,
                                     MotionVector *cand1,
                                     MotionVector *cand2);
   distblk (*pf_computeSADWP_hme)(StorablePicture *ref1, MEBlock*, distblk, MotionVector *);
-  distblk (*pf_computeBiPredSADWP_hme)(StorablePicture *ref1, 
-                                      StorablePicture *ref2, 
+  distblk (*pf_computeBiPredSADWP_hme)(StorablePicture *ref1,
+                                      StorablePicture *ref2,
                                       MEBlock *mv_block,
                                       distblk min_mcost,
                                       MotionVector *cand1,

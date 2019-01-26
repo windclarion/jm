@@ -364,7 +364,7 @@ void clear_picture(VideoParameters *p_Vid, StorablePicture *p)
       memset(p->imgUV[1][i], p_Vid->dc_pred_value_comp[2], p->size_x_cr*sizeof(imgpel));
   }
   else
-  {  
+  {
    int k, j;
    for (k = 0; k < 2; k++)
    {
@@ -385,9 +385,9 @@ void clear_picture(VideoParameters *p_Vid, StorablePicture *p)
  * \param fs
  *    FrameStore that contains a single field
  * \param output
- *    Frame format to 
+ *    Frame format to
  * \param p_out
- *    Output file 
+ *    Output file
  ************************************************************************
  */
 void write_unpaired_field(VideoParameters *p_Vid, FrameStore* fs, FrameFormat *output, int p_out)

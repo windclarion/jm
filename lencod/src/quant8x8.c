@@ -62,7 +62,7 @@
 */
 void init_quant_8x8(Slice *currSlice)
 {
-  VideoParameters *p_Vid  = currSlice->p_Vid; 
+  VideoParameters *p_Vid  = currSlice->p_Vid;
   // We may wish to have all these parameters switched at the slice level for speed up.
   if (currSlice->UseRDOQuant == 1)
   {

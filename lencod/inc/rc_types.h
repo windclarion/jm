@@ -69,7 +69,7 @@ typedef struct rc_generic
   int   NumberofBasicUnitTextureBits;
   // frame stats
   int   NumberofGOP;
-  int   NumberofCodedBFrame;  
+  int   NumberofCodedBFrame;
   // MAD stats
   int64 TotalMADBasicUnit;
   int   *MADofMB;
@@ -137,7 +137,7 @@ typedef struct rc_quadratic
   int    TotalNumberofBasicUnit;
   int    CodedBasicUnit;
 
-  int    NumberofCodedPFrame;  
+  int    NumberofCodedPFrame;
   int    TotalQpforPPicture;
   int    NumberofPPicture;
 

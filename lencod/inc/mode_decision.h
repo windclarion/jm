@@ -82,7 +82,7 @@ extern int transform_termination_control   (Macroblock* currMB, int mode);
 extern int bslice_16x16_termination_control(InputParameters *p_Inp, Block8x8Info *b8x8info, int *ctr16x16, int mode, int bslice);
 
 distblk distblkminarray ( distblk arr[], int size, int *minind );
-extern int iminarray ( int arr[], int size, int *minind ); 
+extern int iminarray ( int arr[], int size, int *minind );
 
 extern void update_lambda_costs(Macroblock *currMB, RD_PARAMS *enc_mb, int lambda_mf[3]);
 

@@ -44,7 +44,7 @@
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *     - Athanasios Leontaris            <aleon@dolby.com>
  *     - Karsten Suehring
- *     - Alexis Michael Tourapis         <alexismt@ieee.org> 
+ *     - Alexis Michael Tourapis         <alexismt@ieee.org>
 
  **************************************************************************
  */

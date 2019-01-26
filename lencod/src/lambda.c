@@ -89,14 +89,14 @@ static void CalcMaxLamdaMD(VideoParameters *p_Vid, double *p_lambda_md)
     assert(cost>=0 && cost<=DISTBLK_MAX);
   }
 #endif
-  *p_lambda_md = max_lambda_md;  
+  *p_lambda_md = max_lambda_md;
 }
 
 static void ClipLambda(double *p_lambda_max, double *p_lambda)
 {
   if(*p_lambda > *p_lambda_max)
   {
-    //printf("Clip: %lf -> %lf\n", *p_lambda, *p_lambda_max);   
+    //printf("Clip: %lf -> %lf\n", *p_lambda, *p_lambda_max);
     *p_lambda = *p_lambda_max;
   }
 }
@@ -142,7 +142,7 @@ void get_implicit_lambda_p_slice(Slice *currSlice)
     lambda_md = ((p_Inp->MEErrorMetric[H_PEL] == ERROR_SATD && p_Inp->MEErrorMetric[Q_PEL] == ERROR_SATD) ? 1.00 : 0.95) * lambda_md;
     p_Vid->lambda_md[P_SLICE][qp] = lambda_scale * lambda_md;
 
-    //clip lambda; 
+    //clip lambda;
     if(bLimitsLambdaMD)
       ClipLambda(&dMaxLambdaMD, &p_Vid->lambda_md[P_SLICE][qp]);
 
@@ -153,7 +153,7 @@ void get_implicit_lambda_p_slice(Slice *currSlice)
       int lambda_qp = (qp >= 32 && !p_Inp->RCEnable) ? imax(0, qp - 4) : imax(0, qp - 6);
       p_Vid->lambda_mf_factor[P_SLICE][qp] = log (p_Vid->lambda_me[P_SLICE][lambda_qp][Q_PEL] + 1.0) / log (2.0);
     }
-  } 
+  }
 }
 
 void get_implicit_lambda_b_slice(Slice *currSlice)
@@ -195,7 +195,7 @@ void get_implicit_lambda_b_slice(Slice *currSlice)
     }
     p_Vid->lambda_md[B_SLICE][qp] = lambda_md;
 
-    //clip lambda; 
+    //clip lambda;
     if(bLimitsLambdaMD)
       ClipLambda(&dMaxLambdaMD, &p_Vid->lambda_md[B_SLICE][qp]);
 
@@ -229,7 +229,7 @@ void get_implicit_lambda_i_slice(Slice *currSlice)
     qp_temp = (double)qp + currSlice->bitdepth_luma_qp_scale - SHIFT_QP;
 
     if(p_Inp->UseRDOQuant && p_Vid->qp==qp)
-      lambda_md = 0.57 * pow (2.0, qp_temp/3.0); 
+      lambda_md = 0.57 * pow (2.0, qp_temp/3.0);
     else  if (p_Inp->NumberBFrames > 0)
     {
       lambda_md = 0.68 * pow (2.0, qp_temp/3.0);
@@ -241,7 +241,7 @@ void get_implicit_lambda_i_slice(Slice *currSlice)
     lambda_md = ((p_Inp->MEErrorMetric[H_PEL] == ERROR_SATD && p_Inp->MEErrorMetric[Q_PEL] == ERROR_SATD) ? 1.00 : 0.95) * lambda_md;
     p_Vid->lambda_md[I_SLICE][qp] = lambda_scale * lambda_md;
 
-    //clip lambda; 
+    //clip lambda;
     if(bLimitsLambdaMD)
       ClipLambda(&dMaxLambdaMD, &p_Vid->lambda_md[I_SLICE][qp]);
 
@@ -277,7 +277,7 @@ void get_implicit_lambda_sp_slice(Slice *currSlice)
     qp_temp = (double)qp + currSlice->bitdepth_luma_qp_scale - SHIFT_QP;
 
     if(p_Inp->UseRDOQuant && p_Vid->type == I_SLICE && p_Vid->qp==qp)
-      lambda_md = 0.57 * pow (2.0, qp_temp/3.0); 
+      lambda_md = 0.57 * pow (2.0, qp_temp/3.0);
     else  if (p_Inp->NumberBFrames > 0)
     {
       lambda_md = 0.68 * pow (2.0, qp_temp/3.0) * dClip3(1.4,3.0,(qp_temp / 12.0));
@@ -290,7 +290,7 @@ void get_implicit_lambda_sp_slice(Slice *currSlice)
 
     p_Vid->lambda_md[slice_index][qp] = lambda_scale * lambda_md;
 
-    //clip lambda; 
+    //clip lambda;
     if(bLimitsLambdaMD)
       ClipLambda(&dMaxLambdaMD, &p_Vid->lambda_md[slice_index][qp]);
 
@@ -341,7 +341,7 @@ void get_explicit_lambda(Slice *currSlice)
     }
 #endif
 
-    //clip lambda; 
+    //clip lambda;
     if(bLimitsLambdaMD)
       ClipLambda(&dMaxLambdaMD, &p_Vid->lambda_md[j][qp]);
 
@@ -351,7 +351,7 @@ void get_explicit_lambda(Slice *currSlice)
     if (currSlice->view_id)
     {
       p_Vid->lambda_md[j][qp] = tmp_lambda_md * p_Inp->enh_layer_lambda_multiplier;
-      //clip lambda; 
+      //clip lambda;
       if(bLimitsLambdaMD)
         ClipLambda(&dMaxLambdaMD, &p_Vid->lambda_md[j][qp]);
       p_Vid->lambda_md[j][qp] *= ((p_Inp->MEErrorMetric[H_PEL] == ERROR_SATD && p_Inp->MEErrorMetric[Q_PEL] == ERROR_SATD) ? 1.00 : 0.95);
@@ -387,7 +387,7 @@ void get_fixed_lambda(Slice *currSlice)
       p_Vid->lambda_md[j][qp] = p_Inp->FixedLambda[5];
     else
     p_Vid->lambda_md[j][qp] = p_Inp->FixedLambda[j];
-    //clip lambda; 
+    //clip lambda;
     if(bLimitsLambdaMD)
       ClipLambda(&dMaxLambdaMD, &p_Vid->lambda_md[j][qp]);
 

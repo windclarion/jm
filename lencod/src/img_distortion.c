@@ -41,7 +41,7 @@
  * \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *     - Woo-Shik Kim                    <wooshik.kim@usc.edu>
- *     - Alexis Michael Tourapis         <alexismt@ieee.org> 
+ *     - Alexis Michael Tourapis         <alexismt@ieee.org>
  *************************************************************************************
  */
 
@@ -147,7 +147,7 @@ void find_distortion (VideoParameters *p_Vid, ImageData *imgData)
   {
     if( (p_Inp->separate_colour_plane_flag != 0) )
     {
-      p_Vid->enc_picture = p_Vid->enc_frame_picture[0];     
+      p_Vid->enc_picture = p_Vid->enc_frame_picture[0];
     }
     p_Vid->pCurImg   = imgData->frm_data[0];
     p_Vid->pImgOrg[0] = imgData->frm_data[0];
@@ -159,7 +159,7 @@ void find_distortion (VideoParameters *p_Vid, ImageData *imgData)
     if (p_Vid->yuv_format != YUV400)
     {
       p_Vid->pImgOrg[1] = imgData->frm_data[1];
-      p_Vid->pImgOrg[2] = imgData->frm_data[2]; 
+      p_Vid->pImgOrg[2] = imgData->frm_data[2];
 
       diff_cmp[1] += compute_SSE(p_Vid->pImgOrg[1], p_Vid->enc_picture->imgUV[0], 0, 0, p_Inp->output.height[1], p_Inp->output.width[1]);
       diff_cmp[2] += compute_SSE(p_Vid->pImgOrg[2], p_Vid->enc_picture->imgUV[1], 0, 0, p_Inp->output.height[1], p_Inp->output.width[1]);

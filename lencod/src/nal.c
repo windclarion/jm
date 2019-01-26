@@ -160,7 +160,7 @@ int addCabacZeroWords(VideoParameters *p_Vid, NALU_t *nalu, StatParameters *cur_
   if (min_num_bytes > p_Vid->bytes_in_picture)
   {
     stuffing_bytes = min_num_bytes - p_Vid->bytes_in_picture;
-    printf ("Inserting %d/%d cabac_zero_word syntax elements/bytes (Clause 7.4.2.10)\n", ((stuffing_bytes + 2)/3), stuffing_bytes);  
+    printf ("Inserting %d/%d cabac_zero_word syntax elements/bytes (Clause 7.4.2.10)\n", ((stuffing_bytes + 2)/3), stuffing_bytes);
 
     for (i = 0; i < stuffing_bytes; i+=3 )
     {
@@ -170,7 +170,7 @@ int addCabacZeroWords(VideoParameters *p_Vid, NALU_t *nalu, StatParameters *cur_
     }
     cur_stats->bit_use_stuffing_bits[p_Vid->type] += (i<<3);
     nalu->len += i;
-  }  
+  }
 
   return i;
 }

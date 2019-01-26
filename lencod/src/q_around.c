@@ -143,7 +143,7 @@ void store_adaptive_rounding_16x16 (VideoParameters *p_Vid, int****ARCofAdj, int
 ************************************************************************
 */
 void update_adaptive_rounding_16x16(VideoParameters *p_Vid, int****ARCofAdj , int mode)
-{  
+{
   memcpy (&ARCofAdj[0][mode][0][0],&ARCofAdj[0][DUMMY][0][0], MB_PIXELS * sizeof(int));
   if (p_Vid->P444_joined)
   {
@@ -174,12 +174,12 @@ void update_offset_params(Macroblock *currMB, int mode, byte luma_transform_size
   QuantParameters *p_Quant = p_Vid->p_Quant;
   int offsetRange = 1 << (OffsetBits - 1);
   int blk_mask = 0x03 + (luma_transform_size_8x8_flag<<2);
-  int blk_shift = 2 + luma_transform_size_8x8_flag;  
+  int blk_shift = 2 + luma_transform_size_8x8_flag;
   short **offsetList = luma_transform_size_8x8_flag ? p_Quant->OffsetList8x8[cur_qp] : p_Quant->OffsetList4x4[cur_qp];
   short *cur_offset_list = offsetList[luma_pos];
 
   int **fAdjust = luma_transform_size_8x8_flag ? p_Vid->ARCofAdj8x8[0][mode] : p_Vid->ARCofAdj4x4[0][mode];
-  
+
   if (mode == IPCM) return;
 
   if( (p_Vid->active_sps->chroma_format_idc == YUV444) && (p_Inp->separate_colour_plane_flag != 0) )
@@ -190,7 +190,7 @@ void update_offset_params(Macroblock *currMB, int mode, byte luma_transform_size
       luma_pos += p_Vid->colour_plane_id;
     cur_offset_list = offsetList[luma_pos];
   }
- 
+
   for (j=0; j < MB_BLOCK_SIZE; j++)
   {
     int j_pos = ((j & blk_mask)<<blk_shift);
@@ -202,7 +202,7 @@ void update_offset_params(Macroblock *currMB, int mode, byte luma_transform_size
   }
 
   if(p_Vid->P444_joined)
-  { 
+  {
     int **fAdjustCbCr;
     int uv;
 
@@ -228,7 +228,7 @@ void update_offset_params(Macroblock *currMB, int mode, byte luma_transform_size
   }
 
   if ((p_Inp->AdaptRndChroma) && (p_Vid->yuv_format == YUV420 || p_Vid->yuv_format == YUV422 ))
-  {  
+  {
     int u_pos = AdaptRndCrPos[is_inter][p_Vid->type];
     int v_pos = u_pos + 1;
     int k, jpos, uv = 1;
@@ -290,7 +290,7 @@ void reset_adaptive_rounding_direct(VideoParameters *p_Vid)
     for (pl = 0; pl < maxplane; pl++)
       memset(&p_Vid->ARCofAdj8x8[pl][DUMMY][0][0], 0, MB_PIXELS * sizeof (int));
   }
- 
+
 }
 
 /*!

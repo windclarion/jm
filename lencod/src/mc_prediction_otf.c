@@ -39,7 +39,7 @@
  *
  * \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
- *    - Julien Le Tanou 
+ *    - Julien Le Tanou
  *
  *************************************************************************************
  */
@@ -86,15 +86,15 @@ static void mc_prediction(imgpel** mb_pred, imgpel* lpred, int block_size_y, int
  *    Weighted Prediction
  ************************************************************************
  */
-static void weighted_mc_prediction(imgpel** mb_pred, 
-                                   imgpel* lpred, 
-                                   int block_size_y, 
+static void weighted_mc_prediction(imgpel** mb_pred,
+                                   imgpel* lpred,
+                                   int block_size_y,
                                    int block_size_x,
-                                   int ioff, 
+                                   int ioff,
                                    int max_imgpel_value,
-                                   short wp_scale, 
+                                   short wp_scale,
                                    short wp_offset,
-                                   short wp_round, 
+                                   short wp_round,
                                    short weight_denom)
 {
   int i, j;
@@ -105,7 +105,7 @@ static void weighted_mc_prediction(imgpel** mb_pred,
   {
     for (i = ioff; i < block_x4; i++)
     {
-      result = rshift_rnd((wp_scale * *lpred++), weight_denom) + wp_offset;      
+      result = rshift_rnd((wp_scale * *lpred++), weight_denom) + wp_offset;
       mb_pred[j][i] = (imgpel) iClip1( max_imgpel_value, result);
      }
   }
@@ -117,11 +117,11 @@ static void weighted_mc_prediction(imgpel** mb_pred,
  *    block biprediction
  ************************************************************************
  */
-static void bi_prediction(imgpel **mb_pred, 
-                          imgpel *l0pred, 
-                          imgpel *l1pred, 
-                          int block_size_y, 
-                          int block_size_x, 
+static void bi_prediction(imgpel **mb_pred,
+                          imgpel *l0pred,
+                          imgpel *l1pred,
+                          int block_size_y,
+                          int block_size_x,
                           int ioff)
 {
   int i, j;
@@ -142,16 +142,16 @@ static void bi_prediction(imgpel **mb_pred,
  *    block weighted biprediction
  ************************************************************************
  */
-static void weighted_bi_prediction(imgpel** mb_pred, 
-                                   imgpel *block_l0, 
-                                   imgpel *block_l1, 
-                                   int block_size_y, 
-                                   int block_x, 
+static void weighted_bi_prediction(imgpel** mb_pred,
+                                   imgpel *block_l0,
+                                   imgpel *block_l1,
+                                   int block_size_y,
+                                   int block_x,
                                    int block_size_x,
                                    int max_imgpel_value,
-                                   int wp_scale_l0, 
-                                   int wp_scale_l1, 
-                                   int wp_offset, 
+                                   int wp_scale_l0,
+                                   int wp_scale_l1,
+                                   int wp_offset,
                                    int weight_denom)
 {
   int i, j, result;
@@ -162,7 +162,7 @@ static void weighted_bi_prediction(imgpel** mb_pred,
     for (i=block_x; i<block_x4; i++)
     {
       result = rshift_rnd_sf((wp_scale_l0 * *(block_l0++) + wp_scale_l1 * *(block_l1++)),  weight_denom);
-      mb_pred[j][i] = (imgpel) iClip1( max_imgpel_value, result + wp_offset); 
+      mb_pred[j][i] = (imgpel) iClip1( max_imgpel_value, result + wp_offset);
     }
   }
 }
@@ -190,7 +190,7 @@ void luma_prediction_otf ( Macroblock* currMB, //!< Current Macroblock
   DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
   imgpel l0_pred[MB_PIXELS];
   imgpel l1_pred[MB_PIXELS];
-  int    tmp_pred[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ]; // temporary pred block to compute on-the-fly interpolation 
+  int    tmp_pred[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ]; // temporary pred block to compute on-the-fly interpolation
 
   int  pic_opix_x   = ((currMB->pix_x + block_x) << 2);
   int  pic_opix_y   = ((currMB->opix_y + block_y) << 2);
@@ -202,7 +202,7 @@ void luma_prediction_otf ( Macroblock* currMB, //!< Current Macroblock
   int  apply_weights = ( (currSlice->weighted_prediction == 1) || (currSlice->weighted_prediction == 2 && p_dir == 2) );
 
   if (bipred_me && ref_idx[0] == 0 && ref_idx[1] == 0 && p_dir == 2 && is_bipred_enabled(p_Vid, list_mode[0]) && is_bipred_enabled(p_Vid, list_mode[1]))
-    mv_array = currSlice->bipred_mv[bipred_me - 1]; 
+    mv_array = currSlice->bipred_mv[bipred_me - 1];
 
   switch (p_dir)
   {
@@ -228,10 +228,10 @@ void luma_prediction_otf ( Macroblock* currMB, //!< Current Macroblock
   {
     if (p_dir==2)
     {
-      weighted_bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_x, block_size_x, 
+      weighted_bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_x, block_size_x,
         p_Vid->max_imgpel_value,
         currSlice->wbp_weight[0][(short)ref_idx[0]][(short)ref_idx[1]][0], currSlice->wbp_weight[1][(short)ref_idx[0]][(short)ref_idx[1]][0],
-        (currSlice->wp_offset[0][(short)ref_idx[0]][0] + currSlice->wp_offset[1][(short)ref_idx[1]][0] + 1)>>1, 
+        (currSlice->wp_offset[0][(short)ref_idx[0]][0] + currSlice->wp_offset[1][(short)ref_idx[1]][0] + 1)>>1,
          currSlice->luma_log_weight_denom + 1);
     }
     else if (p_dir==0)
@@ -251,7 +251,7 @@ void luma_prediction_otf ( Macroblock* currMB, //!< Current Macroblock
   {
     if (p_dir==2)
     {
-      bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_size_x, block_x);    
+      bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_size_x, block_x);
     }
     else if (p_dir==0)
     {
@@ -267,7 +267,7 @@ void luma_prediction_otf ( Macroblock* currMB, //!< Current Macroblock
 /*!
  ************************************************************************
  * \brief
- *    Predict one Luma block on-the-fly 
+ *    Predict one Luma block on-the-fly
  ************************************************************************
  */
 void luma_prediction_bi_otf ( Macroblock* currMB, //!< Current Macroblock
@@ -278,7 +278,7 @@ void luma_prediction_bi_otf ( Macroblock* currMB, //!< Current Macroblock
                        int   l0_mode,      //!< list0 prediction mode (1-7, 0=DIRECT if l1_mode=0)
                        int   l1_mode,      //!< list1 prediction mode (1-7, 0=DIRECT if l0_mode=0)
                        short l0_ref_idx,   //!< reference frame for list0 prediction (-1: Intra4x4 pred. with l0_mode)
-                       short l1_ref_idx,   //!< reference frame for list1 prediction 
+                       short l1_ref_idx,   //!< reference frame for list1 prediction
                        int   list          //!< current list for prediction.
                        )
 {
@@ -297,7 +297,7 @@ void luma_prediction_bi_otf ( Macroblock* currMB, //!< Current Macroblock
 
   int  apply_weights = ( currSlice->weighted_prediction != 0 );
 
-  MotionVector *****mv_array = currSlice->bipred_mv[list]; 
+  MotionVector *****mv_array = currSlice->bipred_mv[list];
   MotionVector *mv_arrayl0 = &mv_array[LIST_0][l0_ref_idx][l0_mode][by][bx];
   MotionVector *mv_arrayl1 = &mv_array[LIST_1][l1_ref_idx][l1_mode][by][bx];
   imgpel **mb_pred = currSlice->mb_pred[0];
@@ -307,10 +307,10 @@ void luma_prediction_bi_otf ( Macroblock* currMB, //!< Current Macroblock
 
   if (apply_weights)
   {
-    weighted_bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_x, block_size_x, 
+    weighted_bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_x, block_size_x,
       p_Vid->max_imgpel_value,
       currSlice->wbp_weight[0][l0_ref_idx][l1_ref_idx][0], currSlice->wbp_weight[1][l0_ref_idx][l1_ref_idx][0],
-      (currSlice->wp_offset[0][l0_ref_idx][0] + currSlice->wp_offset[1][l1_ref_idx][0] + 1)>>1, 
+      (currSlice->wp_offset[0][l0_ref_idx][0] + currSlice->wp_offset[1][l1_ref_idx][0] + 1)>>1,
       currSlice->luma_log_weight_denom + 1);
   }
   else
@@ -330,14 +330,14 @@ void chroma_prediction_otf ( Macroblock* currMB, // <-- Current Macroblock
                        int   block_x,       // <-- relative horizontal block coordinate of block
                        int   block_y,       // <-- relative vertical   block coordinate of block
                        int   block_size_x,  // <-- relative horizontal block coordinate of block
-                       int   block_size_y,  // <-- relative vertical   block coordinate of block                        
+                       int   block_size_y,  // <-- relative vertical   block coordinate of block
                        int   p_dir,         // <-- prediction direction (0=list0, 1=list1, 2=bipred)
                        int   l0_mode,       // <-- list0  prediction mode (1-7, 0=DIRECT if l1_mode=0)
                        int   l1_mode,       // <-- list1 prediction mode (1-7, 0=DIRECT if l0_mode=0)
                        short l0_ref_idx,    // <-- reference frame for list0 prediction (if (<0) -> intra prediction)
-                       short l1_ref_idx,    // <-- reference frame for list1 prediction 
+                       short l1_ref_idx,    // <-- reference frame for list1 prediction
                        short bipred_me      // <-- use bi prediction mv (0=no bipred, 1 = use set 1, 2 = use set 2)
-                       )    
+                       )
 {
   VideoParameters *p_Vid     = currMB->p_Vid;
   Slice           *currSlice = currMB->p_Slice;
@@ -352,14 +352,14 @@ void chroma_prediction_otf ( Macroblock* currMB, // <-- Current Macroblock
 
   int  bx           = block_x >> 2;
   int  by           = block_y >> 2;
-  MotionVector ***** mv_array = currSlice->all_mv;    
+  MotionVector ***** mv_array = currSlice->all_mv;
   int uv_comp = uv + 1;
   imgpel **mb_pred = currSlice->mb_pred[ uv_comp];
 
   int  apply_weights = ( (currSlice->weighted_prediction == 1) || (currSlice->weighted_prediction == 2 && p_dir == 2) );
 
   if (bipred_me && l0_ref_idx == 0 && l1_ref_idx == 0 && p_dir == 2 && is_bipred_enabled(p_Vid, l0_mode)  && is_bipred_enabled(p_Vid, l1_mode))
-    mv_array = currSlice->bipred_mv[bipred_me - 1]; 
+    mv_array = currSlice->bipred_mv[bipred_me - 1];
 
   //===== INTER PREDICTION =====
   switch (p_dir)
@@ -367,7 +367,7 @@ void chroma_prediction_otf ( Macroblock* currMB, // <-- Current Macroblock
   case 0:
     p_Dpb->pf_get_block_chroma[OTF_MC] (p_Vid, l0_pred, tmp_pred, pic_opix_x + mv_array[LIST_0][l0_ref_idx][l0_mode][by][bx].mv_x, pic_opix_y + mv_array[LIST_0][l0_ref_idx][l0_mode][by][bx].mv_y, block_size_x, block_size_y, currSlice->listX[0+currMB->list_offset][l0_ref_idx], uv+1 );
     break;
-  case 1: 
+  case 1:
     p_Dpb->pf_get_block_chroma[OTF_MC] (p_Vid, l1_pred, tmp_pred, pic_opix_x + mv_array[LIST_1][l1_ref_idx][l1_mode][by][bx].mv_x, pic_opix_y + mv_array[LIST_1][l1_ref_idx][l1_mode][by][bx].mv_y, block_size_x, block_size_y, currSlice->listX[1+currMB->list_offset][l1_ref_idx], uv+1 );
     break;
   case 2:
@@ -382,10 +382,10 @@ void chroma_prediction_otf ( Macroblock* currMB, // <-- Current Macroblock
   {
     if (p_dir==2)
     {
-      weighted_bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_x, block_size_x, 
+      weighted_bi_prediction(&mb_pred[block_y], l0_pred, l1_pred, block_size_y, block_x, block_size_x,
       p_Vid->max_pel_value_comp[1],
         currSlice->wbp_weight[0][l0_ref_idx][l1_ref_idx][uv_comp], currSlice->wbp_weight[1][l0_ref_idx][l1_ref_idx][uv_comp],
-        (currSlice->wp_offset[0][l0_ref_idx][uv_comp] + currSlice->wp_offset[1][l1_ref_idx][uv_comp] + 1)>>1, 
+        (currSlice->wp_offset[0][l0_ref_idx][uv_comp] + currSlice->wp_offset[1][l1_ref_idx][uv_comp] + 1)>>1,
          currSlice->chroma_log_weight_denom + 1);
     }
     else if (p_dir==0)

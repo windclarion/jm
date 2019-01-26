@@ -53,9 +53,9 @@
 #include "block.h"
 #include "macroblock_p444.h"
 
-static const int block8x8_idx[3][4][4] = 
+static const int block8x8_idx[3][4][4] =
 {
-  { 
+  {
     {0, 1, 0, 0},
     {2, 3, 0, 0},
     {0, 0, 0, 0},
@@ -75,7 +75,7 @@ static const int block8x8_idx[3][4][4] =
   }
 };
 
-static const short part_size[8][2] = 
+static const short part_size[8][2] =
 {
   {4, 4},
   {4, 4},
@@ -87,7 +87,7 @@ static const short part_size[8][2] =
   {1, 1}
 };
 
-static const short block_size[8][2] = 
+static const short block_size[8][2] =
 {
   {16, 16},
   {16, 16},

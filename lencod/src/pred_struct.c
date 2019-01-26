@@ -36,7 +36,7 @@
  *    pred_struct.c
  *
  * \author
- *    Athanasios Leontaris           <aleon@dolby.com>   
+ *    Athanasios Leontaris           <aleon@dolby.com>
  *
  * \date
  *    June 8, 2009
@@ -71,10 +71,10 @@ static int  get_fixed_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct,
 static int  get_prd_index( InputParameters *p_Inp, SeqStructure *p_seq_struct, int num_frames );
 static int  get_idr_index( InputParameters *p_Inp, SeqStructure *p_seq_struct, int num_frames );
 static int  get_intra_index( InputParameters *p_Inp, SeqStructure *p_seq_struct, int num_frames );
-static void populate_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct, FrameUnitStruct *p_frm_struct, PredStructAtom *p_cur_prd, 
+static void populate_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct, FrameUnitStruct *p_frm_struct, PredStructAtom *p_cur_prd,
                         int curr_frame, int pred_frame, int idx, int num_slices, int no_rnd_acc );
 static void update_frame_indices( SeqStructure *p_seq_struct, FrameUnitStruct *p_frm_struct, int curr_frame, int pred_frame );
-static int  populate_reg_pred_struct_atom( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStructure *p_seq_struct, 
+static int  populate_reg_pred_struct_atom( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStructure *p_seq_struct,
                                           int curr_frame, int proc_frames, int *terminate_pop );
 static int  populate_rnd_acc_pred_struct_atom( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStructure *p_seq_struct,
                                               int curr_frame, int proc_frames, int *terminate_pop, int is_idr, int no_rnd_acc );
@@ -295,7 +295,7 @@ void init_poc(VideoParameters *p_Vid)
   else
   {
     p_Vid->offset_for_top_to_bottom_field = 1;
-  }  
+  }
 }
 
 /*!
@@ -486,7 +486,7 @@ SeqStructure * init_seq_structure( VideoParameters *p_Vid, InputParameters *p_In
   p_Inp->FrmStructBufferLength = imax( p_Inp->FrmStructBufferLength, imax( p_Inp->idr_period, p_Inp->intra_period ) + p_Inp->NumberBFrames + p_Inp->intra_delay + 2 );
   p_Vid->frm_struct_buffer = p_Inp->FrmStructBufferLength;
   p_Vid->frm_struct_buffer = imin( p_Vid->frm_struct_buffer, p_Inp->no_frames );
-  p_Inp->FrmStructBufferLength = imin( p_Inp->FrmStructBufferLength, p_Inp->no_frames ); 
+  p_Inp->FrmStructBufferLength = imin( p_Inp->FrmStructBufferLength, p_Inp->no_frames );
 
   p_Inp->FrmStructBufferLength = p_Inp->no_frames;
   p_Vid->frm_struct_buffer = p_Inp->no_frames;
@@ -957,7 +957,7 @@ static int get_fixed_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct, 
   int idx         = 0;
   int is_rnd_acc  = 0;
   int is_intra    = 0;
-  int is_sp       = 0;  
+  int is_sp       = 0;
 
   while ( idx < avail_frames )
   {
@@ -1022,7 +1022,7 @@ static int get_fixed_frame_for_prd( InputParameters *p_Inp, SeqStructure *p_seq_
         {
           gop_length = 1;
         }
-        // consider the case where even though there were enough available frames to a large structure, these slots 
+        // consider the case where even though there were enough available frames to a large structure, these slots
         // instead were allocated to a very long intra structure, which reduces compression efficiency
         if ( (idx % p_longest_prd->length) < p_longest_prd->length )
         {
@@ -1058,7 +1058,7 @@ static int get_fixed_frame_for_prd( InputParameters *p_Inp, SeqStructure *p_seq_
         {
           gop_length = 1;
         }
-        // consider the case where even though there were enough available frames to a large structure, these slots 
+        // consider the case where even though there were enough available frames to a large structure, these slots
         // instead were allocated to a very long intra structure, which reduces compression efficiency
         if ( (idx % p_longest_prd->length) < p_longest_prd->length )
         {
@@ -1094,7 +1094,7 @@ static int get_fixed_frame_for_prd( InputParameters *p_Inp, SeqStructure *p_seq_
         {
           gop_length = 1;
         }
-        // consider the case where even though there were enough available frames to a large structure, these slots 
+        // consider the case where even though there were enough available frames to a large structure, these slots
         // instead were allocated to a very long intra structure, which reduces compression efficiency
         if ( (idx % p_longest_prd->length) < p_longest_prd->length )
         {
@@ -1395,9 +1395,9 @@ static void init_gop_struct( InputParameters *p_Inp, SeqStructure *p_seq_struct,
 
         pop_pred_struct_frm( p_dst, p_src->slice_type, p_src->nal_ref_idc, start_frame - p_src->disp_offset, p_src->layer,
           p_src->slice_qp_off, 0, p_src->temporal_layer );
-      }      
+      }
       // update start_frame
-      start_frame -= p_cur_prd->length;      
+      start_frame -= p_cur_prd->length;
     }
 
     // a separate case
@@ -1439,11 +1439,11 @@ static void init_gop_struct( InputParameters *p_Inp, SeqStructure *p_seq_struct,
           p_dst = p_cur_gop->p_frm + idr_idx;
           p_src = p_cur_prd->p_frm + idx;
 
-          pop_pred_struct_frm( p_dst, p_src->slice_type, p_src->nal_ref_idc, start_frame - p_src->disp_offset, 
+          pop_pred_struct_frm( p_dst, p_src->slice_type, p_src->nal_ref_idc, start_frame - p_src->disp_offset,
             p_src->layer, p_src->slice_qp_off, 0, p_src->temporal_layer );
-        }      
+        }
         // update start_frame
-        start_frame -= p_cur_prd->length;      
+        start_frame -= p_cur_prd->length;
       }
 
       // add an offset to the display offsets
@@ -1458,7 +1458,7 @@ static void init_gop_struct( InputParameters *p_Inp, SeqStructure *p_seq_struct,
         p_dst = p_cur_gop->p_frm + idr_idx;
         p_src = p_cur_prd_tail->p_frm + idx;
 
-        pop_pred_struct_frm( p_dst, p_src->slice_type, p_src->nal_ref_idc, p_src->disp_offset, 
+        pop_pred_struct_frm( p_dst, p_src->slice_type, p_src->nal_ref_idc, p_src->disp_offset,
           p_src->layer, p_src->slice_qp_off, 0, p_src->temporal_layer );
       }
     }
@@ -1493,7 +1493,7 @@ static void init_gop_struct( InputParameters *p_Inp, SeqStructure *p_seq_struct,
         p_dst = p_cur_gop->p_frm + idr_idx;
         p_src = p_cur_prd->p_frm + idx;
 
-        pop_pred_struct_frm( p_dst, p_src->slice_type, p_src->nal_ref_idc, p_src->disp_offset, 
+        pop_pred_struct_frm( p_dst, p_src->slice_type, p_src->nal_ref_idc, p_src->disp_offset,
           p_src->layer, p_src->slice_qp_off, 0, p_src->temporal_layer );
       }
     } // gop_idx
@@ -1626,7 +1626,7 @@ static void init_pred_struct( VideoParameters *p_Vid, InputParameters *p_Inp, Se
         p_dst->nal_ref_idc   = NALU_PRIORITY_LOW;
         p_dst->disp_offset   = 2*(idx - 1) + 1;
         p_dst->layer         = 1;
-        p_dst->slice_qp_off  = p_dst->slice_type == B_SLICE ? 
+        p_dst->slice_qp_off  = p_dst->slice_type == B_SLICE ?
           (p_Inp->HierarchyLevelQPEnable ? -1: p_Inp->qpBRSOffset) : (p_Inp->HierarchyLevelQPEnable ? 1 : 0); // 1
         p_dst->random_access = 0;
         p_dst->temporal_layer = 0;
@@ -1682,7 +1682,7 @@ static void init_pred_struct( VideoParameters *p_Vid, InputParameters *p_Inp, Se
             p_dst->nal_ref_idc   = (frm == (length >> 1)) ? NALU_PRIORITY_DISPOSABLE : NALU_PRIORITY_LOW;
             p_dst->disp_offset   = ((length - 1) >> layer) + idx * (length >> (layer - 1));
             p_dst->layer         = layer;
-            p_dst->slice_qp_off  = p_dst->slice_type == B_SLICE ? 
+            p_dst->slice_qp_off  = p_dst->slice_type == B_SLICE ?
               (p_Inp->HierarchyLevelQPEnable ? (-GOPlevels + layer): (p_dst->nal_ref_idc != NALU_PRIORITY_DISPOSABLE ? p_Inp->qpBRSOffset : 0)) : (p_Inp->HierarchyLevelQPEnable ? layer : 0); // layer
             p_dst->random_access = 0;
             p_dst->temporal_layer = 0;
@@ -1713,7 +1713,7 @@ static void init_pred_struct( VideoParameters *p_Vid, InputParameters *p_Inp, Se
       {
         int max_layer = 0;
         // encode without delay
-        if ( p_Inp->LowDelay ) 
+        if ( p_Inp->LowDelay )
         {
           for ( idx = 0; idx < (length - 1); idx++ )
           {
@@ -1726,7 +1726,7 @@ static void init_pred_struct( VideoParameters *p_Vid, InputParameters *p_Inp, Se
             p_dst->slice_qp_off  = p_Vid->gop_structure[idx].slice_qp_off;
             p_dst->random_access = 0;
 
-            p_dst->temporal_layer = p_Vid->gop_structure[idx].temporal_layer; 
+            p_dst->temporal_layer = p_Vid->gop_structure[idx].temporal_layer;
             if ( p_Vid->gop_structure[idx].hierarchy_layer > max_layer )
             {
               max_layer = p_Vid->gop_structure[idx].hierarchy_layer;
@@ -1741,8 +1741,8 @@ static void init_pred_struct( VideoParameters *p_Vid, InputParameters *p_Inp, Se
           p_dst->random_access = 0;
 
           p_dst->temporal_layer = 0;
-        } 
-        else 
+        }
+        else
         {
           p_dst = p_cur_prd->p_frm + 0;
 
@@ -1753,7 +1753,7 @@ static void init_pred_struct( VideoParameters *p_Vid, InputParameters *p_Inp, Se
           p_dst->slice_qp_off  = ( p_Inp->BRefPictures == 2 ) ? (p_Inp->qp[B_SLICE] - p_Inp->qp[P_SLICE]) : 0; // ensure all types of frames have identical QP (modifiers)
           p_dst->random_access = 0;
           p_dst->temporal_layer = 0;
-          
+
           for ( idx = 1; idx < length; idx++ )
           {
             p_dst = p_cur_prd->p_frm + idx;
@@ -1864,7 +1864,7 @@ void populate_frm_struct( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStr
           }
         }
       }
-    }  
+    }
 
     if ( !is_idr && !is_intra && !is_sp )
     {
@@ -1904,10 +1904,10 @@ void populate_reg_pic( InputParameters *p_Inp, PicStructure *p_pic, FrameUnitStr
 {
   int slice;
   int slice_type    = (is_bot_fld && p_frm_struct->type == I_SLICE) ? ( p_Inp->IntraBottom ? I_SLICE : (p_Inp->BRefPictures == 2 ? B_SLICE : P_SLICE) ) : p_frm_struct->type;
-  int deblock       = p_Inp->DFSendParameters ? 
+  int deblock       = p_Inp->DFSendParameters ?
     (!(p_Inp->DFDisableIdc[p_frm_struct->nal_ref_idc][p_frm_struct->type])) : 1;
   int weighted_pred = (slice_type == P_SLICE) ?
-    p_Inp->WeightedPrediction : ((slice_type == B_SLICE) ? 
+    p_Inp->WeightedPrediction : ((slice_type == B_SLICE) ?
     p_Inp->WeightedBiprediction : 0);
   SliceStructure *p_Slice;
 
@@ -1956,7 +1956,7 @@ void populate_reg_pic( InputParameters *p_Inp, PicStructure *p_pic, FrameUnitStr
  ***********************************************************************
  */
 
-static void populate_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct, FrameUnitStruct *p_frm_struct, PredStructAtom *p_cur_prd, 
+static void populate_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct, FrameUnitStruct *p_frm_struct, PredStructAtom *p_cur_prd,
                            int curr_frame, int pred_frame, int idx, int num_slices, int no_rnd_acc )
 {
   PredStructFrm *p_src = p_cur_prd->p_frm + idx;
@@ -1966,7 +1966,7 @@ static void populate_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct, 
   p_frm_struct->random_access  = p_src->random_access;
   p_frm_struct->num_refs       = p_Inp->num_ref_frames;
   p_frm_struct->layer          = p_src->layer;
-  p_frm_struct->mod_qp         = p_src->slice_qp_off;  
+  p_frm_struct->mod_qp         = p_src->slice_qp_off;
   p_frm_struct->field_pic_flag = 0; // need to add better support for field coded pictures
   p_frm_struct->frame_no       = curr_frame + pred_frame + p_src->disp_offset;
 
@@ -1991,7 +1991,7 @@ static void populate_frame( InputParameters *p_Inp, SeqStructure *p_seq_struct, 
     {
       p_frm_struct->nal_ref_idc = p_src->nal_ref_idc;
     }
-    p_frm_struct->idr_flag = (p_src->nal_ref_idc == NALU_PRIORITY_HIGHEST) ? 1 : 0;    
+    p_frm_struct->idr_flag = (p_src->nal_ref_idc == NALU_PRIORITY_HIGHEST) ? 1 : 0;
   }
   else if ( no_rnd_acc == 1 && !idx ) // no random access frame and frame first in the struct (hence I_SLICE)
   {
@@ -2179,7 +2179,7 @@ static void update_frame_indices( SeqStructure *p_seq_struct, FrameUnitStruct *p
  ***********************************************************************
  */
 
-static int populate_reg_pred_struct_atom( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStructure *p_seq_struct, 
+static int populate_reg_pred_struct_atom( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStructure *p_seq_struct,
                                   int curr_frame, int proc_frames, int *terminate_pop )
 {
   int idx;
@@ -2230,7 +2230,7 @@ static int populate_reg_pred_struct_atom( VideoParameters *p_Vid, InputParameter
         *terminate_pop = 1;
         break; // the pred_frame loop
       }
-    }        
+    }
     // prediction structure pointer
     p_cur_prd = p_seq_struct->p_prd + pred_idx;
     // populate gop structure from selected structure
@@ -2278,7 +2278,7 @@ static int populate_reg_pred_struct_atom( VideoParameters *p_Vid, InputParameter
  ***********************************************************************
  */
 
-static int populate_rnd_acc_pred_struct_atom( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStructure *p_seq_struct, 
+static int populate_rnd_acc_pred_struct_atom( VideoParameters *p_Vid, InputParameters *p_Inp, SeqStructure *p_seq_struct,
                                              int curr_frame, int proc_frames, int *terminate_pop, int is_idr, int no_rnd_acc )
 {
   // insert IDR pred structure (can be *more* than one frame)
@@ -2352,7 +2352,7 @@ static int populate_rnd_acc_pred_struct_atom( VideoParameters *p_Vid, InputParam
       }
     }
   }
-  
+
   // reset flag
   if ( p_seq_struct->pop_flag )
   {
@@ -2366,7 +2366,7 @@ static int populate_rnd_acc_pred_struct_atom( VideoParameters *p_Vid, InputParam
   {
     // set pointer
     p_frm_struct = p_seq_struct->p_frm + ((curr_frame + gop_frame + idx) % p_Vid->frm_struct_buffer);
-    
+
     // assign values
     populate_frame( p_Inp, p_seq_struct, p_frm_struct, p_cur_gop, curr_frame, gop_frame, idx, p_seq_struct->max_num_slices, no_rnd_acc );
 
@@ -2590,7 +2590,7 @@ static void copy_frame_mvc( InputParameters *p_Inp, FrameUnitStruct *p_src, Fram
   p_dst->random_access  = p_src->random_access;
   p_dst->num_refs       = p_src->num_refs;
   p_dst->layer          = p_src->layer;
-  p_dst->mod_qp         = p_src->mod_qp;  
+  p_dst->mod_qp         = p_src->mod_qp;
   p_dst->field_pic_flag = p_src->field_pic_flag;
   p_dst->frame_no       = p_src->frame_no;
   p_dst->idr_flag       = view_id ? 0 : p_src->idr_flag;

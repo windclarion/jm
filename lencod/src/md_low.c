@@ -73,12 +73,12 @@
  ************************************************************************
  */
 static int get_best_transform_8x8(Macroblock *currMB)
-{ 
+{
   if(currMB->p_Inp->Transform8x8Mode == 2) //always use the 8x8 transform
     return 1;
   else
   {
-    VideoParameters *p_Vid = currMB->p_Vid;  
+    VideoParameters *p_Vid = currMB->p_Vid;
     RDOPTStructure  *p_RDO = currMB->p_Slice->p_RDO;
 
     short diff16[4][16];
@@ -174,9 +174,9 @@ void encode_one_macroblock_low (Macroblock *currMB)
   Info8x8 best = init_info_8x8_struct();
 
   init_md_best(&md_best);
-  
+
   get_mem3Dpel(&temp_img, 3, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
-  
+
   intra |= RandomIntra (p_Vid, currMB->mbAddrX);    // Forced Pseudo-Random Intra
 #if (MVC_EXTENSION_ENABLE)
   if(p_Inp->num_of_views==2)
@@ -311,7 +311,7 @@ void encode_one_macroblock_low (Macroblock *currMB)
         //=====  LOOP OVER 8x8 SUB-PARTITIONS  (Motion Estimation & Mode Decision) =====
         for (cost_direct =  0, block = 0; block < 4; block++)
         {
-          submacroblock_mode_decision_low(currMB, &enc_mb, p_RDO->tr8x8, p_RDO->cofAC8x8ts[block], 
+          submacroblock_mode_decision_low(currMB, &enc_mb, p_RDO->tr8x8, p_RDO->cofAC8x8ts[block],
             &have_direct, block, &cost_direct, &cost, &cost8x8_direct, 1);
 
           set_subblock8x8_info(b8x8info, P8x8, block, p_RDO->tr8x8);
@@ -341,7 +341,7 @@ void encode_one_macroblock_low (Macroblock *currMB)
         rc_store_diff(currSlice->diffy, &p_Vid->pCurImg[currMB->opix_y], currMB->pix_x, mb_pred);
 
       //check cost for P8x8 for non-rdopt mode
-      if (((p_Inp->Transform8x8Mode < 2) && (p_RDO->tr4x4->mb_p8x8_cost < min_cost)) || 
+      if (((p_Inp->Transform8x8Mode < 2) && (p_RDO->tr4x4->mb_p8x8_cost < min_cost)) ||
         ((p_Inp->Transform8x8Mode >  0) && (p_RDO->tr8x8->mb_p8x8_cost < min_cost)))
       {
         currMB->best_mode = P8x8;
@@ -474,17 +474,17 @@ void encode_one_macroblock_low (Macroblock *currMB)
       currMB->cbp = temp_cpb;
       if (p_Vid->P444_joined)
       {
-        currSlice->curr_cbp[0] = currSlice->cmp_cbp[1];  
+        currSlice->curr_cbp[0] = currSlice->cmp_cbp[1];
         currSlice->curr_cbp[1] = currSlice->cmp_cbp[2];
       }
 
       if(enc_mb.valid[I4MB])
       {
         //coeffs
-        if (p_Inp->Transform8x8Mode != 2) 
+        if (p_Inp->Transform8x8Mode != 2)
         {
-          i4p = p_RDO->cofAC; 
-          p_RDO->cofAC = currSlice->cofAC; 
+          i4p = p_RDO->cofAC;
+          p_RDO->cofAC = currSlice->cofAC;
           currSlice->cofAC = i4p;
         }
       }
@@ -501,7 +501,7 @@ void encode_one_macroblock_low (Macroblock *currMB)
       if (p_Inp->RCEnable)
         rc_store_diff(currSlice->diffy, &p_Vid->pCurImg[currMB->opix_y], currMB->pix_x, mb_pred);
 
-      currMB->min_rdcost  = rd_cost; 
+      currMB->min_rdcost  = rd_cost;
       currMB->best_mode = I8MB;
       tmp_8x8_flag = currMB->luma_transform_size_8x8_flag;
     }
@@ -510,9 +510,9 @@ void encode_one_macroblock_low (Macroblock *currMB)
       currMB->luma_transform_size_8x8_flag = tmp_8x8_flag; // restore if not best
       if (p_Vid->P444_joined)
       {
-        currMB->cbp |= currSlice->curr_cbp[0];    
-        currMB->cbp |= currSlice->curr_cbp[1];    
-        currSlice->cmp_cbp[1] = currMB->cbp;   
+        currMB->cbp |= currSlice->curr_cbp[0];
+        currMB->cbp |= currSlice->curr_cbp[1];
+        currSlice->cmp_cbp[1] = currMB->cbp;
         currSlice->cmp_cbp[2] = currMB->cbp;
       }
     }
@@ -523,7 +523,7 @@ void encode_one_macroblock_low (Macroblock *currMB)
     currMB->luma_transform_size_8x8_flag = FALSE;
     currMB->mb_type = currMB->ar_mode = I4MB;
     temp_cpb = mode_decision_for_I4x4_MB (currMB, enc_mb.lambda_mdfp, &rd_cost);
-    if (rd_cost <= currMB->min_rdcost) 
+    if (rd_cost <= currMB->min_rdcost)
     {
       currMB->cbp = temp_cpb;
 
@@ -531,7 +531,7 @@ void encode_one_macroblock_low (Macroblock *currMB)
       if (p_Inp->RCEnable)
         rc_store_diff(currSlice->diffy, &p_Vid->pCurImg[currMB->opix_y], currMB->pix_x, mb_pred);
 
-      currMB->min_rdcost  = rd_cost; 
+      currMB->min_rdcost  = rd_cost;
       currMB->best_mode = I4MB;
       tmp_8x8_flag = currMB->luma_transform_size_8x8_flag;
     }
@@ -541,13 +541,13 @@ void encode_one_macroblock_low (Macroblock *currMB)
       if (p_Vid->P444_joined)
       {
         currMB->cbp |= currSlice->curr_cbp[0];
-        currMB->cbp |= currSlice->curr_cbp[1];    
-        currSlice->cmp_cbp[1] = currMB->cbp;   
+        currMB->cbp |= currSlice->curr_cbp[1];
+        currSlice->cmp_cbp[1] = currMB->cbp;
         currSlice->cmp_cbp[2] = currMB->cbp;
       }
       //coeffs
-      i4p = p_RDO->cofAC; 
-      p_RDO->cofAC = currSlice->cofAC; 
+      i4p = p_RDO->cofAC;
+      p_RDO->cofAC = currSlice->cofAC;
       currSlice->cofAC=i4p;
     }
   }
@@ -557,12 +557,12 @@ void encode_one_macroblock_low (Macroblock *currMB)
 
     if (rd_cost < currMB->min_rdcost)
     {
-      //Rate control      
+      //Rate control
       if (p_Inp->RCEnable)
         rc_store_diff(currSlice->diffy, &p_Vid->pCurImg[currMB->opix_y], currMB->pix_x, currSlice->mpr_16x16[0][(short) currMB->i16mode]);
 
-      currMB->best_mode   = I16MB;      
-      currMB->min_rdcost  = rd_cost; 
+      currMB->best_mode   = I16MB;
+      currMB->min_rdcost  = rd_cost;
       currMB->cbp = currMB->residual_transform_quant_luma_16x16 (currMB, PLANE_Y);
 
       if (p_Vid->P444_joined)
@@ -570,12 +570,12 @@ void encode_one_macroblock_low (Macroblock *currMB)
         select_plane(p_Vid, PLANE_U);
         currSlice->cmp_cbp[1] = currMB->residual_transform_quant_luma_16x16(currMB, PLANE_U);
         select_plane(p_Vid, PLANE_V);
-        currSlice->cmp_cbp[2] = currMB->residual_transform_quant_luma_16x16(currMB, PLANE_V);   
+        currSlice->cmp_cbp[2] = currMB->residual_transform_quant_luma_16x16(currMB, PLANE_V);
 
         select_plane(p_Vid, PLANE_Y);
-        currMB->cbp |= currSlice->cmp_cbp[1];    
-        currMB->cbp |= currSlice->cmp_cbp[2];    
-        currSlice->cmp_cbp[1] = currMB->cbp;   
+        currMB->cbp |= currSlice->cmp_cbp[1];
+        currMB->cbp |= currSlice->cmp_cbp[2];
+        currSlice->cmp_cbp[1] = currMB->cbp;
         currSlice->cmp_cbp[2] = currMB->cbp;
       }
 
@@ -636,15 +636,15 @@ void encode_one_macroblock_low (Macroblock *currMB)
         {
           if((currMB->best_mode >= 1) && (currMB->best_mode <= 3))
             currMB->luma_transform_size_8x8_flag = best_transform_flag;
-          
+
           currSlice->luma_residual_coding(currMB);
           if (currSlice->P444_joined)
-          {            
+          {
             if((currMB->cbp==0 && currSlice->cmp_cbp[1] == 0 && currSlice->cmp_cbp[2] == 0) &&(currMB->best_mode == 0))
               currMB->luma_transform_size_8x8_flag = FALSE;
           }
           else
-          {            
+          {
             if((currMB->cbp==0)&&(currMB->best_mode == 0))
               currMB->luma_transform_size_8x8_flag = FALSE;
           }

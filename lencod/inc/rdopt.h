@@ -57,7 +57,7 @@ typedef struct
 {
   double rdcost;
   double dcost;
-  double rate;   // why is rate a double? Could we use int64 or even simply int given that this is for a MB? Could a MB require int64 bits (answer is no)? 
+  double rate;   // why is rate a double? Could we use int64 or even simply int given that this is for a MB? Could a MB require int64 bits (answer is no)?
   int   cbp;
   distblk  cost;
   short c_imode;
@@ -77,11 +77,11 @@ struct rdo_structure
   int   ***lrec_rec_uv;
 
   int   ****cofAC;
-  int    ***cofDC; 
+  int    ***cofDC;
   int     **cofAC4x4;
   int   ****cofAC4x4intern;
 
-  MotionVector ****all_mv8x8; 
+  MotionVector ****all_mv8x8;
 
   int   *****cofAC4x4CbCrintern;
   int   *****cofAC8x8ts;        // [plane][8x8block][4x4block][level/run][scan_pos]

@@ -89,7 +89,7 @@ typedef struct bi_context_type BiContextType;
 typedef BiContextType *BiContextTypePtr;
 
 struct image_structure
-{  
+{
   FrameFormat format;      //!< ImageStructure format Information
   imgpel **data[3];        //!< ImageStructure pixel data
 };
@@ -127,7 +127,7 @@ struct bit_counter
   int mb_y_coeff;
   int mb_uv_coeff;
   int mb_cb_coeff;
-  int mb_cr_coeff;  
+  int mb_cr_coeff;
   int mb_stuffing;
 };
 
@@ -151,7 +151,7 @@ struct bi_context_type
 {
   unsigned long  count;
   byte state; //uint16 state;         // index into state-table CP
-  unsigned char  MPS;           // Least Probable Symbol 0/1 CP  
+  unsigned char  MPS;           // Least Probable Symbol 0/1 CP
 };
 
 
@@ -222,15 +222,15 @@ static const MotionVector zero_mv = {0, 0};
 
 typedef struct rd_8x8_data
 {
-  distblk  mb_p8x8_cost;  
-  distblk  smb_p8x8_cost[4];  
+  distblk  mb_p8x8_cost;
+  distblk  smb_p8x8_cost[4];
   distblk  smb_p8x8_rdcost[4];
   Info8x8 part[4];
 
   int cbp8x8;
   int cbp_blk8x8;
-  int cnt_nonz_8x8;    
-  
+  int cnt_nonz_8x8;
+
   int **lrec; // transform and quantized coefficients will be stored here for SP frames
   imgpel **mpr8x8;
   imgpel ***mpr8x8CbCr;
@@ -263,7 +263,7 @@ typedef struct
   int slice_qp_off;       //! Assigned QP offset
   int hierarchy_layer;    //! Hierarchy layer (used with GOP Hierarchy option 2)
   int hierarchyPocDelta;  //! Currently unused
-  int temporal_layer;     //! Temporal layer; 
+  int temporal_layer;     //! Temporal layer;
   // This information is used for hierarchical coding with temporal scalability feature
   // If ReferenceReorder = 2, then
   //    reference reordering is applied based on POC and then frames of higher temporal layer are prevented from being referenced
@@ -306,7 +306,7 @@ typedef struct me_block
 
   short            pos_cr_x;        //!< position x in image
   short            pos_cr_y;        //!< position y in image
-  
+
   short            hme_level;        //!< level for HME search;
   int              hme_ref_size_y_pad;
   int              hme_ref_size_x_pad;
@@ -343,7 +343,7 @@ typedef struct me_block
   int              search_pos2;   // <--  search positions for    half-pel search  (default: 9)
   int              search_pos4;   // <--  search positions for quarter-pel search  (default: 9)
   int              iteration_no;  // <--  bi pred iteration number
-  
+
   // functions
   distblk (*computePredFPel)    (struct storable_picture *, struct me_block *, distblk , MotionVector * );
   distblk (*computePredHPel)    (struct storable_picture *, struct me_block *, distblk , MotionVector * );
@@ -412,7 +412,7 @@ typedef struct macroblock_enc
   int                 mbAddrA, mbAddrB, mbAddrC, mbAddrD;
   byte                mbAvailA, mbAvailB, mbAvailC, mbAvailD;
 
-  short               qp;                         //!< QP luma  
+  short               qp;                         //!< QP luma
   short               qpc[2];                     //!< QP chroma
   short               qp_scaled[MAX_PLANE];       //!< QP scaled for all comps.
   short               qpsp;
@@ -423,7 +423,7 @@ typedef struct macroblock_enc
   int                 cr_cbp[3];        // 444. Should be added in an external structure
   int                 c_nzCbCr[3];
 
-  short               i16offset;  
+  short               i16offset;
 
   BitCounter          bits;
 
@@ -432,7 +432,7 @@ typedef struct macroblock_enc
   char                c_ipred_mode;      //!< chroma intra prediction mode
   char                i16mode;
 
-  Info8x8             b8x8[4];    
+  Info8x8             b8x8[4];
   //imgpel              intra4x4_pred[16][17]; //!< 4x4 Intra prediction samples
   imgpel              **intra4x4_pred; //[3][17]; //!< 4x4 Intra prediction samples
   imgpel              **intra4x4_pred_buf[2]; //[3][17]; //!< 4x4 Intra prediction samples
@@ -469,7 +469,7 @@ typedef struct macroblock_enc
   distblk              min_dcost;
   distblk              min_rate;
   int                  min_bits;
-  
+
   short               best_mode;
   short               best_i16offset;
   char                best_i16mode;
@@ -486,12 +486,12 @@ typedef struct macroblock_enc
   struct macroblock_enc   *PrevMB;
 
   // Functions
-  void (*GetMVPredictor) (struct macroblock_enc *currMB, PixelPos *block, MotionVector *pmv, short ref_frame, 
+  void (*GetMVPredictor) (struct macroblock_enc *currMB, PixelPos *block, MotionVector *pmv, short ref_frame,
     struct pic_motion_params **mv_info, int list, int mb_x, int mb_y, int blockshape_x, int blockshape_y);
   distblk (*IntPelME)       (struct macroblock_enc *currMB, MotionVector *, struct me_block *mv_block, distblk, int);
-  distblk (*SubPelBiPredME) (struct macroblock_enc *currMB, struct me_block *, int list, 
+  distblk (*SubPelBiPredME) (struct macroblock_enc *currMB, struct me_block *, int list,
     MotionVector *pred_mv1, MotionVector *pred_mv2, MotionVector *mv1, MotionVector *mv2, distblk min_mcost, int* lambda_factor);
-  distblk (*SubPelME)       (struct macroblock_enc *currMB, 
+  distblk (*SubPelME)       (struct macroblock_enc *currMB,
     MotionVector *pred_mv, struct me_block *mv_block, distblk min_mcost, int* lambda_factor);
   distblk (*BiPredME)       (struct macroblock_enc *currMB, int, MotionVector *, MotionVector *, MotionVector *, MotionVector *, struct me_block *, int, distblk, int);
   int  (*residual_transform_quant_luma_4x4)      (struct macroblock_enc *currMB, ColorPlane pl, int block_x, int block_y, int *coeff_cost, int intra);
@@ -501,16 +501,16 @@ typedef struct macroblock_enc
   void (*p_SetupFastFullPelSearch) (struct macroblock_enc *, MEBlock *, int ) ;
 
   void (*cbp_linfo_intra)(int cbp, int dummy, int *len,int *info);
-  void (*cbp_linfo_inter)(int cbp, int dummy, int *len,int *info);    
+  void (*cbp_linfo_inter)(int cbp, int dummy, int *len,int *info);
 } Macroblock;
 
 //! Bitstream
 struct bit_stream_enc
 {
-  int     buffer_size;        //!< Buffer size      
+  int     buffer_size;        //!< Buffer size
   int     byte_pos;           //!< current position in bitstream;
   int     bits_to_go;         //!< current bitcounter
-  
+
   int     stored_byte_pos;    //!< storage for position in bitstream;
   int     stored_bits_to_go;  //!< storage for bitcounter
   int     byte_pos_skip;      //!< storage for position in bitstream;
@@ -540,7 +540,7 @@ typedef struct datapartition_enc
   EncodingEnvironment ee_recode;
 } DataPartition;
 
-/*! For MB level field/frame coding tools  
+/*! For MB level field/frame coding tools
     temporary structure to store MB data for field/frame coding */
 typedef struct rd_data
 {
@@ -552,7 +552,7 @@ typedef struct rd_data
   int     ****cofAC;
   int     ***cofDC;
   int     *****cofAC_new;
-  short   mb_type;  
+  short   mb_type;
   int64   cbp_blk;
   int     cbp;
   int     prev_cbp;
@@ -568,7 +568,7 @@ typedef struct rd_data
   byte    luma_transform_size_8x8_flag;
   Info8x8 block;
   Info8x8 b8x8[4];
-  
+
   MotionVector   *****all_mv;         //!< all modes motion vectors
   MotionVector ******bipred_mv;       //!< Bipredictive motion vectors
 
@@ -605,7 +605,7 @@ typedef struct slice
   int                 disthres;
   int                 Transform8x8Mode;
   int                 rdoq_motion_copy;
-  // RDOQ at the slice level (note this allows us to reduce passed parameters, 
+  // RDOQ at the slice level (note this allows us to reduce passed parameters,
   // but also could enable RDOQ control at the slice level.
   int                 UseRDOQuant;
   int                 RDOQ_QP_Num;
@@ -659,7 +659,7 @@ typedef struct slice
   char                DFAlphaC0Offset;                          //!< Deblocking Filter Alpha offset
   char                DFBetaOffset;                             //!< Deblocking Filter Beta offset
 
-  byte                weighted_prediction;                       //!< Use of weighted prediction 
+  byte                weighted_prediction;                       //!< Use of weighted prediction
   byte                weighted_bipred_idc;                      //!< Use of weighted biprediction (note that weighted_pred_flag is probably not needed here)
 
   short               luma_log_weight_denom;
@@ -671,7 +671,7 @@ typedef struct slice
   // Motion vectors for a macroblock
   // These need to be changed to MotionVector parameters
   MotionVector *****all_mv;         //!< replaces local all_mv
-  MotionVector ******bipred_mv;     //!< Biprediction MVs  
+  MotionVector ******bipred_mv;     //!< Biprediction MVs
   //Weighted prediction
   short ***wp_weight;         //!< weight in [list][index][component] order
   short ***wp_offset;         //!< offset in [list][index][component] order
@@ -684,7 +684,7 @@ typedef struct slice
 
   // For rate control
   int diffy[16][16];
-  
+
   int64 cur_cbp_blk[MAX_PLANE];
   int coeff_cost_cr[MAX_PLANE];
 
@@ -700,7 +700,7 @@ typedef struct slice
   RD_DATA rddata_trellis_curr;
   //!< For MB level field/frame coding tools
   RD_DATA rddata_top_frame_mb;
-  RD_DATA rddata_bot_frame_mb; 
+  RD_DATA rddata_bot_frame_mb;
   RD_DATA rddata_top_field_mb;
   RD_DATA rddata_bot_field_mb;
 
@@ -715,7 +715,7 @@ typedef struct slice
 
   distblk    ***motion_cost8;
   distblk    ***motion_cost4;
-  int     deltaQPTable[9]; 
+  int     deltaQPTable[9];
 
   // RDOQ
   struct est_bits_cabac *estBitsCabac; // [NUM_BLOCK_TYPES]
@@ -738,7 +738,7 @@ typedef struct slice
   char b4_intra_pred_modes[16];
 
   struct rdo_structure    *p_RDO;
-  struct epzs_params      *p_EPZS;  
+  struct epzs_params      *p_EPZS;
 
   // This should be the right location for this
   struct storable_picture **listX[6];
@@ -752,7 +752,7 @@ typedef struct slice
   int default_pic_num[2][MAX_REFERENCE_PICTURES];
   int default_view_id[2][MAX_REFERENCE_PICTURES];
 
-  // Function pointers  
+  // Function pointers
   int     (*mode_decision_for_I16x16_MB)        (Macroblock *currMB, int lambda);
   int     (*mode_decision_for_I4x4_blocks)      (Macroblock *currMB, int  b8,  int  b4,  int  lambda, distblk*  min_cost);
   int     (*mode_decision_for_I8x8_blocks)      (Macroblock *currMB, int b8, int lambda, distblk *min_cost);
@@ -783,7 +783,7 @@ typedef struct slice
   distblk (*find_sad_16x16)                     (Macroblock *currMB);
   distblk (*distI16x16)                         (Macroblock *currMB, imgpel **img_org, imgpel **pred_img, distblk min_cost);
 
-  void    (*set_lagrangian_multipliers)         (struct slice *currSlice);  
+  void    (*set_lagrangian_multipliers)         (struct slice *currSlice);
 
   void (*set_modes_and_refs_for_blocks)         (Macroblock *currMB, short mode);
   void (*set_coeff_and_recon_8x8      )         (Macroblock *currMB);
@@ -813,7 +813,7 @@ typedef struct slice
   void (*init_lists               ) (struct slice *currSlice);
   void (*reorder_lists            ) (struct slice *currSlice);
   void (*poc_ref_pic_reorder_frame) (struct slice *currSlice, unsigned num_ref_idx_lX_active, int list_no );
-   
+
 
   // Quantization
   int (*quant_4x4)     (Macroblock *currMB, int **tblock, struct quant_methods *q_method);
@@ -823,21 +823,21 @@ typedef struct slice
   int (*quant_8x8)     (Macroblock *currMB, int **tblock, struct quant_methods *q_method);
   int (*quant_8x8cavlc)(Macroblock *currMB, int **tblock, struct quant_methods *q_method, int***  cofAC);
 
-  int (*quant_dc_cr)     (Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun, 
+  int (*quant_dc_cr)     (Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun,
     LevelQuantParams *q_params_4x4, int **fadjust, const byte (*pos_scan)[2]);
   void (*rdoq_4x4)       (Macroblock *currMB, int **tblock, struct quant_methods *q_method, int levelTrellis[16]);
 
-  void (*rdoq_dc)        (Macroblock *currMB, int **tblock, int qp_per, int qp_rem, LevelQuantParams *q_params_4x4, 
+  void (*rdoq_dc)        (Macroblock *currMB, int **tblock, int qp_per, int qp_rem, LevelQuantParams *q_params_4x4,
     const byte (*pos_scan)[2], int levelTrellis[16], int type);
 
   void (*rdoq_ac4x4)     (Macroblock *currMB, int **tblock , struct quant_methods *q_method, int levelTrellis[16]);
 
-  void (*rdoq_dc_cr)     (Macroblock *currMB, int **tblock, int qp_per, int qp_rem, LevelQuantParams *q_params_4x4, 
+  void (*rdoq_dc_cr)     (Macroblock *currMB, int **tblock, int qp_per, int qp_rem, LevelQuantParams *q_params_4x4,
     const byte (*pos_scan)[2], int levelTrellis[16], int type);
 
   void (*set_modes_and_reframe)    (Macroblock *currMB, int b8, short* p_dir, int list_mode[2], char *list_ref_idx);
   void (*store_8x8_motion_vectors) (struct slice *currSlice, int dir, int block8x8, Info8x8 *B8x8Info);
-  distblk (*getDistortion)         ( Macroblock *currMB );  
+  distblk (*getDistortion)         ( Macroblock *currMB );
 
 } Slice;
 
@@ -919,7 +919,7 @@ typedef struct coding_par
 
   int num_blk8x8_uv;
   int num_cdc_coeff;
-  
+
   short mb_cr_size_x;
   short mb_cr_size_y;
   int mb_size[MAX_PLANE][2];
@@ -937,7 +937,7 @@ typedef struct coding_par
   int size;                    //!< Luma Picture size in pels
   int size_cr;                 //!< Chroma Picture size in pels
 
-  int padded_size_x;  
+  int padded_size_x;
   int padded_size_x_m8x8;
   int padded_size_x_m4x4;
   int cr_padded_size_x;
@@ -950,7 +950,7 @@ typedef struct coding_par
   unsigned char chroma_mask_mv_y;
   unsigned char chroma_mask_mv_x;
   int chroma_shift_x;
-  int chroma_shift_y; 
+  int chroma_shift_y;
   int shift_cr_x;
   int shift_cr_y;
 
@@ -981,7 +981,7 @@ typedef struct video_par
   CodingParameters         *p_CurrEncodePar;
   CodingParameters         *p_EncodePar[MAX_NUM_DPB_LAYERS];
 
-  int number;                  //!< current image number to be encoded (in first layer)  
+  int number;                  //!< current image number to be encoded (in first layer)
   int LevelIndex;              //!< mapped level idc
   int MaxVmvR[6];              //!< maximum vertical motion vector
   int MaxHmvR[6];              //!< maximum horizontal motion vector
@@ -1015,11 +1015,11 @@ typedef struct video_par
   SliceStructure  *p_curr_slice;
   int pic_struct;
   struct search_window searchRange;
-  
+
   //Hierarchical Motion Estimation structure
   struct hme_info *pHMEInfo;  //!< HME information
   int    is_hme;
- 
+
   ImageData imgData;           //!< Image data to be encoded
   ImageData imgData0;          //!< Input Image Data
   ImageData imgData1;
@@ -1039,7 +1039,7 @@ typedef struct video_par
 
 
   int   num_slices_wp;
-  int   wp_parameters_set; 
+  int   wp_parameters_set;
   short ****wp_weights;   // explicit WP weights
   short ****wp_offsets;   // explicit WP offsets
   short *****wbp_weight;  // implicit WP weights
@@ -1139,7 +1139,7 @@ typedef struct video_par
   byte **pixel_map;   //!< Shows the latest reference frame that is reliable for each pixel
   byte **refresh_map; //!< Stores the new values for pixel_map
   int intras;         //!< Counts the intra updates in each frame.
-  int iInterViewMBs;  
+  int iInterViewMBs;
   int RCMinQP;
   int RCMaxQP;
 
@@ -1166,8 +1166,8 @@ typedef struct video_par
   int pic_bin_count;
 
   // Adaptive rounding
-  int ****ARCofAdj4x4;         //!< Transform coefficients for 4x4 luma/chroma. 
-  int ****ARCofAdj8x8;         //!< Transform coefficients for 4x4 luma/chroma. 
+  int ****ARCofAdj4x4;         //!< Transform coefficients for 4x4 luma/chroma.
+  int ****ARCofAdj8x8;         //!< Transform coefficients for 4x4 luma/chroma.
 
   ImageData tempData1, tempData2, tempData3, tempData4;
   imgpel **tempImg;
@@ -1281,14 +1281,14 @@ typedef struct video_par
   int min_qp_delta;
 
   // Lagrangian Parameters
-  LambdaParams **lambda;  
+  LambdaParams **lambda;
   double  **lambda_md;     //!< Mode decision Lambda
   double ***lambda_me;     //!< Motion Estimation Lambda
   int    ***lambda_mf;     //!< Integer formatted Motion Estimation Lambda
   double  **lambda_rdoq;   //!< RDOQ Lambda
   double **lambda_mf_factor; //!< Motion Estimation Lamda Scale Factor
 
-  LambdaParams **lambda_buf[2];  
+  LambdaParams **lambda_buf[2];
   double  **lambda_md_buf[2];     //!< Mode decision Lambda
   double ***lambda_me_buf[2];     //!< Motion Estimation Lambda
   int    ***lambda_mf_buf[2];     //!< Integer formatted Motion Estimation Lambda
@@ -1333,8 +1333,8 @@ typedef struct video_par
 
   unsigned int primary_pic_type;
 
-  int frameOffsetTotal[2][MAX_REFERENCE_PICTURES]; 
-  int frameOffsetCount[2][MAX_REFERENCE_PICTURES]; 
+  int frameOffsetTotal[2][MAX_REFERENCE_PICTURES];
+  int frameOffsetCount[2][MAX_REFERENCE_PICTURES];
   short frameOffset[2][MAX_REFERENCE_PICTURES];
   int frameOffsetAvail;
   int view_id;
@@ -1379,9 +1379,9 @@ typedef struct video_par
   imgpel **imgUV_tmp_buf[2][2];
 
   // RDOQ related parameters
-  //int Intra_Selected; 
+  //int Intra_Selected;
 
-  int CbCr_predmode_8x8[4]; 
+  int CbCr_predmode_8x8[4];
   distblk ****motion_cost;
   int*** initialized;
   int*** modelNumber;
@@ -1412,7 +1412,7 @@ typedef struct video_par
   // generic output file
   FILE **f_out;
   // ANNEX B output file
-  FILE *f_annexb; 
+  FILE *f_annexb;
   // RTP output file
   FILE *f_rtp;
   int CurrentRTPTimestamp;             //!< The RTP timestamp of the current packet,
@@ -1422,7 +1422,7 @@ typedef struct video_par
 
   // This should be the right location for this
   //struct storable_picture **listX[6];
-  //char listXsize[6];  
+  //char listXsize[6];
 
   DistortionParams *p_Dist;
   struct stat_parameters  *p_Stats;
@@ -1475,7 +1475,7 @@ typedef struct video_par
   void (*rc_update_pict_frame_ptr)(struct video_par *p_Vid, InputParameters *p_Inp, RCQuadratic *p_quad, RCGeneric *p_gen, int nbits);
   void (*rc_update_picture_ptr)   (struct video_par *p_Vid, InputParameters *p_Inp, int bits);
   void (*rc_init_pict_ptr)        (struct video_par *p_Vid, InputParameters *p_Inp, RCQuadratic *p_quad, RCGeneric *p_gen, int fieldpic, int topfield, int targetcomputation, float mult);
-  
+
   //Various
   void (*buf2img)              (imgpel** imgX, unsigned char* buf, int size_x, int size_y, int o_size_x, int o_size_y, int symbol_size_in_bytes, int bitshift);
   void (*getNeighbour)         (Macroblock *currMB, int xN, int yN, int mb_size[2], PixelPos *pix);
@@ -1485,7 +1485,7 @@ typedef struct video_par
   distblk (*estimate_distortion)(Macroblock *currMB, int block, int block_size, short mode, short pdir, distblk min_rdcost);
   // function pointer for different ways of obtaining chroma interpolation
   void (*OneComponentChromaPrediction4x4)   (Macroblock *currMB, imgpel* , int , int , MotionVector ** , struct storable_picture *listX, int );
-  
+
   // deblocking
   void (*GetStrengthVer)    (byte Strength[16], Macroblock *MbQ, int edge, int mvlimit);
   void (*GetStrengthHor)    (byte Strength[16], Macroblock *MbQ, int edge, int mvlimit);
@@ -1509,7 +1509,7 @@ typedef struct video_par
 
   seq_parameter_set_rbsp_t *sps[MAX_NUM_DPB_LAYERS];
   FrameFormat output_format[MAX_NUM_DPB_LAYERS];
-  int num_of_layers; 
+  int num_of_layers;
   int dpb_layer_id;
 
   BlockPos *PicPos;
@@ -1543,7 +1543,7 @@ typedef struct video_par
   int height_cr_frame;         //!< Number of lines  chroma frame
   int size;                    //!< Luma Picture size in pels
   int size_cr;                 //!< Chroma Picture size in pels
-  int padded_size_x;  
+  int padded_size_x;
   int padded_size_x_m8x8;
   int padded_size_x_m4x4;
   int cr_padded_size_x;
@@ -1612,7 +1612,7 @@ extern void error(char *text, int code);
 extern void set_mbaff_parameters(Macroblock  *currMB);
 
 //============= restriction of reference frames based on the latest intra-refreshes==========
-extern int  is_bipred_enabled          (VideoParameters *p_Vid, int mode); 
+extern int  is_bipred_enabled          (VideoParameters *p_Vid, int mode);
 extern void update_qp                  (Macroblock *currMB);
 extern void select_plane               (VideoParameters *p_Vid, ColorPlane color_plane);
 extern void select_transform           (Macroblock *currMB);
@@ -1626,7 +1626,7 @@ extern void encode_one_redundant_frame (VideoParameters *p_Vid, InputParameters 
 
 
 // struct with pointers to the sub-images
-typedef struct 
+typedef struct
 {
   imgpel ****luma;    //!< component 0 (usually Y, X, or R)
   imgpel ****crcb[2]; //!< component 2 (usually U/V, Y/Z, or G/B)
@@ -1641,7 +1641,7 @@ extern void make_frame_picture_JV( VideoParameters *p_Vid );
 char errortext[ET_SIZE]; //!< buffer for error message for exit with error()
 extern void setup_coding_layer(VideoParameters *p_Vid);
 
-static inline int is_FREXT_profile(unsigned int profile_idc) 
+static inline int is_FREXT_profile(unsigned int profile_idc)
 {
   // we allow all FRExt tools, when no profile is active
   return ( profile_idc==NO_PROFILE || profile_idc==FREXT_HP || profile_idc==FREXT_Hi10P || profile_idc==FREXT_Hi422 || profile_idc==FREXT_Hi444 || profile_idc == FREXT_CAVLC444 );

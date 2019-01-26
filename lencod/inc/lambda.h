@@ -42,7 +42,7 @@
  *    Headerfile for lagrangian lambda related computations
  * \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
- *     - Alexis Michael Tourapis         <alexismt@ieee.org> 
+ *     - Alexis Michael Tourapis         <alexismt@ieee.org>
 
  **************************************************************************
  */

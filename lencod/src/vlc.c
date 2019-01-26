@@ -245,7 +245,7 @@ int write_u_v (int n, char *tracestring, int value, Bitstream *bitstream)
 
   sym->bitpattern = value;
   sym->value1 = value;
-  sym->len = n;  
+  sym->len = n;
 
   //assert (bitstream->streamBuffer != NULL);
 
@@ -302,7 +302,7 @@ void ue_linfo(int ue, int dummy, int *len,int *info)
  ************************************************************************
  */
 void se_linfo(int se, int dummy, int *len,int *info)
-{  
+{
   int sign = (se <= 0) ? 1 : 0;
   int n = iabs(se) << 1;   //  n+1 is the number in the code table.  Based on this we find length and info
   int nn = (n >> 1);
@@ -652,9 +652,9 @@ void  writeUVLC2buffer(SyntaxElement *se, Bitstream *currStream)
 
       if ((--(*bits_to_go)) == 0)
       {
-        *bits_to_go = 8;      
+        *bits_to_go = 8;
         currStream->streamBuffer[currStream->byte_pos++] = *byte_buf;
-        *byte_buf = 0;      
+        *byte_buf = 0;
       }
     }
   }
@@ -667,9 +667,9 @@ void  writeUVLC2buffer(SyntaxElement *se, Bitstream *currStream)
 
       if ((--(*bits_to_go)) == 0)
       {
-        *bits_to_go = 8;      
+        *bits_to_go = 8;
         currStream->streamBuffer[currStream->byte_pos++] = *byte_buf;
-        *byte_buf = 0;      
+        *byte_buf = 0;
       }
     }
     // actual info
@@ -685,9 +685,9 @@ void  writeUVLC2buffer(SyntaxElement *se, Bitstream *currStream)
 
       if ((--(*bits_to_go)) == 0)
       {
-        *bits_to_go = 8;      
+        *bits_to_go = 8;
         currStream->streamBuffer[currStream->byte_pos++] = *byte_buf;
-        *byte_buf = 0;      
+        *byte_buf = 0;
       }
     }
   }
@@ -986,7 +986,7 @@ int writeSyntaxElement_NumCoeffTrailingOnesChromaDC(VideoParameters *p_Vid, Synt
     { 0, 0, 1, 5, 5, 5, 5, 5,13, 9,13, 9,13, 9,13, 9, 5},
     { 0, 0, 0, 3, 3, 4, 4, 4, 4, 4,12,12, 8,12, 8,12, 8}}
 
-  };  
+  };
   int yuv = p_Vid->yuv_format - 1;
 
   // se->value1 : numcoeff
@@ -1162,7 +1162,7 @@ int writeSyntaxElement_TotalZerosChromaDC(VideoParameters *p_Vid, SyntaxElement 
     {0,1}}
   };
   int vlcnum = se->len;
-  int yuv = p_Vid->yuv_format - 1;  
+  int yuv = p_Vid->yuv_format - 1;
 
   // se->value1 : TotalZeros
   se->len = lentab[yuv][vlcnum][se->value1];
@@ -1264,7 +1264,7 @@ int writeSyntaxElement_Level_VLC1(SyntaxElement *se, DataPartition *dp, int prof
     se->len = levabs * 2 + sign - 1;
     se->inf = 1;
   }
-  else if (levabs < 16) 
+  else if (levabs < 16)
   {
     // escape code1
     se->len = 19;
@@ -1284,7 +1284,7 @@ int writeSyntaxElement_Level_VLC1(SyntaxElement *se, DataPartition *dp, int prof
         numPrefix++;
       }
     }
-   
+
     iMask <<= numPrefix;
     se->inf = iMask | ((levabsm16 << 1) - iMask) | sign;
 
@@ -1296,7 +1296,7 @@ int writeSyntaxElement_Level_VLC1(SyntaxElement *se, DataPartition *dp, int prof
       se->len = 0x0000FFFF; // This can be some other big number
       return (se->len);
     }
-    
+
     se->len = 28 + (numPrefix << 1);
   }
 
@@ -1323,12 +1323,12 @@ int writeSyntaxElement_Level_VLC1(SyntaxElement *se, DataPartition *dp, int prof
  ************************************************************************
  */
 int writeSyntaxElement_Level_VLCN(SyntaxElement *se, int vlc, DataPartition *dp, int profile_idc)
-{  
+{
   int level  = se->value1;
   int sign   = (level < 0 ? 1 : 0);
-  int levabs = iabs(level) - 1;  
+  int levabs = iabs(level) - 1;
 
-  int shift = vlc - 1;        
+  int shift = vlc - 1;
   int escape = (15 << shift);
 
   if (levabs < escape)
@@ -1473,7 +1473,7 @@ void writeVlcByteAlign(VideoParameters *p_Vid, Bitstream* currStream, StatParame
   { // trailing bits to process
     currStream->byte_buf = (byte) ((currStream->byte_buf << currStream->bits_to_go) | (0xff >> (8 - currStream->bits_to_go)));
     currStream->streamBuffer[currStream->byte_pos++] = currStream->byte_buf;
-    cur_stats->bit_use_stuffing_bits[p_Vid->type] += currStream->bits_to_go;    
+    cur_stats->bit_use_stuffing_bits[p_Vid->type] += currStream->bits_to_go;
     currStream->bits_to_go = 8;
   }
 }
@@ -1565,11 +1565,11 @@ void writeRefPic_NRef_CAVLC(Macroblock *currMB, SyntaxElement *se, DataPartition
  */
 int GetBits (byte *buffer,
              int totbitoffset,
-             int *info, 
+             int *info,
              int bitcount,
              int numbits)
 {
-  if ((totbitoffset + numbits ) > bitcount) 
+  if ((totbitoffset + numbits ) > bitcount)
   {
     return 0;
   }
@@ -1583,9 +1583,9 @@ int GetBits (byte *buffer,
 
     while (numbits--)
     {
-      inf <<=1;    
-      inf |= ((*curbyte)>> (bitoffset--)) & 0x01;    
-      if (bitoffset == -1 ) 
+      inf <<=1;
+      inf |= ((*curbyte)>> (bitoffset--)) & 0x01;
+      if (bitoffset == -1 )
       { //Move onto next byte to get all of numbits
         curbyte++;
         bitoffset = 7;

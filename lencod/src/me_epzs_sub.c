@@ -43,7 +43,7 @@
 *      - Alexis Michael Tourapis <alexismt@ieee.org>
 *
 *************************************************************************************
-*/ 
+*/
 
 #include "contributors.h"
 
@@ -100,7 +100,7 @@ EPZS_sub_pel_motion_estimation ( Macroblock *currMB,      // <--  current Macrob
     cand = add_MVs(search_point_hp[pos], &padded_mv);
 
     //----- set motion vector cost -----
-    mcost = mv_cost (p_Vid, lambda_factor, &cand, &pred_mv);        
+    mcost = mv_cost (p_Vid, lambda_factor, &cand, &pred_mv);
     if (mcost < second_mcost)
     {
       mcost += mv_block->computePredHPel(ref_picture, mv_block, second_mcost - mcost, &cand);
@@ -130,8 +130,8 @@ EPZS_sub_pel_motion_estimation ( Macroblock *currMB,      // <--  current Macrob
     if (best_pos !=0 || (iabs(pred->mv_x - mv->mv_x) + iabs(pred->mv_y - mv->mv_y)))
     {
       start_pos = next_start_pos[best_pos][second_pos];
-      end_pos   = next_end_pos[best_pos][second_pos];      
-      
+      end_pos   = next_end_pos[best_pos][second_pos];
+
       for (pos = start_pos; pos < end_pos; ++pos)
       {
         cand = add_MVs(search_point_hp[pos], &padded_mv);
@@ -170,17 +170,17 @@ EPZS_sub_pel_motion_estimation ( Macroblock *currMB,      // <--  current Macrob
   if ( !p_Vid->start_me_refinement_qp )
   {
     best_pos = -1;
-    min_mcost = DISTBLK_MAX;   
+    min_mcost = DISTBLK_MAX;
   }
   else
   {
     best_pos = 0;
   }
-  lambda_factor = lambda[Q_PEL];      
-  
+  lambda_factor = lambda[Q_PEL];
+
   //===== loop over search positions =====
   for (pos = p_Vid->start_me_refinement_qp; pos < end_pos; ++pos)
-  {    
+  {
     cand = add_MVs(search_point_qp[pos], &padded_mv);
 
     //----- set motion vector cost -----
@@ -212,7 +212,7 @@ EPZS_sub_pel_motion_estimation ( Macroblock *currMB,      // <--  current Macrob
     if (best_pos !=0 || (iabs(pred->mv_x - mv->mv_x) + iabs(pred->mv_y - mv->mv_y)))
     {
       start_pos = next_start_pos[best_pos][second_pos];
-      end_pos   = next_end_pos[best_pos][second_pos];      
+      end_pos   = next_end_pos[best_pos][second_pos];
 
       for (pos = start_pos; pos < end_pos; ++pos)
       {
@@ -221,7 +221,7 @@ EPZS_sub_pel_motion_estimation ( Macroblock *currMB,      // <--  current Macrob
         //----- set motion vector cost -----
         mcost = mv_cost (p_Vid, lambda_factor, &cand, &pred_mv);
 
-        if (mcost < min_mcost) 
+        if (mcost < min_mcost)
         {
           mcost += mv_block->computePredQPel(ref_picture, mv_block, min_mcost - mcost, &cand);
 
@@ -275,7 +275,7 @@ EPZS_sub_pel_bipred_motion_estimation (Macroblock *currMB,      // <--  current 
 
 
   int   start_hp    = (min_mcost == DISTBLK_MAX) ? 0 : p_Vid->start_me_refinement_hp;
-  int   max_pos2    = ( (!p_Vid->start_me_refinement_hp || !p_Vid->start_me_refinement_qp) ? imax(1, mv_block->search_pos2) : mv_block->search_pos2);  
+  int   max_pos2    = ( (!p_Vid->start_me_refinement_hp || !p_Vid->start_me_refinement_qp) ? imax(1, mv_block->search_pos2) : mv_block->search_pos2);
 
   short ref = mv_block->ref_idx;
   StorablePicture *ref_picture1 = currSlice->listX[list       + list_offset][ref];
@@ -291,7 +291,7 @@ EPZS_sub_pel_bipred_motion_estimation (Macroblock *currMB,      // <--  current 
   distblk lambda_dist   = weighted_cost(lambda_factor, 2);
   distblk sub_threshold = p_EPZS->subthres[mv_block->blocktype] + lambda_dist;
 
-  distblk mcost2 = mv_cost (p_Vid, lambda_factor, &padded_mv2, &pred_mv2);  
+  distblk mcost2 = mv_cost (p_Vid, lambda_factor, &padded_mv2, &pred_mv2);
   min_mcost -= mcost2;
 
   /*********************************
@@ -337,7 +337,7 @@ EPZS_sub_pel_bipred_motion_estimation (Macroblock *currMB,      // <--  current 
   if (best_pos !=0 || (iabs(pred1->mv_x - mv1->mv_x) + iabs(pred1->mv_y - mv1->mv_y)))
   {
     start_pos = next_start_pos[best_pos][second_pos];
-    end_pos   = next_end_pos[best_pos][second_pos];          
+    end_pos   = next_end_pos[best_pos][second_pos];
 
     for (pos = start_pos; pos < end_pos; ++pos)
     {
@@ -379,12 +379,12 @@ EPZS_sub_pel_bipred_motion_estimation (Macroblock *currMB,      // <--  current 
     best_pos = -1;
     min_mcost = DISTBLK_MAX;
   }
-  else 
+  else
   {
     best_pos = 0;
     min_mcost += mcost2;
   }
-  lambda_factor = lambda[Q_PEL];      
+  lambda_factor = lambda[Q_PEL];
   mcost2 = mv_cost (p_Vid, lambda_factor, &padded_mv2, &pred_mv2);
   min_mcost -= mcost2;
 
@@ -421,8 +421,8 @@ EPZS_sub_pel_bipred_motion_estimation (Macroblock *currMB,      // <--  current 
     if (best_pos !=0 || (iabs(pred1->mv_x - mv1->mv_x) + iabs(pred1->mv_y - mv1->mv_y)))
     {
       start_pos = next_start_pos[best_pos][second_pos];
-      end_pos   = next_end_pos[best_pos][second_pos];      
-      
+      end_pos   = next_end_pos[best_pos][second_pos];
+
       for (pos = start_pos; pos < end_pos; ++pos)
       {
         cand = add_MVs(search_point_qp[pos], &padded_mv1);

@@ -182,12 +182,12 @@ smpUMHEXIntegerPelBlockMotionSearch (Macroblock *currMB,      // <--  current Ma
   VideoParameters *p_Vid = currMB->p_Vid;
   Slice           *currSlice = currMB->p_Slice;
   UMHexSMPStruct *p_UMHexSMP = p_Vid->p_UMHexSMP;
-  int   blocktype     = mv_block->blocktype;  
-  short blocksize_x   = mv_block->blocksize_x;            // horizontal block size  
+  int   blocktype     = mv_block->blocktype;
+  short blocksize_x   = mv_block->blocksize_x;            // horizontal block size
   short blocksize_y   = mv_block->blocksize_y;            // vertical block size
   short pic_pix_x     = mv_block->pos_x_padded;
   short pic_pix_y     = mv_block->pos_y_padded;
-  
+
   int   list = mv_block->list;
   int   cur_list = list + currMB->list_offset;
   short ref = mv_block->ref_idx;
@@ -387,7 +387,7 @@ smpUMHEXIntegerPelBlockMotionSearch (Macroblock *currMB,      // <--  current Ma
 
   for (j=(mv_block->pos_y2); j < (mv_block->pos_y2) + (blocksize_y>>2); j++)
   {
-    for (i=(mv_block->pos_x2); i < (mv_block->pos_x2) + (blocksize_x>>2); i++)    
+    for (i=(mv_block->pos_x2); i < (mv_block->pos_x2) + (blocksize_x>>2); i++)
     {
       if(mv_block->list == 0)
       {
@@ -431,7 +431,7 @@ smpUMHEXFullSubPelBlockMotionSearch (Macroblock *currMB,      // <--  current Ma
   int   list_offset = currMB->list_offset;
   short ref = mv_block->ref_idx;
   MotionVector *mv  = &mv_block->mv[list];
- 
+
   int   check_position0 = (!p_Inp->rdopt && currSlice->slice_type!=B_SLICE && ref==0 && blocktype==1 && mv->mv_x==0 && mv->mv_y==0);
 
   int   max_pos2        = ( !p_Vid->start_me_refinement_hp ? imax(1, mv_block->search_pos2) : mv_block->search_pos2);
@@ -543,7 +543,7 @@ distblk                                     //  ==> minimum motion cost after se
 smpUMHEXSubPelBlockMotionSearch  (
                                   Macroblock *currMB,      // <--  current Macroblock
                                   MotionVector *pred_mv,    // <--  motion vector predictor (x|y) in sub-pel units
-                                  MEBlock   *mv_block,           
+                                  MEBlock   *mv_block,
                                   distblk     min_mcost,     // <--  minimum motion cost (cost for center or huge value)
                                   int       lambda_factor  // <--  lagrangian parameter for determining motion cost
                                   )
@@ -672,10 +672,10 @@ smpUMHEXSubPelBlockMotionSearch  (
 distblk                                                   //  ==> minimum motion cost after search
 smpUMHEXSubPelBlockME (Macroblock *currMB,       // <--  current Macroblock
                        MotionVector *pred_mv,    // <--  motion vector predictor (x|y) in sub-pel units
-                       MEBlock *mv_block, 
+                       MEBlock *mv_block,
                        distblk       min_mcost,     // <--  minimum motion cost (cost for center or huge value)
                        int*      lambda_factor                       )
-{  
+{
   if(mv_block->blocktype > 1)
   {
     min_mcost =  smpUMHEXSubPelBlockMotionSearch (currMB, pred_mv, mv_block, min_mcost, lambda_factor[Q_PEL]);
@@ -701,7 +701,7 @@ smpUMHEXBipredIntegerPelBlockMotionSearch (Macroblock *currMB,      // <--  curr
                                            MotionVector *pred_mv1,  // <--  motion vector predictor (x|y) in sub-pel units
                                            MotionVector *pred_mv2,  // <--  motion vector predictor (x|y) in sub-pel units
                                            MotionVector *mv1,       // <--> in: search center (x|y) / out: motion vector (x|y) - in sub-pel units
-                                           MotionVector *mv2,       // <--> in: search center (x|y) 
+                                           MotionVector *mv2,       // <--> in: search center (x|y)
                                            MEBlock *mv_block,       // <--  motion vector information
                                            int       search_range,  // <--  1-d search range in sub-pel units
                                            distblk     min_mcost,     // <--  minimum motion cost (cost for center or huge value)
@@ -722,7 +722,7 @@ smpUMHEXBipredIntegerPelBlockMotionSearch (Macroblock *currMB,      // <--  curr
   short ref = mv_block->ref_idx;
 
   StorablePicture *ref_picture1 = currSlice->listX[list + currMB->list_offset][ref];
-  StorablePicture *ref_picture2 = currSlice->listX[list == 0 ? 1 + currMB->list_offset: currMB->list_offset][ 0 ];  
+  StorablePicture *ref_picture2 = currSlice->listX[list == 0 ? 1 + currMB->list_offset: currMB->list_offset][ 0 ];
 
   MotionVector iMinNow, best, cand, pred1, pred2, center1, center2;
   search_range >>= 2;
@@ -731,7 +731,7 @@ smpUMHEXBipredIntegerPelBlockMotionSearch (Macroblock *currMB,      // <--  curr
   pred1.mv_y       = mv_block->pos_y_padded + pred_mv1->mv_y;  // predicted position y (in sub-pel units)
   pred2.mv_x       = mv_block->pos_x_padded + pred_mv2->mv_x;  // predicted position x (in sub-pel units)
   pred2.mv_y       = mv_block->pos_y_padded + pred_mv2->mv_y;  // predicted position y (in sub-pel units)
-  
+
   center2.mv_x     = mv_block->pos_x_padded + mv1->mv_x;            // center position x (in sub-pel units)
   center2.mv_y     = mv_block->pos_y_padded + mv1->mv_y;                   // center position y (in sub-pel units)
   center1.mv_x     = mv_block->pos_x_padded + mv2->mv_x;            // mvx of second pred (in sub-pel units)

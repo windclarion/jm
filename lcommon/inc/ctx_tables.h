@@ -325,7 +325,7 @@ static const char INIT_CBP_P[3][3][4][2] =
   }
 };
 
-static const char INIT_BCBP_I[1][22][4][2] = 
+static const char INIT_BCBP_I[1][22][4][2] =
 {
   //----- model 0 -----
   {
@@ -346,7 +346,7 @@ static const char INIT_BCBP_I[1][22][4][2] =
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
     { {  -3,  70} , {  -8,  93} , { -10,  90} , { -30, 127} },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
-    // Cr in the 4:4:4 common mode   
+    // Cr in the 4:4:4 common mode
     { { -17, 123} , { -12, 115} , { -16, 122} , { -11, 115} },
     { { -12,  63} , {  -2,  68} , { -15,  84} , { -13, 104} },
     { {  -3,  70} , {  -8,  93} , { -10,  90} , { -30, 127} },
@@ -397,14 +397,14 @@ static const char INIT_BCBP_P[3][22][4][2] =
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
-    // Cb in the 4:4:4 common mode 
+    // Cb in the 4:4:4 common mode
     { {   0,  80} , {  -5,  89} , {  -7,  94} , {  -4,  92} },
     { {   0,  39} , {   0,  65} , { -15,  84} , { -35, 127} },
     { {  -2,  73} , { -12, 104} , {  -9,  91} , { -31, 127} },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
     { {  -2,  73} , { -12, 104} , {  -9,  91} , { -31, 127} },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
-    // Cr in the 4:4:4 common mode 
+    // Cr in the 4:4:4 common mode
     { {   0,  80} , {  -5,  89} , {  -7,  94} , {  -4,  92} },
     { {   0,  39} , {   0,  65} , { -15,  84} , { -35, 127} },
     { {  -2,  73} , { -12, 104} , {  -9,  91} , { -31, 127} },
@@ -424,14 +424,14 @@ static const char INIT_BCBP_P[3][22][4][2] =
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
-    // Cb in the 4:4:4 common mode 
+    // Cb in the 4:4:4 common mode
     { {  11,  80} , {   5,  76} , {   2,  84} , {   5,  78} },
     { {  -6,  55} , {   4,  61} , { -14,  83} , { -37, 127} },
     { {  -5,  79} , { -11, 104} , { -11,  91} , { -30, 127} },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
     { {  -5,  79} , { -11, 104} , { -11,  91} , { -30, 127} },
     {  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED ,  CTX_UNUSED },
-    // Cr in the 4:4:4 common mode 
+    // Cr in the 4:4:4 common mode
     { {  11,  80} , {   5,  76} , {   2,  84} , {   5,  78} },
     { {  -6,  55} , {   4,  61} , { -14,  83} , { -37, 127} },
     { {  -5,  79} , { -11, 104} , { -11,  91} , { -30, 127} },
@@ -441,7 +441,7 @@ static const char INIT_BCBP_P[3][22][4][2] =
   }
 };
 
-static const char INIT_MAP_I[1][22][15][2] = 
+static const char INIT_MAP_I[1][22][15][2] =
 {
   //----- model 0 -----
   {
@@ -557,7 +557,7 @@ static const char INIT_MAP_P[3][22][15][2] =
   }
 };
 
-static const char INIT_LAST_I[1][22][15][2] = 
+static const char INIT_LAST_I[1][22][15][2] =
 {
   //----- model 0 -----
   {
@@ -673,7 +673,7 @@ static const char INIT_LAST_P[3][22][15][2] =
   }
 };
 
-static const char INIT_ONE_I[1][22][5][2] = 
+static const char INIT_ONE_I[1][22][5][2] =
 {
   //----- model 0 -----
   {
@@ -789,7 +789,7 @@ static const char INIT_ONE_P[3][22][5][2] =
   }
 };
 
-static const char INIT_ABS_I[1][22][5][2] = 
+static const char INIT_ABS_I[1][22][5][2] =
 {
   //----- model 0 -----
   {

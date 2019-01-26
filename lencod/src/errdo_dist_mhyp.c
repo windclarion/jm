@@ -47,7 +47,7 @@
  *    Code revamped July 2008 by:
  *    - Peshala Pahalawatta (ppaha@dolby.com)
  *    - Alexis Tourapis (atour@dolby.com)
- *    Code modularized to support more distortion estimation algorithms in June 2009 by 
+ *    Code modularized to support more distortion estimation algorithms in June 2009 by
  *    - Zhifeng Chen (zzchen@dolby.com)
  *************************************************************************************
  */
@@ -91,8 +91,8 @@ distblk errdo_distortion_estimation_multihyp(Macroblock *currMB, int block, int 
   int  k;
 
   //Note that in rdcost_for_8x8blocks() no chroma distortion is calculated
-  //Refer to the function reset_adaptive_rounding(), 
-  //maxplane = (p_Vid->yuv_format == YUV400)?  1 : 3; for p_Vid->ARCofAdj4x4 
+  //Refer to the function reset_adaptive_rounding(),
+  //maxplane = (p_Vid->yuv_format == YUV400)?  1 : 3; for p_Vid->ARCofAdj4x4
   //maxplane = (p_Vid->yuv_format == YUV400)?  1 : (p_Vid->P444_joined ? 3 : 1); for p_Vid->ARCofAdj8x8
   if (mode >= 4 && mode <= 7) //to be called by rdcost_for_8x8blocks()
   {
@@ -212,7 +212,7 @@ void UpdateDecoders(VideoParameters *p_Vid, InputParameters *p_Inp, StorablePict
   for (k = 0; k < p_Inp->NoOfDecoders; k++)
   {
     Build_Status_Map(p_Vid, p_Inp, enc_pic->de_mem->mb_error_map[k]); // simulates the packet losses
-    p_Vid->error_conceal_picture(p_Vid, enc_pic, k); 
+    p_Vid->error_conceal_picture(p_Vid, enc_pic, k);
     DeblockFrame (p_Vid, enc_pic->de_mem->p_dec_img[0][k], NULL);
   }
 }
@@ -276,7 +276,7 @@ void errdo_store_best_block_multihyp(InputParameters *p_Inp, imgpel*** mbY, imgp
   int j0 = ((block>>1)<<3);
   int j, k;
   int j1 = j0 + block_size;
-  
+
   for (k = 0; k < p_Inp->NoOfDecoders; k++)
   {
     for (j = j0; j < j1; j++)
@@ -310,8 +310,8 @@ void errdo_get_best_block_multihyp(Macroblock *currMB, imgpel*** dec_img, imgpel
 
 /*!
 **************************************************************************************
-* \brief 
-*      Decodes one macroblock for error resilient RDO.  
+* \brief
+*      Decodes one macroblock for error resilient RDO.
 *    Currently does not support:
 *    1) B coded pictures
 *    2) Chroma components
@@ -344,7 +344,7 @@ void decode_one_mb (Macroblock* currMB, StorablePicture *enc_pic, int decoder)
       memcpy(&(curComp[j][currMB->pix_x]), &(p_Vid->p_decs->dec_mb_pred[decoder][j][0]), p_Vid->mb_size[0][0] * sizeof(imgpel));
     }
   }
-  else 
+  else
   {
     get_predicted_mb(currMB, enc_pic, decoder);
     add_residue(currMB, enc_pic, decoder, PLANE_Y, 0, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
@@ -353,8 +353,8 @@ void decode_one_mb (Macroblock* currMB, StorablePicture *enc_pic, int decoder)
 
 /*!
 **************************************************************************************
-* \brief 
-*      Finds predicted macroblock values 
+* \brief
+*      Finds predicted macroblock values
 *   and copies them to currSlice->mb_pred[0][][]
 **************************************************************************************
 */
@@ -378,13 +378,13 @@ static void get_predicted_mb(Macroblock *currMB, StorablePicture *enc_pic, int d
   {
     block_size_x = MB_BLOCK_SIZE;
     block_size_y = MB_BLOCK_SIZE;
-    pred_dir = currMB->b8x8[0].pdir;   
+    pred_dir = currMB->b8x8[0].pdir;
     perform_mc(currMB, decoder, PLANE_Y, enc_pic, pred_dir, 1, 1, enc_pic->mv_info, 0, 0, block_size_x, block_size_y, currMB->b8x8[0].bipred);
   }
   else if (currMB->mb_type == 2)
-  {   
+  {
     block_size_x = MB_BLOCK_SIZE;
-    block_size_y = 8;    
+    block_size_y = 8;
 
     for (block8x8 = 0; block8x8 < 4; block8x8 += 2)
     {
@@ -393,19 +393,19 @@ static void get_predicted_mb(Macroblock *currMB, StorablePicture *enc_pic, int d
     }
   }
   else if (currMB->mb_type == 3)
-  {   
+  {
     block_size_x = 8;
     block_size_y = 16;
 
     for (block8x8 = 0; block8x8 < 2; block8x8++)
     {
       i = block8x8<<1;
-      j = 0;      
+      j = 0;
       pred_dir = currMB->b8x8[block8x8].pdir;
       perform_mc(currMB, decoder, PLANE_Y, enc_pic, pred_dir, 3, 3, enc_pic->mv_info, i, j, block_size_x, block_size_y, currMB->b8x8[block8x8].bipred);
     }
   }
-  else 
+  else
   {
     for (block8x8 = 0; block8x8 < 4; block8x8++)
     {
@@ -427,7 +427,7 @@ static void get_predicted_mb(Macroblock *currMB, StorablePicture *enc_pic, int d
         block_size_x = ( mv_mode == 5 || mv_mode == 4 ) ? 8 : 4;
         block_size_y = ( mv_mode == 6 || mv_mode == 4 ) ? 8 : 4;
       }
-      
+
       for (k = k_start; k < k_end; k += k_inc)
       {
         i =  (decode_block_scan[k] & 3);
@@ -441,8 +441,8 @@ static void get_predicted_mb(Macroblock *currMB, StorablePicture *enc_pic, int d
 
 /*!
 **************************************************************************************
-* \brief 
-*      Decodes one 8x8 partition for error resilient RDO.  
+* \brief
+*      Decodes one 8x8 partition for error resilient RDO.
 *    Currently does not support:
 *    1) B coded pictures
 *    2) Chroma components
@@ -450,7 +450,7 @@ static void get_predicted_mb(Macroblock *currMB, StorablePicture *enc_pic, int d
 *    4) Field coding
 **************************************************************************************
 */
-void decode_one_b8block (Macroblock* currMB, StorablePicture *enc_pic, int decoder, int block8x8, short mv_mode, int pred_dir) 
+void decode_one_b8block (Macroblock* currMB, StorablePicture *enc_pic, int decoder, int block8x8, short mv_mode, int pred_dir)
 {
   int i,j,k;
   int block_size_x, block_size_y;
@@ -497,7 +497,7 @@ void decode_one_b8block (Macroblock* currMB, StorablePicture *enc_pic, int decod
       i =  (decode_block_scan[k] & 3);
       j = ((decode_block_scan[k] >> 2) & 3);
       perform_mc(currMB, decoder, PLANE_Y, enc_pic, pred_dir, mv_mode, mv_mode, enc_pic->mv_info, i, j, block_size_x, block_size_y, currMB->b8x8[block8x8].bipred);
-    }        
+    }
 
     add_residue(currMB, enc_pic, decoder, PLANE_Y, block8x8, 8, 8);
   }
@@ -505,11 +505,11 @@ void decode_one_b8block (Macroblock* currMB, StorablePicture *enc_pic, int decod
 
 /*!
 **************************************************************************************
-* \brief 
+* \brief
 *      Add residual to motion predicted block
 **************************************************************************************
 */
-static void add_residue (Macroblock *currMB, StorablePicture *enc_pic, int decoder, int pl, int block8x8, int x_size, int y_size) 
+static void add_residue (Macroblock *currMB, StorablePicture *enc_pic, int decoder, int pl, int block8x8, int x_size, int y_size)
 {
   VideoParameters *p_Vid = currMB->p_Vid;
   int max_pel_value = currMB->p_Vid->max_pel_value_comp[pl];
@@ -525,18 +525,18 @@ static void add_residue (Macroblock *currMB, StorablePicture *enc_pic, int decod
   {
     for (i = i0; i < i1; i++)
     {
-      p_dec_img[j][currMB->pix_x + i] = (imgpel) iClip3(0, max_pel_value, (mpr[j][i] + res_img[j][i])); 
-    } 
+      p_dec_img[j][currMB->pix_x + i] = (imgpel) iClip3(0, max_pel_value, (mpr[j][i] + res_img[j][i]));
+    }
   }
 }
 
 
 /*!
 **************************************************************************************
-* \brief 
+* \brief
 *      Finds predicted macroblock values for error concealment
-*   
-*   Requires enc_pic->motion.mv and enc_pic->motion.ref_idx to be correct for 
+*
+*   Requires enc_pic->motion.mv and enc_pic->motion.ref_idx to be correct for
 *   current picture.
 **************************************************************************************
 */
@@ -560,13 +560,13 @@ static void get_predicted_concealment_mb(Macroblock* currMB, StorablePicture* en
   {
     block_size_x = MB_BLOCK_SIZE;
     block_size_y = MB_BLOCK_SIZE;
-    pred_dir = currMB->b8x8[0].pdir;   
+    pred_dir = currMB->b8x8[0].pdir;
     perform_mc_concealment(currMB, decoder, PLANE_Y, enc_pic, pred_dir, 1, 1, enc_pic->mv_info, 0, 0, block_size_x, block_size_y);
   }
   else if (currMB->mb_type == 2)
-  {   
+  {
     block_size_x = MB_BLOCK_SIZE;
-    block_size_y = 8;    
+    block_size_y = 8;
 
     for (block8x8 = 0; block8x8 < 4; block8x8 += 2)
     {
@@ -575,19 +575,19 @@ static void get_predicted_concealment_mb(Macroblock* currMB, StorablePicture* en
     }
   }
   else if (currMB->mb_type == 3)
-  {   
+  {
     block_size_x = 8;
     block_size_y = 16;
 
     for (block8x8 = 0; block8x8 < 2; block8x8++)
     {
       i = block8x8<<1;
-      j = 0;      
+      j = 0;
       pred_dir = currMB->b8x8[block8x8].pdir;
       perform_mc_concealment(currMB, decoder, PLANE_Y, enc_pic, pred_dir, 3, 3, enc_pic->mv_info, i, j, block_size_x, block_size_y);
     }
   }
-  else 
+  else
   {
     for (block8x8 = 0; block8x8 < 4; block8x8++)
     {
@@ -609,7 +609,7 @@ static void get_predicted_concealment_mb(Macroblock* currMB, StorablePicture* en
         block_size_x = ( mv_mode == 5 || mv_mode == 4 ) ? 8 : 4;
         block_size_y = ( mv_mode == 6 || mv_mode == 4 ) ? 8 : 4;
       }
-      
+
       for (k = k_start; k < k_end; k += k_inc)
       {
         i =  (decode_block_scan[k] & 3);
@@ -625,9 +625,9 @@ static void get_predicted_concealment_mb(Macroblock* currMB, StorablePicture* en
  *************************************************************************************
  * \brief
  *    Performs copy error concealment for macroblocks with errors.
- *  Note: Currently assumes that the reference picture lists remain the same for all 
- *        slices of a picture. 
- *  
+ *  Note: Currently assumes that the reference picture lists remain the same for all
+ *        slices of a picture.
+ *
  *************************************************************************************
  */
 void copy_conceal_picture(VideoParameters *p_Vid, StorablePicture *enc_pic, int decoder)
@@ -647,7 +647,7 @@ void copy_conceal_picture(VideoParameters *p_Vid, StorablePicture *enc_pic, int 
     currMB->mb_y = PicPos[mb].y;
     mb_error = mb_error_map[currMB->mb_y][currMB->mb_x];
     if (mb_error)
-    {      
+    {
       currMB->block_x = currMB ->mb_x << 2;
       currMB->block_y = currMB->mb_y << 2;
       currMB->pix_x   = currMB->block_x << 2;
@@ -660,7 +660,7 @@ void copy_conceal_picture(VideoParameters *p_Vid, StorablePicture *enc_pic, int 
 /******************************************************************************************
 *
 * Perform copy error concealment for macroblock.
-*   
+*
 *******************************************************************************************
 */
 static void copy_conceal_mb(Macroblock* currMB, StorablePicture *enc_pic, int decoder, int mb_error, StorablePicture* refPic)
@@ -696,7 +696,7 @@ static void copy_conceal_mb(Macroblock* currMB, StorablePicture *enc_pic, int de
     VideoParameters *p_Vid = currMB->p_Vid;
     get_predicted_concealment_mb(currMB, enc_pic, decoder);
     for(j = 0; j < MB_BLOCK_SIZE; j++)
-    {  
+    {
       memcpy(&(concealed_img[j][i0]), &(p_Vid->p_decs->dec_mb_pred[decoder][j][0]), MB_BLOCK_SIZE * sizeof(imgpel));
     }
   }

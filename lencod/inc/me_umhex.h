@@ -158,7 +158,7 @@ UMHEXIntegerPelBlockMotionSearch  (Macroblock *currMB,     // <--  current Macro
 extern distblk UMHEXSubPelBlockME ( //  ==> minimum motion cost after search
                              Macroblock *currMB,      // <--  Current Macroblock
                              MotionVector *pred,      // <--  motion vector predictor (x) in sub-pel units
-                             MEBlock *mv_block, 
+                             MEBlock *mv_block,
                              distblk     min_mcost,     // <--  minimum motion cost (cost for center or huge value)
                              int*      lambda         // <--  lagrangian parameter for determining motion cost
                              );
@@ -169,8 +169,8 @@ extern distblk UMHEXSubPelBlockMotionSearch (                         //  ==> mi
                                          distblk     min_mcost,     // <--  minimum motion cost (cost for center or huge value)
                                          int       lambda_factor  // <--  lagrangian parameter for determining motion cost
                                          );
-extern distblk UMHEXBipredIntegerPelBlockMotionSearch (Macroblock *, int, 
-                                       MotionVector *, MotionVector *, MotionVector *, MotionVector *, 
+extern distblk UMHEXBipredIntegerPelBlockMotionSearch (Macroblock *, int,
+                                       MotionVector *, MotionVector *, MotionVector *, MotionVector *,
                                        MEBlock *, int, distblk, int);
 
 extern void UMHEXSetMotionVectorPredictor (Macroblock *currMB, MotionVector *pmv, struct pic_motion_params **mv_info,

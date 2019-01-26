@@ -224,8 +224,8 @@ void getNonAffNeighbour(Macroblock *currMB, int xN, int yN, int mb_size[2], Pixe
   if (pix->available || currMB->DeblockCall)
   {
     pix->x     = (short) (xN & (mb_size[0] - 1));
-    pix->y     = (short) (yN & (mb_size[1] - 1)); 
-    pix->pos_x = (short) (pix->x + PicPos[ pix->mb_addr ].x * mb_size[0]);    
+    pix->y     = (short) (yN & (mb_size[1] - 1));
+    pix->pos_x = (short) (pix->x + PicPos[ pix->mb_addr ].x * mb_size[0]);
     pix->pos_y = (short) (pix->y + PicPos[ pix->mb_addr ].y * mb_size[1]);
   }
 }

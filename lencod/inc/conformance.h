@@ -36,7 +36,7 @@
  * \file conformance.h
  *
  * \brief
- *   Level & Profile Related definitions  
+ *   Level & Profile Related definitions
  *
  * \author
  *    Alexis Michael Tourapis         <alexismt@ieee.org>       \n

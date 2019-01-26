@@ -53,7 +53,7 @@
  *    Get motion vector predictor
  ************************************************************************
  */
-static void GetMotionVectorPredictorMBAFF (Macroblock *currMB, 
+static void GetMotionVectorPredictorMBAFF (Macroblock *currMB,
                                     PixelPos *block,        // <--> block neighbors
                                     MotionVector *pmv,
                                     short  ref_frame,
@@ -107,11 +107,11 @@ static void GetMotionVectorPredictorMBAFF (Macroblock *currMB,
   /* Prediction if only one of the neighbors uses the reference frame
   *  we are checking
   */
-  if(rFrameL == ref_frame && rFrameU != ref_frame && rFrameUR != ref_frame)       
+  if(rFrameL == ref_frame && rFrameU != ref_frame && rFrameUR != ref_frame)
     mvPredType = MVPRED_L;
-  else if(rFrameL != ref_frame && rFrameU == ref_frame && rFrameUR != ref_frame)  
+  else if(rFrameL != ref_frame && rFrameU == ref_frame && rFrameUR != ref_frame)
     mvPredType = MVPRED_U;
-  else if(rFrameL != ref_frame && rFrameU != ref_frame && rFrameUR == ref_frame)  
+  else if(rFrameL != ref_frame && rFrameU != ref_frame && rFrameUR == ref_frame)
     mvPredType = MVPRED_UR;
   // Directional predictions
   if(blockshape_x == 8 && blockshape_y == 16)
@@ -221,7 +221,7 @@ static void GetMotionVectorPredictorMBAFF (Macroblock *currMB,
  *    Get motion vector predictor
  ************************************************************************
  */
-static void GetMotionVectorPredictorNormal (Macroblock *currMB, 
+static void GetMotionVectorPredictorNormal (Macroblock *currMB,
                                             PixelPos *block,      // <--> block neighbors
                                             MotionVector *pmv,
                                             short  ref_frame,
@@ -241,11 +241,11 @@ static void GetMotionVectorPredictorNormal (Macroblock *currMB,
   /* Prediction if only one of the neighbors uses the reference frame
   *  we are checking
   */
-  if(rFrameL == ref_frame && rFrameU != ref_frame && rFrameUR != ref_frame)       
+  if(rFrameL == ref_frame && rFrameU != ref_frame && rFrameUR != ref_frame)
     mvPredType = MVPRED_L;
-  else if(rFrameL != ref_frame && rFrameU == ref_frame && rFrameUR != ref_frame)  
+  else if(rFrameL != ref_frame && rFrameU == ref_frame && rFrameUR != ref_frame)
     mvPredType = MVPRED_U;
-  else if(rFrameL != ref_frame && rFrameU != ref_frame && rFrameUR == ref_frame)  
+  else if(rFrameL != ref_frame && rFrameU != ref_frame && rFrameUR == ref_frame)
     mvPredType = MVPRED_UR;
 
   // Directional predictions
@@ -288,7 +288,7 @@ static void GetMotionVectorPredictorNormal (Macroblock *currMB,
       else
       {
         *pmv = zero_mv;
-      }        
+      }
     }
     else
     {
@@ -298,7 +298,7 @@ static void GetMotionVectorPredictorNormal (Macroblock *currMB,
 
       pmv->mv_x = (short) imedian(mv_a->mv_x, mv_b->mv_x, mv_c->mv_x);
       pmv->mv_y = (short) imedian(mv_a->mv_y, mv_b->mv_y, mv_c->mv_y);
-    }    
+    }
     break;
   case MVPRED_L:
     if (block[0].available)

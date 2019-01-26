@@ -76,7 +76,7 @@ extern void   wpxInitWPXObject( VideoParameters *p_Vid );
 extern void   wpxFreeWPXObject( VideoParameters *p_Vid );
 extern void   wpxInitWPXPasses( VideoParameters *p_Vid, InputParameters *p_Inp );
 extern void   wpxModifyRefPicList( Slice *currSlice );
-// Note that at some point, InputParameters p_Inp contents should be copied into VideoParameters *p_Vid. 
+// Note that at some point, InputParameters p_Inp contents should be copied into VideoParameters *p_Vid.
 // This would eliminate need of having to use both structures
 extern int    wpxDetermineWP( Slice *currSlice, int clist, int n );
 extern void   wpxAdaptRefNum( Slice *currSlice );

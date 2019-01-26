@@ -114,12 +114,12 @@ void set_MB_parameters (Slice *currSlice, Macroblock *currMB)
 
   p_Vid->get_mb_block_pos(p_Vid->PicPos, currMB->mbAddrX, &currMB->mb_x, &currMB->mb_y);
 
-  currMB->block_x = currMB->mb_x << 2; 
+  currMB->block_x = currMB->mb_x << 2;
   currMB->block_y = currMB->mb_y << 2;
 
   currMB->pix_x   = currMB->block_x << 2;
   currMB->pix_y   = currMB->block_y << 2;
-  
+
   if (currSlice->mb_aff_frame_flag)
   {
     if (currMB->mb_field)
@@ -146,7 +146,7 @@ void set_MB_parameters (Slice *currSlice, Macroblock *currMB)
     }
     else
     {
-      p_Vid->pCurImg    = p_Vid->imgData.frm_data[0];      
+      p_Vid->pCurImg    = p_Vid->imgData.frm_data[0];
       p_Vid->pImgOrg[0] = p_Vid->imgData.frm_data[0];
 
       if ((p_Vid->yuv_format != YUV400) && (p_Inp->separate_colour_plane_flag == 0))
@@ -262,7 +262,7 @@ static void set_chroma_qp(Macroblock* currMB)
     currMB->qpc[i] = (short) iClip3 ( -currSlice->bitdepth_chroma_qp_scale, 51, currMB->qp + p_Vid->chroma_qp_offset[i] );
     currMB->qpc[i] = (short) (currMB->qpc[i] < 0 ? currMB->qpc[i] : QP_SCALE_CR[currMB->qpc[i]]);
     currMB->qp_scaled[i + 1] = (short) (currMB->qpc[i] + currSlice->bitdepth_chroma_qp_scale);
-  }  
+  }
 }
 
 /*!
@@ -316,7 +316,7 @@ void reset_macroblock(Macroblock *currMB)
   // Reset syntax element entries in MB struct
   currMB->mb_type      = 0;
   currMB->cbp_blk      = 0;
-  currMB->cbp          = 0;  
+  currMB->cbp          = 0;
   currMB->c_ipred_mode = DC_PRED_8;
 
   currSlice->cmp_cbp[1] = currSlice->cmp_cbp[2] = currSlice->curr_cbp[0] = currSlice->curr_cbp[1] = 0;
@@ -345,9 +345,9 @@ void reset_macroblock(Macroblock *currMB)
   // Initialize bitcounters for this macroblock
   memset(&currMB->bits, 0, sizeof(BitCounter));
 
-  currMB->min_rdcost = DISTBLK_MAX; 
+  currMB->min_rdcost = DISTBLK_MAX;
   currMB->min_dcost  = DISTBLK_MAX;
-  currMB->min_rate   = DISTBLK_MAX; 
+  currMB->min_rate   = DISTBLK_MAX;
 
   currMB->best_mode      = 0;
   currMB->best_c_imode   = 0;
@@ -383,13 +383,13 @@ void start_macroblock(Slice *currSlice, Macroblock **currMB, int mb_addr, Boolea
   DataPartition *dataPart;
   Bitstream *currStream;
   int prev_mb;
-  
+
   *currMB = &p_Vid->mb_data[mb_addr];
   (*currMB)->p_Slice = currSlice;
   (*currMB)->p_Vid = p_Vid;
   (*currMB)->p_Inp = p_Inp;
 
-  (*currMB)->mbAddrX = mb_addr;  
+  (*currMB)->mbAddrX = mb_addr;
 
   (*currMB)->is_intra_block = (currSlice->slice_type == I_SLICE || currSlice->slice_type == SI_SLICE) ? TRUE : FALSE;
 
@@ -465,14 +465,14 @@ void start_macroblock(Slice *currSlice, Macroblock **currMB, int mb_addr, Boolea
   }
 
   last_coded_mb = *currMB;   // save the address of the last coded MB
-  
+
   if ((*currMB)->mbAddrX == 0)
     p_Vid->BasicUnitQP = mb_qp;
 
   mb_qp = iClip3(-currSlice->bitdepth_luma_qp_scale, 51, mb_qp);
   (*currMB)->qp = (short) mb_qp;
   p_Vid->qp = mb_qp;
-  
+
   update_qp (*currMB);
 
 
@@ -530,7 +530,7 @@ void start_macroblock(Slice *currSlice, Macroblock **currMB, int mb_addr, Boolea
   for (i=0; i<currSlice->max_part_nr; ++i )
   {
     currSlice->partArr[i].bitstream->trace_enabled = FALSE;
-  }  
+  }
 #endif
 }
 
@@ -786,7 +786,7 @@ int slice_too_big(Slice *currSlice, int rlc_bits)
 
   //! CAVLC
   if (currSlice->symbol_mode == CAVLC)
-  {    
+  {
     for (i = 0; i < currSlice->max_part_nr; ++i)
     {
       dataPart = &(currSlice->partArr[i]);
@@ -812,7 +812,7 @@ int slice_too_big(Slice *currSlice, int rlc_bits)
         return TRUE;
     }
   }
-  
+
   return FALSE;
 }
 
@@ -871,7 +871,7 @@ int reset_block(Macroblock* currMB, int *cbp, int64 *cbp_blk, int block8x8)
  ************************************************************************
  */
 int luma_residual_coding_16x16 (Macroblock* currMB,  //!< Current Macroblock to be coded
-                                int   block8x8,      //!< block number of 8x8 block                             
+                                int   block8x8,      //!< block number of 8x8 block
                                 int   list_mode[2]   //!< list prediction mode (1-7, 0=DIRECT)
 )
 {
@@ -879,7 +879,7 @@ int luma_residual_coding_16x16 (Macroblock* currMB,  //!< Current Macroblock to 
   int   *cbp     = &(currMB->cbp);
   int64 *cbp_blk = &(currMB->cbp_blk);
   Slice *currSlice = currMB->p_Slice;
-  VideoParameters *p_Vid = currMB->p_Vid;  
+  VideoParameters *p_Vid = currMB->p_Vid;
   int    nonzero = 0, cbp_blk_mask;
   int    coeff_cost = 0;
   int    mb_y       = (block8x8 >> 1) << 3;
@@ -901,13 +901,13 @@ int luma_residual_coding_16x16 (Macroblock* currMB,  //!< Current Macroblock to 
       for (block_y=mb_y; block_y<mb_y + 8; block_y += 4)
       {
         for (block_x=mb_x; block_x<mb_x + 8; block_x += 4)
-        {          
+        {
           //===== forward transform, Quantization, inverse Quantization, inverse transform, Reconstruction =====
           nonzero = currMB->residual_transform_quant_luma_4x4 (currMB, PLANE_Y, block_x, block_y, &coeff_cost, 0);
 
           if (nonzero)
           {
-            cbp_blk_mask = (block_x >> 2) + block_y;      
+            cbp_blk_mask = (block_x >> 2) + block_y;
             (*cbp_blk) |= (int64) 1 << cbp_blk_mask;  // one bit for every 4x4 block
             (*cbp)     |= cbp_mask;           // one bit for the 4x4 blocks of an 8x8 block
           }
@@ -935,7 +935,7 @@ int luma_residual_coding_16x16 (Macroblock* currMB,  //!< Current Macroblock to 
   {
     coeff_cost  = reset_block(currMB, cbp, cbp_blk, block8x8);
   }
-  
+
   return coeff_cost;
 }
 
@@ -963,7 +963,7 @@ int luma_residual_coding_8x8 (Macroblock* currMB,  //!< Current Macroblock to be
   int    coeff_cost = 0;
   int    mb_y       = (block8x8 >> 1) << 3;
   int    mb_x       = (block8x8 & 0x01) << 3;
-  int    cbp_mask   = 1 << block8x8;  
+  int    cbp_mask   = 1 << block8x8;
   int    skipped    = (list_mode[0] == 0 && list_mode[1] == 0 && (currSlice->slice_type != B_SLICE));
   Boolean direct_inference = (list_mode[0] == 0 && list_mode[1] == 0 && currSlice->slice_type == B_SLICE && p_Vid->active_sps->direct_8x8_inference_flag == 0);
 
@@ -978,9 +978,9 @@ int luma_residual_coding_8x8 (Macroblock* currMB,  //!< Current Macroblock to be
     int    bxx, byy;                   // indexing curr_blk
     if (!direct_inference && (((p_dir == 0 || p_dir == 2 )&& list_mode[0] < 5) || ((p_dir == 1 || p_dir == 2 ) && list_mode[1] < 5)))
     {
-      p_Dpb->pf_luma_prediction (currMB, mb_x, mb_y, 8, 8, p_dir, list_mode, ref_idx, bipred_me); 
+      p_Dpb->pf_luma_prediction (currMB, mb_x, mb_y, 8, 8, p_dir, list_mode, ref_idx, bipred_me);
 
-      //===== compute prediction residual ======            
+      //===== compute prediction residual ======
       compute_residue (&p_Vid->pCurImg[currMB->opix_y + mb_y], &currSlice->mb_pred[0][mb_y], &currSlice->mb_ores[0][mb_y], mb_x, currMB->pix_x + mb_x, 8, 8);
     }
 
@@ -996,7 +996,7 @@ int luma_residual_coding_8x8 (Macroblock* currMB,  //!< Current Macroblock to be
         {
           p_Dpb->pf_luma_prediction (currMB, block_x, block_y, 4, 4, p_dir, list_mode, ref_idx, bipred_me);
 
-          //===== compute prediction residual ======            
+          //===== compute prediction residual ======
           compute_residue(&p_Vid->pCurImg[currMB->opix_y + block_y], &currSlice->mb_pred[0][block_y], &currSlice->mb_ores[0][block_y], block_x, pic_pix_x, 4, 4);
         }
 
@@ -1026,7 +1026,7 @@ int luma_residual_coding_8x8 (Macroblock* currMB,  //!< Current Macroblock to be
     //===== prediction of 4x4 block =====
     p_Dpb->pf_luma_prediction (currMB, block_x, block_y, 8, 8, p_dir, list_mode, ref_idx, bipred_me);
 
-    //===== compute prediction residual ======            
+    //===== compute prediction residual ======
     compute_residue (&p_Vid->pCurImg[currMB->opix_y + block_y], &currSlice->mb_pred[0][block_y], &currSlice->mb_ores[0][block_y], block_x, pic_pix_x, 8, 8);
 
     if (currSlice->NoResidueDirect != 1 && !skipped)
@@ -1144,7 +1144,7 @@ void set_modes_and_reframe_p_slice (Macroblock* currMB, int b8, short* p_dir, in
   list_ref_idx[0] = motion[currMB->block_y + j][currMB->block_x + i].ref_idx[LIST_0];
   list_ref_idx[1] = 0;
   list_mode[0] = currMB->b8x8[b8].mode;
-  list_mode[1] = 0; 
+  list_mode[1] = 0;
 }
 
 
@@ -1222,7 +1222,7 @@ void luma_residual_coding (Macroblock *currMB)
   char list_ref_idx[2];
   short p_dir = 0;
 
-  int is_skip = currSlice->slice_type == P_SLICE && currMB->mb_type == PSKIP;   
+  int is_skip = currSlice->slice_type == P_SLICE && currMB->mb_type == PSKIP;
 
   currMB->cbp     = 0;
   currMB->cbp_blk = 0;
@@ -1233,12 +1233,12 @@ void luma_residual_coding (Macroblock *currMB)
   if (is_skip)
   {
     for (block8x8=0; block8x8<4; ++block8x8)
-    {    
+    {
       currSlice->set_modes_and_reframe (currMB, block8x8, &p_dir, list_mode, list_ref_idx);
     }
 
     //===== luma prediction ======
-    p_Dpb->pf_luma_prediction (currMB, 0, 0, 16, 16, p_dir, list_mode, list_ref_idx, currMB->b8x8[0].bipred); 
+    p_Dpb->pf_luma_prediction (currMB, 0, 0, 16, 16, p_dir, list_mode, list_ref_idx, currMB->b8x8[0].bipred);
 
     //===== compute prediction residual ======
     // We should not need to compute this for skip mode, but currently computed for "debugging" purposes
@@ -1246,24 +1246,24 @@ void luma_residual_coding (Macroblock *currMB)
 
     copy_image_data_16x16(&p_Vid->enc_picture->imgY[currMB->pix_y], *currSlice->mb_pred, currMB->pix_x, 0);
   }
-  else 
+  else
   {
     int sum_cnt_nonz = 0;
     if (currMB->mb_type == P16x16)
     {
       for (block8x8 = 0; block8x8 < 4; ++block8x8)
-      {    
+      {
         currSlice->set_modes_and_reframe (currMB, block8x8, &p_dir, list_mode, list_ref_idx);
       }
       //===== luma prediction ======
-      p_Dpb->pf_luma_prediction (currMB, 0, 0, MB_BLOCK_SIZE, MB_BLOCK_SIZE, p_dir, list_mode, list_ref_idx, currMB->b8x8[0].bipred); 
+      p_Dpb->pf_luma_prediction (currMB, 0, 0, MB_BLOCK_SIZE, MB_BLOCK_SIZE, p_dir, list_mode, list_ref_idx, currMB->b8x8[0].bipred);
 
-      //===== compute prediction residual ======      
+      //===== compute prediction residual ======
       compute_residue (&p_Vid->pCurImg[currMB->opix_y], *currSlice->mb_pred, *currSlice->mb_ores, 0, currMB->pix_x, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
 
       // Luma residual coding (16x16 mode)
       for (block8x8 = 0; block8x8 < 4; ++block8x8)
-      {    
+      {
         sum_cnt_nonz += luma_residual_coding_16x16 (currMB, block8x8, list_mode);
       }
     }
@@ -1283,7 +1283,7 @@ void luma_residual_coding (Macroblock *currMB)
       currMB->cbp_blk &= 0xff0000 ;
 
       copy_image_data_16x16(&p_Vid->enc_picture->imgY[currMB->pix_y], currSlice->mb_pred[0], currMB->pix_x, 0);
-      //memset( currSlice->cofAC[0][0][0], 0, 2080 * sizeof(int)); // 4 * 4 * 2 * 65    
+      //memset( currSlice->cofAC[0][0][0], 0, 2080 * sizeof(int)); // 4 * 4 * 2 * 65
     }
   }
 }
@@ -1307,7 +1307,7 @@ void luma_residual_coding_sp (Macroblock *currMB)
   short p_dir = 0;
   int sum_cnt_nonz = 0;
 
-  int is_skip = currSlice->slice_type == P_SLICE && currMB->mb_type == PSKIP;   
+  int is_skip = currSlice->slice_type == P_SLICE && currMB->mb_type == PSKIP;
 
   currMB->cbp     = 0;
   currMB->cbp_blk = 0;
@@ -1318,12 +1318,12 @@ void luma_residual_coding_sp (Macroblock *currMB)
   if (is_skip || currMB->mb_type == 1)
   {
     for (block8x8=0; block8x8<4; ++block8x8)
-    {    
+    {
       currSlice->set_modes_and_reframe (currMB, block8x8, &p_dir, list_mode, list_ref_idx);
     }
 
     //===== luma prediction ======
-    p_Dpb->pf_luma_prediction (currMB, 0, 0, 16, 16, p_dir, list_mode, list_ref_idx, currMB->b8x8[0].bipred); 
+    p_Dpb->pf_luma_prediction (currMB, 0, 0, 16, 16, p_dir, list_mode, list_ref_idx, currMB->b8x8[0].bipred);
 
     //===== compute prediction residual ======
     // We should not need to compute this for skip mode, but currently computed for "debugging" purposes
@@ -1333,7 +1333,7 @@ void luma_residual_coding_sp (Macroblock *currMB)
     if (!is_skip)
     {
       for (block8x8=0; block8x8<4; ++block8x8)
-      {    
+      {
         sum_cnt_nonz += luma_residual_coding_16x16 (currMB, block8x8, list_mode);
       }
     }
@@ -1349,7 +1349,7 @@ void luma_residual_coding_sp (Macroblock *currMB)
 
   // reset information (coefficient thresholding)
 
-  if ((is_skip || 
+  if ((is_skip ||
     (sum_cnt_nonz <= _LUMA_MB_COEFF_COST_ && ((currMB->qp_scaled[PLANE_Y])!=0 || p_Vid->active_sps->lossless_qpprime_flag == 0))))// modif ES added last set of conditions
   {
     currMB->cbp     &= 0xfffff0 ;
@@ -1388,7 +1388,7 @@ byte transform_decision (Macroblock *currMB, int block_check, distblk *cost)
     Slice *currSlice = currMB->p_Slice;
     DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
     int pic_pix_y, pic_pix_x, i, j;
-    int    mb_y, mb_x, block8x8;  
+    int    mb_y, mb_x, block8x8;
     int    list_mode[2];
     char   list_ref_idx[2];
     short  p_dir;
@@ -1422,7 +1422,7 @@ byte transform_decision (Macroblock *currMB, int block_check, distblk *cost)
       tmp16[3] = diff16[3];
 
       currSlice->set_modes_and_reframe (currMB, block8x8, &p_dir, list_mode, list_ref_idx);
-      bipred_me = currMB->b8x8[block8x8].bipred; 
+      bipred_me = currMB->b8x8[block8x8].bipred;
       mb_y = (block8x8 >> 1) << 3;
       mb_x = (block8x8 & 0x01) << 3;
 
@@ -1478,7 +1478,7 @@ void chroma_residual_coding (Macroblock *currMB)
   char  list_ref_idx[2];
   short p_dir;
   int   skipped = (currMB->mb_type == 0 && (currSlice->slice_type == P_SLICE));
-  int   yuv = p_Vid->yuv_format - 1; 
+  int   yuv = p_Vid->yuv_format - 1;
 
   for (uv = 0; uv < 2; ++uv)
   {
@@ -1492,7 +1492,7 @@ void chroma_residual_coding (Macroblock *currMB)
         {
           int block8 = block8x8_idx[yuv][block_y>>2][block_x>>2];
           currSlice->set_modes_and_reframe (currMB, block8, &p_dir, list_mode, list_ref_idx);
-          IntraChromaPrediction4x4 (currMB, uv + 1, block_x, block_y);          
+          IntraChromaPrediction4x4 (currMB, uv + 1, block_x, block_y);
         }
       }
     }
@@ -1515,7 +1515,7 @@ void chroma_residual_coding (Macroblock *currMB)
     if (currSlice->NoResidueDirect)
     {
       copy_image_data(&p_Vid->enc_picture->imgUV[uv][currMB->pix_c_y], currSlice->mb_pred[ uv + 1], currMB->pix_c_x, 0, p_Vid->mb_cr_size_x, p_Vid->mb_cr_size_y);
-    }        
+    }
     else if (skipped)
     {
       copy_image_data(&p_Vid->enc_picture->imgUV[uv][currMB->pix_c_y], currSlice->mb_pred[ uv + 1], currMB->pix_c_x, 0, p_Vid->mb_cr_size_x, p_Vid->mb_cr_size_y);
@@ -1548,7 +1548,7 @@ void chroma_residual_coding_si (Macroblock *currMB)
   int   list_mode[2];
   char  list_ref_idx[2];
   short p_dir;
-  int   yuv = p_Vid->yuv_format - 1; 
+  int   yuv = p_Vid->yuv_format - 1;
 
   for (uv = 0; uv < 2; ++uv)
   {
@@ -1559,7 +1559,7 @@ void chroma_residual_coding_si (Macroblock *currMB)
       {
         int block8 = block8x8_idx[yuv][block_y>>2][block_x>>2];
         currSlice->set_modes_and_reframe (currMB, block8, &p_dir, list_mode, list_ref_idx);
-        IntraChromaPrediction4x4 (currMB, uv + 1, block_x, block_y);          
+        IntraChromaPrediction4x4 (currMB, uv + 1, block_x, block_y);
       }
     }
 
@@ -1597,7 +1597,7 @@ void chroma_residual_coding_sp (Macroblock *currMB)
   char  list_ref_idx[2];
   short p_dir;
   int   skipped = (currMB->mb_type == 0);
-  int   yuv = p_Vid->yuv_format - 1; 
+  int   yuv = p_Vid->yuv_format - 1;
 
 
   for (chroma_cbp = 0, uv=0; uv<2; ++uv)
@@ -1612,7 +1612,7 @@ void chroma_residual_coding_sp (Macroblock *currMB)
         {
           int block8 = block8x8_idx[yuv][block_y>>2][block_x>>2];
           currSlice->set_modes_and_reframe (currMB, block8, &p_dir, list_mode, list_ref_idx);
-          IntraChromaPrediction4x4 (currMB, uv + 1, block_x, block_y);          
+          IntraChromaPrediction4x4 (currMB, uv + 1, block_x, block_y);
         }
       }
     }
@@ -1642,7 +1642,7 @@ void chroma_residual_coding_sp (Macroblock *currMB)
         memset(currSlice->mb_ores[uv + 1][j], 0 , p_Vid->mb_cr_size_x * sizeof(int));
       for (j=0; j<p_Vid->mb_cr_size_y; ++j)
         memset(currSlice->mb_rres[uv + 1][j], 0 , p_Vid->mb_cr_size_x * sizeof(int));
-    }   
+    }
     else
     {
       compute_residue(&p_Vid->pImgOrg[uv + 1][currMB->opix_c_y ], &currSlice->mb_pred[ uv + 1][0], &currSlice->mb_ores[uv + 1][0], 0, currMB->pix_c_x, p_Vid->mb_cr_size_x, p_Vid->mb_cr_size_y);
@@ -1849,7 +1849,7 @@ static int writeIntra4x4Modes(Macroblock *currMB)
 */
 static int writeIntra8x8Modes(Macroblock *currMB)
 {
-  Slice *currSlice = currMB->p_Slice;  
+  Slice *currSlice = currMB->p_Slice;
   int block8x8;
   SyntaxElement se;
   BitCounter    *mbBits     = &currMB->bits;
@@ -1925,14 +1925,14 @@ static int writeIPCMLuma (Macroblock *currMB, imgpel **imgY, Bitstream *currStre
 
   *bitCount += bit_size;
   se->len   = p_Vid->bitdepth_luma;
-  se->type  = SE_MBTYPE;   
+  se->type  = SE_MBTYPE;
 
   for (j = currMB->pix_y; j < currMB->pix_y + MB_BLOCK_SIZE; ++j)
-  {      
+  {
     for (i = currMB->pix_x; i < currMB->pix_x + MB_BLOCK_SIZE; ++i)
-    {            
+    {
       se->bitpattern = imax(p_Vid->min_IPCM_value, imgY[j][i]);
-      se->value1 = se->bitpattern;      
+      se->value1 = se->bitpattern;
 #if TRACE
       snprintf(se->tracestring, TRACESTRING_SIZE, "pcm_sample_luma (%d %d) = %d", j, i, se->bitpattern);
 #endif
@@ -1974,7 +1974,7 @@ static int writeIPCMByteAlign(Bitstream *currStream, SyntaxElement *se, int *bit
   {
     // This will only happen in the CAVLC case, CABAC is already padded
     se->type  = SE_MBTYPE;
-    se->len   = currStream->bits_to_go;      
+    se->len   = currStream->bits_to_go;
     *bitCount += se->len;
     se->bitpattern = 0;
 #if TRACE
@@ -1984,7 +1984,7 @@ static int writeIPCMByteAlign(Bitstream *currStream, SyntaxElement *se, int *bit
 
     return se->len;
   }
-  else 
+  else
     return 0;
 }
 
@@ -2050,19 +2050,19 @@ int write_b_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
 
   int             i;
   int             mb_nr      = currMB->mbAddrX;
-  Macroblock     *prevMB     = currMB->PrevMB; 
+  Macroblock     *prevMB     = currMB->PrevMB;
   int             prev_mb_nr = (NULL == prevMB) ? -1 : prevMB->mbAddrX;
-  
+
   SyntaxElement   se;
-  BitCounter      *mbBits    = &currMB->bits;  
+  BitCounter      *mbBits    = &currMB->bits;
   const int*      partMap    = assignSE2partition[currSlice->partition_mode];
   // choose the appropriate data partition
   DataPartition*  dataPart   = &(currSlice->partArr[partMap[SE_MBTYPE]]);
   Bitstream      *currStream;
 
   int             no_bits    = 0;
-  int             skip       = currMB->mb_type ? 0 : !currMB->cbp;  
-  int             prevMbSkipped = 0;  
+  int             skip       = currMB->mb_type ? 0 : !currMB->cbp;
+  int             prevMbSkipped = 0;
   int             WriteFrameFieldMBInHeader = 0;
 
   if (currSlice->mb_aff_frame_flag)
@@ -2096,7 +2096,7 @@ int write_b_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
       currMB->mb_field = mb_field_tmp;
     }
 
-    //========= write mb_skip_flag (CABAC) =========    
+    //========= write mb_skip_flag (CABAC) =========
     se.value1  = mb_type;
     se.value2  = currMB->cbp;
     se.type    = SE_MBTYPE;
@@ -2227,7 +2227,7 @@ int write_b_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
   currMB->NoMbPartLessThan8x8Flag = (currMB->mb_type == 0 && !(p_Vid->active_sps->direct_8x8_inference_flag))? FALSE : TRUE;
 
   if (currMB->mb_type == IPCM)
-  {    
+  {
     no_bits += writeIPCMData(currMB, &(currSlice->partArr[partMap[SE_LUM_DC_INTRA]]));
     return no_bits;
   }
@@ -2250,7 +2250,7 @@ int write_b_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
       no_bits  += se.len;
 
       //set NoMbPartLessThan8x8Flag for P8x8 mode
-      currMB->NoMbPartLessThan8x8Flag &= (Boolean) ((currMB->b8x8[i].mode == 0 && p_Vid->active_sps->direct_8x8_inference_flag) 
+      currMB->NoMbPartLessThan8x8Flag &= (Boolean) ((currMB->b8x8[i].mode == 0 && p_Vid->active_sps->direct_8x8_inference_flag)
                                                     || (currMB->b8x8[i].mode == 4));
     }
 
@@ -2281,7 +2281,7 @@ int write_b_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
     no_bits += write_chroma_intra_pred_mode(currMB);
   else if(!rdopt) //GB CHROMA !!!!!
   {
-    currMB->c_ipred_mode = DC_PRED_8;     
+    currMB->c_ipred_mode = DC_PRED_8;
   }
   //setting c_ipred_mode to default is not the right place here
   //resetting in rdopt.c (but where ??)
@@ -2335,19 +2335,19 @@ int write_p_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
 
   int             i;
   int             mb_nr      = currMB->mbAddrX;
-  Macroblock     *prevMB     = currMB->PrevMB; 
+  Macroblock     *prevMB     = currMB->PrevMB;
   int             prev_mb_nr = (NULL == prevMB) ? -1 : prevMB->mbAddrX;
-  
+
   SyntaxElement   se;
-  BitCounter      *mbBits    = &currMB->bits;  
+  BitCounter      *mbBits    = &currMB->bits;
   const int*      partMap    = assignSE2partition[currSlice->partition_mode];
   // choose the appropriate data partition
   DataPartition*  dataPart   = &(currSlice->partArr[partMap[SE_MBTYPE]]);
   Bitstream      *currStream;
-  
+
   int             no_bits    = 0;
-  int             skip       = currMB->mb_type ? 0 : 1;  
-  int             prevMbSkipped = 0;  
+  int             skip       = currMB->mb_type ? 0 : 1;
+  int             prevMbSkipped = 0;
   int             WriteFrameFieldMBInHeader = 0;
 
   if (currSlice->mb_aff_frame_flag)
@@ -2381,7 +2381,7 @@ int write_p_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
       currMB->mb_field = mb_field_tmp;
     }
 
-    //========= write mb_skip_flag (CABAC) =========    
+    //========= write mb_skip_flag (CABAC) =========
     se.value1  = mb_type;
     se.value2  = currMB->cbp;
     se.type    = SE_MBTYPE;
@@ -2512,7 +2512,7 @@ int write_p_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
   currMB->NoMbPartLessThan8x8Flag = TRUE;
 
   if (currMB->mb_type == IPCM)
-  {    
+  {
     no_bits += writeIPCMData(currMB, &(currSlice->partArr[partMap[SE_LUM_DC_INTRA]]));
     return no_bits;
   }
@@ -2535,7 +2535,7 @@ int write_p_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
       no_bits         += se.len;
 
       //set NoMbPartLessThan8x8Flag for P8x8 mode
-      currMB->NoMbPartLessThan8x8Flag &= (Boolean) ((currMB->b8x8[i].mode == 0 && p_Vid->active_sps->direct_8x8_inference_flag) 
+      currMB->NoMbPartLessThan8x8Flag &= (Boolean) ((currMB->b8x8[i].mode == 0 && p_Vid->active_sps->direct_8x8_inference_flag)
                                                     || (currMB->b8x8[i].mode ==4));
     }
 
@@ -2566,7 +2566,7 @@ int write_p_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
     no_bits += write_chroma_intra_pred_mode(currMB);
   else if(!rdopt) //GB CHROMA !!!!!
   {
-    currMB->c_ipred_mode = DC_PRED_8;     
+    currMB->c_ipred_mode = DC_PRED_8;
   }
   //setting c_ipred_mode to default is not the right place here
   //resetting in rdopt.c (but where ??)
@@ -2596,7 +2596,7 @@ int write_p_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
     }
     no_bits  += *coeff_rate;
   }
-  
+
   return no_bits;
 }
 
@@ -2608,10 +2608,10 @@ int write_i_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
   Slice *currSlice = currMB->p_Slice;
 
   int             mb_nr      = currMB->mbAddrX;
-  Macroblock     *prevMB     = currMB->PrevMB; 
+  Macroblock     *prevMB     = currMB->PrevMB;
 
   SyntaxElement   se;
-  BitCounter      *mbBits    = &currMB->bits;  
+  BitCounter      *mbBits    = &currMB->bits;
   const int*      partMap    = assignSE2partition[currSlice->partition_mode];
   // choose the appropriate data partition
   DataPartition*  dataPart   = &(currSlice->partArr[partMap[SE_MBTYPE]]);
@@ -2699,7 +2699,7 @@ int write_i_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
     no_bits += write_chroma_intra_pred_mode(currMB);
   else if(!rdopt) //GB CHROMA !!!!!
   {
-    currMB->c_ipred_mode = DC_PRED_8;     
+    currMB->c_ipred_mode = DC_PRED_8;
   }
   //setting c_ipred_mode to default is not the right place here
   //resetting in rdopt.c (but where ??)
@@ -2719,7 +2719,7 @@ int write_i_slice_MB_layer (Macroblock *currMB, int rdopt, int *coeff_rate)
     else
       *coeff_rate  += write_chroma_coeff (currMB);
   }
-  
+
   no_bits  += *coeff_rate;
 
   return no_bits;
@@ -2752,7 +2752,7 @@ int write_chroma_intra_pred_mode(Macroblock* currMB)
   const int*      partMap   = assignSE2partition[currSlice->partition_mode];
   DataPartition*  dataPart = &(currSlice->partArr[partMap[SE_INTRAPREDMODE]]);
   int             rate      = 0;
-  
+
 
   //===== BITS FOR CHROMA INTRA PREDICTION MODES
 
@@ -2813,7 +2813,7 @@ int is_interview_mb(Macroblock *currMB)
     return (iRefIdx==0);
   }
   for (j=0; j<4; j+=step_v0)
-  {        
+  {
     for (i=0; i<4; i +=step_h0)
     {
       k = j + (i >> 1);
@@ -2909,9 +2909,9 @@ void write_macroblock (Macroblock* currMB, int eos_bit)
   }
 
   //--- set total bit-counter ---
-  mbBits->mb_total = mbBits->mb_mode  
+  mbBits->mb_total = mbBits->mb_mode
     + mbBits->mb_y_coeff
-    + mbBits->mb_inter 
+    + mbBits->mb_inter
     + mbBits->mb_cbp
     + mbBits->mb_delta_quant
     + mbBits->mb_uv_coeff
@@ -2919,11 +2919,11 @@ void write_macroblock (Macroblock* currMB, int eos_bit)
     + mbBits->mb_cr_coeff;
 
   if ( p_Inp->RCEnable )
-    rc_update_mb_stats(currMB);  
+    rc_update_mb_stats(currMB);
 
   /*record the total number of MBs*/
   ++(p_Vid->NumberofCodedMacroBlocks);
-  
+
   p_Vid->p_Stats->bit_slice += mbBits->mb_total;
 
   p_Vid->cabac_encoding = 0;
@@ -2943,7 +2943,7 @@ int writeReferenceFrame (Macroblock* currMB, int i, int j, int list_idx, int  re
   const int*      partMap   = assignSE2partition[currSlice->partition_mode];
   DataPartition*  dataPart  = &(currSlice->partArr[partMap[SE_REFFRAME]]);
   int             list      = list_idx + currMB->list_offset;
-  SyntaxElement   se;   
+  SyntaxElement   se;
 
   se.value1 = ref;
   se.type   = SE_REFFRAME;
@@ -2962,7 +2962,7 @@ int writeReferenceFrame (Macroblock* currMB, int i, int j, int list_idx, int  re
   currSlice->writeRefFrame[list](currMB, &se, dataPart);
 
   mbBits->mb_inter = mbBits->mb_inter + (unsigned short) se.len;
-  
+
   return (se.len);
 }
 
@@ -2973,7 +2973,7 @@ int writeReferenceFrame (Macroblock* currMB, int i, int j, int list_idx, int  re
  *    Writes motion vectors of an 8x8 block
  ************************************************************************
  */
-int writeMotionVector8x8 (Macroblock *currMB, 
+int writeMotionVector8x8 (Macroblock *currMB,
                           int  i0,
                           int  j0,
                           int  i1,
@@ -2996,34 +2996,34 @@ int writeMotionVector8x8 (Macroblock *currMB,
   int            step_v     = part_size[mv_mode][1];
   SyntaxElement  se;
   BitCounter      *mbBits   = &currMB->bits;
-  
-  const int*     partMap    = assignSE2partition[currSlice->partition_mode];    
-  DataPartition* dataPart = &(currSlice->partArr[partMap[SE_MVD]]);        
+
+  const int*     partMap    = assignSE2partition[currSlice->partition_mode];
+  DataPartition* dataPart = &(currSlice->partArr[partMap[SE_MVD]]);
   int            refindex   = refframe;
 
   MotionVector **all_mv     = currSlice->all_mv[list_idx][refindex][mv_mode];
   MotionVector *cur_mv;
-  MotionVector predMV; 
+  MotionVector predMV;
   PicMotionParams **motion = p_Vid->enc_picture->mv_info;
   //MotionVector   **final_mv = &motion->mv[list_idx][currMB->block_y];
   short mvd[2];
-  short         (*currMB_mvd)[4][2] = currMB->mvd[list_idx]; 
+  short         (*currMB_mvd)[4][2] = currMB->mvd[list_idx];
   se.type   = SE_MVD;
 
   if (bipred_me && is_bipred_enabled(p_Vid, mv_mode) && refindex == 0)
-    all_mv = currSlice->bipred_mv[bipred_me - 1][list_idx][refindex][mv_mode]; 
+    all_mv = currSlice->bipred_mv[bipred_me - 1][list_idx][refindex][mv_mode];
 
   for (j = j0; j < j1; j += step_v)
   {
-    currMB->subblock_y = (short) (j << 2); // position used for context determination    
+    currMB->subblock_y = (short) (j << 2); // position used for context determination
     for (i = i0; i < i1; i += step_h)
     {
-      currMB->subblock_x = (short) (i << 2); // position used for context determination      
+      currMB->subblock_x = (short) (i << 2); // position used for context determination
       // When writing mv, let us use final mv instead of all_mv structure
       if (currMB->write_mb)
         cur_mv = &motion[currMB->block_y + j][currMB->block_x + i].mv[list_idx];
       else
-        cur_mv = &all_mv[j][i];      
+        cur_mv = &all_mv[j][i];
 
       // Lets recompute MV predictor. This should avoid any problems with alterations of the motion vectors after ME
       get_neighbors(currMB, block, i<<2, j<<2, step_h<<2);
@@ -3084,12 +3084,12 @@ int write_b_slice_motion_info_to_NAL (Macroblock* currMB)
 
     int   step_h0 = (block_size[(currMB->mb_type == P8x8) ? 4 : currMB->mb_type][0] >> 2);
     int   step_v0 = (block_size[(currMB->mb_type == P8x8) ? 4 : currMB->mb_type][1] >> 2);
-      
+
     // Disable for now so we can check MBAFF
     //if (currSlice->listXsize[0] > 1)
     {
       for (j0 = 0; j0 < 4; j0 += step_v0)
-      {        
+      {
         for (i0 = 0; i0 < 4; i0 += step_h0)
         {
           k = j0 + (i0 >> 1);
@@ -3104,7 +3104,7 @@ int write_b_slice_motion_info_to_NAL (Macroblock* currMB)
     //if (currSlice->listXsize[1] > 1)
     {
       for (j0 = 0; j0 < 4; j0 += step_v0)
-      {                
+      {
         for (i0 = 0; i0 < 4; i0 += step_h0)
         {
           k = j0 + (i0 >> 1);
@@ -3125,7 +3125,7 @@ int write_b_slice_motion_info_to_NAL (Macroblock* currMB)
         if (currMB->b8x8[k].mode !=0 && (currMB->b8x8[k].pdir == 0 || currMB->b8x8[k].pdir == 2))//has forward vector
         {
 
-          no_bits  += writeMotionVector8x8 (currMB, i0, j0, i0 + step_h0, j0 + step_v0, motion[currMB->block_y + j0][currMB->block_x + i0].ref_idx[LIST_0], 
+          no_bits  += writeMotionVector8x8 (currMB, i0, j0, i0 + step_h0, j0 + step_v0, motion[currMB->block_y + j0][currMB->block_x + i0].ref_idx[LIST_0],
             LIST_0, currMB->b8x8[k].mode, currMB->b8x8[k].bipred);
         }
       }
@@ -3139,8 +3139,8 @@ int write_b_slice_motion_info_to_NAL (Macroblock* currMB)
       {
         k=j0+(i0 >> 1);
         if (currMB->b8x8[k].mode !=0 && (currMB->b8x8[k].pdir == 1 || currMB->b8x8[k].pdir == 2))//has backward vector
-        {          
-          no_bits  += writeMotionVector8x8 (currMB, i0, j0, i0+step_h0, j0+step_v0, motion[currMB->block_y + j0][currMB->block_x + i0].ref_idx[LIST_1], 
+        {
+          no_bits  += writeMotionVector8x8 (currMB, i0, j0, i0+step_h0, j0+step_v0, motion[currMB->block_y + j0][currMB->block_x + i0].ref_idx[LIST_1],
             LIST_1, currMB->b8x8[k].mode, currMB->b8x8[k].bipred);
         }
       }
@@ -3166,7 +3166,7 @@ int write_p_slice_motion_info_to_NAL (Macroblock* currMB)
     Slice* currSlice = currMB->p_Slice;
     VideoParameters *p_Vid = currSlice->p_Vid;
     PicMotionParams **motion = p_Vid->enc_picture->mv_info;
-    int   k, j0, i0;    
+    int   k, j0, i0;
     int   step_h0         = (block_size[(currMB->mb_type == P8x8) ? 4 : currMB->mb_type][0] >> 2);
     int   step_v0         = (block_size[(currMB->mb_type == P8x8) ? 4 : currMB->mb_type][1] >> 2);
 
@@ -3185,7 +3185,7 @@ int write_p_slice_motion_info_to_NAL (Macroblock* currMB)
         }
       }
     }
-    
+
     //===== write forward motion vectors =====
     for (j0=0; j0<4; j0+=step_v0)
     {
@@ -3294,7 +3294,7 @@ static int write_chroma_coeff (Macroblock* currMB)
         for (k=0; k <= p_Vid->num_cdc_coeff && level != 0; ++k)
         {
           level = se.value1 = DCLevel[k]; // level
-          se.value2 = DCRun  [k]; // run       
+          se.value2 = DCRun  [k]; // run
 
 #if TRACE
           snprintf(se.tracestring, TRACESTRING_SIZE, "DC Chroma %2d: level =%3d run =%2d",k, level, se.value2);
@@ -3377,7 +3377,7 @@ static inline void trace_coeff(SyntaxElement *se, int plane, char *type, int k, 
   else if (plane == 1)
     snprintf(se->tracestring, TRACESTRING_SIZE, "Cb%s   sng(%2d) level =%3d run =%2d", type, k, level,run);
   else
-    snprintf(se->tracestring, TRACESTRING_SIZE, "Cr%s   sng(%2d) level =%3d run =%2d", type, k, level,run);        
+    snprintf(se->tracestring, TRACESTRING_SIZE, "Cr%s   sng(%2d) level =%3d run =%2d", type, k, level,run);
 }
 #endif
 
@@ -3422,7 +3422,7 @@ int writeCoeff4x4_CABAC (Macroblock* currMB, ColorPlane plane, int b8, int b4, i
   trace_coeff(&se, plane, "4x4", 0, level, se.value2);
 #endif
 
-  writeRunLevel_CABAC(currMB, &se, dataPart);    
+  writeRunLevel_CABAC(currMB, &se, dataPart);
   rate                    += se.len;
 
   // AC Coefficients
@@ -3433,11 +3433,11 @@ int writeCoeff4x4_CABAC (Macroblock* currMB, ColorPlane plane, int b8, int b4, i
   for(k = 1; k <= 16 && level != 0; k++)
   {
     level = se.value1 = ACLevel[k]; // level
-    se.value2 = ACRun  [k]; // run    
+    se.value2 = ACRun  [k]; // run
 #if TRACE
     trace_coeff(&se, plane, "4x4", k, level, se.value2);
 #endif
-    writeRunLevel_CABAC(currMB, &se, dataPart);    
+    writeRunLevel_CABAC(currMB, &se, dataPart);
 
     rate += se.len;
   }
@@ -3458,14 +3458,14 @@ int writeCoeff8x8_CABAC (Macroblock* currMB, ColorPlane plane, int b8, int intra
   Slice* currSlice = currMB->p_Slice;
 
   int             rate      = 0;
-  SyntaxElement   se;   
+  SyntaxElement   se;
   const int*      partMap   = assignSE2partition[currSlice->partition_mode];
   DataPartition*  dataPart;
 
   int   level;
   int   k;
 
-  int pl_off = plane<<2;  
+  int pl_off = plane<<2;
   int *mb_bits_coeff = ((plane==0) ? &currMB->bits.mb_y_coeff : ((plane==1) ? &currMB->bits.mb_cb_coeff : &currMB->bits.mb_cr_coeff));
   int*  ACLevel = currSlice->cofAC[b8+pl_off][0][0];
   int*  ACRun   = currSlice->cofAC[b8+pl_off][0][1];
@@ -3475,7 +3475,7 @@ int writeCoeff8x8_CABAC (Macroblock* currMB, ColorPlane plane, int b8, int intra
   currMB->is_intra_block = (byte) intra_mode;
 
   se.context = ((plane==0) ? (LUMA_8x8) : ((plane == 1)? CB_8x8 : CR_8x8));
-  
+
   // DC
   level = se.value1 = ACLevel[0]; // level
   se.value2 = ACRun  [0]; // run
@@ -3524,7 +3524,7 @@ int writeCoeff8x8 (Macroblock* currMB, ColorPlane pl, int block8x8, int block_mo
 {
   Slice* currSlice = currMB->p_Slice;
   int  rate = 0;
-  int  is_intra = (block_mode == IBLOCK) || (block_mode == I8MB);  
+  int  is_intra = (block_mode == IBLOCK) || (block_mode == I8MB);
 
   //if (block_mode == I8MB)
     //assert(transform_size_flag == 1);
@@ -3548,7 +3548,7 @@ int writeCoeff8x8 (Macroblock* currMB, ColorPlane pl, int block8x8, int block_mo
       rate += writeCoeff4x4_CABAC (currMB, pl, block8x8, 1, is_intra);
       rate += writeCoeff4x4_CABAC (currMB, pl, block8x8, 2, is_intra);
       rate += writeCoeff4x4_CABAC (currMB, pl, block8x8, 3, is_intra);
-    }      
+    }
   }
 
   return rate;
@@ -3562,15 +3562,15 @@ int writeCoeff8x8 (Macroblock* currMB, ColorPlane pl, int block8x8, int block_mo
  */
 int write_CBP_and_Dquant (Macroblock* currMB)
 {
-  Slice* currSlice = currMB->p_Slice;  
+  Slice* currSlice = currMB->p_Slice;
 
   int             rate      = 0;
   BitCounter      *mbBits = &currMB->bits;
   SyntaxElement   se;
   const int*      partMap   = assignSE2partition[currSlice->partition_mode];
   int             cbp       = currMB->cbp;
-  DataPartition*  dataPart;  
-  
+  DataPartition*  dataPart;
+
   se.value2 = 0; // Initialize value2 to avoid problems
 
   if (currMB->mb_type != I16MB)
@@ -3579,7 +3579,7 @@ int write_CBP_and_Dquant (Macroblock* currMB)
     int  need_transform_size_flag;   //ADD-VG-24062004
     //=====   C B P   =====
     //---------------------
-    se.value1 = cbp;    
+    se.value1 = cbp;
     se.type   = SE_CBP;
 
     // choose the appropriate data partition
@@ -3640,7 +3640,7 @@ int write_CBP_and_Dquant (Macroblock* currMB)
 /*!
 ************************************************************************
 * \brief
-*    Write Luma Coeffcients, as well as Cb and Cr Coefficients in the 
+*    Write Luma Coeffcients, as well as Cb and Cr Coefficients in the
 *    case of 444 common mode, of an macroblock
 ************************************************************************
 */
@@ -3654,7 +3654,7 @@ int writeCoeff16x16_CAVLC (Macroblock* currMB, ColorPlane plane)
   int   i, k;
   int   rate = 0;
 
-  int   b8, data_type; 
+  int   b8, data_type;
   int *mb_bits_coeff = ((plane==0) ? &currMB->bits.mb_y_coeff : ((plane==1) ? &currMB->bits.mb_cb_coeff : &currMB->bits.mb_cr_coeff));
 
   if (currSlice->P444_joined)
@@ -3673,7 +3673,7 @@ int writeCoeff16x16_CAVLC (Macroblock* currMB, ColorPlane plane)
   {
     //=====  L U M I N A N C E   =====
     //--------------------------------
-    for (i=0; i<4; i++)  
+    for (i=0; i<4; i++)
     {
       if (cbp & (1<<i))
       {
@@ -3697,10 +3697,10 @@ int writeCoeff16x16_CAVLC (Macroblock* currMB, ColorPlane plane)
       break;
     case 2:
       data_type = CR_INTRA16x16DC;
-      break;            
+      break;
     }
     rate += currSlice->writeCoeff4x4_CAVLC (currMB, data_type, 0, 0, 0);  // CAVLC
-    
+
 
     // AC coeffs
     if (cbp & 15)
@@ -3716,7 +3716,7 @@ int writeCoeff16x16_CAVLC (Macroblock* currMB, ColorPlane plane)
         break;
       case 2:
         data_type = CR_INTRA16x16AC;
-        break;            
+        break;
       }
 
       for (b8 = 0; b8 < 4; b8 ++)
@@ -3725,7 +3725,7 @@ int writeCoeff16x16_CAVLC (Macroblock* currMB, ColorPlane plane)
         rate += currSlice->writeCoeff4x4_CAVLC (currMB, data_type, b8, 1, 0);
         rate += currSlice->writeCoeff4x4_CAVLC (currMB, data_type, b8, 2, 0);
         rate += currSlice->writeCoeff4x4_CAVLC (currMB, data_type, b8, 3, 0);
-      }     
+      }
     }
   }
   mb_bits_coeff += rate;
@@ -3736,7 +3736,7 @@ int writeCoeff16x16_CAVLC (Macroblock* currMB, ColorPlane plane)
 /*!
 ************************************************************************
 * \brief
-*    Write Luma Coeffcients, as well as Cb and Cr Coefficients in the 
+*    Write Luma Coeffcients, as well as Cb and Cr Coefficients in the
 *    case of 444 common mode, of an macroblock
 ************************************************************************
 */
@@ -3750,10 +3750,10 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
   int             mb_x, mb_y, i, j, k;
   int             level;
   int             rate      = 0;
-  int             block_rate = 0;  
+  int             block_rate = 0;
   SyntaxElement   se;
   const int*      partMap   = assignSE2partition[currSlice->partition_mode];
-  int   pl_off = plane<<2; 
+  int   pl_off = plane<<2;
   DataPartition*  dataPart;
 
   int   b8, b4;
@@ -3761,7 +3761,7 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
   int*  DCRun   = currSlice->cofDC[plane][1];
   int*  ACLevel;
   int*  ACRun;
-  int   data_type; 
+  int   data_type;
   int*  mb_bits_coeff = ((plane==0) ? &currMB->bits.mb_y_coeff : ((plane==1) ? &currMB->bits.mb_cb_coeff : &currMB->bits.mb_cr_coeff));
 
   if (currSlice->P444_joined)
@@ -3782,7 +3782,7 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
     //--------------------------------
     if (cbp != 0)
     {
-      for (i=0; i<4; i++)  
+      for (i=0; i<4; i++)
       {
         if (cbp & (1<<i))
         {
@@ -3795,7 +3795,7 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
   {
     //=====  L U M I N A N C E   f o r   1 6 x 1 6   =====
     //----------------------------------------------------
-    // DC coeffs    
+    // DC coeffs
     currMB->is_intra_block = TRUE;
     switch (plane)
     {
@@ -3808,7 +3808,7 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
       break;
     case 2:
       data_type = CR_16DC;
-      break;            
+      break;
     }
 
     se.context = data_type;
@@ -3821,7 +3821,7 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
     for (k=0; k<=16 && level!=0; k++)
     {
       level = se.value1 = DCLevel[k]; // level
-      se.value2 = DCRun  [k]; // run   
+      se.value2 = DCRun  [k]; // run
 #if TRACE
       trace_coeff(&se, plane, "16x16 DC", k, level, se.value2);
 #endif
@@ -3845,7 +3845,7 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
         break;
       case 2:
         data_type = CR_16AC;
-        break;            
+        break;
       }
 
       se.context = data_type;
@@ -3860,7 +3860,7 @@ int writeCoeff16x16_CABAC (Macroblock* currMB, ColorPlane plane)
         for (mb_x = 0; mb_x < 4; mb_x += 2)
         {
           for (j = mb_y; j < mb_y + 2; j++)
-          {              
+          {
             int j1 = 2*(j >> 1);
             int j2 = 2*(j & 0x01);
             currMB->subblock_y = (short) (j << 2);
@@ -4073,7 +4073,7 @@ int writeCoeff4x4_CAVLC_normal (Macroblock* currMB, int block_type, int b8, int 
   const int           *partMap   = assignSE2partition[currSlice->partition_mode];
 
   int k,level = 1,run = 0, vlcnum;
-  int numcoeff = 0, lastcoeff = 0, numtrailingones = 0; 
+  int numcoeff = 0, lastcoeff = 0, numtrailingones = 0;
   int numones = 0, totzeros = 0, zerosleft, numcoef;
   int numcoeff_vlc;
   int code, level_two_or_higher;
@@ -4168,7 +4168,7 @@ int writeCoeff4x4_CAVLC_normal (Macroblock* currMB, int block_type, int b8, int 
     if (level)
     {
 
-      totzeros += run; 
+      totzeros += run;
       if (iabs(level) == 1)
       {
         numones ++;
@@ -4301,7 +4301,7 @@ int writeCoeff4x4_CAVLC_normal (Macroblock* currMB, int block_type, int b8, int 
         if (se.value1 > 0)
           se.value1 --;
         else
-          se.value1 ++;        
+          se.value1 ++;
       }
 
       //    encode level
@@ -4407,7 +4407,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
   const int *partMap   = assignSE2partition[currSlice->partition_mode];
 
   int k,level = 1,run = 0, vlcnum;
-  int numcoeff = 0, lastcoeff = 0, numtrailingones = 0; 
+  int numcoeff = 0, lastcoeff = 0, numtrailingones = 0;
   int numones = 0, totzeros = 0, zerosleft, numcoef;
   int numcoeff_vlc;
   int code, level_two_or_higher;
@@ -4462,7 +4462,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
 
     pLevel = currSlice->cofAC[4+b8][b4][0];
     pRun   = currSlice->cofAC[4+b8][b4][1];
-#if TRACE    
+#if TRACE
     sprintf(type, "%s", "CB");
 #endif
     dptype = (is_intra (currMB)) ? SE_LUM_AC_INTRA : SE_LUM_AC_INTER;
@@ -4473,7 +4473,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
 
     pLevel = currSlice->cofDC[1][0];
     pRun   = currSlice->cofDC[1][1];
-#if TRACE    
+#if TRACE
     sprintf(type, "%s", "CB_16DC");
 #endif
     dptype = SE_LUM_DC_INTRA;
@@ -4484,7 +4484,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
 
     pLevel = currSlice->cofAC[4+b8][b4][0];
     pRun   = currSlice->cofAC[4+b8][b4][1];
-#if TRACE    
+#if TRACE
     sprintf(type, "%s", "CB_16AC");
 #endif
     dptype = SE_LUM_AC_INTRA;
@@ -4496,7 +4496,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
 
     pLevel = currSlice->cofAC[8+b8][b4][0];
     pRun   = currSlice->cofAC[8+b8][b4][1];
-#if TRACE    
+#if TRACE
     sprintf(type, "%s", "CR");
 #endif
     dptype = (is_intra (currMB)) ? SE_LUM_AC_INTRA : SE_LUM_AC_INTER;
@@ -4507,7 +4507,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
 
     pLevel = currSlice->cofDC[2][0];
     pRun   = currSlice->cofDC[2][1];
-#if TRACE    
+#if TRACE
     sprintf(type, "%s", "CR_16DC");
 #endif
     dptype = SE_LUM_DC_INTRA;
@@ -4518,7 +4518,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
 
     pLevel = currSlice->cofAC[8+b8][b4][0];
     pRun   = currSlice->cofAC[8+b8][b4][1];
-#if TRACE    
+#if TRACE
     sprintf(type, "%s", "CR_16AC");
 #endif
     dptype = SE_LUM_AC_INTRA;
@@ -4602,21 +4602,21 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
       }
       p_Vid->nz_coeff [currMB->mbAddrX ][subblock_x][subblock_y] = numcoeff;
     }
-    else if (block_type==CB || block_type==CB_INTRA16x16DC 
+    else if (block_type==CB || block_type==CB_INTRA16x16DC
       || block_type==CB_INTRA16x16AC)
     {   //CB in the common mode in 4:4:4 profiles
-      subblock_x = ((b8 & 0x1) == 0)?(((b4 & 0x1) == 0) ? 0 : 1):(((b4 & 0x1) == 0) ? 2 : 3); 
+      subblock_x = ((b8 & 0x1) == 0)?(((b4 & 0x1) == 0) ? 0 : 1):(((b4 & 0x1) == 0) ? 2 : 3);
       // horiz. position for coeff_count context
-      subblock_y = (b8 < 2) ? ((b4 < 2) ? 0 : 1) : ((b4 < 2) ? 2 : 3); 
+      subblock_y = (b8 < 2) ? ((b4 < 2) ? 0 : 1) : ((b4 < 2) ? 2 : 3);
       // vert.  position for coeff_count context
       nnz = predict_nnz(currMB, CB, subblock_x,subblock_y);
       p_Vid->nz_coeff [currMB->mbAddrX ][subblock_x][4+subblock_y] = numcoeff;
     }
     else
-    { //CR in the common mode in 4:4:4 profiles 
-      subblock_x = ((b8 & 0x1) == 0)?(((b4 & 0x1) == 0) ? 0 : 1) : (((b4 & 0x1) == 0) ? 2 : 3); 
+    { //CR in the common mode in 4:4:4 profiles
+      subblock_x = ((b8 & 0x1) == 0)?(((b4 & 0x1) == 0) ? 0 : 1) : (((b4 & 0x1) == 0) ? 2 : 3);
       // horiz. position for coeff_count context
-      subblock_y = (b8 < 2) ? ((b4 < 2) ? 0 : 1) : ((b4 < 2) ? 2 : 3); 
+      subblock_y = (b8 < 2) ? ((b4 < 2) ? 0 : 1) : ((b4 < 2) ? 2 : 3);
       // vert.  position for coeff_count context
       nnz = predict_nnz(currMB, CR, subblock_x,subblock_y);
       p_Vid->nz_coeff [currMB->mbAddrX ][subblock_x][8+subblock_y] = numcoeff;
@@ -4663,7 +4663,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
     for (k = lastcoeff; k > lastcoeff - numtrailingones; k--)
     {
       level = pLevel[k]; // level
-      
+
       if (iabs(level) > 1)
       {
         printf("ERROR: level > 1\n");
@@ -4722,7 +4722,7 @@ int writeCoeff4x4_CAVLC_444 (Macroblock* currMB, int block_type, int b8, int b4,
         if (se.value1 > 0)
           se.value1 --;
         else
-          se.value1 ++;        
+          se.value1 ++;
       }
 
       //    encode level
@@ -4836,7 +4836,7 @@ void make_frame_picture_JV(VideoParameters *p_Vid)
   p_Vid->enc_frame_picture[0] = p_Vid->enc_frame_picture_JV[0];
 
   //copy;
-  if(p_Vid->currentSlice->nal_reference_idc) 
+  if(p_Vid->currentSlice->nal_reference_idc)
   {
     nsize = (p_Vid->enc_frame_picture_JV[0]->size_y/BLOCK_SIZE)*(p_Vid->enc_frame_picture_JV[0]->size_x/BLOCK_SIZE)*sizeof(PicMotionParams);
     memcpy( &(p_Vid->enc_frame_picture[0]->JVmv_info[PLANE_Y][0][0]), &(p_Vid->enc_frame_picture_JV[PLANE_Y]->mv_info[0][0]), nsize);

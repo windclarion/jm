@@ -205,7 +205,7 @@ int WriteRTPPacket (RTPpacket_t *p, FILE *f)
 int WriteRTPNALU (VideoParameters *p_Vid, NALU_t *n, FILE **f_rtp)
 {
   RTPpacket_t *p;
-  
+
   byte first_byte;
 
   assert ((*f_rtp) != NULL);

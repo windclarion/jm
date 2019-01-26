@@ -57,7 +57,7 @@
  ************************************************************************
  * \brief
   *
- * \param 
+ * \param
  ************************************************************************
  */
 
@@ -67,9 +67,9 @@ static void fillHMEIntImageMargin(imgpel **dstImg, int size_x, int size_y, int o
   int size_x_minus1 = size_x - 1;
   int size_x_padded = size_x+2*offset_x;
   int size_y_padded = size_y+2*offset_y;
-  
+
   imgpel *wBufSrc, *wBufDst;
-  
+
   // Copy top line
   wBufDst = dstImg[-offset_y]-offset_x;
   wBufSrc = dstImg[0];
@@ -82,14 +82,14 @@ static void fillHMEIntImageMargin(imgpel **dstImg, int size_x, int size_y, int o
   // right IMG_PAD_SIZE
   for (i = 0; i < offset_x; i++)
     *(wBufDst++) = wBufSrc[size_x_minus1];
-  
+
   // Now copy remaining pad lines
   wBufSrc = dstImg[-offset_y]-offset_x;
   for (j = 1-offset_y; j < 0; j++)
   {
     memcpy(dstImg[j]-offset_x, wBufSrc, size_x_padded * sizeof(imgpel));
   }
-  
+
   for (j = 0; j < size_y; j++)
   {
     wBufDst = dstImg[j]-offset_x; // 4:4:4 independent mode
@@ -102,7 +102,7 @@ static void fillHMEIntImageMargin(imgpel **dstImg, int size_x, int size_y, int o
     for (i = 0; i < offset_x; i++)
       *(wBufDst++) = wBufSrc[size_x_minus1];
   }
-  
+
   // Replicate bottom pad lines
   wBufSrc = dstImg[size_y-1]-offset_x;
   for (j = size_y; j < size_y_padded-offset_y; j++)

@@ -237,20 +237,20 @@ void SetMotionVectorsMBPSlice (Macroblock* currMB)
   {
     l0_ref = mv_info[currMB->block_y][currMB->block_x].ref_idx[LIST_0];
     CopyMVBlock8(&mv_info[currMB->block_y], all_mv[l0_ref][P8x16], LIST_0, currMB->block_x    , 0, 4, 0);
-    
+
     l0_ref = mv_info[currMB->block_y][currMB->block_x + 2].ref_idx[LIST_0];
     CopyMVBlock8(&mv_info[currMB->block_y], all_mv[l0_ref][P8x16], LIST_0, currMB->block_x + 2, 0, 4, 2);
-  } 
+  }
   else if (currMB->mb_type == P8x8) // 8x8
   {
     mode8 = currMB->b8x8[0].mode;
     l0_ref = mv_info[currMB->block_y    ][currMB->block_x    ].ref_idx[LIST_0];
     CopyMVBlock8(&mv_info[currMB->block_y], all_mv[l0_ref][mode8], LIST_0, currMB->block_x    , 0, 2, 0);
-    
+
     mode8 = currMB->b8x8[1].mode;
     l0_ref = mv_info[currMB->block_y    ][currMB->block_x + 2].ref_idx[LIST_0];
     CopyMVBlock8(&mv_info[currMB->block_y], all_mv[l0_ref][mode8], LIST_0, currMB->block_x + 2, 0, 2, 2);
-    
+
     mode8 = currMB->b8x8[2].mode;
     l0_ref = mv_info[currMB->block_y + 2][currMB->block_x    ].ref_idx[LIST_0];
     CopyMVBlock8(&mv_info[currMB->block_y], all_mv[l0_ref][mode8], LIST_0, currMB->block_x, 2, 4, 0);
@@ -275,7 +275,7 @@ static void SetMVBSlice16x8(Slice *currSlice, PicMotionParams **motion, Macroblo
 {
   int l0_ref, l1_ref;
   int pdir = currMB->b8x8[pos].pdir;
-  if (pdir == LIST_0) 
+  if (pdir == LIST_0)
   {
     l0_ref = motion[currMB->block_y + pos][currMB->block_x].ref_idx[LIST_0];
     CopyMVBlock16(motion, currSlice->all_mv [LIST_0][l0_ref][P16x8], LIST_0, currMB->block_x, currMB->block_y, pos, pos + 2);
@@ -293,7 +293,7 @@ static void SetMVBSlice16x8(Slice *currSlice, PicMotionParams **motion, Macroblo
     MotionVector *****all_mv = bipred_me ? currSlice->bipred_mv[bipred_me - 1]: currSlice->all_mv;
     l0_ref = motion[currMB->block_y + pos][currMB->block_x].ref_idx[LIST_0];
     CopyMVBlock16 (motion, all_mv [LIST_0][l0_ref][P16x8], LIST_0, currMB->block_x, currMB->block_y, pos, pos + 2);
-    
+
     l1_ref = motion[currMB->block_y + pos][currMB->block_x].ref_idx[LIST_1];
     CopyMVBlock16 (motion, all_mv [LIST_1][l1_ref][P16x8], LIST_1, currMB->block_x, currMB->block_y, pos, pos + 2);
 
@@ -315,7 +315,7 @@ static void SetMVBSlice8x16(Slice *currSlice, PicMotionParams **motion, Macroblo
 {
   int l0_ref, l1_ref;
   int pdir = currMB->b8x8[pos >> 1].pdir;
-  if (pdir == LIST_0) 
+  if (pdir == LIST_0)
   {
     l0_ref = motion[currMB->block_y][currMB->block_x + pos].ref_idx[LIST_0];
     CopyMVBlock8 (&motion[currMB->block_y], currSlice->all_mv [LIST_0][l0_ref][P8x16], LIST_0, currMB->block_x + pos, 0, 4, pos);
@@ -324,7 +324,7 @@ static void SetMVBSlice8x16(Slice *currSlice, PicMotionParams **motion, Macroblo
   else if (pdir == LIST_1)
   {
     ResetMotionBlock8(&motion[currMB->block_y], LIST_0, currMB->block_x + pos, 0, 4);
-    l1_ref = motion[currMB->block_y][currMB->block_x + pos].ref_idx[LIST_1];    
+    l1_ref = motion[currMB->block_y][currMB->block_x + pos].ref_idx[LIST_1];
     CopyMVBlock8 (&motion[currMB->block_y], currSlice->all_mv [LIST_1][l1_ref][P8x16], LIST_1, currMB->block_x + pos, 0, 4, pos);
   }
   else
@@ -334,7 +334,7 @@ static void SetMVBSlice8x16(Slice *currSlice, PicMotionParams **motion, Macroblo
 
     l0_ref = motion[currMB->block_y][currMB->block_x + pos].ref_idx[LIST_0];
     CopyMVBlock8(&motion[currMB->block_y], all_mv [LIST_0][l0_ref][P8x16], LIST_0, currMB->block_x + pos, 0, 4, pos);
-    l1_ref = motion[currMB->block_y][currMB->block_x + pos].ref_idx[LIST_1];    
+    l1_ref = motion[currMB->block_y][currMB->block_x + pos].ref_idx[LIST_1];
     CopyMVBlock8(&motion[currMB->block_y], all_mv [LIST_1][l1_ref][P8x16], LIST_1, currMB->block_x + pos, 0, 4, pos);
 
     if (bipred_me && (currSlice->mb_aff_frame_flag || (currSlice->UseRDOQuant && currSlice->RDOQ_QP_Num > 1)))
@@ -367,7 +367,7 @@ static void SetMVBSlice8x8(Slice *currSlice, PicMotionParams **motion, Macrobloc
   int block_y = currMB->block_y + pos_y;
   int block_x = currMB->block_x + pos_x;
 
-  if (pdir == LIST_0) 
+  if (pdir == LIST_0)
   {
     l0_ref = motion[block_y][block_x].ref_idx[LIST_0];
     CopyMVBlock8 (&motion[currMB->block_y], currSlice->all_mv [LIST_0][l0_ref][mode], LIST_0, currMB->block_x + pos_x, pos_y, pos_y + 2, pos_x);
@@ -376,7 +376,7 @@ static void SetMVBSlice8x8(Slice *currSlice, PicMotionParams **motion, Macrobloc
   else if (pdir == LIST_1)
   {
     ResetMotionBlock8(&motion[currMB->block_y], LIST_0, currMB->block_x + pos_x, pos_y, pos_y + 2);
-    l1_ref = motion[block_y][block_x].ref_idx[LIST_1];    
+    l1_ref = motion[block_y][block_x].ref_idx[LIST_1];
     CopyMVBlock8 (&motion[currMB->block_y], currSlice->all_mv [LIST_1][l1_ref][mode], LIST_1, currMB->block_x + pos_x, pos_y, pos_y + 2, pos_x);
   }
   else if (pdir == BI_PRED)
@@ -385,8 +385,8 @@ static void SetMVBSlice8x8(Slice *currSlice, PicMotionParams **motion, Macrobloc
     MotionVector *****all_mv = bipred_me ? currSlice->bipred_mv[bipred_me - 1]: currSlice->all_mv;
     l0_ref = motion[block_y][block_x].ref_idx[LIST_0];
     CopyMVBlock8(&motion[currMB->block_y], all_mv [LIST_0][l0_ref][mode], LIST_0, currMB->block_x + pos_x, pos_y, pos_y + 2, pos_x);
-    
-    l1_ref = motion[block_y][block_x].ref_idx[LIST_1];    
+
+    l1_ref = motion[block_y][block_x].ref_idx[LIST_1];
     CopyMVBlock8(&motion[currMB->block_y], all_mv [LIST_1][l1_ref][mode], LIST_1, currMB->block_x + pos_x, pos_y, pos_y + 2, pos_x);
 
     if (bipred_me && (currSlice->mb_aff_frame_flag || (currSlice->UseRDOQuant && currSlice->RDOQ_QP_Num > 1)))
@@ -433,8 +433,8 @@ void SetMotionVectorsMBBSlice (Macroblock* currMB)
 
   if (currMB->mb_type == P16x16) // 16x16
   {
-    int pdir = currMB->b8x8[0].pdir;      
-    if (pdir == LIST_0) 
+    int pdir = currMB->b8x8[0].pdir;
+    if (pdir == LIST_0)
     {
       l0_ref = motion[currMB->block_y][currMB->block_x].ref_idx[LIST_0];
       CopyMVBlock16 (motion, currSlice->all_mv [LIST_0][l0_ref][P16x16], LIST_0, currMB->block_x, currMB->block_y, 0, 4);
@@ -464,17 +464,17 @@ void SetMotionVectorsMBBSlice (Macroblock* currMB)
     }
   }
   else if (currMB->mb_type == P16x8) // 16x8
-  {        
+  {
     SetMVBSlice16x8(currSlice, motion, currMB, 0);
     SetMVBSlice16x8(currSlice, motion, currMB, 2);
   }
   else if (currMB->mb_type == P8x16) // 16x8
-  {        
+  {
     SetMVBSlice8x16(currSlice, motion, currMB, 0);
     SetMVBSlice8x16(currSlice, motion, currMB, 2);
   }
   else if (currMB->mb_type == P8x8 || currMB->mb_type == BSKIP_DIRECT) // 8x8 & Direct/SKIP
-  { 
+  {
     SetMVBSlice8x8(currSlice, motion, currMB, 0, 0);
     SetMVBSlice8x8(currSlice, motion, currMB, 0, 2);
     SetMVBSlice8x8(currSlice, motion, currMB, 2, 0);
@@ -588,14 +588,14 @@ void set_chroma_pred_mode(Macroblock *currMB, RD_PARAMS enc_mb, int *mb_availabl
     // precompute all new chroma intra prediction modes
     currSlice->intra_chroma_prediction(currMB, &mb_available[0], &mb_available[1], &mb_available[2]);
 
-    if (p_Inp->FastCrIntraDecision) 
-    {          
+    if (p_Inp->FastCrIntraDecision)
+    {
       currSlice->intra_chroma_RD_decision(currMB, &enc_mb);
 
       chroma_pred_mode_range[0] = currMB->c_ipred_mode;
       chroma_pred_mode_range[1] = currMB->c_ipred_mode;
     }
-    else 
+    else
     {
       chroma_pred_mode_range[0] = DC_PRED_8;
       chroma_pred_mode_range[1] = PLANE_8;
@@ -603,7 +603,7 @@ void set_chroma_pred_mode(Macroblock *currMB, RD_PARAMS enc_mb, int *mb_availabl
   }
   else
   {
-    chroma_pred_mode_range[0] = DC_PRED_8;        
+    chroma_pred_mode_range[0] = DC_PRED_8;
     chroma_pred_mode_range[1] = DC_PRED_8;
   }
 }

@@ -65,7 +65,7 @@ static void DeblockMb(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV, in
 static void  init_Deblock(VideoParameters *p_Vid)
 {
   unsigned int i;
-  if (p_Vid->mb_aff_frame_flag == 1) 
+  if (p_Vid->mb_aff_frame_flag == 1)
   {
     set_loop_filter_functions_mbaff(p_Vid);
   }
@@ -105,7 +105,7 @@ void DeblockFrame(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV)
 static void DeblockParallel(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV, unsigned int column, int block, int n_last)
 {
   int i, j;
-  
+
   for (j = 0; j < GROUP_SIZE; j++)
   {
     i = block++ * (p_Vid->PicWidthInMbs - 2) + column;
@@ -129,7 +129,7 @@ void DeblockFrame(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV)
 
   for (i = 0; i < k; i++)
   {
-    int nn;    
+    int nn;
     int n_last = imin(iheightMBs, (i >> 1) + 1);
     int n_start = (i < p_Vid->PicWidthInMbs) ? 0 : ((i - p_Vid->PicWidthInMbs) >> 1) + 1;
 
@@ -167,7 +167,7 @@ static void DeblockMb(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV, in
   p_Vid->mixedModeEdgeFlag = 0;
 
   // return, if filter is disabled
-  if (MbQ->DFDisableIdc == 1) 
+  if (MbQ->DFDisableIdc == 1)
   {
     MbQ->DeblockCall = 0;
     return;
@@ -201,7 +201,7 @@ static void DeblockMb(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV, in
   // Vertical deblocking
   for (edge = 0; edge < 4 ; ++edge )
   {
-    // If cbp == 0 then deblocking for some macroblock types could be skipped                                                                  
+    // If cbp == 0 then deblocking for some macroblock types could be skipped
     if (MbQ->cbp == 0)
     {
       if (filterNon8x8LumaEdgesFlag[edge] == 0 && active_sps->chroma_format_idc!=YUV444)
@@ -243,11 +243,11 @@ static void DeblockMb(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV, in
             p_Vid->EdgeLoopChromaVer( imgUV[1], Strength, MbQ, edge_cr, 1);
           }
         }
-      }        
+      }
     }
   }//end edge
 
-  // horizontal deblocking  
+  // horizontal deblocking
   for( edge = 0; edge < 4 ; ++edge )
   {
     // If cbp == 0 then deblocking for some macroblock types could be skipped
@@ -294,7 +294,7 @@ static void DeblockMb(VideoParameters *p_Vid, imgpel **imgY, imgpel ***imgUV, in
         }
       }
 
-      if (!edge && !MbQ->mb_field && p_Vid->mixedModeEdgeFlag) 
+      if (!edge && !MbQ->mb_field && p_Vid->mixedModeEdgeFlag)
       {
         // this is the extra horizontal edge between a frame macroblock pair and a field above it
         MbQ->DeblockCall = 2;

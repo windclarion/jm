@@ -105,7 +105,7 @@ void SetupFastFullPelSearch_otf (Macroblock *currMB, MEBlock *mv_block, int list
   int   wp_chroma_round = 0;
   short weight_luma = mv_block->weight_luma, weight_cr[2];
   short offset_luma = mv_block->offset_luma, offset_cr[2];
-  search_range <<= 2;  
+  search_range <<= 2;
 
   //===== get search center: predictor of 16x16 block =====
   get_neighbors(currMB, block, 0, 0, 16);
@@ -187,7 +187,7 @@ void SetupFastFullPelSearch_otf (Macroblock *currMB, MEBlock *mv_block, int list
 
     for (pos = 0; pos < max_pos; pos++)
     {
-      cand = add_MVs(offset, &p_Vid->spiral_qpel_search[pos]);      
+      cand = add_MVs(offset, &p_Vid->spiral_qpel_search[pos]);
 
       srcptr = orig_pels;
       bindex = 0;
@@ -231,7 +231,7 @@ void SetupFastFullPelSearch_otf (Macroblock *currMB, MEBlock *mv_block, int list
           weighted_pel = iClip1( p_Vid->max_imgpel_value, ((weight_luma * *refptr++  + wp_luma_round) >> luma_log_weight_denom) + offset_luma);
           LineSadBlk3 += dist_method (weighted_pel - *srcptr++);
           weighted_pel = iClip1( p_Vid->max_imgpel_value, ((weight_luma * *refptr++  + wp_luma_round) >> luma_log_weight_denom) + offset_luma);
-          LineSadBlk3 += dist_method (weighted_pel - *srcptr++); 
+          LineSadBlk3 += dist_method (weighted_pel - *srcptr++);
         }
         block_sad[bindex++][pos] = (distpel) LineSadBlk0;
         block_sad[bindex++][pos] = (distpel) LineSadBlk1;
@@ -299,7 +299,7 @@ void SetupFastFullPelSearch_otf (Macroblock *currMB, MEBlock *mv_block, int list
 
       refptr = data;
       p_Dpb->pf_get_block_luma( p_Vid, refptr, tmp_data, cand.mv_x, cand.mv_y, MB_BLOCK_SIZE, MB_BLOCK_SIZE, ref_picture, 0 ) ;
-      
+
       for (blky = 0; blky < 4; blky++)
       {
         LineSadBlk0 = LineSadBlk1 = LineSadBlk2 = LineSadBlk3 = 0;

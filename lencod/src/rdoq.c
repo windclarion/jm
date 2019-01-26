@@ -75,17 +75,17 @@ void init_rdoq_slice(Slice *currSlice)
 *    Initialize levelData for Chroma DC
 ****************************************************************************
 */
-int init_trellis_data_DC_cr_CAVLC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, 
-                         LevelQuantParams *q_params, const byte *p_scan, 
+int init_trellis_data_DC_cr_CAVLC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem,
+                         LevelQuantParams *q_params, const byte *p_scan,
                          levelDataStruct *dataLevel)
 {
   Slice *currSlice = currMB->p_Slice;
   VideoParameters *p_Vid = currMB->p_Vid;
   int i, j, coeff_ctr, end_coeff_ctr = p_Vid->num_cdc_coeff;
   int *m7;
-  int q_bits = Q_BITS + qp_per + 1; 
+  int q_bits = Q_BITS + qp_per + 1;
   int q_offset = ( 1 << (q_bits - 1) );
-  double err; 
+  double err;
   int scaled_coeff, level, lowerInt, k;
   double estErr = (double) estErr4x4[qp_rem][0][0] / currSlice->norm_factor_4x4; // note that we could also use int64
 
@@ -96,12 +96,12 @@ int init_trellis_data_DC_cr_CAVLC(Macroblock *currMB, int **tblock, int qp_per, 
 
     m7 = &tblock[j][i];
     if (*m7 == 0)
-    {      
+    {
       dataLevel->level[0] = 0;
       dataLevel->levelDouble = 0;
       dataLevel->errLevel[0] = 0.0;
       dataLevel->noLevels = 1;
-      err = 0.0;      
+      err = 0.0;
       dataLevel->pre_level = 0;
       dataLevel->sign = 0;
     }
@@ -137,7 +137,7 @@ int init_trellis_data_DC_cr_CAVLC(Macroblock *currMB, int **tblock, int qp_per, 
       for (k = 0; k < dataLevel->noLevels; k++)
       {
         err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-        dataLevel->errLevel[k] = (err * err * estErr); 
+        dataLevel->errLevel[k] = (err * err * estErr);
       }
 
       if(dataLevel->noLevels == 1)
@@ -158,8 +158,8 @@ int init_trellis_data_DC_cr_CAVLC(Macroblock *currMB, int **tblock, int qp_per, 
 *    Initialize levelData for Chroma DC
 ****************************************************************************
 */
-int init_trellis_data_DC_cr_CABAC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, 
-                         LevelQuantParams *q_params, const byte *p_scan, 
+int init_trellis_data_DC_cr_CABAC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem,
+                         LevelQuantParams *q_params, const byte *p_scan,
                          levelDataStruct *dataLevel, int* kStart, int* kStop)
 {
   Slice *currSlice = currMB->p_Slice;
@@ -167,9 +167,9 @@ int init_trellis_data_DC_cr_CABAC(Macroblock *currMB, int **tblock, int qp_per, 
   int noCoeff = 0;
   int i, j, coeff_ctr, end_coeff_ctr = p_Vid->num_cdc_coeff;
   int *m7;
-  int q_bits = Q_BITS + qp_per + 1; 
+  int q_bits = Q_BITS + qp_per + 1;
   int q_offset = ( 1 << (q_bits - 1) );
-  double err; 
+  double err;
   int scaled_coeff, level, lowerInt, k;
   double estErr = (double) estErr4x4[qp_rem][0][0] / currSlice->norm_factor_4x4; // note that we could also use int64
 
@@ -180,12 +180,12 @@ int init_trellis_data_DC_cr_CABAC(Macroblock *currMB, int **tblock, int qp_per, 
 
     m7 = &tblock[j][i];
     if (*m7 == 0)
-    {      
+    {
       dataLevel->level[0] = 0;
       dataLevel->levelDouble = 0;
       dataLevel->errLevel[0] = 0.0;
       dataLevel->noLevels = 1;
-      err = 0.0;      
+      err = 0.0;
     }
     else
     {
@@ -229,7 +229,7 @@ int init_trellis_data_DC_cr_CABAC(Macroblock *currMB, int **tblock, int qp_per, 
       for (k = 0; k < dataLevel->noLevels; k++)
       {
         err = (double)(dataLevel->level[k] << q_bits) - (double)scaled_coeff;
-        dataLevel->errLevel[k] = (err * err * estErr); 
+        dataLevel->errLevel[k] = (err * err * estErr);
       }
     }
     dataLevel++;
@@ -255,7 +255,7 @@ void get_dQP_table(Slice *currSlice)
       else
         deltaQP = deltaQPCnt - qp_offset;
     }
-    currSlice->deltaQPTable[deltaQPCnt] = deltaQP; 
+    currSlice->deltaQPTable[deltaQPCnt] = deltaQP;
   }
 }
 
@@ -272,17 +272,17 @@ void trellis_mp(Macroblock *currMB)
   const int deltaQPTabP[] = {0, -1,  1, -2, 2, -3, 3, -4,  4};
   int   qp_anchor;
 #endif
-  int   deltaQPCnt; 
+  int   deltaQPCnt;
 
   masterQP = p_Vid->masterQP = p_Vid->qp;
-  
+
   currSlice->rdoq_motion_copy = 0;
 
   currSlice->rddata_trellis_best.min_rdcost = 1e30;
 
   if (p_Inp->symbol_mode == CABAC)
   {
-    estRunLevel_CABAC(currMB, LUMA_4x4); 
+    estRunLevel_CABAC(currMB, LUMA_4x4);
     estRunLevel_CABAC(currMB, LUMA_16AC);
     estRunLevel_CABAC(currMB, LUMA_16DC);
     if (p_Inp->Transform8x8Mode)
@@ -310,23 +310,23 @@ void trellis_mp(Macroblock *currMB)
     currSlice->rddata->min_dcost = 1e30;
 #if RDOQ_BASE
     if (currSlice->slice_type == B_SLICE)
-      deltaQP = deltaQPTabB[deltaQPCnt];      
+      deltaQP = deltaQPTabB[deltaQPCnt];
     else
       deltaQP = deltaQPTabP[deltaQPCnt];
 #else
 
-    // It seems that pushing the masterQP as first helps things when fast me is enabled. 
+    // It seems that pushing the masterQP as first helps things when fast me is enabled.
     // Could there be an issue with motion estimation?
-    deltaQP = currSlice->deltaQPTable[deltaQPCnt]; 
+    deltaQP = currSlice->deltaQPTable[deltaQPCnt];
 #endif
 
     p_Vid->qp = iClip3(-p_Vid->bitdepth_luma_qp_scale, 51, masterQP + deltaQP);
-    deltaQP = p_Vid->qp - masterQP; 
+    deltaQP = p_Vid->qp - masterQP;
 
 
 #if RDOQ_BASE
     if(deltaQP != 0 && !(p_Vid->qp - qp_anchor >= -2 && p_Vid->qp - qp_anchor <= 1) && currMB->mb_left && currMB->mb_up && currSlice->slice_type == P_SLICE)
-      continue; 
+      continue;
     if(deltaQP != 0 && !(p_Vid->qp - qp_anchor >= -1 && p_Vid->qp - qp_anchor <= 2) && currMB->mb_left && currMB->mb_up && currSlice->slice_type == B_SLICE)
       continue;
 #endif
@@ -376,7 +376,7 @@ void trellis_sp(Macroblock *currMB)
 
   if (currSlice->symbol_mode == CABAC)
   {
-    estRunLevel_CABAC(currMB, LUMA_4x4); 
+    estRunLevel_CABAC(currMB, LUMA_4x4);
     estRunLevel_CABAC(currMB, LUMA_16AC);
 
     estRunLevel_CABAC(currMB, LUMA_16DC);
@@ -397,18 +397,18 @@ void trellis_sp(Macroblock *currMB)
   currSlice->encode_one_macroblock (currMB);
   end_encode_one_macroblock(currMB);
 
-  write_macroblock (currMB, 1);    
+  write_macroblock (currMB, 1);
 }
 
 void trellis_coding(Macroblock *currMB)
 {
   if (currMB->p_Slice->RDOQ_QP_Num > 1)
   {
-    trellis_mp(currMB);   
+    trellis_mp(currMB);
   }
   else
   {
-    trellis_sp(currMB);   
+    trellis_sp(currMB);
   }
 }
 
@@ -426,10 +426,10 @@ void RDOQ_update_mode(Slice *currSlice, RD_PARAMS *enc_mb)
   for(i=0; i<MAXMODE; i++)
     enc_mb->valid[i] = 0;
 
-    enc_mb->valid[mb_type] = 1;  
+    enc_mb->valid[mb_type] = 1;
 
     if(mb_type  == P8x8)
-    {            
+    {
       enc_mb->valid[4] = (short) (InterSearch[4]);
       enc_mb->valid[5] = (short) (InterSearch[5] && !(p_Inp->Transform8x8Mode==2));
       enc_mb->valid[6] = (short) (InterSearch[6] && !(p_Inp->Transform8x8Mode==2));
@@ -440,7 +440,7 @@ void RDOQ_update_mode(Slice *currSlice, RD_PARAMS *enc_mb)
 void copy_rddata_trellis (Macroblock *currMB, RD_DATA *dest, RD_DATA *src)
 {
   VideoParameters *p_Vid = currMB->p_Vid;
-  int j; 
+  int j;
 
   dest->min_rdcost = src->min_rdcost;
   dest->min_dcost  = src->min_dcost;
@@ -448,7 +448,7 @@ void copy_rddata_trellis (Macroblock *currMB, RD_DATA *dest, RD_DATA *src)
 
   memcpy(&dest->rec_mb[0][0][0],&src->rec_mb[0][0][0], MB_PIXELS * sizeof(imgpel));
 
-  if (p_Vid->yuv_format != YUV400) 
+  if (p_Vid->yuv_format != YUV400)
   {
     memcpy(&dest->rec_mb[1][0][0],&src->rec_mb[1][0][0], 2 * MB_PIXELS * sizeof(imgpel));
   }
@@ -473,7 +473,7 @@ void copy_rddata_trellis (Macroblock *currMB, RD_DATA *dest, RD_DATA *src)
   dest->prev_dqp = src->prev_dqp;
   dest->prev_cbp = src->prev_cbp;
   dest->cbp_blk  = src->cbp_blk;
- 
+
 
   if (p_Vid->type != I_SLICE && p_Vid->type != SI_SLICE)
   {
@@ -488,7 +488,7 @@ void copy_rddata_trellis (Macroblock *currMB, RD_DATA *dest, RD_DATA *src)
 
   memcpy(&dest->refar[LIST_0][0][0], &src->refar[LIST_0][0][0], 2 * BLOCK_MULTIPLE * BLOCK_MULTIPLE * sizeof(char));
 
-}                     
+}
 
 void updateMV_mp(Macroblock *currMB, distblk *m_cost, short ref, int list, int h, int v, int blocktype, int block8x8)
 {
@@ -517,7 +517,7 @@ void updateMV_mp(Macroblock *currMB, distblk *m_cost, short ref, int list, int h
 
   for (j = 0; j < bsy; j++)
   {
-    for (i = 0; i < bsx; i++) 
+    for (i = 0; i < bsx; i++)
     {
       currSlice->all_mv[list][ref][blocktype][v+j][h+i] = all_mv;
     }

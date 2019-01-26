@@ -60,7 +60,7 @@
  *     H.264/AVC reference decoder project main()
  *  \author
  *     Main contributors (see contributors.h for copyright, address and affiliation details)
- *     - Inge Lille-Langøy       <inge.lille-langoy@telenor.com>
+ *     - Inge Lille-Langoy       <inge.lille-langoy@telenor.com>
  *     - Rickard Sjoberg         <rickard.sjoberg@era.ericsson.se>
  *     - Stephan Wenger          <stewe@cs.tu-berlin.de>
  *     - Jani Lainema            <jani.lainema@nokia.com>
@@ -159,19 +159,19 @@ static void reset_dpb( VideoParameters *p_Vid, DecodedPictureBuffer *p_Dpb )
 static void alloc_video_params( VideoParameters **p_Vid)
 {
   int i;
-  if ((*p_Vid   =  (VideoParameters *) calloc(1, sizeof(VideoParameters)))==NULL) 
+  if ((*p_Vid   =  (VideoParameters *) calloc(1, sizeof(VideoParameters)))==NULL)
     no_mem_exit("alloc_video_params: p_Vid");
 
-  if (((*p_Vid)->old_slice = (OldSliceParams *) calloc(1, sizeof(OldSliceParams)))==NULL) 
+  if (((*p_Vid)->old_slice = (OldSliceParams *) calloc(1, sizeof(OldSliceParams)))==NULL)
     no_mem_exit("alloc_video_params: p_Vid->old_slice");
 
-  if (((*p_Vid)->snr =  (SNRParameters *)calloc(1, sizeof(SNRParameters)))==NULL) 
-    no_mem_exit("alloc_video_params: p_Vid->snr");  
+  if (((*p_Vid)->snr =  (SNRParameters *)calloc(1, sizeof(SNRParameters)))==NULL)
+    no_mem_exit("alloc_video_params: p_Vid->snr");
 
   // Allocate new dpb buffer
   for (i = 0; i < MAX_NUM_DPB_LAYERS; i++)
   {
-    if (((*p_Vid)->p_Dpb_layer[i] =  (DecodedPictureBuffer*)calloc(1, sizeof(DecodedPictureBuffer)))==NULL) 
+    if (((*p_Vid)->p_Dpb_layer[i] =  (DecodedPictureBuffer*)calloc(1, sizeof(DecodedPictureBuffer)))==NULL)
       no_mem_exit("alloc_video_params: p_Vid->p_Dpb_layer[i]");
     (*p_Vid)->p_Dpb_layer[i]->layer_id = i;
     reset_dpb(*p_Vid, (*p_Vid)->p_Dpb_layer[i]);
@@ -184,9 +184,9 @@ static void alloc_video_params( VideoParameters **p_Vid)
   }
   (*p_Vid)->global_init_done[0] = (*p_Vid)->global_init_done[1] = 0;
 
-#if (ENABLE_OUTPUT_TONEMAPPING)  
-  if (((*p_Vid)->seiToneMapping =  (ToneMappingSEI*)calloc(1, sizeof(ToneMappingSEI)))==NULL) 
-    no_mem_exit("alloc_video_params: (*p_Vid)->seiToneMapping");  
+#if (ENABLE_OUTPUT_TONEMAPPING)
+  if (((*p_Vid)->seiToneMapping =  (ToneMappingSEI*)calloc(1, sizeof(ToneMappingSEI)))==NULL)
+    no_mem_exit("alloc_video_params: (*p_Vid)->seiToneMapping");
 #endif
 
   if(((*p_Vid)->ppSliceList = (Slice **) calloc(MAX_NUM_DECSLICES, sizeof(Slice *))) == NULL)
@@ -213,7 +213,7 @@ static void alloc_video_params( VideoParameters **p_Vid)
  */
 static void alloc_params( InputParameters **p_Inp )
 {
-  if ((*p_Inp = (InputParameters *) calloc(1, sizeof(InputParameters)))==NULL) 
+  if ((*p_Inp = (InputParameters *) calloc(1, sizeof(InputParameters)))==NULL)
     no_mem_exit("alloc_params: p_Inp");
 }
 
@@ -227,7 +227,7 @@ static void alloc_params( InputParameters **p_Inp )
  */
 static int alloc_decoder( DecoderParams **p_Dec)
 {
-  if ((*p_Dec = (DecoderParams *) calloc(1, sizeof(DecoderParams)))==NULL) 
+  if ((*p_Dec = (DecoderParams *) calloc(1, sizeof(DecoderParams)))==NULL)
   {
     fprintf(stderr, "alloc_decoder: p_Dec\n");
     return -1;
@@ -259,7 +259,7 @@ static void free_img( VideoParameters *p_Vid)
     {
       free_annex_b (&p_Vid->annex_b);
     }
-#if (ENABLE_OUTPUT_TONEMAPPING)  
+#if (ENABLE_OUTPUT_TONEMAPPING)
     if (p_Vid->seiToneMapping != NULL)
     {
       free (p_Vid->seiToneMapping);
@@ -285,7 +285,7 @@ static void free_img( VideoParameters *p_Vid)
         free(p_Vid->p_LayerPar[i]);
         p_Vid->p_LayerPar[i] = NULL;
       }
-    }    
+    }
     if (p_Vid->snr != NULL)
     {
       free (p_Vid->snr);
@@ -1005,9 +1005,9 @@ int init_global_buffers(VideoParameters *p_Vid, int layer_id)
  ************************************************************************
  */
 void free_layer_buffers(VideoParameters *p_Vid, int layer_id)
-{  
+{
   CodingParameters *cps = p_Vid->p_EncodePar[layer_id];
-  
+
   if(!p_Vid->global_init_done[layer_id])
     return;
 
@@ -1042,7 +1042,7 @@ void free_layer_buffers(VideoParameters *p_Vid, int layer_id)
       cps->ipredmode_JV[i] = NULL;
       free (cps->intra_block_JV[i]);
       cps->intra_block_JV[i] = NULL;
-    }   
+    }
   }
   else
   {
@@ -1151,7 +1151,7 @@ DecodedPicList *get_one_avail_dec_pic_from_list(DecodedPicList *pDecPicList, int
 }
 /************************************
 Interface: OpenDecoder
-Return: 
+Return:
        0: NOERROR;
        <0: ERROR;
 ************************************/
@@ -1159,7 +1159,7 @@ int OpenDecoder(InputParameters *p_Inp)
 {
   int iRet;
   DecoderParams *pDecoder;
-  
+
   iRet = alloc_decoder(&p_Dec);
   if(iRet)
   {
@@ -1205,11 +1205,11 @@ int OpenDecoder(InputParameters *p_Inp)
     }
 
     if (p_Inp->DecodeAllLayers == 1)
-    {  
+    {
       OpenOutputFiles(p_Vid, 0, 1);
     }
     else
-    { //Normal AVC      
+    { //Normal AVC
       if((strcasecmp(p_Inp->outfile, "\"\"")!=0) && (strlen(p_Inp->outfile)>0))
       {
         if( (strcasecmp(p_Inp->outfile, "\"\"")!=0) && ((p_Vid->p_out_mvc[0]=open(p_Inp->outfile, OPENFLAGS_WRITE, OPEN_PERMISSIONS))==-1) )
@@ -1244,16 +1244,16 @@ int OpenDecoder(InputParameters *p_Inp)
     break;
   case PAR_OF_RTP:
     OpenRTPFile(pDecoder->p_Inp->infile, &pDecoder->p_Vid->BitStreamFile);
-    break;   
+    break;
   }
-  
+
   // Allocate Slice data struct
   //pDecoder->p_Vid->currentSlice = NULL; //malloc_slice(pDecoder->p_Inp, pDecoder->p_Vid);
-  
+
   init_old_slice(pDecoder->p_Vid->old_slice);
 
   init(pDecoder->p_Vid);
- 
+
   init_out_buffer(pDecoder->p_Vid);
 
 #if (MVC_EXTENSION_ENABLE)
@@ -1273,7 +1273,7 @@ int OpenDecoder(InputParameters *p_Inp)
 
 /************************************
 Interface: DecodeOneFrame
-Return: 
+Return:
        0: NOERROR;
        1: Finished decoding;
        others: Error Code;
@@ -1318,7 +1318,7 @@ int FinitDecoder(DecodedPicList **ppDecPicList)
 #endif
   if (pDecoder->p_Inp->FileFormat == PAR_OF_ANNEXB)
   {
-    reset_annex_b(pDecoder->p_Vid->annex_b); 
+    reset_annex_b(pDecoder->p_Vid->annex_b);
   }
   pDecoder->p_Vid->newframe = 0;
   pDecoder->p_Vid->previous_frame_num = 0;
@@ -1333,7 +1333,7 @@ int CloseDecoder()
   DecoderParams *pDecoder = p_Dec;
   if(!pDecoder)
     return DEC_CLOSE_NOERR;
-  
+
   Report  (pDecoder->p_Vid);
   FmoFinit(pDecoder->p_Vid);
   free_layer_buffers(pDecoder->p_Vid, 0);
@@ -1347,7 +1347,7 @@ int CloseDecoder()
     break;
   case PAR_OF_RTP:
     CloseRTPFile(&pDecoder->p_Vid->BitStreamFile);
-    break;   
+    break;
   }
 
 #if (MVC_EXTENSION_ENABLE)
@@ -1406,7 +1406,7 @@ int CloseDecoder()
 void OpenOutputFiles(VideoParameters *p_Vid, int view0_id, int view1_id)
 {
   InputParameters *p_Inp = p_Vid->p_Inp;
-  char out_ViewFileName[2][FILE_NAME_SIZE], chBuf[FILE_NAME_SIZE], *pch;  
+  char out_ViewFileName[2][FILE_NAME_SIZE], chBuf[FILE_NAME_SIZE], *pch;
   if ((strcasecmp(p_Inp->outfile, "\"\"")!=0) && (strlen(p_Inp->outfile)>0))
   {
     strcpy(chBuf, p_Inp->outfile);
@@ -1428,7 +1428,7 @@ void OpenOutputFiles(VideoParameters *p_Vid, int view0_id, int view1_id)
         fprintf(stderr, "%s\n", errortext);
         exit(500);
       }
-      
+
       if(p_Vid->p_out_mvc[1] >= 0)
       {
         close(p_Vid->p_out_mvc[1]);

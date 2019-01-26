@@ -48,7 +48,7 @@
  *    Code revamped July 2008 by:
  *    - Peshala Pahalawatta (ppaha@dolby.com)
  *    - Alexis Tourapis (atour@dolby.com)
- *      Code modularized to support more distortion estimation algorithms in June 2009 by 
+ *      Code modularized to support more distortion estimation algorithms in June 2009 by
  *     - Zhifeng Chen (zzchen@dolby.com)
  *************************************************************************************
  */
@@ -63,8 +63,8 @@
 
 /*!
 **************************************************************************************
-* \brief 
-*      Allocate memory for error resilient RDO.  
+* \brief
+*      Allocate memory for error resilient RDO.
 **************************************************************************************
 */
 int allocate_errdo_mem(VideoParameters *p_Vid, InputParameters *p_Inp)
@@ -114,7 +114,7 @@ int allocate_errdo_mem(VideoParameters *p_Vid, InputParameters *p_Inp)
     memory_size += get_mem3Dpel(&p_Vid->p_decs->dec_mbY_best, p_Inp->NoOfDecoders, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
     memory_size += get_mem4Dpel(&p_Vid->p_decs->dec_mbY_best8x8, 2, p_Inp->NoOfDecoders, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
     memory_size += get_mem4Dpel(&p_Vid->p_decs->dec_mb_pred_best8x8, 2, p_Inp->NoOfDecoders, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
-    break;  
+    break;
   default:
     ;
   }
@@ -123,8 +123,8 @@ int allocate_errdo_mem(VideoParameters *p_Vid, InputParameters *p_Inp)
 
 /*!
 **************************************************************************************
-* \brief 
-*      free memory of error resilient RDO.  
+* \brief
+*      free memory of error resilient RDO.
 **************************************************************************************
 */
 void free_errdo_mem(VideoParameters *p_Vid)
@@ -218,7 +218,7 @@ void free_errdo_mem(VideoParameters *p_Vid)
     p_Vid->p_decs->trans_err_wo_res         = NULL;   //it is used for P8x8, where residual may be set to 0
   }
   if (p_Vid->p_decs->trans_err_wo_res_bestY_b8x8)
-  {   
+  {
     free_mem3Dint(p_Vid->p_decs->trans_err_wo_res_bestY_b8x8);
     p_Vid->p_decs->trans_err_wo_res_bestY_b8x8   = NULL;   //it is used for P8x8, where residual may be set to 0
   }
@@ -235,7 +235,7 @@ void free_errdo_mem(VideoParameters *p_Vid)
     p_Vid->p_decs->dec_mbY_best        = NULL;
   }
   if (p_Vid->p_decs->dec_mbY_best8x8)
-  {   
+  {
     free_mem4Dpel(p_Vid->p_decs->dec_mbY_best8x8);
     p_Vid->p_decs->dec_mb_pred_best8x8 = NULL;
   }
@@ -292,7 +292,7 @@ void free_errdo_mem(VideoParameters *p_Vid)
 
 /*!
  *************************************************************************************
-* \brief 
+* \brief
  *    Initialize error concealment function
  *    (Currently only copy concealment is implemented. Can extend to other concealment
  *    types when available.)
@@ -308,7 +308,7 @@ void init_error_conceal(VideoParameters *p_Vid, int concealment_type)
 /******************************************************************************************
 *
 *  Finds reference picture with nearest POC to current picture to use for error concealment
-*   
+*
 *******************************************************************************************
 */
 StorablePicture* find_nearest_ref_picture(DecodedPictureBuffer *p_Dpb, int poc)
@@ -331,18 +331,18 @@ StorablePicture* find_nearest_ref_picture(DecodedPictureBuffer *p_Dpb, int poc)
           min_poc_diff = poc_diff;
         }
       }
-    }        
+    }
   }
   return refPic;
 }
 
 /*!
  *************************************************************************************
-* \brief 
+* \brief
  *    Gives the prediction residue for a block
  *************************************************************************************
 */
-void errdo_compute_residue (Macroblock *currMB, imgpel **imgY, int **res_img, imgpel **mb_pred, int b8block, int block_size) 
+void errdo_compute_residue (Macroblock *currMB, imgpel **imgY, int **res_img, imgpel **mb_pred, int b8block, int block_size)
 {
   int i,j;
   int i0 = (b8block & 0x01)<<3,   i1 = i0+block_size;
@@ -353,7 +353,7 @@ void errdo_compute_residue (Macroblock *currMB, imgpel **imgY, int **res_img, im
     for (j = j0; j < j1; j++)
     {
       res_img[j][i] = (int)imgY[j][currMB->pix_x + i] - mb_pred[j][i];
-    } 
+    }
   }
 }
 
@@ -363,7 +363,7 @@ void errdo_compute_residue (Macroblock *currMB, imgpel **imgY, int **res_img, im
  * \brief
  *    Store the best 8x8 block of estimated distortion for errdo.
  *
- * \param 
+ * \param
  *
  * \note
  *    For lln algorithm, we need to consider akip and direct?
@@ -379,7 +379,7 @@ void errdo_store_best_b8x8(Macroblock *currMB, int transform8x8, int block)
   {
   case LLN:
     errdo_store_best_block_multihyp(p_Inp, p_Vid->p_decs->dec_mbY_best8x8[transform8x8], p_Vid->enc_picture->de_mem->p_dec_img[0], block, currMB->pix_x, currMB->pix_y, BLOCK_SIZE_8x8);
-    errdo_store_best_block_multihyp(p_Inp, p_Vid->p_decs->dec_mb_pred_best8x8[transform8x8], p_Vid->p_decs->dec_mb_pred, block, 0, 0, BLOCK_SIZE_8x8); 
+    errdo_store_best_block_multihyp(p_Inp, p_Vid->p_decs->dec_mb_pred_best8x8[transform8x8], p_Vid->p_decs->dec_mb_pred, block, 0, 0, BLOCK_SIZE_8x8);
     break;
   default:
     ;
@@ -393,7 +393,7 @@ void errdo_store_best_b8x8(Macroblock *currMB, int transform8x8, int block)
  *    get the best 8x8 block of estimated distortion. Original code seems to have problem. Why not get p_Vid->p_decs->dec_mb_pred_best8x8?
  *    But since there is errdo_get_best_P8x8() in SetCoeffAndReconstruction8x8(), errdo_get_best_b8x8 seems not necessary.
  *
- * \param 
+ * \param
  *
  * \note
  *    For lln algorithm, we need to consider skip and direct?
@@ -420,10 +420,10 @@ void errdo_get_best_b8x8(Macroblock *currMB, int transform8x8, int block)
 
 /*!
  *************************************************************************************
-* \brief 
+* \brief
  *    Store the best macroblock of estimated distortion for errdo.
-*   
- * \param 
+*
+ * \param
  *
  *************************************************************************************
 */
@@ -449,12 +449,12 @@ void errdo_store_best_MB(Macroblock *currMB)
  * \brief
  *    Get the best macroblock of estimated distortion for storable picture.
  *
- * \param 
+ * \param
  *
  *************************************************************************************
  */
 void errdo_get_best_MB(Macroblock *currMB)
-{   
+{
   VideoParameters *p_Vid = currMB->p_Vid;
   InputParameters *p_Inp = currMB->p_Inp;
 
@@ -476,12 +476,12 @@ void errdo_get_best_MB(Macroblock *currMB)
  * \brief
  *    Store the best macroblock of estimated distortion for mode P8x8.
  *
- * \param 
+ * \param
  *
  *************************************************************************************
  */
 void errdo_get_best_P8x8(Macroblock *currMB, int transform8x8)
-{   
+{
   VideoParameters *p_Vid = currMB->p_Vid;
   InputParameters *p_Inp = currMB->p_Inp;
 
@@ -507,7 +507,7 @@ void errdo_get_best_P8x8(Macroblock *currMB, int transform8x8)
  * \brief
  *    Initialize distortion estimation algorithm
  *    (Can extend to support more algorithms when available.)
- *  
+ *
  *************************************************************************************
  */
 void init_distortion_estimation(VideoParameters *p_Vid, int de_algorithm)
@@ -590,7 +590,7 @@ void errdo_alloc_storable_picture(StorablePicture *p, VideoParameters *p_Vid, In
     {
       get_mem4Dpel(&(s->dec_imgUV), ndec, 2, size_y_cr, size_x_cr);
       if ((s->p_dec_img[1] = (imgpel***)calloc(ndec,sizeof(imgpel**))) == NULL)
-      {  
+      {
         no_mem_exit("errdo.c: p_dec_img[1]");
       }
       if ((s->p_dec_img[2] = (imgpel***)calloc(ndec,sizeof(imgpel**))) == NULL)
@@ -666,7 +666,7 @@ void errdo_free_storable_picture(StorablePicture* s)
   {
     free_mem2D(p->error_sign_flag_Y);
     p->error_sign_flag_Y   = NULL;
-  } 
+  }
   if (p->error_sign_flag_UV)
   {
     free_mem3D(p->error_sign_flag_UV);

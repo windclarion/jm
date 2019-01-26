@@ -43,7 +43,7 @@ From v.1.9c to v.2.0
 - updated to JM reference software ver. 8.4 (all corresponding changes are in CHANGES.TXT)
 - merged  JM 8.5 POC mode 1 fix
 - added new CABAC ctx ini-tables
-- CAVLC coding mode support for 8x8 transform 
+- CAVLC coding mode support for 8x8 transform
 - PicUnitBitDepth is changed to BitDepthLuma and BitDepthChroma (encoder cfg-file changed)
 - FREXT chrominance qp offsets CbQPOffset and CrQPOffset are added (encoder cfg-file changed)
 - FREXT profile idc numbers are updated (beginning from 100 now) and through #define implemented
@@ -85,7 +85,7 @@ From v.1.8 to v.1.9
 - removed CBP writing when B-Skip and CABAC while rdopt
 - code restructuring: writeMBHeader() is changed to writeMBLayer()
 - Changed slice-based rounding offset to MB-based rounding offset in the encoder  ( this improves significantly picture quality, can we keep this way? )
-- When Transform8x8Mode==2, Direct_8x8 mode sub-macroblock type is disabled. 
+- When Transform8x8Mode==2, Direct_8x8 mode sub-macroblock type is disabled.
 - Configuration file encoder_highquality_HD.cfg is added to assist encoding of high-res HD content.
 
 
@@ -162,6 +162,6 @@ v.1.1
 
 v.1.0
 ----------------
-- Mixed Transform Sizes and Variable Bit Depth (v.6.0) added 
+- Mixed Transform Sizes and Variable Bit Depth (v.6.0) added
 
 

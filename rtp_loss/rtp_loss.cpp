@@ -57,7 +57,7 @@ int keep_packet(int loss_percent)
     return 1;
   if (loss_percent<=0)
     return 0;
-  
+
   rnd = int (100 * (((float) rand()) / RAND_MAX));
 
   return (rnd >= loss_percent );
@@ -128,7 +128,7 @@ int main(int argc, char* argv[])
 
   }
 
-  for (;;) 
+  for (;;)
   {
     if (4 != fread (&bufsize, 1, 4, fr))
       return 0;

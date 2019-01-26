@@ -51,7 +51,7 @@
 
 void forward4x4(int **block, int **tblock, int pos_y, int pos_x)
 {
-  int i, ii;  
+  int i, ii;
   int tmp[16];
   int *pTmp = tmp, *pblock;
   int p0,p1,p2,p3;
@@ -73,11 +73,11 @@ void forward4x4(int **block, int **tblock, int pos_y, int pos_x)
 
     *(pTmp++) =  t0 + t1;
     *(pTmp++) = (t3 << 1) + t2;
-    *(pTmp++) =  t0 - t1;    
+    *(pTmp++) =  t0 - t1;
     *(pTmp++) =  t3 - (t2 << 1);
   }
 
-  // Vertical 
+  // Vertical
   for (i=0; i < BLOCK_SIZE; i++)
   {
     pTmp = tmp + i;
@@ -101,7 +101,7 @@ void forward4x4(int **block, int **tblock, int pos_y, int pos_x)
 
 void inverse4x4(int **tblock, int **block, int pos_y, int pos_x)
 {
-  int i, ii;  
+  int i, ii;
   int tmp[16];
   int *pTmp = tmp, *pblock;
   int p0,p1,p2,p3;
@@ -127,7 +127,7 @@ void inverse4x4(int **tblock, int **block, int pos_y, int pos_x)
     *(pTmp++) = p0 - p3;
   }
 
-  //  Vertical 
+  //  Vertical
   for (i = 0; i < BLOCK_SIZE; i++)
   {
     pTmp = tmp + i;
@@ -174,11 +174,11 @@ void hadamard4x4(int **block, int **tblock)
 
     *(pTmp++) = t0 + t1;
     *(pTmp++) = t3 + t2;
-    *(pTmp++) = t0 - t1;    
+    *(pTmp++) = t0 - t1;
     *(pTmp++) = t3 - t2;
   }
 
-  // Vertical 
+  // Vertical
   for (i = 0; i < BLOCK_SIZE; i++)
   {
     pTmp = tmp + i;
@@ -202,7 +202,7 @@ void hadamard4x4(int **block, int **tblock)
 
 void ihadamard4x4(int **tblock, int **block)
 {
-  int i;  
+  int i;
   int tmp[16];
   int *pTmp = tmp, *pblock;
   int p0,p1,p2,p3;
@@ -228,7 +228,7 @@ void ihadamard4x4(int **tblock, int **block)
     *(pTmp++) = p0 - p3;
   }
 
-  //  Vertical 
+  //  Vertical
   for (i = 0; i < BLOCK_SIZE; i++)
   {
     pTmp = tmp + i;
@@ -241,7 +241,7 @@ void ihadamard4x4(int **tblock, int **block)
     p1 = t0 - t2;
     p2 = t1 - t3;
     p3 = t1 + t3;
-    
+
     block[0][i] = p0 + p3;
     block[1][i] = p1 + p2;
     block[2][i] = p1 - p2;
@@ -271,7 +271,7 @@ void hadamard4x2(int **block, int **tblock)
   // Vertical
   pTmp = tmp;
   for (i=0;i<2;i++)
-  {      
+  {
     p0 = *(pTmp++);
     p1 = *(pTmp++);
     p2 = *(pTmp++);
@@ -284,14 +284,14 @@ void hadamard4x2(int **block, int **tblock)
 
     tblock[i][0] = (t0 + t1);
     tblock[i][1] = (t3 + t2);
-    tblock[i][2] = (t0 - t1);      
+    tblock[i][2] = (t0 - t1);
     tblock[i][3] = (t3 - t2);
   }
 }
 
 void ihadamard4x2(int **tblock, int **block)
 {
-  int i;  
+  int i;
   int tmp[8];
   int *pTmp = tmp;
   int p0,p1,p2,p3;
@@ -339,7 +339,7 @@ void hadamard2x2(int **block, int tblock[4])
   p1 = block[0][0] - block[0][4];
   p2 = block[4][0] + block[4][4];
   p3 = block[4][0] - block[4][4];
- 
+
   tblock[0] = (p0 + p2);
   tblock[1] = (p1 + p3);
   tblock[2] = (p0 - p2);
@@ -384,7 +384,7 @@ void ihadamard2x2(int tblock[4], int block[4])
 
 void forward8x8(int **block, int **tblock, int pos_y, int pos_x)
 {
-  int i, ii;  
+  int i, ii;
   int tmp[64];
   int *pTmp = tmp, *pblock;
   int a0, a1, a2, a3;
@@ -430,11 +430,11 @@ void forward8x8(int **block, int **tblock, int pos_y, int pos_x)
     *(pTmp++) =  b5 + (b6 >> 2);
     *(pTmp++) =  b0 - b1;
     *(pTmp++) =  b6 - (b5 >> 2);
-    *(pTmp++) = (b2 >> 1) - b3;                 
+    *(pTmp++) = (b2 >> 1) - b3;
     *(pTmp++) = (b4 >> 2) - b7;
   }
 
-  // Vertical 
+  // Vertical
   for (i=0; i < BLOCK_SIZE_8x8; i++)
   {
     pTmp = tmp + i;
@@ -485,10 +485,10 @@ void inverse8x8(int **tblock, int **block, int pos_x)
   int tmp[64];
   int *pTmp = tmp, *pblock;
   int a0, a1, a2, a3;
-  int p0, p1, p2, p3, p4, p5 ,p6, p7;  
+  int p0, p1, p2, p3, p4, p5 ,p6, p7;
   int b0, b1, b2, b3, b4, b5, b6, b7;
 
-  // Horizontal  
+  // Horizontal
   for (i=0; i < BLOCK_SIZE_8x8; i++)
   {
     pblock = &tblock[i][pos_x];
@@ -511,16 +511,16 @@ void inverse8x8(int **tblock, int **block, int pos_x)
     b4 =  a1 + a2;
     b6 =  a0 - a3;
 
-    a0 = -p3 + p5 - p7 - (p7 >> 1);    
-    a1 =  p1 + p7 - p3 - (p3 >> 1);    
-    a2 = -p1 + p7 + p5 + (p5 >> 1);    
+    a0 = -p3 + p5 - p7 - (p7 >> 1);
+    a1 =  p1 + p7 - p3 - (p3 >> 1);
+    a2 = -p1 + p7 + p5 + (p5 >> 1);
     a3 =  p3 + p5 + p1 + (p1 >> 1);
 
-    
-    b1 =  a0 + (a3>>2);    
-    b3 =  a1 + (a2>>2);    
+
+    b1 =  a0 + (a3>>2);
+    b3 =  a1 + (a2>>2);
     b5 =  a2 - (a1>>2);
-    b7 =  a3 - (a0>>2);                
+    b7 =  a3 - (a0>>2);
 
     *(pTmp++) = b0 + b7;
     *(pTmp++) = b2 - b5;
@@ -532,7 +532,7 @@ void inverse8x8(int **tblock, int **block, int pos_x)
     *(pTmp++) = b0 - b7;
   }
 
-  //  Vertical 
+  //  Vertical
   for (i=0; i < BLOCK_SIZE_8x8; i++)
   {
     pTmp = tmp + i;

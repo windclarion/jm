@@ -77,7 +77,7 @@ static void getSubImageInteger( StorablePicture *s, imgpel **dstImg, imgpel **sr
   imgpel *wBufSrc, *wBufDst;
 
   // Copy top line
-  wBufDst = &( dstImg[-IMG_PAD_SIZE_Y][-IMG_PAD_SIZE_X] ); 
+  wBufDst = &( dstImg[-IMG_PAD_SIZE_Y][-IMG_PAD_SIZE_X] );
   wBufSrc = srcImg[0];
   // left IMG_PAD_SIZE
   for (i = 0; i < IMG_PAD_SIZE_X; i++)
@@ -96,8 +96,8 @@ static void getSubImageInteger( StorablePicture *s, imgpel **dstImg, imgpel **sr
   }
 
   for (j = 1; j < s->size_y; j++)
-  {    
-    wBufDst = &( dstImg[j][-IMG_PAD_SIZE_X] ); 
+  {
+    wBufDst = &( dstImg[j][-IMG_PAD_SIZE_X] );
     wBufSrc = srcImg[j];
     // left IMG_PAD_SIZE
     for (i = 0; i < IMG_PAD_SIZE_X; i++)
@@ -112,7 +112,7 @@ static void getSubImageInteger( StorablePicture *s, imgpel **dstImg, imgpel **sr
 
   // Replicate bottom pad lines
   for (j = s->size_y; j < s->size_y+IMG_PAD_SIZE_Y; j++)
-  {    
+  {
     memcpy(dstImg[j]-IMG_PAD_SIZE_X, dstImg[j - 1]-IMG_PAD_SIZE_X, s->size_x_padded * sizeof(imgpel));
   }
 }
@@ -125,7 +125,7 @@ static void getSubImageInteger_s( StorablePicture *s, imgpel **dstImg, imgpel **
   imgpel *wBufSrc, *wBufDst;
 
   // Copy top line
-  wBufDst = &( dstImg[-IMG_PAD_SIZE_Y][-IMG_PAD_SIZE_X] ); 
+  wBufDst = &( dstImg[-IMG_PAD_SIZE_Y][-IMG_PAD_SIZE_X] );
   wBufSrc = srcImg[0];
   // left IMG_PAD_SIZE
   for (i = 0; i < IMG_PAD_SIZE_X; ++i)
@@ -144,8 +144,8 @@ static void getSubImageInteger_s( StorablePicture *s, imgpel **dstImg, imgpel **
   }
 
   for (j = 1; j < s->size_y; ++j)
-  {    
-    wBufDst = &( dstImg[j][-IMG_PAD_SIZE_X] ); 
+  {
+    wBufDst = &( dstImg[j][-IMG_PAD_SIZE_X] );
     wBufSrc = srcImg[j];
     // left IMG_PAD_SIZE
     for (i = 0; i < IMG_PAD_SIZE_X; ++i)
@@ -160,7 +160,7 @@ static void getSubImageInteger_s( StorablePicture *s, imgpel **dstImg, imgpel **
 
   // Replicate bottom pad lines
   for (j = s->size_y; j < s->size_y+IMG_PAD_SIZE_Y; ++j)
-  {    
+  {
     memcpy(dstImg[j]-IMG_PAD_SIZE_X, dstImg[j - 1]-IMG_PAD_SIZE_X, s->size_x_padded * sizeof(imgpel));
   }
 }
@@ -195,12 +195,12 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
 
   for (jpad = -IMG_PAD_SIZE_Y; jpad < ypadded_size-IMG_PAD_SIZE_Y; jpad++)
   {
-    wBufSrc = srcImg[jpad]-IMG_PAD_SIZE_X; 
-    wBufDst = dstImg[jpad]-IMG_PAD_SIZE_X; 
+    wBufSrc = srcImg[jpad]-IMG_PAD_SIZE_X;
+    wBufDst = dstImg[jpad]-IMG_PAD_SIZE_X;
     iBufDst = p_Vid->imgY_sub_tmp[jpad]-IMG_PAD_SIZE_X;
 
     srcImgA = &wBufSrc[0];
-    srcImgB = &wBufSrc[0];      
+    srcImgB = &wBufSrc[0];
     srcImgC = &wBufSrc[0];
     srcImgD = &wBufSrc[1];
     srcImgE = &wBufSrc[2];
@@ -213,7 +213,7 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
       tap2 *  (*srcImgC   + *srcImgF++));
 
     *iBufDst++ =  is;
-    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );      
+    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );
 
     is =
       (tap0 * (*srcImgA++ + *srcImgD++) +
@@ -221,7 +221,7 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
       tap2 *  (*srcImgC   + *srcImgF++));
 
     *iBufDst++ =  is;
-    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );      
+    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );
 
     // center
     for (ipad = 2; ipad < xpadded_size - 4; ipad++)
@@ -232,7 +232,7 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
         tap2 *  (*srcImgC++ + *srcImgF++));
 
       *iBufDst++ =  is;
-      *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );      
+      *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );
     }
 
     is = (
@@ -241,7 +241,7 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
       tap2 * (*srcImgC++ + *srcImgF  ));
 
     *iBufDst++ =  is;
-    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );      
+    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );
 
     // right padded area
     is = (
@@ -250,7 +250,7 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
       tap2 * (*srcImgC++ + *srcImgF));
 
     *iBufDst++ =  is;
-    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );      
+    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );
 
     is = (
       tap0 * (*srcImgA++ + *srcImgD) +
@@ -258,7 +258,7 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
       tap2 * (*srcImgC++ + *srcImgF));
 
     *iBufDst++ =  is;
-    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );      
+    *wBufDst++ = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );
 
     is = (
       tap0 * (*srcImgA + *srcImgD) +
@@ -266,7 +266,7 @@ static void getHorSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
       tap2 * (*srcImgC + *srcImgF));
 
     *iBufDst =  is;
-    *wBufDst = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );      
+    *wBufDst = (imgpel) iClip1 ( p_Vid->max_imgpel_value, rshift_rnd_sf( is, 5 ) );
 
   }
 }
@@ -305,7 +305,7 @@ static void getVerSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
   {
     wxLineDst = dstImg[jpad]-IMG_PAD_SIZE_X;
     srcImgA = srcImg[jpad ]-IMG_PAD_SIZE_X;
-    srcImgB = srcImg[0-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;      
+    srcImgB = srcImg[0-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;
     srcImgC = srcImg[0-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;
     srcImgD = srcImg[jpad + 1]-IMG_PAD_SIZE_X;
     srcImgE = srcImg[jpad + 2]-IMG_PAD_SIZE_X;
@@ -325,7 +325,7 @@ static void getVerSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
   {
     wxLineDst = dstImg[jpad]-IMG_PAD_SIZE_X;
     srcImgA = srcImg[jpad ]-IMG_PAD_SIZE_X;
-    srcImgB = srcImg[jpad - 1]-IMG_PAD_SIZE_X;      
+    srcImgB = srcImg[jpad - 1]-IMG_PAD_SIZE_X;
     srcImgC = srcImg[jpad - 2]-IMG_PAD_SIZE_X;
     srcImgD = srcImg[jpad + 1]-IMG_PAD_SIZE_X;
     srcImgE = srcImg[jpad + 2]-IMG_PAD_SIZE_X;
@@ -346,7 +346,7 @@ static void getVerSubImageSixTap( VideoParameters *p_Vid, StorablePicture *s, im
   {
     wxLineDst = dstImg[jpad]-IMG_PAD_SIZE_X;
     srcImgA = srcImg[jpad ]-IMG_PAD_SIZE_X;
-    srcImgB = srcImg[jpad - 1]-IMG_PAD_SIZE_X;      
+    srcImgB = srcImg[jpad - 1]-IMG_PAD_SIZE_X;
     srcImgC = srcImg[jpad - 2]-IMG_PAD_SIZE_X;
     srcImgD = srcImg[imin (maxy, jpad + 1)]-IMG_PAD_SIZE_X;
     srcImgE = srcImg[maxy]-IMG_PAD_SIZE_X;
@@ -394,7 +394,7 @@ static void getVerSubImageSixTapTmp( VideoParameters *p_Vid, StorablePicture *s,
   {
     wxLineDst = dstImg[jpad]-IMG_PAD_SIZE_X;
     srcImgA = p_Vid->imgY_sub_tmp[jpad ]-IMG_PAD_SIZE_X;
-    srcImgB = p_Vid->imgY_sub_tmp[0-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;     
+    srcImgB = p_Vid->imgY_sub_tmp[0-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;
     srcImgC = p_Vid->imgY_sub_tmp[0-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;
     srcImgD = p_Vid->imgY_sub_tmp[jpad + 1]-IMG_PAD_SIZE_X;
     srcImgE = p_Vid->imgY_sub_tmp[jpad + 2]-IMG_PAD_SIZE_X;
@@ -416,7 +416,7 @@ static void getVerSubImageSixTapTmp( VideoParameters *p_Vid, StorablePicture *s,
   {
     wxLineDst = dstImg[jpad]-IMG_PAD_SIZE_X;
     srcImgA = p_Vid->imgY_sub_tmp[jpad ]-IMG_PAD_SIZE_X;
-    srcImgB = p_Vid->imgY_sub_tmp[jpad - 1]-IMG_PAD_SIZE_X;     
+    srcImgB = p_Vid->imgY_sub_tmp[jpad - 1]-IMG_PAD_SIZE_X;
     srcImgC = p_Vid->imgY_sub_tmp[jpad - 2]-IMG_PAD_SIZE_X;
     srcImgD = p_Vid->imgY_sub_tmp[jpad + 1]-IMG_PAD_SIZE_X;
     srcImgE = p_Vid->imgY_sub_tmp[jpad + 2]-IMG_PAD_SIZE_X;
@@ -437,7 +437,7 @@ static void getVerSubImageSixTapTmp( VideoParameters *p_Vid, StorablePicture *s,
   {
     wxLineDst = dstImg[jpad]-IMG_PAD_SIZE_X;
     srcImgA = p_Vid->imgY_sub_tmp[jpad ]-IMG_PAD_SIZE_X;
-    srcImgB = p_Vid->imgY_sub_tmp[jpad - 1]-IMG_PAD_SIZE_X;      
+    srcImgB = p_Vid->imgY_sub_tmp[jpad - 1]-IMG_PAD_SIZE_X;
     srcImgC = p_Vid->imgY_sub_tmp[jpad - 2]-IMG_PAD_SIZE_X;
     srcImgD = p_Vid->imgY_sub_tmp[imin (maxy, jpad + 1)]-IMG_PAD_SIZE_X;
     srcImgE = p_Vid->imgY_sub_tmp[maxy]-IMG_PAD_SIZE_X;
@@ -466,7 +466,7 @@ static void getVerSubImageSixTapTmp( VideoParameters *p_Vid, StorablePicture *s,
  * \param srcImgL
  *    source left image
  * \param srcImgR
- *    source right image 
+ *    source right image
  ************************************************************************
  */
 static void getSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel **srcImgL, imgpel **srcImgR)
@@ -479,9 +479,9 @@ static void getSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel **s
 
   for (jpad = -IMG_PAD_SIZE_Y; jpad < ypadded_size-IMG_PAD_SIZE_Y; jpad++)
   {
-    wBufSrcL = srcImgL[jpad]-IMG_PAD_SIZE_X; 
-    wBufSrcR = srcImgR[jpad]-IMG_PAD_SIZE_X; 
-    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;  
+    wBufSrcL = srcImgL[jpad]-IMG_PAD_SIZE_X;
+    wBufSrcR = srcImgR[jpad]-IMG_PAD_SIZE_X;
+    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;
 
     for (ipad = 0; ipad < xpadded_size; ipad++)
     {
@@ -503,7 +503,7 @@ static void getSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel **s
  * \param srcImgL
  *    source left image
  * \param srcImgR
- *    source right image 
+ *    source right image
  ************************************************************************
  */
 static void getHorSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel **srcImgL, imgpel **srcImgR)
@@ -516,9 +516,9 @@ static void getHorSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel 
 
   for (jpad = -IMG_PAD_SIZE_Y; jpad < ypadded_size-IMG_PAD_SIZE_Y; jpad++)
   {
-    wBufSrcL = srcImgL[jpad]-IMG_PAD_SIZE_X; 
-    wBufSrcR = &srcImgR[jpad][1-IMG_PAD_SIZE_X]; 
-    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;     
+    wBufSrcL = srcImgL[jpad]-IMG_PAD_SIZE_X;
+    wBufSrcR = &srcImgR[jpad][1-IMG_PAD_SIZE_X];
+    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;
 
     // left padded area + center
     for (ipad = 0; ipad < xpadded_size; ipad++)
@@ -543,23 +543,23 @@ static void getHorSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel 
  * \param srcImgT
  *    source top image
  * \param srcImgB
- *    source bottom image 
+ *    source bottom image
  ************************************************************************
  */
 static void getVerSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel **srcImgT, imgpel **srcImgB)
 {
   int jpad, ipad;
   int ypadded_size = s->size_y_padded - 1;
-  int xpadded_size = s->size_x_padded;  
+  int xpadded_size = s->size_x_padded;
 
   imgpel *wBufSrcT, *wBufSrcB, *wBufDst;
 
   // top
   for (jpad = -IMG_PAD_SIZE_Y; jpad < ypadded_size-IMG_PAD_SIZE_Y; jpad++)
   {
-    wBufSrcT = srcImgT[jpad]-IMG_PAD_SIZE_X;           
-    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;            
-    wBufSrcB = srcImgB[jpad + 1]-IMG_PAD_SIZE_X;  
+    wBufSrcT = srcImgT[jpad]-IMG_PAD_SIZE_X;
+    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;
+    wBufSrcB = srcImgB[jpad + 1]-IMG_PAD_SIZE_X;
 
     for (ipad = 0; ipad < xpadded_size; ipad++)
     {
@@ -567,9 +567,9 @@ static void getVerSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel 
     }
   }
   // bottom
-  wBufSrcT = srcImgT[ypadded_size-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;           
-  wBufDst  = dstImg[ypadded_size-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;            
-  wBufSrcB = srcImgB[ypadded_size-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;           
+  wBufSrcT = srcImgT[ypadded_size-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;
+  wBufDst  = dstImg[ypadded_size-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;
+  wBufSrcB = srcImgB[ypadded_size-IMG_PAD_SIZE_Y]-IMG_PAD_SIZE_X;
 
   for (ipad = 0; ipad < xpadded_size; ipad++)
   {
@@ -590,7 +590,7 @@ static void getVerSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel 
  * \param srcImgT
  *    source top/left image
  * \param srcImgB
- *    source bottom/right image 
+ *    source bottom/right image
  ************************************************************************
  */
 static void getDiagSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel **srcImgT, imgpel **srcImgB )
@@ -603,9 +603,9 @@ static void getDiagSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel
 
   for (jpad = -IMG_PAD_SIZE_Y; jpad < maxy; jpad++)
   {
-    wBufSrcL = srcImgT[jpad + 1]-IMG_PAD_SIZE_X; 
-    wBufSrcR = &srcImgB[jpad][1-IMG_PAD_SIZE_X]; 
-    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;      
+    wBufSrcL = srcImgT[jpad + 1]-IMG_PAD_SIZE_X;
+    wBufSrcR = &srcImgB[jpad][1-IMG_PAD_SIZE_X];
+    wBufDst  = dstImg[jpad]-IMG_PAD_SIZE_X;
 
     for (ipad = -IMG_PAD_SIZE_X; ipad < maxx; ipad++)
     {
@@ -615,9 +615,9 @@ static void getDiagSubImageBiLinear( StorablePicture *s, imgpel **dstImg, imgpel
     *wBufDst++ = (imgpel) rshift_rnd_sf(*wBufSrcL++ +  wBufSrcR[-1], 1);
   }
 
-  wBufSrcL = srcImgT[maxy]-IMG_PAD_SIZE_X;     
-  wBufSrcR = &srcImgB[maxy][1-IMG_PAD_SIZE_X]; 
-  wBufDst = dstImg[maxy]-IMG_PAD_SIZE_X;       
+  wBufSrcL = srcImgT[maxy]-IMG_PAD_SIZE_X;
+  wBufSrcR = &srcImgB[maxy][1-IMG_PAD_SIZE_X];
+  wBufDst = dstImg[maxy]-IMG_PAD_SIZE_X;
 
   for (ipad = -IMG_PAD_SIZE_X; ipad < maxx; ipad++)
   {

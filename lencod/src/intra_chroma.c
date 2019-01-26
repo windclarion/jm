@@ -59,7 +59,7 @@ void get_difference_4x4(imgpel **src, imgpel **prd, short *diff, int pos_x, int 
   for (j = 0; j < BLOCK_SIZE; j++)
   {
     img_src = &src[j][pos_x + block_x];
-    img_prd = &prd[j][block_x];    
+    img_prd = &prd[j][block_x];
 
     for (i = 0; i < BLOCK_SIZE; i++)
       *p_diff++ = img_src[i] - img_prd[i];
@@ -92,12 +92,12 @@ static inline void get_iChroma_horizontal(imgpel **cur_pred, imgpel *PredPel, in
   imgpel *prediction = &PredPel[16];
 
   for (j = 0; j < cr_MB_y; j++)
-  {  
+  {
     prediction++;
     for (i = 0; i < cr_MB_x; i++)
     {
       cur_pred[j][i]  = *prediction;
-    }    
+    }
   }
 }
 
@@ -139,7 +139,7 @@ static inline void get_iChroma_dc(imgpel **cur_pred, imgpel *PredPel, int left_a
   for (j = 0; j < MB_BLOCK_SIZE; j++)
   {
     for (i = 0; i < MB_BLOCK_SIZE; i++)
-      cur_pred[j][i] = (imgpel) s0;    
+      cur_pred[j][i] = (imgpel) s0;
   }
 }
 
@@ -392,7 +392,7 @@ void get_intrapred_chroma(Macroblock *currMB, ColorPlane pl, int iChroma_mode, i
 
   switch (iChroma_mode)
   {
-  case VERT_PRED_8 :    
+  case VERT_PRED_8 :
     get_iChroma_vertical(curr_mpr_16x16[VERT_PRED_16], PredPel, cr_MB_x, cr_MB_y);
     break;
   case HOR_PRED_8 :
@@ -522,7 +522,7 @@ void rdo_low_intra_chroma_decision(Macroblock *currMB, int mb_available_up, int 
       continue;
 
     cost = 0;
-    
+
     for (uv = 1; uv < 3; uv++)
     {
       int pos_x = pix_a.pos_x;
@@ -533,7 +533,7 @@ void rdo_low_intra_chroma_decision(Macroblock *currMB, int mb_available_up, int 
       for (block_y = 0; block_y < cr_MB_y; block_y += BLOCK_SIZE)
       {
         for (block_x = 0; block_x < cr_MB_x; block_x += BLOCK_SIZE)
-        {          
+        {
           get_difference_4x4(&image[pos_y + block_y], &curr_mpr_16x16[mode][block_y], diff, pos_x, block_x);
           cost += p_Vid->distortion4x4(diff, min_cost);
           if (cost > min_cost) break;
@@ -594,7 +594,7 @@ void intra_chroma_prediction (Macroblock *currMB, int *mb_up, int *mb_left, int*
     { {0, 1, 2, 3},{2, 3, 2, 3},{0, 0, 0, 0},{0, 0, 0, 0}},
     { {0, 1, 2, 3},{1, 1, 3, 3},{2, 3, 2, 3},{3, 3, 3, 3}}
   };
-  
+
   p_Vid->getNeighbour(currMB, -1, -1, p_Vid->mb_size[IS_CHROMA], &pix_d);
   p_Vid->getNeighbour(currMB, -1,  0, p_Vid->mb_size[IS_CHROMA], &pix_a);
   p_Vid->getNeighbour(currMB,  0, -1, p_Vid->mb_size[IS_CHROMA], &pix_c);
@@ -640,27 +640,27 @@ void intra_chroma_prediction (Macroblock *currMB, int *mb_up, int *mb_left, int*
         case 0:  //===== TOP LEFT =====
           {
             int s0 = 0, s2 = 0;
-            if (mb_available_up)       
+            if (mb_available_up)
             {
               int pos_x = pix_c.pos_x + blk_x;
               int pos_y = pix_c.pos_y;
 
-              for (i = 0; i < BLOCK_SIZE; i++)  
+              for (i = 0; i < BLOCK_SIZE; i++)
                 s0 += image[pos_y][pos_x++];
             }
-            if (mb_available_left[0]) 
+            if (mb_available_left[0])
             {
               int pos_x = pix_a.pos_x;
-              int pos_y = pix_a.pos_y + block_y; 
+              int pos_y = pix_a.pos_y + block_y;
 
               for (i = 0; i < BLOCK_SIZE;i++)
                 s2 += image[pos_y++][pos_x];
             }
-            if (mb_available_up && mb_available_left[0])  
+            if (mb_available_up && mb_available_left[0])
               s = (s0 + s2 + 4) >> 3;
-            else if (mb_available_up)                          
+            else if (mb_available_up)
               s = (s0 + 2) >> 2;
-            else if (mb_available_left[0])                     
+            else if (mb_available_left[0])
               s = (s2 + 2) >> 2;
           }
           break;
@@ -671,41 +671,41 @@ void intra_chroma_prediction (Macroblock *currMB, int *mb_up, int *mb_left, int*
             {
               int pos_x = pix_c.pos_x + blk_x;
               int pos_y = pix_c.pos_y;
-              for (i = 0; i < BLOCK_SIZE; i++)  
+              for (i = 0; i < BLOCK_SIZE; i++)
                 s1 += image[pos_y][pos_x++];
             }
             else if (mb_available_left[0])
             {
               int pos_x = pix_a.pos_x;
-              int pos_y = pix_a.pos_y + block_y; 
+              int pos_y = pix_a.pos_y + block_y;
 
-              for (i = 0; i < BLOCK_SIZE; i++)  
+              for (i = 0; i < BLOCK_SIZE; i++)
                 s2 += image[pos_y++][pos_x];
             }
-            if      (mb_available_up)       
+            if      (mb_available_up)
               s  = (s1   +2) >> 2;
-            else if (mb_available_left[0])                    
+            else if (mb_available_left[0])
               s  = (s2   +2) >> 2;
           }
           break;
         case 2: //===== BOTTOM LEFT =====
-          if      (mb_available_left[0])  
+          if      (mb_available_left[0])
           {
             int pos_x = pix_a.pos_x;
-            int pos_y = pix_a.pos_y + block_y; 
+            int pos_y = pix_a.pos_y + block_y;
             int s3 = 0;
 
             for (i = 0; i < BLOCK_SIZE; i++)
               s3 += image[pos_y++][pos_x];
             s  = (s3 + 2) >> 2;
           }
-          else if (mb_available_up)       
+          else if (mb_available_up)
           {
             int pos_x = pix_c.pos_x + blk_x;
             int pos_y = pix_c.pos_y;
 
             int s0 = 0;
-            for (i = 0; i < BLOCK_SIZE; i++)  
+            for (i = 0; i < BLOCK_SIZE; i++)
               s0 += image[pos_y][pos_x++];
             s  = (s0 + 2) >> 2;
           }
@@ -713,21 +713,21 @@ void intra_chroma_prediction (Macroblock *currMB, int *mb_up, int *mb_left, int*
         case 3: //===== BOTTOM RIGHT =====
           {
             int s1 = 0, s3 = 0;
-            if (mb_available_up)       
-              for (i=blk_x;i<(blk_x+4);i++)  
+            if (mb_available_up)
+              for (i=blk_x;i<(blk_x+4);i++)
                 s1 += image[pix_c.pos_y][pix_c.pos_x + i];
-            if (mb_available_left[0])  
+            if (mb_available_left[0])
             {
               int pos_x = pix_a.pos_x;
-              int pos_y = pix_a.pos_y + block_y; 
-              for (i = 0; i < BLOCK_SIZE;i++)  
+              int pos_y = pix_a.pos_y + block_y;
+              for (i = 0; i < BLOCK_SIZE;i++)
                 s3 += image[pos_y++][pos_x];
             }
-            if      (mb_available_up && mb_available_left[0])  
+            if      (mb_available_up && mb_available_left[0])
               s  = (s1 + s3 + 4) >> 3;
-            else if (mb_available_up)                          
+            else if (mb_available_up)
               s  = (s1 + 2) >> 2;
-            else if (mb_available_left[0])                     
+            else if (mb_available_left[0])
               s  = (s3 + 2) >> 2;
           }
           break;
@@ -745,10 +745,10 @@ void intra_chroma_prediction (Macroblock *currMB, int *mb_up, int *mb_left, int*
       }
     }
 
-    // vertical prediction    
+    // vertical prediction
     if (mb_available_up)
     {
-      cur_pred = curr_mpr_16x16[VERT_PRED_8];      
+      cur_pred = curr_mpr_16x16[VERT_PRED_8];
       hline = &image[pix_c.pos_y][pix_c.pos_x];
       for (j=0; j<cr_MB_y; j++)
         memcpy(cur_pred[j], hline, cr_MB_x * sizeof(imgpel));
@@ -762,11 +762,11 @@ void intra_chroma_prediction (Macroblock *currMB, int *mb_up, int *mb_left, int*
       cur_pred = curr_mpr_16x16[HOR_PRED_8];
       for (i=0; i<cr_MB_y; i++)
         vline[i] = image[pos_y++][pos_x];
-      
+
       for (j=0; j<cr_MB_y; j++)
       {
         int predictor = vline[j];
-        for (i = 0; i < cr_MB_x; i++)        
+        for (i = 0; i < cr_MB_x; i++)
           cur_pred[j][i] = (imgpel) predictor;
       }
     }
@@ -779,7 +779,7 @@ void intra_chroma_prediction (Macroblock *currMB, int *mb_up, int *mb_left, int*
 
       int iaa, iv, ib, ic;
       int ih = cr_x * (hline[cr_MB_x-1] - image[pix_d.pos_y][pix_d.pos_x]);
-      
+
       for (i = 0; i < cr_x - 1; i++)
         ih += (i + 1)*(hline[cr_x + i] - hline[cr_x - 2 - i]);
 
@@ -909,47 +909,47 @@ void intra_chroma_prediction_mbaff(Macroblock *currMB, int *mb_up, int *mb_left,
         case 0:  //===== TOP TOP-LEFT =====
           {
             int s0 = 0, s2 = 0;
-            if      (mb_available_up)       
-              for (i = blk_x; i < (blk_x + 4); i++)  
+            if      (mb_available_up)
+              for (i = blk_x; i < (blk_x + 4); i++)
                 s0 += image[pix_b.pos_y][pix_b.pos_x + i];
-            if      (mb_available_left[0])  
-              for (i = blk_y; i < (blk_y + 4);i++)  
+            if      (mb_available_left[0])
+              for (i = blk_y; i < (blk_y + 4);i++)
                 s2 += image[pix_a[i].pos_y][pix_a[i].pos_x];
-            if      (mb_available_up && mb_available_left[0])  
+            if      (mb_available_up && mb_available_left[0])
               s  = (s0 + s2 + 4) >> 3;
-            else if (mb_available_up)                          
+            else if (mb_available_up)
               s  = (s0   + 2) >> 2;
-            else if (mb_available_left[0])                     
+            else if (mb_available_left[0])
               s  = (s2   + 2) >> 2;
           }
           break;
         case 1: //===== TOP TOP-RIGHT =====
           {
             int s1 = 0, s2 = 0;
-            if      (mb_available_up)       
-              for (i=blk_x;i<(blk_x+4);i++)  
+            if      (mb_available_up)
+              for (i=blk_x;i<(blk_x+4);i++)
                 s1 += image[pix_b.pos_y][pix_b.pos_x + i];
-            else if (mb_available_left[0])  
-              for (i=blk_y;i<(blk_y+4);i++) 
+            else if (mb_available_left[0])
+              for (i=blk_y;i<(blk_y+4);i++)
                 s2 += image[pix_a[i].pos_y][pix_a[i].pos_x];
-            if      (mb_available_up)       
+            if      (mb_available_up)
               s  = (s1   +2) >> 2;
-            else if (mb_available_left[0])                    
+            else if (mb_available_left[0])
               s  = (s2   +2) >> 2;
           }
           break;
         case 2:  //===== TOP BOTTOM-LEFT =====
-          if      (mb_available_left[0])  
+          if      (mb_available_left[0])
           {
             int s3 = 0;
-            for (i=blk_y;i<(blk_y+4);i++)  
+            for (i=blk_y;i<(blk_y+4);i++)
               s3 += image[pix_a[i].pos_y][pix_a[i].pos_x];
             s  = (s3 + 2) >> 2;
           }
-          else if (mb_available_up)       
+          else if (mb_available_up)
           {
             int s0 = 0;
-            for (i=blk_x;i<(blk_x+4);i++)  
+            for (i=blk_x;i<(blk_x+4);i++)
               s0 += image[pix_b.pos_y][pix_b.pos_x + i];
             s  = (s0 + 2) >> 2;
           }
@@ -957,10 +957,10 @@ void intra_chroma_prediction_mbaff(Macroblock *currMB, int *mb_up, int *mb_left,
         case 3: //===== TOP BOTTOM-RIGHT =====
           {
             int s1 = 0, s3 = 0;
-            if      (mb_available_up) 
+            if      (mb_available_up)
               for (i=blk_x;i<(blk_x+4);i++)
                 s1 += image[pix_b.pos_y][pix_b.pos_x + i];
-            if      (mb_available_left[0]) 
+            if      (mb_available_left[0])
               for (i=blk_y;i<(blk_y+4);i++)
                 s3 += image[pix_a[i].pos_y][pix_a[i].pos_x];
             if      (mb_available_up && mb_available_left[0])
@@ -973,17 +973,17 @@ void intra_chroma_prediction_mbaff(Macroblock *currMB, int *mb_up, int *mb_left,
           break;
 
         case 4: //===== BOTTOM LEFT =====
-          if      (mb_available_left[1])  
+          if      (mb_available_left[1])
           {
             int s3 = 0;
-            for (i=blk_y;i<(blk_y+4);i++)  
+            for (i=blk_y;i<(blk_y+4);i++)
               s3 += image[pix_a[i].pos_y][pix_a[i].pos_x];
             s  = (s3 + 2) >> 2;
           }
-          else if (mb_available_up)       
+          else if (mb_available_up)
           {
             int s0 = 0;
-            for (i=blk_x;i<(blk_x+4);i++)  
+            for (i=blk_x;i<(blk_x+4);i++)
               s0 += image[pix_b.pos_y][pix_b.pos_x + i];
             s  = (s0 + 2) >> 2;
           }
@@ -991,17 +991,17 @@ void intra_chroma_prediction_mbaff(Macroblock *currMB, int *mb_up, int *mb_left,
         case 5: //===== BOTTOM RIGHT =====
           {
             int s1 = 0, s3 = 0;
-            if      (mb_available_up)       
-              for (i=blk_x;i<(blk_x+4);i++)  
+            if      (mb_available_up)
+              for (i=blk_x;i<(blk_x+4);i++)
                 s1 += image[pix_b.pos_y][pix_b.pos_x + i];
-            if      (mb_available_left[1])  
-              for (i=blk_y;i<(blk_y+4);i++)  
+            if      (mb_available_left[1])
+              for (i=blk_y;i<(blk_y+4);i++)
                 s3 += image[pix_a[i].pos_y][pix_a[i].pos_x];
-            if      (mb_available_up && mb_available_left[1])  
+            if      (mb_available_up && mb_available_left[1])
               s  = (s1 + s3 + 4) >> 3;
-            else if (mb_available_up)                          
+            else if (mb_available_up)
               s  = (s1 + 2) >> 2;
-            else if (mb_available_left[1])                     
+            else if (mb_available_left[1])
               s  = (s3 + 2) >> 2;
           }
           break;
@@ -1019,10 +1019,10 @@ void intra_chroma_prediction_mbaff(Macroblock *currMB, int *mb_up, int *mb_left,
       }
     }
 
-    // vertical prediction    
+    // vertical prediction
     if (mb_available_up)
     {
-      cur_pred = curr_mpr_16x16[VERT_PRED_8];      
+      cur_pred = curr_mpr_16x16[VERT_PRED_8];
       hline = &image[pix_b.pos_y][pix_b.pos_x];
       for (j=0; j<cr_MB_y; j++)
         memcpy(cur_pred[j], hline, cr_MB_x * sizeof(imgpel));
@@ -1037,7 +1037,7 @@ void intra_chroma_prediction_mbaff(Macroblock *currMB, int *mb_up, int *mb_left,
       for (j=0; j<cr_MB_y; j++)
       {
         int predictor = vline[j];
-        for (i=0; i<cr_MB_x; i++)        
+        for (i=0; i<cr_MB_x; i++)
           cur_pred[j][i] = (imgpel) predictor;
       }
     }
@@ -1093,7 +1093,7 @@ void intra_chroma_RD_decision (Macroblock *currMB, RD_PARAMS *enc_mb)
   VideoParameters *p_Vid = currMB->p_Vid;
   InputParameters *p_Inp = currMB->p_Inp;
   imgpel** image;
-  int      block_x, block_y;  
+  int      block_x, block_y;
   int      mb_available_up;
   int      mb_available_left;
   int      mb_available_up_left;
@@ -1118,7 +1118,7 @@ void intra_chroma_RD_decision (Macroblock *currMB, RD_PARAMS *enc_mb)
   p_Vid->getNeighbour(currMB, -1 ,  0 , p_Vid->mb_size[IS_CHROMA], &pix_d);
   p_Vid->getNeighbour(currMB,  0 , -1 , p_Vid->mb_size[IS_CHROMA], &pix_c);
   p_Vid->getNeighbour(currMB,  0 ,  0 , p_Vid->mb_size[IS_CHROMA], &pix_a);
-  
+
   mb_available_up      = pix_c.available;
   mb_available_up_left = pix_b.available;
   mb_available_left    = pix_d.available;
@@ -1137,7 +1137,7 @@ void intra_chroma_RD_decision (Macroblock *currMB, RD_PARAMS *enc_mb)
       (mode==HOR_PRED_8 && (!mb_available_left)) ||
       (mode==PLANE_8 && (!mb_available_left || !mb_available_up || !mb_available_up_left)))
       continue;
-    
+
     cost = weight_cost(enc_mb->lambda_mf[Q_PEL], p_Vid->mvbits[ mode ]); // exp golomb coding cost for mode signaling
 
     for (uv = 1; uv < 3; ++uv)
@@ -1182,7 +1182,7 @@ void intra_chroma_RD_decision_mbaff (Macroblock *currMB, RD_PARAMS *enc_mb)
   InputParameters *p_Inp = currMB->p_Inp;
   int      i, j, k;
   imgpel** image;
-  int      block_x, block_y;  
+  int      block_x, block_y;
   int      mb_available_up;
   int      mb_available_left[2];
   int      mb_available_up_left;
@@ -1206,7 +1206,7 @@ void intra_chroma_RD_decision_mbaff (Macroblock *currMB, RD_PARAMS *enc_mb)
     p_Vid->getNeighbour(currMB, -1 , i-1 , p_Vid->mb_size[IS_CHROMA], &pix_a[i]);
   }
   p_Vid->getNeighbour(currMB, 0 , -1 , p_Vid->mb_size[IS_CHROMA], &pix_c);
-  
+
   mb_available_up                             = pix_c.available;
   mb_available_up_left                        = pix_a[0].available;
   mb_available_left[0] = mb_available_left[1] = pix_a[1].available;

@@ -106,12 +106,12 @@ int start_sequence(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   switch(p_Inp->of_mode)
   {
-  case PAR_OF_ANNEXB:      
+  case PAR_OF_ANNEXB:
     p_Vid->WriteNALU = WriteAnnexbNALU;
     p_Vid->f_out = &p_Vid->f_annexb;
     OpenAnnexbFile (p_Inp->outfile, p_Vid->f_out);
     break;
-  case PAR_OF_RTP:      
+  case PAR_OF_RTP:
     p_Vid->WriteNALU = WriteRTPNALU;
     p_Vid->f_out = &p_Vid->f_rtp;
     OpenRTPFile (p_Inp->outfile, p_Vid->f_out);
@@ -185,12 +185,12 @@ int end_of_stream(VideoParameters *p_Vid)
 
   nalu = AllocNALU(MAXNALUSIZE);
   nalu->startcodeprefix_len = 4;
-  nalu->forbidden_bit       = 0;  
+  nalu->forbidden_bit       = 0;
   nalu->nal_reference_idc   = 0;
   nalu->nal_unit_type       = NALU_TYPE_EOSTREAM;
   nalu->len = 0;
   bits = p_Vid->WriteNALU (p_Vid, nalu, p_Vid->f_out);
-  
+
   p_Vid->p_Stats->bit_ctr_parametersets += bits;
   FreeNALU (nalu);
   return bits;

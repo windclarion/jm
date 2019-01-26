@@ -138,7 +138,7 @@ void encode_one_macroblock_highloss (Macroblock *currMB)
       {
         if (bslice)
           currSlice->Get_Direct_Motion_Vectors (currMB);
-        else 
+        else
           FindSkipModeMotionVector (currMB);
       }
       if (p_Inp->CtxAdptLagrangeMult == 1)
@@ -281,8 +281,8 @@ void encode_one_macroblock_highloss (Macroblock *currMB)
       // bypass if c_ipred_mode is not allowed
       if ( (p_Vid->yuv_format != YUV400) &&
         (  ((!intra || !p_Inp->IntraDisableInterOnly) && p_Inp->ChromaIntraDisable == 1 && currMB->c_ipred_mode!=DC_PRED_8)
-        || (currMB->c_ipred_mode == VERT_PRED_8 && !mb_available[0]) 
-        || (currMB->c_ipred_mode == HOR_PRED_8  && !mb_available[1]) 
+        || (currMB->c_ipred_mode == VERT_PRED_8 && !mb_available[0])
+        || (currMB->c_ipred_mode == HOR_PRED_8  && !mb_available[1])
         || (currMB->c_ipred_mode == PLANE_8     && (!mb_available[1] || !mb_available[0] || !mb_available[2]))))
         continue;
 
@@ -293,14 +293,14 @@ void encode_one_macroblock_highloss (Macroblock *currMB)
         if (enc_mb.valid[mode])
         {
           if (p_Vid->yuv_format != YUV400)
-          {           
-            currMB->i16mode = 0; 
+          {
+            currMB->i16mode = 0;
           }
 
-          // Skip intra modes in inter slices if best mode is inter <P8x8 with cbp equal to 0    
+          // Skip intra modes in inter slices if best mode is inter <P8x8 with cbp equal to 0
           if (currSlice->P444_joined)
-          { 
-            if (p_Inp->SkipIntraInInterSlices && !intra && mode >= I16MB 
+          {
+            if (p_Inp->SkipIntraInInterSlices && !intra && mode >= I16MB
               && currMB->best_mode <=3 && currMB->best_cbp == 0 && currSlice->cmp_cbp[1] == 0 && currSlice->cmp_cbp[2] == 0 && (currMB->min_rdcost < weighted_cost(enc_mb.lambda_mdfp,5)))
               continue;
           }
@@ -325,7 +325,7 @@ void encode_one_macroblock_highloss (Macroblock *currMB)
 
         }
       }// for (index=0; index<max_index; index++)
-    }// for (currMB->c_ipred_mode=DC_PRED_8; currMB->c_ipred_mode<=chroma_pred_mode_range[1]; currMB->c_ipred_mode++)                     
+    }// for (currMB->c_ipred_mode=DC_PRED_8; currMB->c_ipred_mode<=chroma_pred_mode_range[1]; currMB->c_ipred_mode++)
 
     restore_nz_coeff(currMB);
 

@@ -58,7 +58,7 @@
 
 
 //#define CHECKOVERFLOW(mcost) assert(mcost>=0)
-#define CHECKOVERFLOW(mcost) 
+#define CHECKOVERFLOW(mcost)
 
 
 /*!
@@ -82,10 +82,10 @@ distblk computeSAD_otf(StorablePicture *ref1,
 #if (JM_MEM_DISTORTION)
   int *imgpel_abs = p_Vid->imgpel_abs;
 #endif
-  imgpel  *src_line, *ref_line ; 
+  imgpel  *src_line, *ref_line ;
   imgpel  data[MB_PIXELS];                                  // local allocation could be optimized by a global instanciation
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
-  
+
   src_line = mv_block->orig_pic[0];
   ref_line = data ;
   // get block with interpolation on-the-fly
@@ -107,10 +107,10 @@ distblk computeSAD_otf(StorablePicture *ref1,
       mcost += iabs( *src_line++ - *ref_line++ );
 #endif
     }
-    if(mcost > imin_cost) 
+    if(mcost > imin_cost)
       return (dist_scale_f((distblk)mcost));
   }
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     int blocksize_x_cr = mv_block->blocksize_cr_x;
@@ -123,7 +123,7 @@ distblk computeSAD_otf(StorablePicture *ref1,
       src_line = mv_block->orig_pic[k+1];
       ref_line = data ;
       p_Dpb->pf_get_block_chroma[OTF_ME]( p_Vid, ref_line, tmp_line, cand->mv_x, cand->mv_y, blocksize_x_cr, blocksize_y_cr, ref1, k+1 ) ;
-      mcr_cost = 0;    
+      mcr_cost = 0;
 
       for (y = 0; y < blocksize_y_cr; y++)
       {
@@ -178,7 +178,7 @@ distblk computeSADWP_otf(StorablePicture *ref1,
   int wp_luma_round = currSlice->wp_luma_round;
   short luma_log_weight_denom = currSlice->luma_log_weight_denom;
 
-  imgpel  *src_line, *ref_line ; 
+  imgpel  *src_line, *ref_line ;
   imgpel  data[MB_PIXELS];                                  // local allocation could be optimized by a global instanciation
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
 
@@ -203,7 +203,7 @@ distblk computeSADWP_otf(StorablePicture *ref1,
     if(mcost > imin_cost)
       return (dist_scale_f((distblk)mcost));
   }
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     int blocksize_x_cr = mv_block->blocksize_cr_x;
@@ -251,8 +251,8 @@ distblk computeSADWP_otf(StorablePicture *ref1,
 *  JLT :  BiPred SAD computation (no weights) ( on-the-fly )
 ************************************************************************
 */
-distblk computeBiPredSAD1_otf(StorablePicture *ref1, 
-                      StorablePicture *ref2, 
+distblk computeBiPredSAD1_otf(StorablePicture *ref1,
+                      StorablePicture *ref2,
                       MEBlock *mv_block,
                       distblk min_mcost,
                       MotionVector *cand1,
@@ -270,7 +270,7 @@ distblk computeBiPredSAD1_otf(StorablePicture *ref1,
   int *imgpel_abs = p_Vid->imgpel_abs;
 #endif
 
-  imgpel  *src_line, *ref2_line, *ref1_line ; 
+  imgpel  *src_line, *ref2_line, *ref1_line ;
   imgpel  data2[MB_PIXELS], data1[MB_PIXELS];                                  // local allocation could be optimized by a global instanciation
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
 
@@ -309,7 +309,7 @@ distblk computeBiPredSAD1_otf(StorablePicture *ref1,
       return (dist_scale_f((distblk)mcost));
   }
 
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     int blocksize_x_cr = mv_block->blocksize_cr_x;
@@ -320,7 +320,7 @@ distblk computeBiPredSAD1_otf(StorablePicture *ref1,
     for (k=1; k<3; k++)
     {
       mcr_cost = 0;
-      
+
       src_line = mv_block->orig_pic[k];
       ref2_line = data2 ;
       ref1_line = data1 ;
@@ -354,8 +354,8 @@ distblk computeBiPredSAD1_otf(StorablePicture *ref1,
 *  JLT :  BiPred SAD computation (with weights) ( on-the-fly )
 ************************************************************************
 */
-distblk computeBiPredSAD2_otf(StorablePicture *ref1, 
-                      StorablePicture *ref2, 
+distblk computeBiPredSAD2_otf(StorablePicture *ref1,
+                      StorablePicture *ref2,
                       MEBlock *mv_block,
                       distblk min_mcost,
                       MotionVector *cand1,
@@ -368,7 +368,7 @@ distblk computeBiPredSAD2_otf(StorablePicture *ref1,
   Slice *currSlice = mv_block->p_Slice;
   DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
   int denom = currSlice->luma_log_weight_denom + 1;
-  int lround = 2 * currSlice->wp_luma_round;  
+  int lround = 2 * currSlice->wp_luma_round;
   int max_imgpel_value = p_Vid->max_imgpel_value;
   int y,x;
   int weighted_pel, pixel1, pixel2;
@@ -378,13 +378,13 @@ distblk computeBiPredSAD2_otf(StorablePicture *ref1,
   short weight2 = mv_block->weight2;
   short offsetBi = mv_block->offsetBi;
 
-  imgpel  *src_line, *ref2_line, *ref1_line ; 
+  imgpel  *src_line, *ref2_line, *ref1_line ;
   imgpel  data2[MB_PIXELS], data1[MB_PIXELS];                                  // local allocation could be optimized by a global instanciation
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
   src_line = mv_block->orig_pic[0];
   ref2_line = data2 ;
   ref1_line = data1 ;
-  
+
   p_Dpb->pf_get_block_luma( p_Vid, ref2_line, tmp_line, cand2->mv_x, cand2->mv_y, blocksize_x, blocksize_y, ref2, 0 );
   p_Dpb->pf_get_block_luma( p_Vid, ref1_line, tmp_line, cand1->mv_x, cand1->mv_y, blocksize_x, blocksize_y, ref1, 0 );
 
@@ -421,7 +421,7 @@ distblk computeBiPredSAD2_otf(StorablePicture *ref1,
       return dist_scale_f((distblk)mcost);
   }
 
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     int blocksize_x_cr = mv_block->blocksize_cr_x;
@@ -461,8 +461,8 @@ distblk computeBiPredSAD2_otf(StorablePicture *ref1,
         }
       }
       mcost += mv_block->ChromaMEWeight * mcr_cost;
-      
-      if(mcost > imin_cost) 
+
+      if(mcost > imin_cost)
         return dist_scale_f((distblk)mcost);
     }
   }
@@ -527,7 +527,7 @@ distblk computeSATD_otf(StorablePicture *ref1,
     }
   }
   else
-  { // 8x8 TRANSFORM    
+  { // 8x8 TRANSFORM
     src_size_x = (blocksize_x - BLOCK_SIZE_8x8);
     src_size_mul = blocksize_x * BLOCK_SIZE_8x8;
     for (y = cand->mv_y; y < cand->mv_y + (blocksize_y<<2); y += (BLOCK_SIZE_8x8_SP) )
@@ -589,9 +589,9 @@ distblk computeSATDWP_otf(StorablePicture *ref1,
   DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
   short luma_log_weight_denom = currSlice->luma_log_weight_denom;
   short weight = mv_block->weight_luma;
-  short offset = mv_block->offset_luma; 
+  short offset = mv_block->offset_luma;
 
-  int wp_luma_round = currSlice->wp_luma_round;  
+  int wp_luma_round = currSlice->wp_luma_round;
   int max_imgpel_value = p_Vid->max_imgpel_value;
   short *d, diff[MB_PIXELS];
   imgpel *src_line, *ref_line, data[MB_PIXELS];
@@ -623,8 +623,8 @@ distblk computeSATDWP_otf(StorablePicture *ref1,
           src_line += src_size_x;
         }
         mcost += HadamardSAD4x4 (diff);
-        
-        if(mcost > imin_cost) 
+
+        if(mcost > imin_cost)
           return dist_scale_f((distblk)mcost);
       }
       src_tmp += src_size_mul;
@@ -664,7 +664,7 @@ distblk computeSATDWP_otf(StorablePicture *ref1,
           src_line += src_size_x;
         }
         mcost += HadamardSAD8x8 (diff);
-        if(mcost > imin_cost) 
+        if(mcost > imin_cost)
           return dist_scale_f((distblk)mcost);
       }
       src_tmp += src_size_mul;
@@ -677,12 +677,12 @@ distblk computeSATDWP_otf(StorablePicture *ref1,
 
 /*!
 ************************************************************************
-* \brief 
+* \brief
 *  JLT :  BiPred (w/o weights) SATD computation ( on-the-fly )
 ************************************************************************
 */
-distblk computeBiPredSATD1_otf(StorablePicture *ref1, 
-                       StorablePicture *ref2, 
+distblk computeBiPredSATD1_otf(StorablePicture *ref1,
+                       StorablePicture *ref2,
                        MEBlock *mv_block,
                        distblk min_mcost,
                        MotionVector *cand1,
@@ -715,7 +715,7 @@ distblk computeBiPredSATD1_otf(StorablePicture *ref1,
         src_line   = src_tmp + x;
         p_Dpb->pf_get_block_luma( p_Vid, ref2_line, tmp_line, cand2->mv_x + (x<<2) , cand2->mv_y + y, BLOCK_SIZE, BLOCK_SIZE, ref2, 0 );
         p_Dpb->pf_get_block_luma( p_Vid, ref1_line, tmp_line, cand1->mv_x + (x<<2) , cand1->mv_y + y, BLOCK_SIZE, BLOCK_SIZE, ref1, 0 );
-        
+
         for (y4 = 0; y4 < BLOCK_SIZE; y4++ )
         {
           *d++ = (*src_line++) - ((*ref1_line++ + *ref2_line++ + 1)>>1);
@@ -726,7 +726,7 @@ distblk computeBiPredSATD1_otf(StorablePicture *ref1,
           src_line  += src_size_x;
         }
         mcost += HadamardSAD4x4 (diff);
-        if(mcost > imin_cost) 
+        if(mcost > imin_cost)
           return dist_scale_f((distblk)mcost);
       }
       src_tmp += src_size_mul;
@@ -780,8 +780,8 @@ distblk computeBiPredSATD1_otf(StorablePicture *ref1,
 *  JLT :  BiPred (w/ weights) SATD computation ( on-the-fly )
 ************************************************************************
 */
-distblk computeBiPredSATD2_otf(StorablePicture *ref1, 
-                       StorablePicture *ref2, 
+distblk computeBiPredSATD2_otf(StorablePicture *ref1,
+                       StorablePicture *ref2,
                        MEBlock *mv_block,
                        distblk min_mcost,
                        MotionVector *cand1,
@@ -951,7 +951,7 @@ distblk computeSSE_otf(StorablePicture *ref1,
   DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
 
   imgpel *src_line = mv_block->orig_pic[0];
-  imgpel *ref_line , data[MB_PIXELS] ; 
+  imgpel *ref_line , data[MB_PIXELS] ;
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
   ref_line = data;
 
@@ -970,7 +970,7 @@ distblk computeSSE_otf(StorablePicture *ref1,
       return dist_scale_f((distblk)mcost);
   }
 
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     int blocksize_x_cr = mv_block->blocksize_cr_x;
@@ -1024,14 +1024,14 @@ distblk computeSSEWP_otf(StorablePicture *ref1,
   Slice *currSlice = mv_block->p_Slice;
   DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
   short weight = mv_block->weight_luma;
-  short offset = mv_block->offset_luma; 
+  short offset = mv_block->offset_luma;
 
-  int wp_luma_round = currSlice->wp_luma_round;  
+  int wp_luma_round = currSlice->wp_luma_round;
   int max_imgpel_value = p_Vid->max_imgpel_value;
   short luma_log_weight_denom = currSlice->luma_log_weight_denom;
 
   imgpel *src_line = mv_block->orig_pic[0];
-  imgpel *ref_line , data[MB_PIXELS] ; 
+  imgpel *ref_line , data[MB_PIXELS] ;
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
 
   ref_line = data;
@@ -1054,7 +1054,7 @@ distblk computeSSEWP_otf(StorablePicture *ref1,
       return dist_scale_f((distblk)mcost);
   }
 
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     // These could be made global to reduce computations
@@ -1069,7 +1069,7 @@ distblk computeSSEWP_otf(StorablePicture *ref1,
     for (k=0; k<2; k++)
     {
       weight = mv_block->weight_cr[k];
-      offset = mv_block->offset_cr[k]; 
+      offset = mv_block->offset_cr[k];
 
       mcr_cost = 0;
       src_line = mv_block->orig_pic[k+1];
@@ -1102,8 +1102,8 @@ distblk computeSSEWP_otf(StorablePicture *ref1,
 *  JLT :  BiPred SSE computation (no weights) ( on-the-fly )
 ************************************************************************
 */
-distblk computeBiPredSSE1_otf(StorablePicture *ref1, 
-                      StorablePicture *ref2, 
+distblk computeBiPredSSE1_otf(StorablePicture *ref1,
+                      StorablePicture *ref2,
                       MEBlock *mv_block,
                       distblk min_mcost,
                       MotionVector *cand1,
@@ -1118,7 +1118,7 @@ distblk computeBiPredSSE1_otf(StorablePicture *ref1,
   VideoParameters *p_Vid = mv_block->p_Vid;
   DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
 
-  imgpel  *src_line, *ref2_line, *ref1_line ; 
+  imgpel  *src_line, *ref2_line, *ref1_line ;
   imgpel  data2[MB_PIXELS], data1[MB_PIXELS];                                  // local allocation could be optimized by a global instanciation
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
   src_line = mv_block->orig_pic[0];
@@ -1145,7 +1145,7 @@ distblk computeBiPredSSE1_otf(StorablePicture *ref1,
       return dist_scale_f((distblk)mcost);
   }
 
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     int blocksize_x_cr = mv_block->blocksize_cr_x;
@@ -1188,8 +1188,8 @@ distblk computeBiPredSSE1_otf(StorablePicture *ref1,
 *  JLT :  BiPred SSE computation (with weights) ( on-the-fly )
 ************************************************************************
 */
-distblk computeBiPredSSE2_otf(StorablePicture *ref1, 
-                      StorablePicture *ref2, 
+distblk computeBiPredSSE2_otf(StorablePicture *ref1,
+                      StorablePicture *ref2,
                       MEBlock *mv_block,
                       distblk min_mcost,
                       MotionVector *cand1,
@@ -1199,7 +1199,7 @@ distblk computeBiPredSSE2_otf(StorablePicture *ref1,
   int mcost = 0;
   int bi_diff;
   VideoParameters *p_Vid = mv_block->p_Vid;
-  Slice *currSlice = mv_block->p_Slice;  
+  Slice *currSlice = mv_block->p_Slice;
   DecodedPictureBuffer *p_Dpb = p_Vid->p_Dpb_layer[p_Vid->dpb_layer_id];
   int denom = currSlice->luma_log_weight_denom + 1;
   int lround = 2 * currSlice->wp_luma_round;
@@ -1213,7 +1213,7 @@ distblk computeBiPredSSE2_otf(StorablePicture *ref1,
   short blocksize_x = mv_block->blocksize_x;
   short blocksize_y = mv_block->blocksize_y;
 
-  imgpel  *src_line, *ref2_line, *ref1_line ; 
+  imgpel  *src_line, *ref2_line, *ref1_line ;
   imgpel  data2[MB_PIXELS], data1[MB_PIXELS];                                  // local allocation could be optimized by a global instanciation
   int     tmp_line[ (MB_BLOCK_SIZE+5)*(MB_BLOCK_SIZE+5) ] ;
   src_line = mv_block->orig_pic[0];
@@ -1255,7 +1255,7 @@ distblk computeBiPredSSE2_otf(StorablePicture *ref1,
       return dist_scale_f((distblk)mcost);
   }
 
-  if ( mv_block->ChromaMEEnable ) 
+  if ( mv_block->ChromaMEEnable )
   {
     // calculate chroma conribution to motion compensation error
     int blocksize_x_cr = mv_block->blocksize_cr_x;

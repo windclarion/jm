@@ -103,7 +103,7 @@ static int FmoGenerateMBAmap                 (VideoParameters * p_Vid, seq_param
 /*!
  ************************************************************************
  * \brief
- *    Generates p_Vid->MapUnitToSliceGroupMap 
+ *    Generates p_Vid->MapUnitToSliceGroupMap
  *
  * \param p_Vid
  *    Image Parameter to be used for map generation
@@ -125,7 +125,7 @@ static int FmoGenerateMapUnitToSliceGroupMap (VideoParameters * p_Vid, pic_param
     }
   }
 
-  // allocate memory for p_Vid->MapUnitToSliceGroupMap 
+  // allocate memory for p_Vid->MapUnitToSliceGroupMap
   if (p_Vid->MapUnitToSliceGroupMap)
     free (p_Vid->MapUnitToSliceGroupMap);
 
@@ -175,7 +175,7 @@ static int FmoGenerateMapUnitToSliceGroupMap (VideoParameters * p_Vid, pic_param
 /*!
  ************************************************************************
  * \brief
- *    Generates MBAmap from p_Vid->MapUnitToSliceGroupMap 
+ *    Generates MBAmap from p_Vid->MapUnitToSliceGroupMap
  *
  * \param p_Vid
  *    Image Parameter to be used for map generation
@@ -340,7 +340,7 @@ static void FmoGenerateType0MapUnitMap (VideoParameters * p_Vid, pic_parameter_s
 {
   unsigned iGroup, j;
   unsigned i = 0;
-  
+
   do
   {
     for( iGroup = 0;

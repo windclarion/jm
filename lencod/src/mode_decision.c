@@ -149,13 +149,13 @@ void init_enc_mb_params(Macroblock* currMB, RD_PARAMS *enc_mb, int intra)
   int *InterSearch = p_Inp->InterSearch[(p_Vid->num_of_layers > 1) ? currSlice->view_id : 0][(currSlice->slice_type == B_SLICE)];
 #else
   int *InterSearch = p_Inp->InterSearch[0][(currSlice->slice_type == B_SLICE)];
-#endif  
+#endif
 
   int l,k;
 
   enc_mb->curr_mb_field = (short) ((currSlice->mb_aff_frame_flag) && (currMB->mb_field));
 
-  // Set valid modes  
+  // Set valid modes
   enc_mb->valid[I8MB]  = (short) ((!p_Inp->DisableIntraInInter[p_Vid->view_id] || intra )?   p_Inp->Transform8x8Mode : 0);
   enc_mb->valid[I4MB]  = (short) ((!p_Inp->DisableIntraInInter[p_Vid->view_id] || intra )? ((p_Inp->Transform8x8Mode == 2) ? 0 : 1) : 0);
   enc_mb->valid[I4MB]  = (short) ((!p_Inp->DisableIntra4x4  ) ? enc_mb->valid[I4MB] : 0);
@@ -177,9 +177,9 @@ void init_enc_mb_params(Macroblock* currMB, RD_PARAMS *enc_mb, int intra)
   enc_mb->valid[P8x8]  = (short) (enc_mb->valid[4] || enc_mb->valid[5] || enc_mb->valid[6] || enc_mb->valid[7]);
 
 
-  if (currSlice->UseRDOQuant && p_Inp->RDOQ_CP_Mode && (p_Vid->qp != p_Vid->masterQP) )  
+  if (currSlice->UseRDOQuant && p_Inp->RDOQ_CP_Mode && (p_Vid->qp != p_Vid->masterQP) )
     RDOQ_update_mode(currSlice, enc_mb);
-  
+
   if(currSlice->slice_type == SP_SLICE || currSlice->slice_type == SI_SLICE)
   {
     if(currSlice->slice_type == SI_SLICE)
@@ -361,7 +361,7 @@ void list_prediction_cost(Macroblock *currMB, int list, int block, int mode, RD_
   {
     if (p_Vid->active_pps->weighted_bipred_idc == 1)
     {
-      int weight_sum = currSlice->wbp_weight[0][(int) best_ref[LIST_0]][(int) best_ref[LIST_1]][0] + 
+      int weight_sum = currSlice->wbp_weight[0][(int) best_ref[LIST_0]][(int) best_ref[LIST_1]][0] +
         currSlice->wbp_weight[1][(int) best_ref[LIST_0]][(int) best_ref[LIST_1]][0];
 
       if (weight_sum < -128 ||  weight_sum > 127)
@@ -419,17 +419,17 @@ static inline distblk compute_ref_cost(Slice *currSlice, RD_PARAMS *enc_mb, int 
 */
 void determine_prediction_list( distblk bmcost[5], Info8x8 *best, distblk *cost)
 {
-  int bestlist;  
+  int bestlist;
   *cost += distblkminarray ( bmcost, 5, &bestlist);
-  
+
   if (bestlist <= BI_PRED)  //LIST_0, LIST_1 & BI_DIR
   {
-    best->pdir = (char) bestlist; 
+    best->pdir = (char) bestlist;
     best->bipred= 0;
   }
   else                      //BI_PRED_L0 & BI_PRED_L1
   {
-    best->pdir = 2;    
+    best->pdir = 2;
     best->bipred = (char) (bestlist - 2);
     best->ref[LIST_0] = 0;
     best->ref[LIST_1] = 0;
@@ -452,7 +452,7 @@ void compute_mode_RD_cost(Macroblock *currMB,
   InputParameters *p_Inp = currMB->p_Inp;
   int terminate_16x16 = 0, terminate_trans = 0, ctr16x16 = 0;
   Slice *currSlice = currMB->p_Slice;
-  RDOPTStructure  *p_RDO = currSlice->p_RDO;   
+  RDOPTStructure  *p_RDO = currSlice->p_RDO;
   int bslice = (currSlice->slice_type == B_SLICE);
 
   //--- transform size ---
@@ -509,7 +509,7 @@ void compute_mode_RD_cost(Macroblock *currMB,
               if(currMB->cbp == 0)
                 *inter_skip = 1;
             }
-          }        
+          }
         }
         // This code needs to be fixed - BUG? ATOUR
 
@@ -523,7 +523,7 @@ void compute_mode_RD_cost(Macroblock *currMB,
     if ( (bslice && mode == 0 && (*inter_skip == 0) && enc_mb->valid[mode] && currMB->cbp && (currMB->cbp&15) != 15 && !p_Inp->nobskip
     && !(currMB->qp_scaled[0] == 0 && p_Vid->active_sps->lossless_qpprime_flag==1) )
     )
-    { 
+    {
       currSlice->NoResidueDirect = 1;
       if(mode == P8x8)
       {
@@ -560,9 +560,9 @@ void compute_mode_RD_cost(Macroblock *currMB,
       }
     }
 
-    //modes 0 and 1 of a B frame 
+    //modes 0 and 1 of a B frame
     if (p_Vid->AdaptiveRounding && bslice && mode <= 1)
-    { 
+    {
       if (currMB->temp_transform_size_8x8_flag)
         update_adaptive_rounding_16x16( p_Vid, p_Vid->ARCofAdj8x8, mode);
       else
@@ -636,7 +636,7 @@ void update_lambda_costs(Macroblock *currMB, RD_PARAMS *enc_mb, int lambda_mf[3]
  */
 int iminarray ( int arr[], int size, int *minind )
 {
-  int i; 
+  int i;
   int mincand = arr[0];
   *minind = 0;
   for ( i = 1; i < size; i++ )
@@ -648,11 +648,11 @@ int iminarray ( int arr[], int size, int *minind )
     }
   }
   return mincand;
-} 
+}
 
 distblk distblkminarray ( distblk arr[], int size, int *minind )
 {
-  int i; 
+  int i;
   distblk mincand = arr[0];
   *minind = 0;
   for ( i = 1; i < size; i++ )
@@ -664,7 +664,7 @@ distblk distblkminarray ( distblk arr[], int size, int *minind )
     }
   }
   return mincand;
-} 
+}
 
 /*!
  *************************************************************************************
@@ -672,7 +672,7 @@ distblk distblkminarray ( distblk arr[], int size, int *minind )
  *    Determines whether bi prediction is enabaled for current mode
  *************************************************************************************
  */
-int is_bipred_enabled(VideoParameters *p_Vid, int mode) 
+int is_bipred_enabled(VideoParameters *p_Vid, int mode)
 {
   return p_Vid->bipred_enabled[(mode == P8x8) ? 4: mode];
 }
@@ -683,8 +683,8 @@ int is_bipred_enabled(VideoParameters *p_Vid, int mode)
  *    Decides whether to perform transform 8x8 for this mode
  *************************************************************************************
  */
-int transform_termination_control(Macroblock* currMB, int mode) 
-{  
+int transform_termination_control(Macroblock* currMB, int mode)
+{
   Slice *currSlice = currMB->p_Slice;
   VideoParameters *p_Vid = currMB->p_Vid;
   InputParameters *p_Inp = currMB->p_Inp;
@@ -696,9 +696,9 @@ int transform_termination_control(Macroblock* currMB, int mode)
   if (p_Inp->Transform8x8Mode == 1)
   {
     //=========== try the 8x8 transform with mb_types 16x16,16x8, 8x16, 8x8, and DIRECT 16x16 ===========
-    if (currMB->luma_transform_size_8x8_flag == FALSE && 
+    if (currMB->luma_transform_size_8x8_flag == FALSE &&
       ((mode >= 1 && mode <= 3) || ((currSlice->slice_type == B_SLICE) && mode == 0 && p_Vid->active_sps->direct_8x8_inference_flag) || (mode == P8x8)))
-        //if (currMB->luma_transform_size_8x8_flag == FALSE && 
+        //if (currMB->luma_transform_size_8x8_flag == FALSE &&
       //((mode >= 1 && mode <= 3) || ((currSlice->slice_type == B_SLICE) && mode == 0 && active_sps->direct_8x8_inference_flag)))
     {
       //try with 8x8 transform size
@@ -732,7 +732,7 @@ int bslice_16x16_termination_control(InputParameters *p_Inp, Block8x8Info *b8x8i
     char pdir = 0;
     short i;
     char bipred_me = 0;
- 
+
     switch (*ctr16x16)
     {
     case 0:

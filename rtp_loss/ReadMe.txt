@@ -1,6 +1,6 @@
-This programm can be used to simulate packet loss on RTP files. The C random number 
-generator is used for selecting the packets. The random number generator is not 
-initialized befur usage. Therefore subsequent runs of the tool will create identical 
+This programm can be used to simulate packet loss on RTP files. The C random number
+generator is used for selecting the packets. The random number generator is not
+initialized befur usage. Therefore subsequent runs of the tool will create identical
 loss pattern.
 
 usage:

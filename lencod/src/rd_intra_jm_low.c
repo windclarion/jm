@@ -81,7 +81,7 @@ int mode_decision_for_I4x4_blocks_JM_Low (Macroblock *currMB, int  b8,  int  b4,
   int  block_y     = ((b8 >> 1) << 3)  + ((b4 >> 1) << 2);
   int  pic_pix_x   = currMB->pix_x  + block_x;
   int  pic_pix_y   = currMB->pix_y  + block_y;
-  int  pic_opix_y  = currMB->opix_y + block_y;  
+  int  pic_opix_y  = currMB->opix_y + block_y;
 
   int left_available, up_available, all_available;
   int  *mb_size  = p_Vid->mb_size[IS_LUMA];
@@ -129,7 +129,7 @@ int mode_decision_for_I4x4_blocks_JM_Low (Macroblock *currMB, int  b8,  int  b4,
 
   //===== INTRA PREDICTION FOR 4x4 BLOCK =====
   // set intra prediction values for 4x4 intra prediction
-  currSlice->set_intrapred_4x4(currMB, PLANE_Y, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);  
+  currSlice->set_intrapred_4x4(currMB, PLANE_Y, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);
 
   //===== LOOP OVER ALL 4x4 INTRA PREDICTION MODES =====
   for (ipmode = 0; ipmode < NO_INTRA_PMODE; ipmode++)
@@ -172,7 +172,7 @@ int mode_decision_for_I4x4_blocks_JM_Low (Macroblock *currMB, int  b8,  int  b4,
   // get prediction and prediction error
   generate_pred_error_4x4(cur_img, mpr4x4[best_ipmode], &currSlice->mb_pred[0][block_y], &currSlice->mb_ores[0][block_y], pic_pix_x, block_x);
 
-  currMB->ipmode_DPCM = (short) best_ipmode;  
+  currMB->ipmode_DPCM = (short) best_ipmode;
 
   select_transform(currMB);
 
@@ -207,9 +207,9 @@ int mode_decision_for_I8x8_blocks_JM_Low (Macroblock *currMB, int b8, int lambda
   int     pic_opix_y  = currMB->opix_y + block_y;
   int     mb_block_y  = (currMB->block_y) + (block_y >> 2);
   int     mb_block_x  = (currMB->block_x) + (block_x >> 2);
-    
+
   int left_available, up_available, all_available;
-  int    **mb_ores = currSlice->mb_ores[0]; 
+  int    **mb_ores = currSlice->mb_ores[0];
   imgpel **mb_pred = currSlice->mb_pred[0];
   int *mb_size = p_Vid->mb_size[IS_LUMA];
 
@@ -267,7 +267,7 @@ int mode_decision_for_I8x8_blocks_JM_Low (Macroblock *currMB, int b8, int lambda
   for (ipmode = 0; ipmode < NO_INTRA_PMODE; ipmode++)
   {
     if (ipmode != mostProbableMode)
-    {      
+    {
       if( (ipmode==DC_PRED) ||
         ((ipmode==VERT_PRED||ipmode==VERT_LEFT_PRED||ipmode==DIAG_DOWN_LEFT_PRED) && up_available ) ||
         ((ipmode==HOR_PRED||ipmode==HOR_UP_PRED) && left_available ) ||
@@ -275,7 +275,7 @@ int mode_decision_for_I8x8_blocks_JM_Low (Macroblock *currMB, int b8, int lambda
       {
         get_intrapred_8x8(currMB, PLANE_Y, ipmode, left_available, up_available);
         cost  = fixedcost;
-        
+
         if (cost < *min_cost)
         {
           cost += currSlice->compute_cost8x8(p_Vid, &p_Vid->pImgOrg[0][pic_opix_y], currSlice->mpr_8x8[0][ipmode], pic_pix_x, *min_cost - cost);
@@ -304,7 +304,7 @@ int mode_decision_for_I8x8_blocks_JM_Low (Macroblock *currMB, int b8, int lambda
   generate_pred_error_8x8(&p_Vid->pCurImg[pic_opix_y], currSlice->mpr_8x8[0][best_ipmode], &mb_pred[block_y], &mb_ores[block_y], pic_pix_x, block_x);
   currMB->ipmode_DPCM = (short) best_ipmode;
 
-  nonzero = currMB->residual_transform_quant_luma_8x8 (currMB, PLANE_Y, b8, &dummy, 1);    
+  nonzero = currMB->residual_transform_quant_luma_8x8 (currMB, PLANE_Y, b8, &dummy, 1);
   return nonzero;
 }
 

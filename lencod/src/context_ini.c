@@ -115,7 +115,7 @@ void free_context_memory (VideoParameters *p_Vid)
 
 
 static inline void binary_context_init1(int qp, int jj, BiContextType *ctx, const char table[][2])
-{ 
+{
   int j;
   for (j=0; j<jj; j++)
   {
@@ -124,13 +124,13 @@ static inline void binary_context_init1(int qp, int jj, BiContextType *ctx, cons
 }
 
 static inline void binary_context_init2(int qp, int ii, int jj, BiContextType ctx[][11], const char table[][11][2])
-{ 
+{
   int i, j;
   for (i = 0; i < ii; i++)
   {
     for (j = 0; j < jj; j++)
     {
-      biari_init_context (qp, &(ctx[i][j]), &(table[i][j][0]));      
+      biari_init_context (qp, &(ctx[i][j]), &(table[i][j][0]));
     }
   }
 }
@@ -191,7 +191,7 @@ void init_contexts (Slice *currSlice)
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_BCBP_CTX, tc->bcbp_contexts,    INIT_BCBP_I[model_number]);
     binary_context_init1 (qp, NUM_DELTA_QP_CTX,         tc->delta_qp_contexts,INIT_DELTA_QP_I[model_number][0]);
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_MAP_CTX,  tc->map_contexts[0],  INIT_MAP_I[model_number]);
-    BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_LAST_CTX, tc->last_contexts[0], INIT_LAST_I[model_number]);  
+    BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_LAST_CTX, tc->last_contexts[0], INIT_LAST_I[model_number]);
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_ONE_CTX,  tc->one_contexts,     INIT_ONE_I[model_number]);
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_ABS_CTX,  tc->abs_contexts,     INIT_ABS_I[model_number]);
 #if ENABLE_FIELD_CTX
@@ -216,7 +216,7 @@ void init_contexts (Slice *currSlice)
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_BCBP_CTX, tc->bcbp_contexts,    INIT_BCBP_P[model_number]);
     binary_context_init1 (qp, NUM_DELTA_QP_CTX,              tc->delta_qp_contexts,INIT_DELTA_QP_P[model_number][0]);
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_MAP_CTX,  tc->map_contexts[0],  INIT_MAP_P[model_number]);
-    BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_LAST_CTX, tc->last_contexts[0], INIT_LAST_P[model_number]);  
+    BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_LAST_CTX, tc->last_contexts[0], INIT_LAST_P[model_number]);
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_ONE_CTX,  tc->one_contexts,     INIT_ONE_P[model_number]);
     BIARI_CTX_INIT2 (qp, NUM_BLOCK_TYPES, NUM_ABS_CTX,  tc->abs_contexts,     INIT_ABS_P[model_number]);
 #if ENABLE_FIELD_CTX
@@ -247,13 +247,13 @@ double XRate (VideoParameters *p_Vid, BiContextTypePtr ctx, const char* model)
 
 /*
 static inline void add_xrate2(VideoParameters *p_Vid, int ii, int jj, BiContextType **ctx, const char ***tab, double *xr)
-{ 
+{
   int i, j;
-  for (i=0; i<ii; i++) 
-  for (j=0; j<jj; j++) 
-  { 
+  for (i=0; i<ii; i++)
+  for (j=0; j<jj; j++)
+  {
     *xr += XRate (p_Vid, &(ctx[i][j]), &(tab[i][j][0]));
-  } 
+  }
 }
 */
 

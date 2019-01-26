@@ -63,7 +63,7 @@ extern void rc_copy_quadratic ( VideoParameters *p_Vid, InputParameters *p_Inp, 
 extern void rc_init_seq          (VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_quad, RCGeneric *p_gen);
 extern void rc_init_GOP          (VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_quad, RCGeneric *p_gen, int np, int nb);
 extern void rc_update_pict_frame (VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_quad, RCGeneric *p_gen, int nbits);
-extern void rc_init_pict         (VideoParameters *p_Vid, InputParameters *p_Inp, 
+extern void rc_init_pict         (VideoParameters *p_Vid, InputParameters *p_Inp,
                            RCQuadratic *p_quad, RCGeneric *p_gen, int fieldpic, int topfield, int targetcomputation, float mult);
 extern void rc_update_pict       (VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_quad, RCGeneric *p_gen, int nbits);
 extern void rc_update_picture    (VideoParameters *p_Vid, InputParameters *p_Inp, int bits);

@@ -40,7 +40,7 @@
  *
  * \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
- *     - Alexis Michael Tourapis         <alexismt@ieee.org> 
+ *     - Alexis Michael Tourapis         <alexismt@ieee.org>
  *     - Karsten Suehring
  *     - Yuwen He                        <yhe@dolby.com>
  *
@@ -152,11 +152,11 @@ void free_mem2Ddist(DistortionData **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Ddist: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Ddist: trying to free unused memory",100);
@@ -176,11 +176,11 @@ void free_mem2Dlm(LambdaParams **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Dlm: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dlm: trying to free unused memory",100);
@@ -230,7 +230,7 @@ int get_mem3Dmp(PicMotionParams ****array3D, int dim0, int dim1, int dim2)
 
   for(i = 1; i < dim0; i++)
     (*array3D)[i] = (*array3D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -247,11 +247,11 @@ void free_mem2Dmp(PicMotionParams **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Dmp: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dmp: trying to free unused memory",100);
@@ -321,7 +321,7 @@ int get_mem3Dquant(LevelQuantParams ****array3D, int dim0, int dim1, int dim2)
 
   for(i = 1; i < dim0; i++)
     (*array3D)[i] = (*array3D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -345,7 +345,7 @@ int get_mem4Dquant(LevelQuantParams *****array4D, int dim0, int dim1, int dim2, 
 
   for(i = 1; i < dim0; i++)
     (*array4D)[i] = (*array4D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -369,7 +369,7 @@ int get_mem5Dquant(LevelQuantParams ******array5D, int dim0, int dim1, int dim2,
 
   for(i = 1; i < dim0; i++)
     (*array5D)[i] = (*array5D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -410,11 +410,11 @@ void free_mem2Dwp(WPParams **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Dwp: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dwp: trying to free unused memory",100);
@@ -434,11 +434,11 @@ void free_mem2Dquant(LevelQuantParams **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Dquant: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dquant: trying to free unused memory",100);
@@ -550,7 +550,7 @@ int get_mem3D_spp(StorablePicturePtr ****array3D, int dim0, int dim1, int dim2)
 
   for(i = 1; i < dim0; i++)
     (*array3D)[i] = (*array3D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -597,7 +597,7 @@ int get_mem3Dmv(MotionVector ****array3D, int dim0, int dim1, int dim2)
 
   for(i = 1; i < dim0; i++)
     (*array3D)[i] = (*array3D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -621,7 +621,7 @@ int get_mem4Dmv(MotionVector *****array4D, int dim0, int dim1, int dim2, int dim
 
   for(i = 1; i < dim0; i++)
     (*array4D)[i] = (*array4D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -645,7 +645,7 @@ int get_mem5Dmv(MotionVector ******array5D, int dim0, int dim1, int dim2, int di
 
   for(i = 1; i < dim0; i++)
     (*array5D)[i] = (*array5D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -669,7 +669,7 @@ int get_mem6Dmv(MotionVector *******array6D, int dim0, int dim1, int dim2, int d
 
   for(i = 1; i < dim0; i++)
     (*array6D)[i] = (*array6D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -693,7 +693,7 @@ int get_mem7Dmv(MotionVector ********array7D, int dim0, int dim1, int dim2, int 
 
   for(i = 1; i < dim0; i++)
     (*array7D)[i] = (*array7D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -711,11 +711,11 @@ void free_mem2D_spp(StorablePicturePtr **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2D_spp: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2D_spp: trying to free unused memory",100);
@@ -757,11 +757,11 @@ void free_mem2Dmv(MotionVector **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Dmv: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dmv: trying to free unused memory",100);
@@ -915,7 +915,7 @@ int get_mem2Dpel_pad(imgpel ***array2D, int dim0, int dim1, int iPadY, int iPadX
   int i;
   imgpel *curr = NULL;
   int iHeight, iWidth;
-  
+
   iHeight = dim0+2*iPadY;
   iWidth = dim1+2*iPadX;
   if((*array2D    = (imgpel**)mem_malloc(iHeight*sizeof(imgpel*))) == NULL)
@@ -956,7 +956,7 @@ int get_mem3Dpel(imgpel ****array3D, int dim0, int dim1, int dim2)
 
   for(i = 1; i < dim0; i++)
     (*array3D)[i] = (*array3D)[i - 1] + dim1;
-  
+
   return mem_size;
 }
 
@@ -969,7 +969,7 @@ int get_mem3Dpel_pad(imgpel ****array3D, int dim0, int dim1, int dim2, int iPadY
 
   for(i = 0; i < dim0; i++)
     mem_size += get_mem2Dpel_pad((*array3D)+i, dim1, dim2, iPadY, iPadX);
-  
+
   return mem_size;
 }
 
@@ -984,7 +984,7 @@ int get_mem3Dpel_pad(imgpel ****array3D, int dim0, int dim1, int dim2, int iPadY
  ************************************************************************
  */
 int get_mem4Dpel(imgpel *****array4D, int dim0, int dim1, int dim2, int dim3)
-{  
+{
   int  i, mem_size = dim0 * sizeof(imgpel***);
 
   if(((*array4D) = (imgpel****)mem_malloc(dim0 * sizeof(imgpel***))) == NULL)
@@ -1000,7 +1000,7 @@ int get_mem4Dpel(imgpel *****array4D, int dim0, int dim1, int dim2, int dim3)
 
 
 int get_mem4Dpel_pad(imgpel *****array4D, int dim0, int dim1, int dim2, int dim3, int iPadY, int iPadX)
-{  
+{
   int  i, mem_size = dim0 * sizeof(imgpel***);
 
   if(((*array4D) = (imgpel****)mem_malloc(dim0 * sizeof(imgpel***))) == NULL)
@@ -1065,7 +1065,7 @@ void free_mem1Dpel(imgpel *array1D)
   if (array1D)
   {
     mem_free (array1D);
-  } 
+  }
   else
   {
     error ("free_mem1Dpel: trying to free unused memory",100);
@@ -1085,11 +1085,11 @@ void free_mem2Dpel(imgpel **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
      error ("free_mem2Dpel: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dpel: trying to free unused memory",100);
@@ -1104,11 +1104,11 @@ void free_mem2Dpel_pad(imgpel **array2D, int iPadY, int iPadX)
     {
       mem_free (array2D[-iPadY]-iPadX);
     }
-    else 
+    else
       error ("free_mem2Dpel_pad: trying to free unused memory",100);
 
     mem_free (&array2D[-iPadY]);
-  } 
+  }
   else
   {
     error ("free_mem2Dpel_pad: trying to free unused memory",100);
@@ -1152,7 +1152,7 @@ void free_mem3Dpel_pad(imgpel ***array3D, int iDim12, int iPadY, int iPadX)
   {
     error ("free_mem3Dpel_pad: trying to free unused memory",100);
   }
-  
+
 }
 
 /*!
@@ -1324,7 +1324,7 @@ int get_mem2Dint_pad(int ***array2D, int dim0, int dim1, int iPadY, int iPadX)
   int i;
   int *curr = NULL;
   int iHeight, iWidth;
-  
+
   iHeight = dim0+2*iPadY;
   iWidth = dim1+2*iPadX;
   if((*array2D    = (int**)mem_malloc(iHeight*sizeof(int*))) == NULL)
@@ -1585,11 +1585,11 @@ void free_mem2D(byte **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2D: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2D: trying to free unused memory",100);
@@ -1609,11 +1609,11 @@ void free_mem2Dint(int **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Dint: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dint: trying to free unused memory",100);
@@ -1626,11 +1626,11 @@ void free_mem2Dint_pad(int **array2D, int iPadY, int iPadX)
   {
     if (*array2D)
       mem_free (array2D[-iPadY]-iPadX);
-    else 
+    else
       error ("free_mem2Dint_pad: trying to free unused memory",100);
 
     mem_free (&array2D[-iPadY]);
-  } 
+  }
   else
   {
     error ("free_mem2Dint_pad: trying to free unused memory",100);
@@ -1650,10 +1650,10 @@ void free_mem2Dint64(int64 **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Dint64: trying to free unused memory",100);
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dint64: trying to free unused memory",100);
@@ -1674,7 +1674,7 @@ void free_mem3D(byte ***array3D)
   {
    free_mem2D(*array3D);
    mem_free (array3D);
-  } 
+  }
   else
   {
     error ("free_mem3D: trying to free unused memory",100);
@@ -1694,7 +1694,7 @@ void free_mem4D(byte ****array4D)
   {
    free_mem3D(*array4D);
    mem_free (array4D);
-  } 
+  }
   else
   {
     error ("free_mem4D: trying to free unused memory",100);
@@ -1714,7 +1714,7 @@ void free_mem3Dint(int ***array3D)
   {
    free_mem2Dint(*array3D);
    mem_free (array3D);
-  } 
+  }
   else
   {
     error ("free_mem3Dint: trying to free unused memory",100);
@@ -1735,7 +1735,7 @@ void free_mem3Dint64(int64 ***array3D)
   {
    free_mem2Dint64(*array3D);
    mem_free (array3D);
-  } 
+  }
   else
   {
     error ("free_mem3Dint64: trying to free unused memory",100);
@@ -1748,7 +1748,7 @@ void free_mem3Ddistblk(distblk ***array3D)
   {
    free_mem2Ddistblk(*array3D);
    mem_free (array3D);
-  } 
+  }
   else
   {
     error ("free_mem3Ddistblk: trying to free unused memory",100);
@@ -1949,12 +1949,12 @@ int get_mem2Dshort(short ***array2D, int dim0, int dim1)
     no_mem_exit("get_mem2Dshort: array2D");
   if((*(*array2D) = (short* )mem_calloc(dim0 * dim1,sizeof(short ))) == NULL)
     no_mem_exit("get_mem2Dshort: array2D");
-  
+
   curr = (*array2D)[0];
   for(i = 1; i < dim0; i++)
   {
     curr += dim1;
-    (*array2D)[i] = curr;    
+    (*array2D)[i] = curr;
   }
 
   return dim0 * (sizeof(short*) + dim1 * sizeof(short));
@@ -1983,7 +1983,7 @@ int get_mem3Dshort(short ****array3D,int dim0, int dim1, int dim2)
   for(i = 1; i < dim0; i++)
   {
     curr += dim1;
-    (*array3D)[i] = curr;    
+    (*array3D)[i] = curr;
   }
 
   return mem_size;
@@ -2102,7 +2102,7 @@ void free_mem2Duint16(uint16 **array2D)
     else error ("free_mem2Duint16: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Duint16: trying to free unused memory",100);
@@ -2122,7 +2122,7 @@ void free_mem3Duint16(uint16 ***array3D)
   {
    free_mem2Duint16(*array3D);
    mem_free (array3D);
-  } 
+  }
   else
   {
     error ("free_mem3Duint16: trying to free unused memory",100);
@@ -2137,12 +2137,12 @@ void free_mem3Duint16(uint16 ***array3D)
  ************************************************************************
  */
 void free_mem4Duint16(uint16 ****array4D)
-{  
+{
   if (array4D)
   {
     free_mem3Duint16( *array4D);
     mem_free (array4D);
-  } 
+  }
   else
   {
     error ("free_mem4Duint16: trying to free unused memory",100);
@@ -2165,7 +2165,7 @@ void free_mem2Dshort(short **array2D)
     else error ("free_mem2Dshort: trying to free unused memory",100);
 
     mem_free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Dshort: trying to free unused memory",100);
@@ -2185,7 +2185,7 @@ void free_mem3Dshort(short ***array3D)
   {
    free_mem2Dshort(*array3D);
    mem_free (array3D);
-  } 
+  }
   else
   {
     error ("free_mem3Dshort: trying to free unused memory",100);
@@ -2200,12 +2200,12 @@ void free_mem3Dshort(short ***array3D)
  ************************************************************************
  */
 void free_mem4Dshort(short ****array4D)
-{  
+{
   if (array4D)
   {
     free_mem3Dshort( *array4D);
     mem_free (array4D);
-  } 
+  }
   else
   {
     error ("free_mem4Dshort: trying to free unused memory",100);
@@ -2287,7 +2287,7 @@ int get_mem2Ddouble(double ***array2D, int dim0, int dim1)
 
   if((*array2D      = (double**)mem_malloc(dim0 *       sizeof(double*))) == NULL)
     no_mem_exit("get_mem2Ddouble: array2D");
-  
+
   if(((*array2D)[0] = (double* )mem_calloc(dim0 * dim1, sizeof(double ))) == NULL)
     no_mem_exit("get_mem2Ddouble: array2D");
 
@@ -2482,7 +2482,7 @@ void free_mem2Ddouble(double **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Ddouble: trying to free unused memory",100);
 
     mem_free (array2D);
@@ -2507,7 +2507,7 @@ void free_mem1Dodouble(double *array1D, int offset)
   {
     array1D -= offset;
     mem_free (array1D);
-  } 
+  }
   else
   {
     error ("free_mem1Dodouble: trying to free unused memory",100);
@@ -2624,12 +2624,12 @@ void free_mem2Doint(int **array2D, int offset)
     array2D[0] -= offset;
     if (array2D[0])
       mem_free (array2D[0]);
-    else 
+    else
       error ("free_mem2Doint: trying to free unused memory",100);
 
     mem_free (array2D);
 
-  } 
+  }
   else
   {
     error ("free_mem2Doint: trying to free unused memory",100);
@@ -2650,12 +2650,12 @@ void free_offset_mem2Dshort(short **array2D, int dim1, int offset_y, int offset_
     array2D[0] -= offset_x + offset_y * dim1;
     if (array2D[0])
       mem_free (array2D[0]);
-    else 
+    else
       error ("free_offset_mem2Dshort: trying to free unused memory",100);
 
     mem_free (array2D);
 
-  } 
+  }
   else
   {
     error ("free_offset_mem2Dshort: trying to free unused memory",100);
@@ -2675,7 +2675,7 @@ void free_mem3Ddouble(double ***array3D)
   {
     free_mem2Ddouble(*array3D);
     mem_free (array3D);
-  } 
+  }
   else
   {
     error ("free_mem3D: trying to free unused memory",100);
@@ -2725,12 +2725,12 @@ void free_mem2Dolm(LambdaParams **array2D, int offset)
     array2D[0] -= offset;
     if (array2D[0])
       mem_free (array2D[0]);
-    else 
+    else
       error ("free_mem2Dolm: trying to free unused memory",100);
 
     mem_free (array2D);
 
-  } 
+  }
   else
   {
     error ("free_mem2Dolm: trying to free unused memory",100);
@@ -2743,10 +2743,10 @@ void free_mem2Ddistblk(distblk **array2D)
   {
     if (*array2D)
       mem_free (*array2D);
-    else 
+    else
       error ("free_mem2Ddistblk: trying to free unused memory",100);
     free (array2D);
-  } 
+  }
   else
   {
     error ("free_mem2Ddistblk: trying to free unused memory",100);

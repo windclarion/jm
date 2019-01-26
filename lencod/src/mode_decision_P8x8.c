@@ -173,7 +173,7 @@ void submacroblock_mode_decision_p_slice(Macroblock *currMB,
         //store LIST 0 reference index for every block
         block_x = currMB->block_x + (block & 0x01)*2;
         block_y = currMB->block_y + (block & 0x02);
-        b_ref = best.ref[LIST_0];        
+        b_ref = best.ref[LIST_0];
 
         motion[block_y    ][block_x    ].ref_pic [LIST_0] = currSlice->listX[currMB->list_offset][b_ref];
         motion[block_y    ][block_x    ].mv      [LIST_0] = currSlice->all_mv[LIST_0][b_ref][mode][j1    ][i1    ];
@@ -199,7 +199,7 @@ void submacroblock_mode_decision_p_slice(Macroblock *currMB,
       if (rdcost < min_rdcost)
       {
         min_cost8x8              = *cost;
-        min_rdcost               = rdcost;        
+        min_rdcost               = rdcost;
         *partition               = best;
         partition->mode          = (char) mode;
         currMB->b8x8[block].mode = (char) mode;
@@ -233,7 +233,7 @@ void submacroblock_mode_decision_p_slice(Macroblock *currMB,
         //--- store coefficients ---
         memcpy(&cofACtr[0][0][0][0],&currSlice->cofAC[block][0][0][0], 4 * 2 * 65 * sizeof(int));
 
-        if( currSlice->P444_joined ) 
+        if( currSlice->P444_joined )
         {
           //--- store coefficients ---
           memcpy(&cofACtr[1][0][0][0],&currSlice->cofAC[block + 4][0][0][0], 4 * 2 * 65 * sizeof(int));
@@ -257,7 +257,7 @@ void submacroblock_mode_decision_p_slice(Macroblock *currMB,
           }
         }
 
-        if(currSlice->P444_joined) 
+        if(currSlice->P444_joined)
         {
           copy_image_data_8x8(&dataTr->rec_mb8x8_cr[0][j0], &p_Vid->enc_picture->imgUV[0][currMB->pix_y + j0], i0, currMB->pix_x + i0);
           copy_image_data_8x8(&dataTr->mpr8x8CbCr[0][j0], &currSlice->mb_pred[1][j0], i0, i0);
@@ -288,7 +288,7 @@ void submacroblock_mode_decision_p_slice(Macroblock *currMB,
   if (valid_8x8 == TRUE)
   {
 #ifdef BEST_NZ_COEFF
-    for(i = 0; i <= 1; i++)  
+    for(i = 0; i <= 1; i++)
     {
       for(j = 0; j <= 1; j++)
         p_Vid->nz_coeff[currMB->mbAddrX][i1 + i][j1 + j] = best_nz_coeff[i][j];
@@ -334,7 +334,7 @@ void submacroblock_mode_decision_p_slice(Macroblock *currMB,
           }
         }
 
-        if(currSlice->P444_joined) 
+        if(currSlice->P444_joined)
         {
 
           for (k=0; k<2; k++)
@@ -346,11 +346,11 @@ void submacroblock_mode_decision_p_slice(Macroblock *currMB,
     }
     else
     {
-      //======= save motion data for 8x8 partition for transform size 8x8 ========    
+      //======= save motion data for 8x8 partition for transform size 8x8 ========
       currSlice->store_8x8_motion_vectors(currSlice, 0, block, partition);
     }
 
-    //===== set motion vectors and reference frames (prediction) =====    
+    //===== set motion vectors and reference frames (prediction) =====
     currSlice->set_ref_and_motion_vectors (currMB, motion, partition, block);
 
     //===== set the coding state after current block =====
@@ -392,7 +392,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
   distblk min_cost8x8;
   distblk bmcost[5] = {DISTBLK_MAX};
   int cnt_nonz = 0;
-  int best_cnt_nonz = 0;  
+  int best_cnt_nonz = 0;
   int block_x, block_y;
   int lambda_mf[3];
 
@@ -413,7 +413,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
 
 
   Info8x8 *partition = &(dataTr->part[block]);
-  Info8x8 best = init_info_8x8_struct();  
+  Info8x8 best = init_info_8x8_struct();
   *partition = best;
   if (transform8x8)
     currMB->valid_8x8 = FALSE;
@@ -453,7 +453,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
       curr_cbp_blk = 0;
 
       if (mode==0)  //--- Direct8x8 Mode ---
-      {        
+      {
         block_x = currMB->block_x + (block & 0x01)*2;
         block_y = currMB->block_y + (block & 0x02);
         best.ref[LIST_0] = currSlice->direct_ref_idx[block_y][block_x][LIST_0];
@@ -531,7 +531,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
           motion[block_y  + 1][block_x + 1].ref_idx[k] = best.ref[k];
 
           if (best.bipred)
-          {              
+          {
             motion[block_y     ][block_x    ].mv[k] = currSlice->bipred_mv[best.bipred - 1][k][(short) best.ref[k]][mode][j1    ][i1    ];
             motion[block_y     ][block_x + 1].mv[k] = currSlice->bipred_mv[best.bipred - 1][k][(short) best.ref[k]][mode][j1    ][i1 + 1];
             motion[block_y  + 1][block_x    ].mv[k] = currSlice->bipred_mv[best.bipred - 1][k][(short) best.ref[k]][mode][j1 + 1][i1    ];
@@ -544,7 +544,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
             motion[block_y  + 1][block_x    ].mv[k] = currSlice->all_mv[k][(short) best.ref[k]][mode][j1 + 1][i1    ];
             motion[block_y  + 1][block_x + 1].mv[k] = currSlice->all_mv[k][(short) best.ref[k]][mode][j1 + 1][i1 + 1];
           }
-        }                
+        }
       } // if (mode!=0)
 
       //--- get and check rate-distortion cost ---
@@ -554,7 +554,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
       if (rdcost < min_rdcost)
       {
         min_cost8x8              = *cost;
-        min_rdcost               = rdcost;        
+        min_rdcost               = rdcost;
         *partition               = best;
         partition->mode          = (char) mode;
         currMB->b8x8[block].mode = (char) mode;
@@ -588,7 +588,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
         //--- store coefficients ---
         memcpy(&cofACtr[0][0][0][0],&currSlice->cofAC[block][0][0][0], 4 * 2 * 65 * sizeof(int));
 
-        if( currSlice->P444_joined ) 
+        if( currSlice->P444_joined )
         {
           //--- store coefficients ---
           memcpy(&cofACtr[1][0][0][0],&currSlice->cofAC[block + 4][0][0][0], 4 * 2 * 65 * sizeof(int));
@@ -601,10 +601,10 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
 
         if (p_Inp->rdopt == 3)
         {
-          errdo_store_best_b8x8(currMB, transform8x8, block); 
-        }        
+          errdo_store_best_b8x8(currMB, transform8x8, block);
+        }
 
-        if(currSlice->P444_joined) 
+        if(currSlice->P444_joined)
         {
           copy_image_data_8x8(&dataTr->rec_mb8x8_cr[0][j0], &p_Vid->enc_picture->imgUV[0][currMB->pix_y + j0], i0, currMB->pix_x + i0);
           copy_image_data_8x8(&dataTr->mpr8x8CbCr[0][j0], &currSlice->mb_pred[1][j0], i0, i0);
@@ -635,7 +635,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
   if (valid_8x8 == TRUE)
   {
 #ifdef BEST_NZ_COEFF
-    for(i = 0; i <= 1; i++)  
+    for(i = 0; i <= 1; i++)
     {
       for(j = 0; j <= 1; j++)
         p_Vid->nz_coeff[currMB->mbAddrX][i1 + i][j1 + j] = best_nz_coeff[i][j];
@@ -671,9 +671,9 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
         if (p_Inp->rdopt == 3)
         {
           errdo_get_best_b8x8(currMB, transform8x8, block);
-        }        
+        }
 
-        if(currSlice->P444_joined) 
+        if(currSlice->P444_joined)
         {
 
           for (k=0; k<2; k++)
@@ -685,11 +685,11 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
     }
     else
     {
-      //======= save motion data for 8x8 partition for transform size 8x8 ========    
+      //======= save motion data for 8x8 partition for transform size 8x8 ========
       currSlice->store_8x8_motion_vectors(currSlice, 0, block, partition);
     }
 
-    //===== set motion vectors and reference frames (prediction) =====    
+    //===== set motion vectors and reference frames (prediction) =====
     currSlice->set_ref_and_motion_vectors (currMB, motion, partition, block);
 
     //===== set the coding state after current block =====
@@ -712,7 +712,7 @@ void submacroblock_mode_decision_b_slice(Macroblock *currMB,
 */
 void submacroblock_mode_decision_low(Macroblock *currMB,
                                      RD_PARAMS *enc_mb,
-                                     RD_8x8DATA *dataTr,                                     
+                                     RD_8x8DATA *dataTr,
                                      int ****cofACtr,
                                      int *have_direct,
                                      int block,
@@ -793,7 +793,7 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
       {
         currMB->valid_8x8 = TRUE;
       }
-      else 
+      else
         currMB->valid_4x4 = TRUE;
 
       valid_8x8 = TRUE;
@@ -801,7 +801,7 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
 
       if (mode==0)
       {
-        //--- Direct Mode ---       
+        //--- Direct Mode ---
         direct4x4_tmp = 0;
         direct8x8_tmp = 0;
         direct4x4_tmp = GetDirectCost8x8 ( currMB, block, &direct8x8_tmp);
@@ -928,14 +928,14 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
         }
       } // if (mode!=0)
       if (*cost != DISTBLK_MAX)
-        *cost += (ref_cost(currSlice, enc_mb->lambda_mf[Q_PEL], (short) B8Mode2Value (currSlice, (short) mode, best.pdir), 
+        *cost += (ref_cost(currSlice, enc_mb->lambda_mf[Q_PEL], (short) B8Mode2Value (currSlice, (short) mode, best.pdir),
         (best.pdir < 1 ? currMB->list_offset : currMB->list_offset + LIST_1)) - 1);
 
       //--- set variables if best mode has changed ---
       if (*cost < min_cost8x8)
       {
         min_cost8x8             = *cost;
-        
+
         dataTr->part[block] = best;
         currMB->b8x8[block].mode = (char) mode;
 
@@ -957,7 +957,7 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
 #endif
 
         //--- store number of nonzero coefficients ---
-        best_cnt_nonz  = cnt_nonz;                
+        best_cnt_nonz  = cnt_nonz;
 
         //--- store best 8x8 coding state ---
         if (block < 3)
@@ -976,7 +976,7 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
   {
     int list_mode[2];
 #ifdef BEST_NZ_COEFF
-    for(i = 0; i <= 1; i++)  
+    for(i = 0; i <= 1; i++)
     {
       for(j = 0; j <= 1; j++)
         p_Vid->nz_coeff[currMB->mbAddrX][i1 + i][j1 + j] = best_nz_coeff[i][j];
@@ -1028,7 +1028,7 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
     //--- store coefficients ---
     memcpy(cofACtr[0][0][0],currSlice->cofAC[block][0][0], 4 * 2 * 65 * sizeof(int));
 
-    if(currSlice->P444_joined) 
+    if(currSlice->P444_joined)
     {
       //--- store coefficients ---
       memcpy(cofACtr[1][0][0],currSlice->cofAC[block + 4][0][0], 4 * 2 * 65 * sizeof(int));
@@ -1049,13 +1049,13 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
         memcpy(&dataTr->lrec[j][i0],&p_Vid->lrec[currMB->pix_y+j][currMB->pix_x+i0],BLOCK_SIZE_8x8 * sizeof(int)); // store coefficients for primary SP slice
       }
     }
-    if(currSlice->P444_joined) 
+    if(currSlice->P444_joined)
     {
       copy_image_data_8x8(&dataTr->rec_mb8x8_cr[0][j0], &p_Vid->enc_picture->imgUV[0][currMB->pix_y + j0], i0, currMB->pix_x + i0);
       copy_image_data_8x8(&dataTr->mpr8x8CbCr[0][j0], &currSlice->mb_pred[1][j0], i0, i0);
       copy_image_data_8x8(&dataTr->rec_mb8x8_cr[1][j0], &p_Vid->enc_picture->imgUV[1][currMB->pix_y + j0], i0, currMB->pix_x + i0);
       copy_image_data_8x8(&dataTr->mpr8x8CbCr[1][j0], &currSlice->mb_pred[2][j0], i0, i0);
-    }   
+    }
 
 
     //----- set cbp and count of nonzero coefficients ---
@@ -1083,7 +1083,7 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
           }
         }
 
-        if(currSlice->P444_joined) 
+        if(currSlice->P444_joined)
         {
           copy_image_data_8x8(&p_Vid->enc_picture->imgUV[0][currMB->pix_y + j0], &dataTr->rec_mb8x8_cr[0][j0], currMB->pix_x + i0, i0);
           copy_image_data_8x8(&p_Vid->enc_picture->imgUV[1][currMB->pix_y + j0], &dataTr->rec_mb8x8_cr[1][j0], currMB->pix_x + i0, i0);
@@ -1092,7 +1092,7 @@ void submacroblock_mode_decision_low(Macroblock *currMB,
     }
     else
     {
-      //======= save motion data for 8x8 partition for transform size 8x8 ========    
+      //======= save motion data for 8x8 partition for transform size 8x8 ========
       currSlice->store_8x8_motion_vectors(currSlice, 0, block, &dataTr->part[block]);
     }
 

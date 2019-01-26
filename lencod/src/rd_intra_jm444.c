@@ -111,7 +111,7 @@ int mode_decision_for_I4x4_blocks_JM_High444 (Macroblock *currMB, int  b8,  int 
   int64 cbp_bits;
 
   if (b8==0 && b4==0)
-    cbp_bits = 0;  
+    cbp_bits = 0;
 #endif
 
   get4x4Neighbour(currMB, block_x - 1, block_y    , mb_size, &left_block);
@@ -133,14 +133,14 @@ int mode_decision_for_I4x4_blocks_JM_High444 (Macroblock *currMB, int  b8,  int 
 
   //===== INTRA PREDICTION FOR 4x4 BLOCK =====
   // set intra prediction values for 4x4 intra prediction
-  currSlice->set_intrapred_4x4(currMB, PLANE_Y, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);  
+  currSlice->set_intrapred_4x4(currMB, PLANE_Y, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);
 
   if (currSlice->P444_joined)
   {
     select_plane(p_Vid, PLANE_U);
-    currSlice->set_intrapred_4x4(currMB, PLANE_U, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);  
+    currSlice->set_intrapred_4x4(currMB, PLANE_U, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);
     select_plane(p_Vid, PLANE_V);
-    currSlice->set_intrapred_4x4(currMB, PLANE_V, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);  
+    currSlice->set_intrapred_4x4(currMB, PLANE_V, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);
     select_plane(p_Vid, PLANE_Y);
   }
 
@@ -160,7 +160,7 @@ int mode_decision_for_I4x4_blocks_JM_High444 (Macroblock *currMB, int  b8,  int 
       get_intrapred_4x4(currMB, PLANE_Y, ipmode, block_x, block_y, left_available, up_available);
 
       // get prediction and prediction error
-      generate_pred_error_4x4(&p_Vid->pCurImg[pic_opix_y], currSlice->mpr_4x4[0][ipmode], &currSlice->mb_pred[0][block_y], &currSlice->mb_ores[0][block_y], pic_opix_x, block_x);     
+      generate_pred_error_4x4(&p_Vid->pCurImg[pic_opix_y], currSlice->mpr_4x4[0][ipmode], &currSlice->mb_pred[0][block_y], &currSlice->mb_ores[0][block_y], pic_opix_x, block_x);
 
       if (p_Vid->yuv_format == YUV444)
       {
@@ -172,14 +172,14 @@ int mode_decision_for_I4x4_blocks_JM_High444 (Macroblock *currMB, int  b8,  int 
           generate_pred_error_4x4(&p_Vid->pImgOrg[1][pic_opix_y], currSlice->mpr_4x4[1][ipmode], &currSlice->mb_pred[1][block_y], &currSlice->mb_ores[1][block_y], pic_opix_x, block_x);
           // generate intra 4x4 prediction block given availability
           get_intrapred_4x4(currMB, PLANE_V, ipmode, block_x, block_y, left_available, up_available);
-          generate_pred_error_4x4(&p_Vid->pImgOrg[2][pic_opix_y], currSlice->mpr_4x4[2][ipmode], &currSlice->mb_pred[2][block_y], &currSlice->mb_ores[2][block_y], pic_opix_x, block_x);     
+          generate_pred_error_4x4(&p_Vid->pImgOrg[2][pic_opix_y], currSlice->mpr_4x4[2][ipmode], &currSlice->mb_pred[2][block_y], &currSlice->mb_ores[2][block_y], pic_opix_x, block_x);
         }
       }
 
       // get and check rate-distortion cost
 #ifdef BEST_NZ_COEFF
       currMB->cbp_bits[0] = cbp_bits;
-#endif      
+#endif
 
       rdcost = currSlice->rdcost_for_4x4_intra_blocks (currMB, &c_nz, b8, b4, ipmode, lambda, mostProbableMode, min_rdcost);
       if ((rdcost < min_rdcost) || (rdcost == min_rdcost && ipmode == mostProbableMode))
@@ -200,8 +200,8 @@ int mode_decision_for_I4x4_blocks_JM_High444 (Macroblock *currMB, int  b8,  int 
           }
         }
 
-        if(currSlice->P444_joined) 
-        { 
+        if(currSlice->P444_joined)
+        {
           //--- set coefficients ---
           for (uv=0; uv < 2; uv++)
           {
@@ -284,7 +284,7 @@ int mode_decision_for_I4x4_blocks_JM_High444 (Macroblock *currMB, int  b8,  int 
       memcpy (&p_Vid->lrec[pic_pix_y+y][pic_pix_x], lrec4x4[y], BLOCK_SIZE * sizeof(int));//restore coefficients when encoding primary SP frame
     }
   }
-  if (currSlice->P444_joined) 
+  if (currSlice->P444_joined)
   {
     for (uv=0; uv < 2; uv++ )
     {
@@ -372,14 +372,14 @@ int mode_decision_for_I4x4_blocks_JM_Low444 (Macroblock *currMB, int  b8,  int  
 
   //===== INTRA PREDICTION FOR 4x4 BLOCK =====
   // set intra prediction values for 4x4 intra prediction
-  currSlice->set_intrapred_4x4(currMB, PLANE_Y, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);  
+  currSlice->set_intrapred_4x4(currMB, PLANE_Y, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);
 
   if (currSlice->P444_joined)
   {
     select_plane(p_Vid, PLANE_U);
-    currSlice->set_intrapred_4x4(currMB, PLANE_U, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);  
+    currSlice->set_intrapred_4x4(currMB, PLANE_U, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);
     select_plane(p_Vid, PLANE_V);
-    currSlice->set_intrapred_4x4(currMB, PLANE_V, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);  
+    currSlice->set_intrapred_4x4(currMB, PLANE_V, pic_pix_x, pic_pix_y, &left_available, &up_available, &all_available);
     select_plane(p_Vid, PLANE_Y);
   }
 
@@ -408,7 +408,7 @@ int mode_decision_for_I4x4_blocks_JM_Low444 (Macroblock *currMB, int  b8,  int  
         get_intrapred_4x4(currMB, PLANE_V, ipmode, block_x, block_y, left_available, up_available);
         cost += currSlice->compute_cost4x4(p_Vid, &p_Vid->pImgOrg[2][pic_opix_y], currSlice->mpr_4x4[2][ipmode], pic_opix_x, *min_cost - cost);
       }
-      
+
       if (cost < *min_cost)
       {
         best_ipmode = ipmode;
@@ -420,7 +420,7 @@ int mode_decision_for_I4x4_blocks_JM_Low444 (Macroblock *currMB, int  b8,  int  
 #if INTRA_RDCOSTCALC_NNZ
   p_Vid->nz_coeff [currMB->mbAddrX][block_x4][block_y4] = best_nz_coeff;
 #endif
-#ifdef BEST_NZ_COEFF  
+#ifdef BEST_NZ_COEFF
   cbp_bits &= (~(int64)(1<<bit_pos));
   cbp_bits |= (int64)(best_coded_block_flag<<bit_pos);
 #endif
@@ -432,7 +432,7 @@ int mode_decision_for_I4x4_blocks_JM_Low444 (Macroblock *currMB, int  b8,  int  
   // get prediction and prediction error
   generate_pred_error_4x4(&p_Vid->pCurImg[pic_opix_y], currSlice->mpr_4x4[0][best_ipmode], &currSlice->mb_pred[0][block_y], &currSlice->mb_ores[0][block_y], pic_opix_x, block_x);
 
-  currMB->ipmode_DPCM = (short) best_ipmode;  
+  currMB->ipmode_DPCM = (short) best_ipmode;
 
   select_transform(currMB);
   nonzero = currMB->cr_cbp[0] = currMB->residual_transform_quant_luma_4x4 (currMB, PLANE_Y, block_x, block_y, &dummy, 1);
@@ -443,13 +443,13 @@ int mode_decision_for_I4x4_blocks_JM_Low444 (Macroblock *currMB, int  b8,  int  
     for (k = PLANE_U; k <= PLANE_V; k++)
     {
       select_plane(p_Vid, k);
-      /* 
+      /*
       for (j=0; j<4; j++)
       {
         for (i=0; i<4; i++)
         {
-          currSlice->mb_pred[k][block_y + j][block_x+i] = currSlice->mpr_4x4[k][best_ipmode][j][i];    
-          currSlice->mb_ores[k][block_y + j][block_x+i] = p_Vid->pImgOrg[k][pic_opix_y+j][pic_opix_x+i] - currSlice->mpr_4x4[k][best_ipmode][j][i]; 
+          currSlice->mb_pred[k][block_y + j][block_x+i] = currSlice->mpr_4x4[k][best_ipmode][j][i];
+          currSlice->mb_ores[k][block_y + j][block_x+i] = p_Vid->pImgOrg[k][pic_opix_y+j][pic_opix_x+i] - currSlice->mpr_4x4[k][best_ipmode][j][i];
         }
       }
       */
@@ -477,7 +477,7 @@ int mode_decision_for_I16x16_MB_444 (Macroblock* currMB, int lambda)
 
   if (!currSlice->P444_joined)
   {
-    cbp = currMB->residual_transform_quant_luma_16x16 (currMB, PLANE_Y);    
+    cbp = currMB->residual_transform_quant_luma_16x16 (currMB, PLANE_Y);
   }
   else
   {

@@ -92,9 +92,9 @@ int SliceHeader(Slice* currSlice)
   pic_parameter_set_rbsp_t *active_pps = currSlice->active_pps;
 
   int dP_nr = assignSE2partition[currSlice->partition_mode][SE_HEADER];
-  Bitstream *bitstream = currSlice->partArr[dP_nr].bitstream;   
+  Bitstream *bitstream = currSlice->partArr[dP_nr].bitstream;
   int len = 0;
-  unsigned int field_pic_flag = 0; 
+  unsigned int field_pic_flag = 0;
   byte bottom_field_flag = 0;
 
   int num_bits_slice_group_change_cycle;
@@ -213,7 +213,7 @@ int SliceHeader(Slice* currSlice)
     }
 
   }
-  
+
   // add reference list modification info if needed
 #if (MVC_EXTENSION_ENABLE)
   if(currSlice->layer_id > 0)
@@ -231,14 +231,14 @@ int SliceHeader(Slice* currSlice)
   if (p_Vid->nal_reference_idc)
   {
     p_Vid->adaptive_ref_pic_buffering_flag = (p_Vid->dec_ref_pic_marking_buffer != NULL);
-    len += dec_ref_pic_marking(bitstream, 
-      p_Vid->dec_ref_pic_marking_buffer, 
+    len += dec_ref_pic_marking(bitstream,
+      p_Vid->dec_ref_pic_marking_buffer,
 #if (MVC_EXTENSION_ENABLE)
       (currSlice->idr_flag || (p_Vid->view_id && !p_Vid->non_idr_flag[currSlice->structure == BOTTOM_FIELD ? 1 : 0]) ) ? 1 : 0,
 #else
-      currSlice->idr_flag, 
+      currSlice->idr_flag,
 #endif
-      p_Vid->no_output_of_prior_pics_flag, 
+      p_Vid->no_output_of_prior_pics_flag,
       p_Vid->long_term_reference_flag );
   }
 
@@ -302,7 +302,7 @@ int SliceHeader(Slice* currSlice)
 */
 static int ref_pic_list_reordering(Slice *currSlice, Bitstream *bitstream)
 {
-  int list; 
+  int list;
   int i, len=0;
 
   for(list = LIST_0; list <= LIST_1; list++)
@@ -352,7 +352,7 @@ static int ref_pic_list_reordering(Slice *currSlice, Bitstream *bitstream)
 
 static int mvc_ref_pic_list_reordering(Slice *currSlice, Bitstream *bitstream)
 {
-  int list; 
+  int list;
   int i, len=0;
 
   for(list = LIST_0; list <= LIST_1; list++)

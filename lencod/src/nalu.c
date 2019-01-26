@@ -85,9 +85,9 @@ int RBSPtoNALU (unsigned char *rbsp, NALU_t *nalu, int rbsp_size, int nal_unit_t
   assert (nal_unit_type > 0 && nal_unit_type <= NALU_TYPE_FILL);
 #endif
   assert (rbsp_size < MAXRBSPSIZE);
-  
+
   nalu->startcodeprefix_len = UseAnnexbLongStartcode ? 4 : 3;
-  nalu->forbidden_bit       = 0;  
+  nalu->forbidden_bit       = 0;
   nalu->nal_reference_idc   = (NalRefIdc) nal_reference_idc;
   nalu->nal_unit_type       = (NaluType) nal_unit_type;
 
@@ -103,7 +103,7 @@ int RBSPtoNALU (unsigned char *rbsp, NALU_t *nalu, int rbsp_size, int nal_unit_t
     nalu->svc_extension_flag = 0;
 #endif
 
-  
+
   len = RBSPtoEBSP (nalu->buf, rbsp, rbsp_size);
   nalu->len = len;
 
@@ -118,7 +118,7 @@ int RBSPtoNALU (unsigned char *rbsp, NALU_t *nalu, int rbsp_size, int nal_unit_t
  */
 
 int Write_AUD_NALU( VideoParameters *p_Vid )
-{  
+{
   int     RBSPlen = 0;
   int     len;
   byte    rbsp[MAXRBSPSIZE];
@@ -158,7 +158,7 @@ int Write_AUD_NALU( VideoParameters *p_Vid )
  */
 
 int Write_Filler_Data_NALU( VideoParameters *p_Vid, int num_bytes )
-{  
+{
   int     RBSPlen = num_bytes - 1;
   int     len, bytes_written = 0;
   byte    rbsp[MAXRBSPSIZE];
@@ -178,8 +178,8 @@ int Write_Filler_Data_NALU( VideoParameters *p_Vid, int num_bytes )
       rbsp[ bytes_written++ ] = filler_byte;
     }
   }
-  rbsp[ bytes_written++ ] = trailing_byte; // rbsp_trailing_bits    
-  assert( num_bytes == (bytes_written + 1) );  
+  rbsp[ bytes_written++ ] = trailing_byte; // rbsp_trailing_bits
+  assert( num_bytes == (bytes_written + 1) );
 
   // write RBSP into NALU
   RBSPtoNALU( rbsp, nalu, RBSPlen, NALU_TYPE_FILL, NALU_PRIORITY_DISPOSABLE, 1 );

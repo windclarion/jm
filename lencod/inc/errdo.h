@@ -35,7 +35,7 @@
  *  \file errdo.h
  *  \brief  Header file for error resilient RDO (name of file should change)
  *
- *  \author 
+ *  \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *    - Peshala Pahalawatta                     <ppaha@dolby.com>
  *    - Zhifeng Chen                            <zzchen@dolby.com>
@@ -59,20 +59,20 @@ struct distortion_estimation
 {
   //To support slice data partitioing, residual and motion vector should use their own buffers (used if rdopt==3)
   int **  res_con_diff_Y;                 //!< for storing the residual concealment difference for component Y in rmpc algorithm
-  int *** res_con_diff_UV;                //!< for storing the residual concealment difference for component UV in rmpc algorithm 
-  int **  p_res_con_diff[MAX_PLANE];      //!< pointer array for accessing res_con_error_Y / res_con_error_UV[] 
+  int *** res_con_diff_UV;                //!< for storing the residual concealment difference for component UV in rmpc algorithm
+  int **  p_res_con_diff[MAX_PLANE];      //!< pointer array for accessing res_con_error_Y / res_con_error_UV[]
   int **  MV_con_diff_Y;                  //!< for storing the MV concealment difference for component Y in rmpc algorithm
-  int *** MV_con_diff_UV;                 //!< for storing the MV concealment difference for component UV in rmpc algorithm 
-  int **  p_MV_con_diff[MAX_PLANE];       //!< pointer array for accessing MV_con_diff_Y / MV_con_diff_UV[] 
+  int *** MV_con_diff_UV;                 //!< for storing the MV concealment difference for component UV in rmpc algorithm
+  int **  p_MV_con_diff[MAX_PLANE];       //!< pointer array for accessing MV_con_diff_Y / MV_con_diff_UV[]
   byte ** error_sign_flag_Y;              //!< to indicate the sign of transmission error for component Y in rmpc algorithm
   byte ***error_sign_flag_UV;             //!< to indicate the sign of transmission error for component UV in rmpc algorithm
   byte ** p_error_sign_flag[MAX_PLANE];   //!< pointer array for accessing error_sign_flag_Y / error_sign_flag_UV[]
   int **  transmission_dist_Y;            //!< for storing the transmission distortion for component Y in rmpc algorithm
-  int *** transmission_dist_UV;           //!< for storing the transmission distortion for component UV in rmpc algorithm 
-  int **  p_transmission_dist[MAX_PLANE]; //!< pointer array for accessing transmission_dist_Y / transmission_dist_UV[] 
+  int *** transmission_dist_UV;           //!< for storing the transmission distortion for component UV in rmpc algorithm
+  int **  p_transmission_dist[MAX_PLANE]; //!< pointer array for accessing transmission_dist_Y / transmission_dist_UV[]
   int **  transmission_err_Y;             //!< for storing the transmission distortion for component Y in rmpc algorithm
-  int *** transmission_err_UV;            //!< for storing the transmission distortion for component UV in rmpc algorithm 
-  int **  p_transmission_err[MAX_PLANE];  //!< pointer array for accessing transmission_dist_Y / transmission_dist_UV[] 
+  int *** transmission_err_UV;            //!< for storing the transmission distortion for component UV in rmpc algorithm
+  int **  p_transmission_err[MAX_PLANE];  //!< pointer array for accessing transmission_dist_Y / transmission_dist_UV[]
 
   //Multiple Decoder Buffers (used if rdopt==3)
   imgpel ***  dec_imgY;              //!< Decoded Y component in multiple hypothetical decoders

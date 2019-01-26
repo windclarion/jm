@@ -110,7 +110,7 @@ int quant_8x8_around(Macroblock *currMB, int **tblock, struct quant_methods *q_m
   {
     i = *p_scan++;  // horizontal position
     j = *p_scan++;  // vertical position
-    
+
     padjust8x8 = &fadjust8x8[j][block_x + i];
     m7 = &tblock[j][block_x + i];
     if (*m7 != 0)
@@ -130,7 +130,7 @@ int quant_8x8_around(Macroblock *currMB, int **tblock, struct quant_methods *q_m
         level  = isignab(level, *m7);
         *m7    = rshift_rnd_sf(((level * q_params->InvScaleComp) << qp_per), 6);
         *ACL++ = level;
-        *ACR++ = run; 
+        *ACR++ = run;
         // reset zero level counter
         run    = 0;
       }
@@ -156,7 +156,7 @@ int quant_8x8_around(Macroblock *currMB, int **tblock, struct quant_methods *q_m
 /*!
  ************************************************************************
  * \brief
- *    Quantization process for All coefficients for a 8x8 block 
+ *    Quantization process for All coefficients for a 8x8 block
  *    CAVLC version
  *
  * \par Input:
@@ -177,19 +177,19 @@ int quant_8x8cavlc_around(Macroblock *currMB, int **tblock, struct quant_methods
   int **fadjust8x8 = q_method->fadjust;
   const byte (*pos_scan)[2] = q_method->pos_scan;
   const byte *c_cost = q_method->c_cost;
-  int *coeff_cost = q_method->coeff_cost;  
+  int *coeff_cost = q_method->coeff_cost;
 
   int i,j, k, coeff_ctr;
 
   int *m7;
-  int scaled_coeff;  
+  int scaled_coeff;
 
   int level, runs[4] = { 0 };
-  int nonzero = FALSE; 
-  int qp_per = p_Quant->qp_per_matrix[qp];  
+  int nonzero = FALSE;
+  int qp_per = p_Quant->qp_per_matrix[qp];
   int q_bits = Q_BITS_8 + qp_per;
   const byte *p_scan = &pos_scan[0][0];
-  int*  ACL[4];  
+  int*  ACL[4];
   int*  ACR[4];
   int*  padjust8x8;
 
@@ -235,7 +235,7 @@ int quant_8x8cavlc_around(Macroblock *currMB, int **tblock, struct quant_methods
         else
         {
           *padjust8x8 = 0;
-          *m7 = 0;    
+          *m7 = 0;
           ++runs[k];
         }
       }

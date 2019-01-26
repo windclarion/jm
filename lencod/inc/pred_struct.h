@@ -36,7 +36,7 @@
  *    pred_struct.h
  *
  * \author
- *    Athanasios Leontaris           <aleon@dolby.com>   
+ *    Athanasios Leontaris           <aleon@dolby.com>
  *
  * \date
  *    June 8, 2009

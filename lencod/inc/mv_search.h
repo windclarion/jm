@@ -49,9 +49,9 @@
 #define _MV_SEARCH_H_
 
 #if 1
-#define dist_scale_f(x)           (min_mcost)    
+#define dist_scale_f(x)           (min_mcost)
 #else
-#define dist_scale_f(x)           dist_scale(x)    
+#define dist_scale_f(x)           dist_scale(x)
 #endif
 
 
@@ -91,7 +91,7 @@ static inline MotionVector add_MVs(MotionVector mv0, const MotionVector *mv1)
 {
   mv0.mv_x = (short) (mv0.mv_x + mv1->mv_x);
   mv0.mv_y = (short) (mv0.mv_y + mv1->mv_y);
-  
+
   return (mv0);
 }
 
@@ -99,13 +99,13 @@ static inline MotionVector pad_MVs(MotionVector mv0, MEBlock *mv_block)
 {
   mv0.mv_x = (short) (mv0.mv_x + mv_block->pos_x_padded);
   mv0.mv_y = (short) (mv0.mv_y + mv_block->pos_y_padded);
-  
+
   return (mv0);
 }
 
 static inline int64 overflow_weight_cost(int lambda, int bits)
-{  
-#if JCOST_CALC_SCALEUP  
+{
+#if JCOST_CALC_SCALEUP
   return ( ((int64)lambda) * ((int64)(bits)) );
 #else
 #if (USE_RND_COST)
@@ -117,8 +117,8 @@ static inline int64 overflow_weight_cost(int lambda, int bits)
 }
 
 static inline distblk weight_cost(int lambda, int bits)
-{  
-#if JCOST_CALC_SCALEUP  
+{
+#if JCOST_CALC_SCALEUP
   return ( ((distblk)lambda) * ((distblk)(bits)) );
 #else
 #if (USE_RND_COST)
@@ -153,7 +153,7 @@ static inline distblk ref_cost(const Slice *currSlice, int lambda, short ref, in
 #if JCOST_CALC_SCALEUP
     return ( ((distblk)lambda) *((distblk)(p_Vid->refbits[(ref)])) );
 #else
-#if (USE_RND_COST)    
+#if (USE_RND_COST)
     return (rshift_rnd_sf((lambda) * (p_Vid->refbits[(ref)]), LAMBDA_ACCURACY_BITS));
 #else
     return ((lambda *(p_Vid->refbits[(ref)]))>> LAMBDA_ACCURACY_BITS);

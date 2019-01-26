@@ -351,7 +351,7 @@ static void generateChromaXX( VideoParameters *p_Vid, int size_x_minus1, int siz
     {
       *(wBufDst++) = *wBufSrc0;
     }
-  
+
   for (jpad = size_y_minus1+1; jpad < size_y_minus1+1+p_Vid->pad_size_uv_y; jpad++)
   {
     memcpy(wImgDst[jpad]-p_Vid->pad_size_uv_x, wImgDst[jpad - 1]-p_Vid->pad_size_uv_x, (2 * p_Vid->pad_size_uv_x + size_x_minus1+1) * sizeof(imgpel));
@@ -385,20 +385,20 @@ void getSubImagesChroma( VideoParameters *p_Vid, StorablePicture *s )
 
   if( p_Vid->p_Inp->OnTheFlyFractMCP == OTF_L1 ) // JLT : on-the-fly mode
   {
-    if ( p_Vid->yuv_format == YUV420 ) 
+    if ( p_Vid->yuv_format == YUV420 )
     {
       subimages_x = 4;
       subimages_y = 4;
       mul_x = mul_y = 2;
     }
-    else if ( p_Vid->yuv_format == YUV422 ) 
+    else if ( p_Vid->yuv_format == YUV422 )
     {
       subimages_x = 4;
       subimages_y = 2;
       mul_y = 4;
       mul_x = 2;
     }
-    else 
+    else
     { // YUV444
       subimages_x = 2;
       subimages_y = 2;
@@ -407,20 +407,20 @@ void getSubImagesChroma( VideoParameters *p_Vid, StorablePicture *s )
   }
   else
   {
-    if ( p_Vid->yuv_format == YUV420 ) 
+    if ( p_Vid->yuv_format == YUV420 )
     {
       subimages_x = 8;
       subimages_y = 8;
       mul_x = mul_y = 1;
     }
-    else if ( p_Vid->yuv_format == YUV422 ) 
+    else if ( p_Vid->yuv_format == YUV422 )
     {
       subimages_x = 8;
       subimages_y = 4;
       mul_y = 2;
       mul_x = 1;
     }
-    else 
+    else
     { // YUV444
       subimages_x = 4;
       subimages_y = 4;
@@ -444,7 +444,7 @@ void getSubImagesChroma( VideoParameters *p_Vid, StorablePicture *s )
         weight01 = m * l;
         weight00 = mm - weight01;
         weight11 = k * l;
-        weight10 = kk - weight11;         
+        weight10 = kk - weight11;
 
         // Lets break things into cases
         if (weight01 == 0 && weight10 == 0 && weight11 == 0) // integer
@@ -462,7 +462,7 @@ void getSubImagesChroma( VideoParameters *p_Vid, StorablePicture *s )
         else //diagonal
         {
           generateChromaXX( p_Vid, size_x_minus1, size_y_minus1, weight00, weight01, weight10, weight11, curr_img_sub[suby][subx], curr_img);
-        }          
+        }
       }
     }
   }

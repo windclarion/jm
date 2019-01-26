@@ -77,12 +77,12 @@ static inline void get_i16x16_horizontal(imgpel **cur_pred, imgpel *PredPel)
   imgpel *prediction = &PredPel[16];
 
   for (j = 0; j < MB_BLOCK_SIZE; j++)
-  {  
+  {
     prediction++;
     for (i = 0; i < MB_BLOCK_SIZE; i++)
     {
       cur_pred[j][i]  = *prediction;
-    }    
+    }
   }
 }
 
@@ -124,7 +124,7 @@ static inline void get_i16x16_dc(imgpel **cur_pred, imgpel *PredPel, int left_av
   for (j = 0; j < MB_BLOCK_SIZE; j++)
   {
     for (i = 0; i < MB_BLOCK_SIZE; i++)
-      cur_pred[j][i] = (imgpel) s0;    
+      cur_pred[j][i] = (imgpel) s0;
   }
 }
 
@@ -343,7 +343,7 @@ void get_intrapred_16x16(Macroblock *currMB, ColorPlane pl, int i16x16_mode, int
 
   switch (i16x16_mode)
   {
-  case VERT_PRED_16 :    
+  case VERT_PRED_16 :
     get_i16x16_vertical(curr_mpr_16x16[VERT_PRED_16], PredPel);
     break;
   case HOR_PRED_16 :
@@ -414,7 +414,7 @@ distblk distI16x16_satd(Macroblock *currMB, imgpel **img_org, imgpel **pred_img,
     tblk4x4[j][0] = (i16blk4x4[j][0][0][0] >> 1);
     tblk4x4[j][1] = (i16blk4x4[j][1][0][0] >> 1);
     tblk4x4[j][2] = (i16blk4x4[j][2][0][0] >> 1);
-    tblk4x4[j][3] = (i16blk4x4[j][3][0][0] >> 1);     
+    tblk4x4[j][3] = (i16blk4x4[j][3][0][0] >> 1);
   }
 
   // Hadamard of DC coeff
@@ -439,7 +439,7 @@ distblk distI16x16_sad(Macroblock *currMB, imgpel **img_org, imgpel **pred_img, 
 {
   imgpel *cur_img, *prd_img;
   int i32Cost = 0;
-  int i, j; 
+  int i, j;
   int imin_cost = dist_down(min_cost);
 
   for (j = 0; j < MB_BLOCK_SIZE; j++)
@@ -460,8 +460,8 @@ distblk distI16x16_sad(Macroblock *currMB, imgpel **img_org, imgpel **pred_img, 
 
 distblk distI16x16_sse(Macroblock *currMB, imgpel **img_org, imgpel **pred_img, distblk min_cost)
 {
-  imgpel *cur_img, *prd_img;  
-  int i, j, i32Cost = 0; 
+  imgpel *cur_img, *prd_img;
+  int i, j, i32Cost = 0;
   int imin_cost = dist_down(min_cost);
 
   for (j = 0; j < MB_BLOCK_SIZE;j++)
@@ -504,7 +504,7 @@ distblk find_sad_16x16_JM(Macroblock *currMB)
   int up_avail, left_avail, left_up_avail;
 
   currMB->i16mode = DC_PRED_16;
-  
+
   currSlice->set_intrapred_16x16(currMB, PLANE_Y, &left_avail, &up_avail, &left_up_avail);
   // For speed purposes, we should just unify all planes
   if (currSlice->P444_joined)
@@ -541,7 +541,7 @@ distblk find_sad_16x16_JM(Macroblock *currMB)
         best_intra_sad2 = current_intra_sad_2;
         currMB->i16mode = (char) k; // update best intra mode
       }
-    }    
+    }
   }
 
   return best_intra_sad2;

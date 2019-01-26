@@ -38,7 +38,7 @@
  * \brief
  *   Routines for binary arithmetic encoding.
  *
- *   This modified implementation of the M Coder is based on JVT-U084 
+ *   This modified implementation of the M Coder is based on JVT-U084
  *   with the choice of M_BITS = 16.
  *
  * \author
@@ -108,32 +108,32 @@ static forceinline void put_buffer(EncodingEnvironmentPtr eep)
 {
   while(eep->Epbuf>=0)
   {
-    eep->Ecodestrm[(*eep->Ecodestrm_len)++] =  (byte) ((eep->Ebuffer>>((eep->Epbuf--)<<3))&0xFF); 
+    eep->Ecodestrm[(*eep->Ecodestrm_len)++] =  (byte) ((eep->Ebuffer>>((eep->Epbuf--)<<3))&0xFF);
   }
   while(eep->C > 7)
   {
     eep->C-=8;
     ++(eep->E);
   }
-  eep->Ebuffer = 0; 
+  eep->Ebuffer = 0;
 }
 
-static inline void put_one_byte(EncodingEnvironmentPtr eep, int b) 
-{ 
+static inline void put_one_byte(EncodingEnvironmentPtr eep, int b)
+{
   if(eep->Epbuf == 3)
-  { 
+  {
     put_buffer(eep);
-  } 
+  }
   eep->Ebuffer <<= 8;
   eep->Ebuffer += (b);
 
   ++(eep->Epbuf);
 }
 
-static inline void put_one_word(EncodingEnvironmentPtr eep, int b) 
+static inline void put_one_word(EncodingEnvironmentPtr eep, int b)
 {
   if (eep->Epbuf >= 3)
-  { 
+  {
     put_buffer(eep);
   }
   eep->Ebuffer <<= 16;
@@ -144,15 +144,15 @@ static inline void put_one_word(EncodingEnvironmentPtr eep, int b)
 
 static forceinline void propagate_carry(EncodingEnvironmentPtr eep)
 {
-  ++(eep->Ebuffer); 
-  while (eep->Echunks_outstanding > 0) 
-  { 
-    put_one_word(eep, 0); 
-    --(eep->Echunks_outstanding); 
+  ++(eep->Ebuffer);
+  while (eep->Echunks_outstanding > 0)
+  {
+    put_one_word(eep, 0);
+    --(eep->Echunks_outstanding);
   }
 }
 
-static inline void put_last_chunk_plus_outstanding(EncodingEnvironmentPtr eep, unsigned int l) 
+static inline void put_last_chunk_plus_outstanding(EncodingEnvironmentPtr eep, unsigned int l)
 {
   while (eep->Echunks_outstanding > 0)
   {
@@ -162,7 +162,7 @@ static inline void put_last_chunk_plus_outstanding(EncodingEnvironmentPtr eep, u
   put_one_word(eep, l);
 }
 
-static inline void put_last_chunk_plus_outstanding_final(EncodingEnvironmentPtr eep, unsigned int l) 
+static inline void put_last_chunk_plus_outstanding_final(EncodingEnvironmentPtr eep, unsigned int l)
 {
   while (eep->Echunks_outstanding > 0)
   {
@@ -226,17 +226,17 @@ void set_pic_bin_count(VideoParameters *p_Vid, EncodingEnvironmentPtr eep)
  */
 void arienco_done_encoding(Macroblock *currMB, EncodingEnvironmentPtr eep)
 {
-  unsigned int low = eep->Elow;  
+  unsigned int low = eep->Elow;
   int remaining_bits = BITS_TO_LOAD - eep->Ebits_to_go; // output (2 + remaining) bits for terminating the codeword + one stop bit
   unsigned char mask;
   BitCounter *mbBits = &currMB->bits;
 
   //p_Vid->pic_bin_count += eep->E*8 + eep->C; // no of processed bins
 
-  if (remaining_bits <= 5) // one terminating byte 
+  if (remaining_bits <= 5) // one terminating byte
   {
     mbBits->mb_stuffing += (5 - remaining_bits);
-    mask = (unsigned char) (255 - ((1 << (6 - remaining_bits)) - 1)); 
+    mask = (unsigned char) (255 - ((1 << (6 - remaining_bits)) - 1));
     low = (low >> (MASK_BITS)) & mask; // mask out the (2+remaining_bits) MSBs
     low += (32 >> remaining_bits);       // put the terminating stop bit '1'
 
@@ -251,8 +251,8 @@ void arienco_done_encoding(Macroblock *currMB, EncodingEnvironmentPtr eep)
     put_buffer(eep);
     if (remaining_bits > 6)
     {
-      mask = (unsigned char) (255 - ((1 << (14 - remaining_bits)) - 1)); 
-      low = (low >> (B_BITS)) & mask; 
+      mask = (unsigned char) (255 - ((1 << (14 - remaining_bits)) - 1));
+      low = (low >> (B_BITS)) & mask;
       low += (0x2000 >> remaining_bits);     // put the terminating stop bit '1'
       put_one_byte_final(eep, low);
     }
@@ -262,15 +262,15 @@ void arienco_done_encoding(Macroblock *currMB, EncodingEnvironmentPtr eep)
     }
   }
   else             // three terminating bytes
-  { 
+  {
     put_last_chunk_plus_outstanding(eep, ((low >> B_BITS) & B_LOAD_MASK)); // mask out the 16 MSBs for output
     put_buffer(eep);
     mbBits->mb_stuffing += (21 - remaining_bits);
 
     if (remaining_bits > 14)
     {
-      mask = (unsigned char) (255 - ((1 << (22 - remaining_bits)) - 1)); 
-      low = (low >> (MAX_BITS - 24)) & mask; 
+      mask = (unsigned char) (255 - ((1 << (22 - remaining_bits)) - 1));
+      low = (low >> (MAX_BITS - 24)) & mask;
       low += (0x200000 >> remaining_bits);       // put the terminating stop bit '1'
       put_one_byte_final(eep, low);
     }
@@ -384,15 +384,15 @@ void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePt
   unsigned int low = eep->Elow;
   unsigned int range = eep->Erange;
   int bl = eep->Ebits_to_go;
-  unsigned int rLPS = rLPS_table_64x4[bi_ct->state][(range>>6) & 3]; 
+  unsigned int rLPS = rLPS_table_64x4[bi_ct->state][(range>>6) & 3];
 
   range -= rLPS;
 
   ++(eep->C);
   bi_ct->count += eep->p_Vid->cabac_encoding;
 
-  /* covers all cases where code does not bother to shift down symbol to be 
-  * either 0 or 1, e.g. in some cases for cbp, mb_Type etc the code simply 
+  /* covers all cases where code does not bother to shift down symbol to be
+  * either 0 or 1, e.g. in some cases for cbp, mb_Type etc the code simply
   * masks off the bit position and passes in the resulting value */
   //symbol = (short) (symbol != 0);
 
@@ -405,8 +405,8 @@ void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePt
       eep->Erange = range;
       return;
     }
-    else 
-    {   
+    else
+    {
       range<<=1;
       if( --bl > MIN_BITS_TO_GO )  // renorm once, no output
       {
@@ -438,7 +438,7 @@ void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePt
     if( bl > MIN_BITS_TO_GO )
     {
       eep->Elow   = low;
-      eep->Erange = range;      
+      eep->Erange = range;
       eep->Ebits_to_go = bl;
       return;
     }
@@ -456,21 +456,21 @@ void biari_encode_symbol(EncodingEnvironmentPtr eep, int symbol, BiContextTypePt
   {
     ++(eep->Echunks_outstanding);
   }
-  eep->Erange = range;  
+  eep->Erange = range;
   eep->Ebits_to_go = bl + BITS_TO_LOAD;
 }
 
 /*!
  ************************************************************************
  * \brief
- *    Arithmetic encoding of one binary symbol assuming 
+ *    Arithmetic encoding of one binary symbol assuming
  *    a fixed prob. distribution with p(symbol) = 0.5
  ************************************************************************
  */
 void biari_encode_symbol_eq_prob(EncodingEnvironmentPtr eep, int symbol)
 {
   unsigned int low = eep->Elow;
-  --(eep->Ebits_to_go);  
+  --(eep->Ebits_to_go);
   ++(eep->C);
 
   if (symbol != 0)
@@ -514,7 +514,7 @@ void biari_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol)
 {
   unsigned int range = eep->Erange - 2;
   unsigned int low = eep->Elow;
-  int bl = eep->Ebits_to_go; 
+  int bl = eep->Ebits_to_go;
 
   ++(eep->C);
 
@@ -525,8 +525,8 @@ void biari_encode_symbol_final(EncodingEnvironmentPtr eep, int symbol)
       eep->Erange = range;
       return;
     }
-    else 
-    {   
+    else
+    {
       range<<=1;
       if( --bl > MIN_BITS_TO_GO )  // renorm once, no output
       {

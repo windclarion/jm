@@ -20,7 +20,7 @@ Changes in Version JM 18.6 (since JM 18.5)
 - Add Distortion Based Reordering (AT)
 - Add out of order mode decision that provides alternative biases for skip modes in P slices (AT)
 - Additional control for quantization rounding parameters (AT)
-- Extension of Low Delay MMCO operations (KA) 
+- Extension of Low Delay MMCO operations (KA)
 - Minor cleanups (AT)
 
 
@@ -776,7 +776,7 @@ Bug fixes
 - encoder: merge deblocking filter from decoder (KS)
 - encoder: merge dpb fixes from decoder (KS)
 
-- encoder: rewrite most of MB AFF handling, 
+- encoder: rewrite most of MB AFF handling,
            support list_0 and list_1 properly, etc. (KS)
 
 - encoder/decoder: fix first_mb_in_slice for mb aff (KS)
@@ -786,7 +786,7 @@ Bug fixes
 Changes for Version JM7.4 to JM 7.3
 -----------------------------------
 Bug fixes
-- decoder: lt.ref. pic handling with sliding window (AF) 
+- decoder: lt.ref. pic handling with sliding window (AF)
 - decoder: fix CABAC parsing bug for skip_flag (KS)
 - decoder: gaps in frame_num (DT)
 - decoder: error message, if direct mode fails (BH)
@@ -810,7 +810,7 @@ Bug fixes
 - encoder: DPB for field coding (SM)
 - encoder: Spatial direct mode (SM)
 - decoder: POC mode 2 with multiple slices (BH)
-- decoder: data partitioning (has known problem in CAVLC/CABAC parsing when 
+- decoder: data partitioning (has known problem in CAVLC/CABAC parsing when
            constrained intra an dp are used)
 - both   : reference picture list generation
 - both   : doxygen documentation generation fixes (KS)
@@ -850,7 +850,7 @@ Bug fixes
 
 Other
 - removed common directory, put a copy of these file in each
-  encoder and decoder 
+  encoder and decoder
 
 
 Changes for Version JM 6.2 to JM 6.1b
@@ -1028,7 +1028,7 @@ New features
 * SEI for                             (SR)
    a) Unregistered (arbitrary) data
    b) Registered ITU_T_t35 data
-   c) Random access 
+   c) Random access
    d) Pan Scan Information
 
 Removed features
@@ -1165,7 +1165,7 @@ New features
 * New Macroblock modes for SP-frames [JVT-B055] (RK)
   Note: some problems related to decoding of SI-frames
 	are reported and have to be fixed
- 
+
 
 
 Changes for Version JM 4.0b to JM 4.0a
@@ -1331,7 +1331,7 @@ Bug Fixes
 * error concealment fixes (TO)
 * constrained intra prediction (GRC)
 * align intra pred to CD text (GRC)
-* adaptive frame/field fixes 
+* adaptive frame/field fixes
   - lambda calculation (LW)
   - average psnr output (LW)
   - fix slice modes 1 and 2 (LW)
@@ -1368,13 +1368,13 @@ I dropped adaptive frame/field coding, so only bugfixes for this release
 
 Bug Fixes
 * decoder delta qp decoding fix (HS)
-* correction of wrong calculation of written bits in CABAC mode 
+* correction of wrong calculation of written bits in CABAC mode
   (correction according to the new coding engine) (DM)
-* major cleanup of the routines related to the statistics reported 
+* major cleanup of the routines related to the statistics reported
   in stat.dat (DM):
   - correction of wrong calculation of used bits for header and mode info
   - addition of new table entries "motion info" and "stuffing bits"
-    such that the sum of all entries matches _exactly_ the 
+    such that the sum of all entries matches _exactly_ the
     plotted number of average bits/frame, which in turn is
     now equal to the number of bits reported on the console
 * correction of wrong calculation of written bytes for CABAC in RTP mode  (DM)
@@ -1577,7 +1577,7 @@ WF      Wenfang Fu              fwf@video.mdc.tsinghua.edu.cn
 WK      Woo-Shik Kim            wooshik.kim@usc.edu
 WZ      Weimin Zeng             wzeng@wischip.com
 XI      Xin                     xin@apple.com
-XS      Xiaoyan Sun             sunxiaoyan@msrchina.research.microsoft.com   
+XS      Xiaoyan Sun             sunxiaoyan@msrchina.research.microsoft.com
 XX      Xiaozhong Xu            xxz@video.mdc.tsinghua.edu.cn
 XY      Xiaoquan Yi             xyi@scu.edu
 YC      Yi-Jen Chiu             yi-jen.chiu@intel.com

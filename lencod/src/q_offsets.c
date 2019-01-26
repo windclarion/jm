@@ -255,12 +255,12 @@ static void allocate_QOffsets (QuantParameters *p_Quant, InputParameters *p_Inp)
   if (p_Inp->AdaptRoundingFixed)
   {
     get_mem3Dshort(&p_Quant->OffsetList4x4, 1, 25, 16);
-    get_mem3Dshort(&p_Quant->OffsetList8x8, 1, 15, 64);    
+    get_mem3Dshort(&p_Quant->OffsetList8x8, 1, 15, 64);
   }
   else
   {
     get_mem3Dshort(&p_Quant->OffsetList4x4, max_qp + 1, 25, 16);
-    get_mem3Dshort(&p_Quant->OffsetList8x8, max_qp + 1, 15, 64);    
+    get_mem3Dshort(&p_Quant->OffsetList8x8, max_qp + 1, 15, 64);
   }
 
   get_mem2Dshort(&p_Quant->OffsetList4x4input, 25, 16);
@@ -274,7 +274,7 @@ static inline void update_q_offset4x4(LevelQuantParams **q_params, short *offset
   for (j = 0; j < 4; j++)
   {
     for (i = 0; i < 4; i++)
-    {          
+    {
       q_params[j][i].OffsetComp = (int) *p_list++ << q_bits;
     }
   }
@@ -288,7 +288,7 @@ static inline void update_q_offset8x8(LevelQuantParams **q_params, short *offset
   {
     p_list = &offsetList[j << 3];
     for (i = 0; i < 8; i++)
-    {          
+    {
       q_params[j][i].OffsetComp = (int) *p_list++ << q_bits;
     }
   }
@@ -303,7 +303,7 @@ static inline void update_q_offset8x8(LevelQuantParams **q_params, short *offset
 void free_QOffsets (QuantParameters *p_Quant, InputParameters *p_Inp)
 {
   free_mem3Dshort(p_Quant->OffsetList8x8);
-  free_mem3Dshort(p_Quant->OffsetList4x4);    
+  free_mem3Dshort(p_Quant->OffsetList4x4);
   free_mem2Dshort(p_Quant->OffsetList8x8input);
   free_mem2Dshort(p_Quant->OffsetList4x4input);
 }
@@ -363,7 +363,7 @@ int CheckOffsetParameterName (char *s, int *type)
  */
 void ParseQOffsetMatrix (QuantParameters *p_Quant, char *buf, int bufsize)
 {
-  char *items[MAX_ITEMS_TO_PARSE] = {NULL}; 
+  char *items[MAX_ITEMS_TO_PARSE] = {NULL};
   int MapIdx;
   int item = 0;
   int InString = 0, InItem = 0;
@@ -555,14 +555,14 @@ void InitOffsetParam (QuantParameters *p_Quant, InputParameters *p_Inp)
           memcpy(&(p_Quant->OffsetList4x4[i][k][0]),&(Offset_intra_flat_inter[0]),  16 * sizeof(short));
         for (k = 9; k < 25; k++) // 9,10,11,12,13,14 (INTER4X4)
           memcpy(&(p_Quant->OffsetList4x4[i][k][0]),&(Offset_inter_flat[0]),  16 * sizeof(short));
-  
+
         // 0 (INTRA8X8_LUMA_INTRA)
         memcpy(&(p_Quant->OffsetList8x8[i][0][0]),&(Offset8_intra_flat_intra[0]), 64 * sizeof(short));
         for (k = 1; k < 3; k++)  // 1,2 (INTRA8X8_LUMA_INTERP/INTERB)
           memcpy(&(p_Quant->OffsetList8x8[i][k][0]),&(Offset8_intra_flat_inter[0]),  64 * sizeof(short));
         for (k = 3; k < 5; k++)  // 3,4 (INTER8X8_LUMA_INTERP/INTERB)
           memcpy(&(p_Quant->OffsetList8x8[i][k][0]),&(Offset8_inter_flat[0]),  64 * sizeof(short));
-  
+
         // 5 (INTRA8X8_CHROMAU_INTRA)
         memcpy(&(p_Quant->OffsetList8x8[i][5][0]),&(Offset8_intra_flat_chroma[0]), 64 * sizeof(short));
         for (k = 6; k < 8; k++)  // 6,7 (INTRA8X8_CHROMAU_INTERP/INTERB)
@@ -591,14 +591,14 @@ void InitOffsetParam (QuantParameters *p_Quant, InputParameters *p_Inp)
           memcpy(&(p_Quant->OffsetList4x4[i][k][0]),&(Offset_intra_flat_inter[0]),  16 * sizeof(short));
         for (k = 9; k < 25; k++) // 9,10,11,12,13,14 (INTER4X4)
           memcpy(&(p_Quant->OffsetList4x4[i][k][0]),&(Offset_inter_default[0]),  16 * sizeof(short));
-  
+
         // 0 (INTRA8X8_LUMA_INTRA)
         memcpy(&(p_Quant->OffsetList8x8[i][0][0]),&(Offset8_intra_default_intra[0]), 64 * sizeof(short));
         for (k = 1; k < 3; k++)  // 1,2 (INTRA8X8_LUMA_INTERP/INTERB)
           memcpy(&(p_Quant->OffsetList8x8[i][k][0]),&(Offset8_intra_default_inter[0]),  64 * sizeof(short));
         for (k = 3; k < 5; k++)  // 3,4 (INTER8X8_LUMA_INTERP/INTERB)
           memcpy(&(p_Quant->OffsetList8x8[i][k][0]),&(Offset8_inter_default[0]),  64 * sizeof(short));
-  
+
         // 5 (INTRA8X8_CHROMAU_INTRA)
         memcpy(&(p_Quant->OffsetList8x8[i][5][0]),&(Offset8_intra_flat_chroma[0]), 64 * sizeof(short));
         for (k = 6; k < 8; k++)  // 6,7 (INTRA8X8_CHROMAU_INTERP/INTERB)
@@ -623,14 +623,14 @@ void InitOffsetParam (QuantParameters *p_Quant, InputParameters *p_Inp)
           memcpy(&(p_Quant->OffsetList4x4[i][k][0]),&(Offset_intra_default_inter[0]),  16 * sizeof(short));
         for (k = 9; k < 25; k++) // 9,10,11,12,13,14 (INTER4X4)
           memcpy(&(p_Quant->OffsetList4x4[i][k][0]),&(Offset_inter_default[0]),  16 * sizeof(short));
-  
+
         // 0 (INTRA8X8_LUMA_INTRA)
         memcpy(&(p_Quant->OffsetList8x8[i][0][0]),&(Offset8_intra_default_intra[0]), 64 * sizeof(short));
         for (k = 1; k < 3; k++)  // 1,2 (INTRA8X8_LUMA_INTERP/INTERB)
           memcpy(&(p_Quant->OffsetList8x8[i][k][0]),&(Offset8_intra_default_inter[0]),  64 * sizeof(short));
         for (k = 3; k < 5; k++)  // 3,4 (INTER8X8_LUMA_INTERP/INTERB)
           memcpy(&(p_Quant->OffsetList8x8[i][k][0]),&(Offset8_inter_default[0]),  64 * sizeof(short));
-  
+
         // 5 (INTRA8X8_CHROMAU_INTRA)
         memcpy(&(p_Quant->OffsetList8x8[i][5][0]),&(Offset8_intra_default_chroma[0]), 64 * sizeof(short));
         for (k = 6; k < 8; k++)  // 6,7 (INTRA8X8_CHROMAU_INTERP/INTERB)
@@ -646,7 +646,7 @@ void InitOffsetParam (QuantParameters *p_Quant, InputParameters *p_Inp)
           memcpy(&(p_Quant->OffsetList8x8[i][k][0]),&(Offset8_inter_default[0]),  64 * sizeof(short));
       }
     }
-  }  
+  }
 }
 
 
@@ -665,7 +665,7 @@ void InitOffsetParam (QuantParameters *p_Quant, InputParameters *p_Inp)
 void CalculateOffset4x4Param (VideoParameters *p_Vid)
 {
   QuantParameters *p_Quant = p_Vid->p_Quant;
-  int k;  
+  int k;
   int qp_per, qp;
   int img_type = ((p_Vid->type == SI_SLICE) ? I_SLICE : (p_Vid->type == SP_SLICE ? P_SLICE : p_Vid->type));
 
@@ -709,7 +709,7 @@ void CalculateOffset4x4Param (VideoParameters *p_Vid)
       // Intra4x4 chroma u
       update_q_offset4x4(p_Quant->q_params_4x4[1][1][qp], p_Quant->OffsetList4x4[k][ 7], qp_per);
       // Inter4x4 chroma v
-      update_q_offset4x4(p_Quant->q_params_4x4[2][0][qp], p_Quant->OffsetList4x4[k][14], qp_per);      
+      update_q_offset4x4(p_Quant->q_params_4x4[2][0][qp], p_Quant->OffsetList4x4[k][14], qp_per);
       // Intra4x4 chroma v
       update_q_offset4x4(p_Quant->q_params_4x4[2][1][qp], p_Quant->OffsetList4x4[k][ 8], qp_per);
     }
@@ -731,7 +731,7 @@ void CalculateOffset4x4Param (VideoParameters *p_Vid)
       // Intra4x4 chroma u
       update_q_offset4x4(p_Quant->q_params_4x4[1][1][qp], p_Quant->OffsetList4x4[k][ 4], qp_per);
       // Inter4x4 chroma v
-      update_q_offset4x4(p_Quant->q_params_4x4[2][0][qp], p_Quant->OffsetList4x4[k][11], qp_per);      
+      update_q_offset4x4(p_Quant->q_params_4x4[2][0][qp], p_Quant->OffsetList4x4[k][11], qp_per);
       // Intra4x4 chroma v
       update_q_offset4x4(p_Quant->q_params_4x4[2][1][qp], p_Quant->OffsetList4x4[k][ 5], qp_per);
     }

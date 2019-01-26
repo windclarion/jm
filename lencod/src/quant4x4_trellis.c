@@ -40,7 +40,7 @@
  *
  * \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
- *    - Qualcomm      
+ *    - Qualcomm
  *    - Limin Liu                                <limin.liu@dolby.com>
  *    - Alexis Michael Tourapis                  <alexismt@ieee.org>
  *
@@ -75,7 +75,7 @@ int quant_4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
   int   block_x = q_method->block_x;
 
   int*  ACL = &q_method->ACLevel[0];
-  int*  ACR = &q_method->ACRun[0];  
+  int*  ACR = &q_method->ACRun[0];
   Slice *currSlice = currMB->p_Slice;
   QuantParameters *p_Quant = currMB->p_Vid->p_Quant;
   int  qp = q_method->qp;
@@ -108,7 +108,7 @@ int quant_4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
     m7 = &tblock[j][block_x + i];
 
     if (*m7 != 0)
-    {    
+    {
       /*
       scaled_coeff = iabs (*m7) * q_params_4x4[j][i].ScaleComp;
       level = (scaled_coeff + q_params_4x4[j][i].OffsetComp) >> q_bits;
@@ -125,21 +125,21 @@ int quant_4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
         level   = isignab(level, *m7);
         *m7     = rshift_rnd_sf(((level * q_params_4x4[j][i].InvScaleComp) << qp_per), 4);
         *ACL++  = level;
-        *ACR++  = run; 
+        *ACR++  = run;
         // reset zero level counter
         run     = 0;
-        nonzero = TRUE;        
+        nonzero = TRUE;
       }
       else
       {
         *m7 = 0;
         ++run;
-      } 
+      }
     }
     else
     {
       ++run;
-    } 
+    }
   }
 
   *ACL = 0;
@@ -150,7 +150,7 @@ int quant_4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *q_
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
+*    Rate distortion optimized Quantization process for
 *    all coefficients in a 4x4 block (CAVLC)
 *
 ************************************************************************
@@ -168,8 +168,8 @@ void rdoq_4x4_CAVLC(Macroblock *currMB, int **tblock, struct quant_methods *q_me
   int   qp_per = p_Quant->qp_per_matrix[qp];
   int   qp_rem = p_Quant->qp_rem_matrix[qp];
 
-  levelDataStruct levelData[16];  
-  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  levelDataStruct levelData[16];
+  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
 
   int type = LUMA_4x4;
   int   pos_x   = block_x >> BLOCK_SHIFT;
@@ -183,7 +183,7 @@ void rdoq_4x4_CAVLC(Macroblock *currMB, int **tblock, struct quant_methods *q_me
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
+*    Rate distortion optimized Quantization process for
 *    all coefficients in a 4x4 block (CABAC)
 *
 ************************************************************************
@@ -191,14 +191,14 @@ void rdoq_4x4_CAVLC(Macroblock *currMB, int **tblock, struct quant_methods *q_me
 void rdoq_4x4_CABAC(Macroblock *currMB, int **tblock, struct quant_methods *q_method, int levelTrellis[])
 {
   VideoParameters *p_Vid = currMB->p_Vid;
-  
+
   const byte (*pos_scan)[2] = q_method->pos_scan;
   const byte *p_scan = &pos_scan[0][0];
 
   levelDataStruct levelData[16];
   int kStart=0, kStop=0, noCoeff = 0, estBits;
 
-  double lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  double lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
 
   noCoeff = init_trellis_data_4x4_CABAC(currMB, tblock, q_method, p_scan, &levelData[0], &kStart, &kStop, LUMA_4x4);
   estBits = est_write_and_store_CBP_block_bit(currMB, LUMA_4x4);
@@ -231,13 +231,13 @@ int quant_ac4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *
 
   int *m7;
   int   level, run = 0;
-  int   nonzero = FALSE;  
+  int   nonzero = FALSE;
   int   qp_per = p_Quant->qp_per_matrix[qp];
   const byte *p_scan = &pos_scan[1][0];
   int*  ACL = &ACLevel[0];
   int*  ACR = &ACRun[0];
 
-  int levelTrellis[16]; 
+  int levelTrellis[16];
 
   currSlice->rdoq_ac4x4(currMB, tblock, q_method, levelTrellis);
 
@@ -249,7 +249,7 @@ int quant_ac4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *
 
     m7 = &tblock[j][block_x + i];
     if (*m7 != 0)
-    {    
+    {
       /*
       scaled_coeff = iabs (*m7) * q_params_4x4[j][i].ScaleComp;
       level = (scaled_coeff + q_params_4x4[j][i].OffsetComp) >> q_bits;
@@ -269,7 +269,7 @@ int quant_ac4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *
         // arithmetic is satisfied.
         // *m7 = (qp_per<4) ? rshift_rnd_sf((level*q_params_4x4[j][i].InvScaleComp),4-qp_per) : (level*q_params_4x4[j][i].InvScaleComp)<<(qp_per-4);
         *ACL++  = level;
-        *ACR++  = run; 
+        *ACR++  = run;
         // reset zero level counter
         run     = 0;
         nonzero = TRUE;
@@ -283,7 +283,7 @@ int quant_ac4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *
     else
     {
       run++;
-    }          
+    }
   }
 
   *ACL = 0;
@@ -294,7 +294,7 @@ int quant_ac4x4_trellis(Macroblock *currMB, int **tblock, struct quant_methods *
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
+*    Rate distortion optimized Quantization process for
 *    all coefficients in a 4x4 block (CAVLC)
 *
 ************************************************************************
@@ -313,8 +313,8 @@ void rdoq_ac4x4_CAVLC(Macroblock *currMB, int **tblock, struct quant_methods *q_
   int   qp_rem = p_Quant->qp_rem_matrix[qp];
 
   const byte *p_scan = &pos_scan[1][0];
-  levelDataStruct levelData[16];  
-  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  levelDataStruct levelData[16];
+  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
 
   int   pos_x   = block_x >> BLOCK_SHIFT;
   int   pos_y   = block_y >> BLOCK_SHIFT;
@@ -328,7 +328,7 @@ void rdoq_ac4x4_CAVLC(Macroblock *currMB, int **tblock, struct quant_methods *q_
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
+*    Rate distortion optimized Quantization process for
 *    all coefficients in a 4x4 block (LUMA_16AC or CHROMA_AC) - CABAC
 *
 ************************************************************************
@@ -336,13 +336,13 @@ void rdoq_ac4x4_CAVLC(Macroblock *currMB, int **tblock, struct quant_methods *q_
 void rdoq_ac4x4_CABAC(Macroblock *currMB, int **tblock, struct quant_methods *q_method, int levelTrellis[])
 {
   VideoParameters *p_Vid = currMB->p_Vid;
-  
+
   const byte (*pos_scan)[2] = q_method->pos_scan;
   int  type = q_method->type;
 
   const byte *p_scan = &pos_scan[1][0];
   levelDataStruct levelData[16];
-  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
   int kStart = 0, kStop = 0, noCoeff = 0, estBits;
 
   noCoeff = init_trellis_data_4x4_CABAC(currMB, tblock, q_method, p_scan, &levelData[0], &kStart, &kStop, type);
@@ -357,7 +357,7 @@ void rdoq_ac4x4_CABAC(Macroblock *currMB, int **tblock, struct quant_methods *q_
  *
  ************************************************************************
  */
-int quant_dc4x4_trellis(Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun, 
+int quant_dc4x4_trellis(Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun,
                        LevelQuantParams *q_params_4x4, const byte (*pos_scan)[2])
 {
   Slice *currSlice = currMB->p_Slice;
@@ -368,7 +368,7 @@ int quant_dc4x4_trellis(Macroblock *currMB, int **tblock, int qp, int* DCLevel, 
   int *m7;
 
   int   level, run = 0;
-  int   nonzero = FALSE;  
+  int   nonzero = FALSE;
   int   qp_per = p_Quant->qp_per_matrix[qp];
   int   qp_rem = p_Quant->qp_rem_matrix[qp];
   const byte *p_scan = &pos_scan[0][0];
@@ -388,7 +388,7 @@ int quant_dc4x4_trellis(Macroblock *currMB, int **tblock, int qp, int* DCLevel, 
     m7 = &tblock[j][i];
 
     if (*m7 != 0)
-    {    
+    {
       level = levelTrellis[coeff_ctr];
 
       if (level != 0)
@@ -413,7 +413,7 @@ int quant_dc4x4_trellis(Macroblock *currMB, int **tblock, int qp, int* DCLevel, 
     else
     {
       run++;
-    }                    
+    }
   }
 
   *DCL = 0;
@@ -424,18 +424,18 @@ int quant_dc4x4_trellis(Macroblock *currMB, int **tblock, int qp, int* DCLevel, 
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
-*    all coefficients in a luma DC block 
+*    Rate distortion optimized Quantization process for
+*    all coefficients in a luma DC block
 *
 ************************************************************************
 */
-void rdoq_dc_CAVLC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, LevelQuantParams *q_params_4x4, 
+void rdoq_dc_CAVLC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, LevelQuantParams *q_params_4x4,
                    const byte (*pos_scan)[2], int levelTrellis[], int type)
 {
   VideoParameters *p_Vid = currMB->p_Vid;
   const byte *p_scan = &pos_scan[0][0];
   levelDataStruct levelData[16];
-  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
 
   init_trellis_data_DC_CAVLC(currMB, tblock, qp_per, qp_rem, q_params_4x4, p_scan, &levelData[0]);
   est_RunLevel_CAVLC(currMB, levelData, levelTrellis, LUMA_INTRA16x16DC, 0, 0, 16, lambda_md);
@@ -445,8 +445,8 @@ void rdoq_dc_CAVLC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, Lev
 /*!
 ************************************************************************
 * \brief
-*    Rate distortion optimized Quantization process for 
-*    all coefficients in a luma DC block 
+*    Rate distortion optimized Quantization process for
+*    all coefficients in a luma DC block
 *
 ************************************************************************
 */
@@ -455,7 +455,7 @@ void rdoq_dc_CABAC(Macroblock *currMB, int **tblock, int qp_per, int qp_rem, Lev
   VideoParameters *p_Vid = currMB->p_Vid;
   const byte *p_scan = &pos_scan[0][0];
   levelDataStruct levelData[16];
-  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP]; 
+  double  lambda_md = p_Vid->lambda_rdoq[p_Vid->type][p_Vid->masterQP];
   int kStart = 0, kStop = 0, noCoeff = 0, estBits;
 
   noCoeff = init_trellis_data_DC_CABAC(currMB, tblock, qp_per, qp_rem, q_params_4x4, p_scan, &levelData[0], &kStart, &kStop);

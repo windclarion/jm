@@ -41,7 +41,7 @@
 * \author
 *    Main contributors (see contributors.h for copyright, address and affiliation details)
 *      - Yuwen He
-*      - Alexis Michael Tourapis 
+*      - Alexis Michael Tourapis
 *
 *************************************************************************************
 */
@@ -79,7 +79,7 @@ static void prepare_enc_frame_picture_hme (VideoParameters *p_Vid)
 {
   InputParameters *p_Inp = p_Vid->p_Inp;
   StorablePicture *stored_pic = p_Vid->pHMEInfo->pTmpEncPic;
-  
+
   p_Vid->ThisPOC          = p_Vid->framepoc;
   stored_pic->poc         = p_Vid->framepoc;
   stored_pic->top_poc     = p_Vid->toppoc;
@@ -89,11 +89,11 @@ static void prepare_enc_frame_picture_hme (VideoParameters *p_Vid)
   stored_pic->frame_num   = p_Vid->frame_num;
   stored_pic->coded_frame = 1;
   stored_pic->mb_aff_frame_flag = p_Vid->mb_aff_frame_flag = (Boolean) (p_Inp->MbInterlace != FRAME_CODING);
-  
+
   p_Vid->get_mb_block_pos    = p_Vid->mb_aff_frame_flag ? get_mb_block_pos_mbaff : get_mb_block_pos_normal;
   p_Vid->getNeighbour        = p_Vid->mb_aff_frame_flag ? getAffNeighbour : getNonAffNeighbour;
   p_Vid->enc_picture         = stored_pic;
-  
+
   copy_params(p_Vid, p_Vid->enc_picture, p_Vid->active_sps);
 }
 
@@ -111,7 +111,7 @@ void invoke_HME(VideoParameters *p_Vid, int pic_idx)
 
   pHMEInfo->p_orig_img_pointer[0] = p_Vid->imgData.frm_data[0];
   GenerateImagePyramid(p_Vid, pHMEInfo->iImageWidth, pHMEInfo->iImageHeight, pHMEInfo->p_orig_img_pointer, 0, 0);
-  
+
   // prepare HME. This code is copied from Yuwen's original implementation
   // and could use some substantial improvements.
   // The HME should not be using the existing slice code and be mixing up the processes like this
@@ -120,7 +120,7 @@ void invoke_HME(VideoParameters *p_Vid, int pic_idx)
   InitWP(p_Vid, p_Inp, (p_Inp->WPMethod == 3 && pic_idx == 0) ? 1:0);
   p_Vid->is_hme = 1;
   init_slice(p_Vid, &(pHMEInfo->pTmpSlice), 0);
-  p_Vid->is_hme = 0;  
+  p_Vid->is_hme = 0;
 
   if(pHMEInfo->pTmpSlice->p_EPZS->EPZSMap)
   {
@@ -133,9 +133,9 @@ void invoke_HME(VideoParameters *p_Vid, int pic_idx)
   HMESearch(pHMEInfo->pTmpSlice);
   //end and recover the information;
   free_slice(pHMEInfo->pTmpSlice);
-  
+
   p_Vid->frame_pic[pic_idx]->no_slices = 0;
-  HMERestoreInfo(p_Vid, pHMEInfo); 
+  HMERestoreInfo(p_Vid, pHMEInfo);
 
   p_Vid->enc_picture = NULL;
 }
@@ -150,10 +150,10 @@ void AllocHMEMemory(imgpel ****pHmeImage, VideoParameters *p_Vid, int size_y, in
      (*pHmeImage)[i] = NULL;
    for(i=iStartLevel; i< iPyramidLevels; i++)
    {
-     iSx = (size_x >> i); 
+     iSx = (size_x >> i);
      iSy = (size_y >> i);
      get_mem2Dpel_pad(&((*pHmeImage)[i]), iSy, iSx, offset_y, offset_x);
-   }   
+   }
 }
 
 void FreeHMEMemory(imgpel ****pHmeImage, VideoParameters *p_Vid, int iStartLevel, int iPadY, int iPadX)
@@ -286,7 +286,7 @@ void CalcSearchRange(VideoParameters *p_Vid, InputParameters *p_Inp, int iMaxRef
   int iSRyMin = 16;
 
   //----- set search range ---
-  
+
   for(ref=0; ref<iMaxRefNum; ref++)
   {
     //pDstSW[ref] = p_Vid->searchRange;
@@ -295,7 +295,7 @@ void CalcSearchRange(VideoParameters *p_Vid, InputParameters *p_Inp, int iMaxRef
     pSW->max_x = iSRx;
     pSW->min_y = -iSRy;
     pSW->max_y = iSRy;
-    
+
     pSW = pHMEInfo->p_HMESWMin+ref;
     pSW->min_x = -iSRxMin;
     pSW->max_x = iSRxMin;
@@ -307,7 +307,7 @@ void CalcSearchRange(VideoParameters *p_Vid, InputParameters *p_Inp, int iMaxRef
 int InitHMEInfo(VideoParameters *p_Vid, InputParameters *p_Inp)
 {
   HMEInfo_t *pHMEInfo = (HMEInfo_t *)calloc(1, sizeof(HMEInfo_t));
-  int pic_size_x_in_blk, pic_size_y_in_blk; 
+  int pic_size_x_in_blk, pic_size_y_in_blk;
 
   pic_size_x_in_blk = p_Vid->width >>3;
   pic_size_y_in_blk = p_Vid->height>>3;
@@ -318,7 +318,7 @@ int InitHMEInfo(VideoParameters *p_Vid, InputParameters *p_Inp)
     return -1;
   }
   p_Vid->pHMEInfo = pHMEInfo;
-  
+
   if(p_Inp->PyramidLevels >0)
     pHMEInfo->iPyramidLevels = p_Inp->PyramidLevels;
   else
@@ -343,11 +343,11 @@ int InitHMEInfo(VideoParameters *p_Vid, InputParameters *p_Inp)
   pHMEInfo->p_orig_img_pointer = pHMEInfo->p_orig_img_pointer_layers[0];
   pHMEInfo->p_orig_img_pointer[0] = NULL;
   AllocateHMEMVInfo(&pHMEInfo->p_hme_mv, p_Vid);
-  AllocateHMEMECost(&pHMEInfo->p_hme_mcost, p_Vid);  
+  AllocateHMEMECost(&pHMEInfo->p_hme_mcost, p_Vid);
   AllocateHMEDistInfo(&pHMEInfo->p_hme_mdist, p_Vid);
   get_mem3Dint64(&pHMEInfo->hme_distortion, pHMEInfo->iPyramidLevels, 3, pHMEInfo->iMaxRefNum);
   get_mem3Dint64(&pHMEInfo->poc, pHMEInfo->iPyramidLevels, 3, pHMEInfo->iMaxRefNum);
- 
+
   pHMEInfo->p_HMESW = (SearchWindow *)malloc( pHMEInfo->iMaxRefNum * sizeof(SearchWindow));
   if(!pHMEInfo->p_HMESW)
     return -1;
@@ -358,7 +358,7 @@ int InitHMEInfo(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   {
     int nal_reference_idc = p_Vid->nal_reference_idc;
-    p_Vid->nal_reference_idc = NALU_PRIORITY_DISPOSABLE;  
+    p_Vid->nal_reference_idc = NALU_PRIORITY_DISPOSABLE;
     pHMEInfo->pTmpEncPic = alloc_storable_picture(p_Vid, (PictureStructure) FRAME, 16, 16, 8, 8);
     p_Vid->nal_reference_idc = nal_reference_idc;
   }
@@ -369,7 +369,7 @@ int InitHMEInfo(VideoParameters *p_Vid, InputParameters *p_Inp)
     pHMEInfo->hme_blk_weight_store = NULL;
     pHMEInfo->hme_blk_offset_store = NULL;
     pHMEInfo->hme_blk_res_DC_store = NULL;
-    pHMEInfo->hme_blk_seg_store = NULL; 
+    pHMEInfo->hme_blk_seg_store = NULL;
     pHMEInfo->pWPReorderType = NULL;
     pHMEInfo->ref_idx_map = NULL;
     pHMEInfo->dup_ref_flag = NULL;
@@ -378,7 +378,7 @@ int InitHMEInfo(VideoParameters *p_Vid, InputParameters *p_Inp)
     pHMEInfo->perform_reorder_pass = NULL;
   }
 
-  return 0; 
+  return 0;
 }
 
 void FreeHMEInfo(VideoParameters *p_Vid)
@@ -395,7 +395,7 @@ void FreeHMEInfo(VideoParameters *p_Vid)
       else
         pHMEInfo->p_orig_img_pointer_layers[1] = NULL;
     }
-    
+
     FreeHMEMemory(&(pHMEInfo->p_orig_img_pointer_layers[0]), p_Vid, 1, 0, 0);
     pHMEInfo->p_orig_img_pointer = NULL;
     FreeHMEMVInfo(&pHMEInfo->p_hme_mv, p_Vid);
@@ -416,7 +416,7 @@ void FreeHMEInfo(VideoParameters *p_Vid)
       free_storable_picture(p_Vid, pHMEInfo->pTmpEncPic);
       pHMEInfo->pTmpEncPic = NULL;
     }
-    
+
     if (pHMEInfo->hme_distortion)
       free_mem3Dint64(pHMEInfo->hme_distortion);
     if (pHMEInfo->hme_distortion)
@@ -481,7 +481,7 @@ void HMEResizeSearchRange(VideoParameters *p_Vid, HMEInfo_t *pHMEInfo)
   }
   get_mem2Dshort ((short ***) &EPZSMap, iSearchRangeY, iSearchRangeX);
 	pHMEInfo->pTmpSlice->p_EPZS->EPZSMap = EPZSMap;
-	
+
 }
 
 void HMEStoreInfo(VideoParameters *p_Vid, HMEInfo_t *pHMEInfo)
@@ -566,11 +566,11 @@ void HMESearch(Slice *currSlice)
 #endif
 
   currSlice->set_lagrangian_multipliers(currSlice);
-  SetMELambda(p_Vid, lambda_factor);  
+  SetMELambda(p_Vid, lambda_factor);
 
   hme_init_mv_block(p_Vid, &mv_block, (short) blocktype);
 
-  // Motion estimation for current picture 
+  // Motion estimation for current picture
   HMEPicMotionSearch (currSlice, &mv_block, lambda_factor);
 
   free_mv_block(&mv_block);
@@ -606,16 +606,16 @@ static void SetMVFromUpperLevel(Slice *currSlice, int pyr_level)
         MotionVector mv_scaled;
         int ii, jj;
         for(j=0; j<(blkheight>>1); j++)
-        { 
+        {
           jj = j<<1;
           for(i=0; i<(blkwidth>>1); i++)
           {
             ii = i<<1;
             mv_scaled.mv_x = p_mv1[j][i].mv_x <<1;
             mv_scaled.mv_y = p_mv1[j][i].mv_y <<1;
-            p_mv0[jj][ii] = 
-            p_mv0[jj][ii+1] = 
-            p_mv0[jj+1][ii] = 
+            p_mv0[jj][ii] =
+            p_mv0[jj][ii+1] =
+            p_mv0[jj+1][ii] =
             p_mv0[jj+1][ii+1] = mv_scaled;
           }
           if(blkwidth&1)
@@ -666,7 +666,7 @@ void HMEGetPMV(VideoParameters *p_Vid, MotionVector **p_pic_mv, int level, int b
   {
     if(!bx)  //top left;
       *pred = p_pic_mv[by][bx];  //use upper layer MV
-    else  //top row;  
+    else  //top row;
       *pred = p_pic_mv[by][bx-1];
   }
   else
@@ -702,7 +702,7 @@ void HMESetSearchRange(SearchWindow *pSrcSW,   //the search window at layer 0;
   tmp = pSrcSW->min_x >> level;
   pCurrSW->min_x = tmp > pSWMin->min_x? pSWMin->min_x: tmp;
   tmp = pSrcSW->max_y >> level;
-  pCurrSW->max_y = tmp < pSWMin->max_y? pSWMin->max_y: tmp;  
+  pCurrSW->max_y = tmp < pSWMin->max_y? pSWMin->max_y: tmp;
   tmp = pSrcSW->min_y >> level;
   pCurrSW->min_y = tmp > pSWMin->min_y? pSWMin->min_y: tmp;
 }
@@ -825,7 +825,7 @@ void hme_SetSearchRange(MEBlock *mv_block, MotionVector *mv)
 
     if(b0 < leftBoundary)
     {
-      b0 = leftBoundary; 
+      b0 = leftBoundary;
       bChanged=1;
     }
     else if(b0+SW_x > rightBoundary)
@@ -835,7 +835,7 @@ void hme_SetSearchRange(MEBlock *mv_block, MotionVector *mv)
     }
     if(bChanged)
     {
-      b1 = b0+(SW_x); 
+      b1 = b0+(SW_x);
       if(b1 > rightBoundary)
       {
         b1 = rightBoundary;
@@ -876,9 +876,9 @@ void HMELevelMotionSearch(Slice *currSlice, MEBlock *mv_block, int *lambda_facto
 {
   VideoParameters *p_Vid = currSlice->p_Vid;
   HMEInfo_t *pHMEInfo = p_Vid->pHMEInfo;
-  distblk **p_pic_mcost; 
+  distblk **p_pic_mcost;
   MotionVector **p_pic_mv;
-  distblk **p_pic_mdist; 
+  distblk **p_pic_mdist;
   SearchWindow *currPicSW = pHMEInfo->p_HMESW;
   SearchWindow *currPicSWMin = pHMEInfo->p_HMESWMin;
 
@@ -886,12 +886,12 @@ void HMELevelMotionSearch(Slice *currSlice, MEBlock *mv_block, int *lambda_facto
 
   int by, bx;
   int pic_size_x, pic_size_y;
-  int list, ref; 
+  int list, ref;
   int numlists  = (currSlice->slice_type == B_SLICE) ? 2 : 1;
 
   for (list = 0; list < numlists; list++)
   {
-     for (ref = 0; ref < currSlice->listXsize[list]; ref++) 
+     for (ref = 0; ref < currSlice->listXsize[list]; ref++)
      {
         pHMEInfo->hme_distortion[pyr_level][list][ref] = 0;
         pHMEInfo->poc[pyr_level][list][ref] = currSlice->listX[list][ref]->poc;
@@ -900,7 +900,7 @@ void HMELevelMotionSearch(Slice *currSlice, MEBlock *mv_block, int *lambda_facto
 
   pic_size_x = pHMEInfo->iImageWidth  >> pyr_level;
   pic_size_y = pHMEInfo->iImageHeight >> pyr_level;
-  
+
   for (list = 0; list < numlists; list++)
   {
     //----- set arrays -----
@@ -908,7 +908,7 @@ void HMELevelMotionSearch(Slice *currSlice, MEBlock *mv_block, int *lambda_facto
     // changed order since ideally we could use other reference
     // results to optimize other references.
     // Otherwise, some operations could be avoided as was in the original code.
-    for (ref=0; ref < currSlice->listXsize[list+0]; ref++) 
+    for (ref=0; ref < currSlice->listXsize[list+0]; ref++)
     {
        mv_block->ref_idx = (char) ref;
        for(by=0; by<(pic_size_y>>3); by++)
@@ -941,18 +941,18 @@ void HMELevelMotionSearch(Slice *currSlice, MEBlock *mv_block, int *lambda_facto
       }
     }
   }
-  
+
 //for (list = 0; list < numlists; list++)
-  //   for (ref=0; ref < currSlice->listXsize[list+0]; ref++) 
+  //   for (ref=0; ref < currSlice->listXsize[list+0]; ref++)
     //    printf(" level %d list %d ref %d distortion %lld\n", pyr_level, list, ref, pHMEInfo->hme_distortion[pyr_level][list][ref]);
 
 }
 
 
-// ref cost adjustment 
+// ref cost adjustment
 static inline distblk ref_cost_adj(const Slice *currSlice, int lambda, short ref, int list_offset, int list_size)
 {
-  distblk old_cost, new_cost; 
+  distblk old_cost, new_cost;
 
   assert(list_size == 2 || list_size == 1);
 
@@ -964,7 +964,7 @@ static inline distblk ref_cost_adj(const Slice *currSlice, int lambda, short ref
 #if JCOST_CALC_SCALEUP
     old_cost = ( ((distblk)lambda) *((distblk)(p_Vid->refbits[(ref)])) );
 #else
-#if (USE_RND_COST)    
+#if (USE_RND_COST)
     old_cost = (rshift_rnd_sf((lambda) * (p_Vid->refbits[(ref)]), LAMBDA_ACCURACY_BITS));
 #else
     old_cost = ((lambda *(p_Vid->refbits[(ref)]))>> LAMBDA_ACCURACY_BITS);
@@ -979,14 +979,14 @@ static inline distblk ref_cost_adj(const Slice *currSlice, int lambda, short ref
 #if JCOST_CALC_SCALEUP
     new_cost = ( ((distblk)lambda) *((distblk)(1)) );
 #else
-#if (USE_RND_COST)    
+#if (USE_RND_COST)
     new_cost = (rshift_rnd_sf((lambda) * (1), LAMBDA_ACCURACY_BITS));
 #else
     new_cost = ((lambda *(1))>> LAMBDA_ACCURACY_BITS);
 #endif
 #endif
   }
-  
+
   return new_cost-old_cost;
 }
 
@@ -1005,7 +1005,7 @@ static void HMEPicMotionSearch(Slice *currSlice, MEBlock *mv_block, int *lambda_
  HMEInfo_t *pHMEInfo = p_Vid->pHMEInfo;
 
   int iLowestLevel = 0;
-  
+
   if(pHMEInfo->perform_reorder_pass)
     memset(pHMEInfo->perform_reorder_pass, 0, sizeof(int)*pHMEInfo->iPyramidLevels);
 
@@ -1016,7 +1016,7 @@ static void HMEPicMotionSearch(Slice *currSlice, MEBlock *mv_block, int *lambda_
      pic_size_x = pHMEInfo->iImageWidth  >> pyr_level;
      pic_size_y = pHMEInfo->iImageHeight >> pyr_level;
      SetMVFromUpperLevel(currSlice, pyr_level);
-     
+
      mv_block->hme_level = (short) pyr_level;
      mv_block->hme_ref_size_x_pad = pic_size_x+IMG_PAD_SIZE_X*2;
      mv_block->hme_ref_size_y_pad = pic_size_y+IMG_PAD_SIZE_Y*2;
@@ -1034,7 +1034,7 @@ static distblk HMEBlockMotionSearch(MotionVector **p_pic_mv, distblk **p_pic_mco
   int list = mv_block->list;
   //int ref = mv_block->ref_idx;
   int level = mv_block->hme_level;
-  
+
   MotionVector *mv = &mv_block->mv[list], pred;
   int bx = mv_block->pos_x2;
   int by = mv_block->pos_y2;
@@ -1093,7 +1093,7 @@ hme_EPZSDetermineStopCriterion (EPZSParameters * p_EPZS, distblk **pic_mcost, ME
   sadA = block[0].available ? pic_mcost[by][bx-1] : DISTBLK_MAX;
   sadB = block[1].available ? pic_mcost[by-1][bx] : DISTBLK_MAX;
   sadC = block[2].available ? pic_mcost[by-1][bx+1] : (block[3].available ? pic_mcost[by-1][bx-1] : DISTBLK_MAX);
-  
+
   stopCriterion = distblkmin (sadA, distblkmin (sadB, sadC));
   stopCriterion = distblkmax (stopCriterion, p_EPZS->minthres[blocktype]);
   stopCriterion = distblkmin (stopCriterion, p_EPZS->maxthres[blocktype] + lambda_dist);
@@ -1104,8 +1104,8 @@ hme_EPZSDetermineStopCriterion (EPZSParameters * p_EPZS, distblk **pic_mcost, ME
 
 
 short
-hme_EPZSSpatialPredictors (EPZSParameters * p_EPZS, 
-                           MEBlock *mv_block, 
+hme_EPZSSpatialPredictors (EPZSParameters * p_EPZS,
+                           MEBlock *mv_block,
                            MotionVector **pic_mv
                            )
 {
@@ -1212,7 +1212,7 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
   int blocktype = mv_block->blocktype;
 
   int list = mv_block->list;
-  int cur_list = list; 
+  int cur_list = list;
   short ref = mv_block->ref_idx;
   MotionVector *mv = &mv_block->mv[list];
   SearchWindow *searchRange = &mv_block->searchRange;
@@ -1305,12 +1305,12 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
     if (p_Inp->EPZSSpatialMem)
       EPZSSpatialMemPredictorsEnhanced (p_EPZS, mv_block, cur_list, &prednum, ref_picture->size_x >> 2);
     */
-    
+
     // Temporal predictors
     {
     //  hme_EPZSTemporalPredictors(p_Vid->pHMEInfo, p_EPZS, mv_block, &prednum, stopCriterion, min_mcost);
     }
-    
+
 
     //! Window Size Based Predictors
     //! Basically replaces a Hierarchical ME concept and helps escaping local minima, or
@@ -1330,7 +1330,7 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
       && (p_Inp->EPZSFixed > 1 || (p_Inp->EPZSFixed && currSlice->slice_type == P_SLICE)) && (mv_block->hme_level==p_Vid->pHMEInfo->iPyramidLevels-1));
 
     if (conditionEPZS)
-      hme_EPZSWindowPredictors (&tmp /*&(pic_mv[mv_block->pos_y2][mv_block->pos_x2]) mv*/, p_EPZS->predictor, &prednum, 
+      hme_EPZSWindowPredictors (&tmp /*&(pic_mv[mv_block->pos_y2][mv_block->pos_x2]) mv*/, p_EPZS->predictor, &prednum,
       (/*(invalid_refs > 2) && */ (ref < 1 + (currSlice->structure != FRAME /*|| currMB->list_offset*/))&& (min_mcost > 2*neighbor_dist))//FAST_MD
       ? p_EPZS->window_predictor_ext : p_EPZS->window_predictor, mv_block->hme_level);
 
@@ -1341,7 +1341,7 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
     //! on cost,
     //conditionEPZS = (ref == 0 || (ref > 0 && min_mcost > stopCriterion) || currSlice->structure != FRAME || currMB->list_offset);
     conditionEPZS = (ref == 0 || (ref > 0 && min_mcost > 2 * stopCriterion));
-     
+
     if (conditionEPZS && currMB->mbAddrX != 0 && p_Inp->EPZSBlockType)
       EPZSBlockTypePredictorsMB (currSlice, mv_block, p_EPZS_point, &prednum);
     */
@@ -1364,7 +1364,7 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
           if (mcost < second_mcost)
           {
             mcost += mv_block->computePredFPel (ref_picture, mv_block, second_mcost - mcost, &cand);
-            
+
             //--- check if motion cost is less than minimum cost ---
             if (mcost < min_mcost)
             {
@@ -1402,7 +1402,7 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
       {
         if ((min_mcost < stopCriterion + ((3 * p_EPZS->medthres[blocktype]) >> 1)))
         {
-          if ((tmp.mv_x == 0 && tmp.mv_y == 0) 
+          if ((tmp.mv_x == 0 && tmp.mv_y == 0)
             || (iabs (tmp.mv_x - mv->mv_x) < (mv_range) && iabs (tmp.mv_y - mv->mv_y) < (mv_range)))
             searchPatternF = p_Vid->sdiamond;
           else
@@ -1439,7 +1439,7 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
                 if (mcost < min_mcost)
                 {
                   mcost += mv_block->computePredFPel (ref_picture, mv_block, min_mcost - mcost, &cand);
-              
+
                   if (mcost < min_mcost)
                   {
                     tmp = tmv;
@@ -1475,7 +1475,7 @@ HME_EPZSIntPelBlockMotionSearch_Enh (
         while (patternStop != 1);
 
         //! Check Second best predictor with EPZS pattern
-        conditionEPZS = (checkMedian == TRUE) 
+        conditionEPZS = (checkMedian == TRUE)
           && (ref == 0 || (ref > 0 && min_mcost < 2 * neighbor_dist))
           && (min_mcost > (( 3 * stopCriterion) >> 1)) && (p_Inp->EPZSDual > 0);
 
@@ -1515,8 +1515,8 @@ hme_EPZSTemporalPredictors (
                         HMEInfo_t *pHMEInfo,
                         EPZSParameters * p_EPZS,            //! <-- EPZS structure
                         MEBlock *mv_block,                  //! <-- motion estimation information block
-                        int *prednum, 
-                        distblk stopCriterion, 
+                        int *prednum,
+                        distblk stopCriterion,
                         distblk min_mcost)
 {
   int o_block_x = mv_block->pos_x2;
@@ -1531,7 +1531,7 @@ hme_EPZSTemporalPredictors (
 
   tmp_mv = col_mv[o_block_y]+o_block_x;
   if(*(int*)(tmp_mv))
-  {  
+  {
     scaledMV = &point[(*prednum)].motion;
     scale_mv(scaledMV, mvScale, tmp_mv, 8);
     (*prednum)++;
@@ -1547,7 +1547,7 @@ hme_EPZSTemporalPredictors (
       if(*(int*)(tmp_mv))
       {
         *prednum += add_predictor (&point[*prednum].motion, *tmp_mv, mvScale, 8);
-      }        
+      }
     }
     // Up
     if (block[1].available)

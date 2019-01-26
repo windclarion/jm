@@ -39,7 +39,7 @@
  *     implementation of SEI related functions
  *  \author(s)
  *      - Dong Tian                             <tian@cs.tut.fi>
- *      - Athanasios Leontaris                  <aleon@dolby.com>  
+ *      - Athanasios Leontaris                  <aleon@dolby.com>
  *
  ************************************************************************
  */
@@ -132,7 +132,7 @@ void InitSEIMessages(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   // init sei messages
   p_SEI->seiSparePicturePayload.data = NULL;
-  InitSparePicture(p_SEI);  
+  InitSparePicture(p_SEI);
   if (p_Inp->NumFramesInELSubSeq != 0)
   {
     InitSubseqLayerInfo(p_SEI);
@@ -185,7 +185,7 @@ void CloseSEIMessages(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   for (i=0; i<MAX_LAYER_NUMBER; i++)
   {
-    if ( p_SEI->sei_message[i].data ) 
+    if ( p_SEI->sei_message[i].data )
       free( p_SEI->sei_message[i].data );
     p_SEI->sei_message[i].data = NULL;
   }
@@ -400,7 +400,7 @@ void AppendTmpbits2Buf( Bitstream* dest, Bitstream* source )
  */
 static void InitSparePicture(SEIParameters *p_SEI)
 {
-  if ( p_SEI->seiSparePicturePayload.data != NULL ) 
+  if ( p_SEI->seiSparePicturePayload.data != NULL )
     CloseSparePicture(p_SEI);
 
   p_SEI->seiSparePicturePayload.data = malloc( sizeof(Bitstream) );
@@ -616,7 +616,7 @@ void CalculateSparePicture()
  *  \brief
  *      compose the spare picture information.
  *  \param p_SEI
- *      SEI message 
+ *      SEI message
  *  \param delta_spare_frame_num
  *      see FCD
  *  \param ref_area_indicator
@@ -1749,7 +1749,7 @@ static int ParseToneMappingConfigFile(SEIParameters *p_SEI, InputParameters *p_I
   unsigned int tmp;
 
   printf ("Parsing Tone mapping cfg file %s ..........\n\n", p_Inp->ToneMappingFile);
-  if ((fp = fopen(p_Inp->ToneMappingFile, "r")) == NULL) 
+  if ((fp = fopen(p_Inp->ToneMappingFile, "r")) == NULL)
   {
     fprintf(stderr, "Tone mapping config file %s is not found, disable tone mapping SEI\n", p_Inp->ToneMappingFile);
     p_SEI->seiHasTone_mapping=FALSE;
@@ -1758,56 +1758,56 @@ static int ParseToneMappingConfigFile(SEIParameters *p_SEI, InputParameters *p_I
   }
 
   //read the tone mapping config file
-  while (fscanf(fp, "%s", buf)!=EOF) 
+  while (fscanf(fp, "%s", buf)!=EOF)
   {
     ret = 1;
-    if (strcmp(buf, "tone_map_id")==0) 
+    if (strcmp(buf, "tone_map_id")==0)
     {
       ret = fscanf(fp, " = %ud\n", &(pSeiToneMapping->tone_map_id));
     }
-    else if (strcmp(buf, "tone_map_cancel_flag")==0) 
+    else if (strcmp(buf, "tone_map_cancel_flag")==0)
     {
       ret = fscanf(fp, " = %ud\n", &tmp);
       pSeiToneMapping->tone_map_cancel_flag = (unsigned char) (tmp ? 1 : 0);
     }
-    else if (strcmp(buf, "tone_map_repetition_period")==0) 
+    else if (strcmp(buf, "tone_map_repetition_period")==0)
     {
       ret = fscanf(fp, " = %ud\n", &(pSeiToneMapping->tone_map_repetition_period));
     }
-    else if (strcmp(buf, "coded_data_bit_depth")==0) 
+    else if (strcmp(buf, "coded_data_bit_depth")==0)
     {
       ret = fscanf(fp, " = %ud\n", &tmp);
       pSeiToneMapping->coded_data_bit_depth = (unsigned char) tmp;
     }
-    else if (strcmp(buf, "sei_bit_depth")==0) 
+    else if (strcmp(buf, "sei_bit_depth")==0)
     {
       ret = fscanf(fp, " = %ud\n", &tmp);
       pSeiToneMapping->sei_bit_depth =  (unsigned char) tmp;
     }
-    else if (strcmp(buf, "model_id")==0) 
+    else if (strcmp(buf, "model_id")==0)
     {
       ret = fscanf(fp, " = %ud\n", &(pSeiToneMapping->model_id));
     }
-    //else if (model_id ==0) 
-    else if (strcmp(buf, "min_value")==0) 
+    //else if (model_id ==0)
+    else if (strcmp(buf, "min_value")==0)
     {
       ret = fscanf(fp, " = %d\n", &(pSeiToneMapping->min_value));
     }
-    else if (strcmp(buf, "max_value")==0) 
+    else if (strcmp(buf, "max_value")==0)
     {
       ret = fscanf(fp, " = %d\n", &(pSeiToneMapping->max_value));
     }
     //(model_id == 1)
-    else if (strcmp(buf, "sigmoid_midpoint")==0) 
+    else if (strcmp(buf, "sigmoid_midpoint")==0)
     {
       ret = fscanf(fp, " = %d\n", &(pSeiToneMapping->sigmoid_midpoint));
     }
-    else if (strcmp(buf, "sigmoid_width")==0) 
+    else if (strcmp(buf, "sigmoid_width")==0)
     {
       ret = fscanf(fp, " = %d\n", &(pSeiToneMapping->sigmoid_width));
     }
-    // (model_id == 2) 
-    else if (strcmp(buf, "start_of_coded_interval")==0) 
+    // (model_id == 2)
+    else if (strcmp(buf, "start_of_coded_interval")==0)
     {
       int max_output_num = 1<<(pSeiToneMapping->sei_bit_depth);
       ret = fscanf(fp, " = ");
@@ -1825,12 +1825,12 @@ static int ParseToneMappingConfigFile(SEIParameters *p_SEI, InputParameters *p_I
       }
     }
     //(model_id == 3)
-    else if (strcmp(buf, "num_pivots")==0) 
+    else if (strcmp(buf, "num_pivots")==0)
     {
       ret = fscanf(fp, " = %d\n", &(pSeiToneMapping->num_pivots));
     }
 
-    else if (strcmp(buf, "coded_pivot_value")==0) 
+    else if (strcmp(buf, "coded_pivot_value")==0)
     {
       ret = fscanf(fp, " = ");
       if (ret!=0)
@@ -1846,7 +1846,7 @@ static int ParseToneMappingConfigFile(SEIParameters *p_SEI, InputParameters *p_I
         }
       }
     }
-    else if (strcmp(buf, "sei_pivot_value")==0) 
+    else if (strcmp(buf, "sei_pivot_value")==0)
     {
       ret = fscanf(fp, " = ");
       if (ret!=0)
@@ -1864,7 +1864,7 @@ static int ParseToneMappingConfigFile(SEIParameters *p_SEI, InputParameters *p_I
     }
     else
     {
-      // read till the line end 
+      // read till the line end
       if (NULL == fgets(buf, sizeof(buf), fp))
       {
         error ("ParseToneMappingConfigFile: error parsing tone mapping config file",500);
@@ -1881,7 +1881,7 @@ static int ParseToneMappingConfigFile(SEIParameters *p_SEI, InputParameters *p_I
   return 0;
 }
 
-static void InitToneMapping(SEIParameters *p_SEI, InputParameters *p_Inp) 
+static void InitToneMapping(SEIParameters *p_SEI, InputParameters *p_Inp)
 {
   if (p_Inp->ToneMappingSEIPresentFlag == 0)
   {
@@ -1909,7 +1909,7 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
 {
   SEIParameters *p_SEI = p_Vid->p_SEI;
 
-  Bitstream *bitstream = p_SEI->seiToneMapping.data;  
+  Bitstream *bitstream = p_SEI->seiToneMapping.data;
   int i;
 
   write_ue_v("SEI: tone_map_id"               , p_SEI->seiToneMapping.tone_map_id,             bitstream);
@@ -1920,7 +1920,7 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
   printf("tone_map_id = %d\n", p_SEI->seiToneMapping.tone_map_id);
   printf("tone_map_cancel_flag = %d\n", p_SEI->seiToneMapping.tone_map_cancel_flag);
 #endif
-  if (!p_SEI->seiToneMapping.tone_map_cancel_flag) 
+  if (!p_SEI->seiToneMapping.tone_map_cancel_flag)
   {
     write_ue_v(  "SEI: tone_map_repetition_period", p_SEI->seiToneMapping.tone_map_repetition_period, bitstream);
     write_u_v (8,"SEI: coded_data_bit_depth"      , p_SEI->seiToneMapping.coded_data_bit_depth,       bitstream);
@@ -1933,7 +1933,7 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
     printf("sei_bit_depth = %d\n", p_SEI->seiToneMapping.sei_bit_depth);
     printf("model_id = %d\n", p_SEI->seiToneMapping.model_id);
 #endif
-    if (p_SEI->seiToneMapping.model_id == 0) 
+    if (p_SEI->seiToneMapping.model_id == 0)
     { // linear mapping
       write_u_v (32,"SEI: min_value", p_SEI->seiToneMapping.min_value, bitstream);
       write_u_v (32,"SEI: min_value", p_SEI->seiToneMapping.max_value, bitstream);
@@ -1941,7 +1941,7 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
       printf("min_value = %d, max_value = %d\n", p_SEI->seiToneMapping.min_value, p_SEI->seiToneMapping.max_value);
 #endif
     }
-    else if (p_SEI->seiToneMapping.model_id == 1) 
+    else if (p_SEI->seiToneMapping.model_id == 1)
     { // sigmoidal mapping
       write_u_v (32,"SEI: sigmoid_midpoint", p_SEI->seiToneMapping.sigmoid_midpoint,   bitstream);
       write_u_v (32,"SEI: sigmoid_width", p_SEI->seiToneMapping.sigmoid_width,         bitstream);
@@ -1949,10 +1949,10 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
       printf("sigmoid_midpoint = %d, sigmoid_width = %d\n", p_SEI->seiToneMapping.sigmoid_midpoint, p_SEI->seiToneMapping.sigmoid_width);
 #endif
     }
-    else if (p_SEI->seiToneMapping.model_id == 2) 
+    else if (p_SEI->seiToneMapping.model_id == 2)
     { // user defined table mapping
       int bit_depth_val = 1 << p_SEI->seiToneMapping.sei_bit_depth;
-      for (i=0; i<bit_depth_val; i++) 
+      for (i=0; i<bit_depth_val; i++)
       {
         write_u_v((((p_SEI->seiToneMapping.coded_data_bit_depth+7)>>3)<<3), "SEI: start_of_coded_interval", p_SEI->seiToneMapping.start_of_coded_interval[i], bitstream);
 #ifdef PRINT_TONE_MAPPING
@@ -1960,13 +1960,13 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
 #endif
       }
     }
-    else if (p_SEI->seiToneMapping.model_id == 3) 
+    else if (p_SEI->seiToneMapping.model_id == 3)
     {  // piece-wise linear mapping
       write_u_v (16,"SEI: num_pivots", p_SEI->seiToneMapping.num_pivots, bitstream);
 #ifdef PRINT_TONE_MAPPING
       printf("num_pivots = %d\n", p_SEI->seiToneMapping.num_pivots);
 #endif
-      for (i=0; i < p_SEI->seiToneMapping.num_pivots; i++) 
+      for (i=0; i < p_SEI->seiToneMapping.num_pivots; i++)
       {
         write_u_v( (((p_SEI->seiToneMapping.coded_data_bit_depth+7)>>3)<<3), "SEI: coded_pivot_value",  p_SEI->seiToneMapping.coded_pivot_value[i], bitstream);
         write_u_v( (((p_SEI->seiToneMapping.sei_bit_depth+7)>>3)<<3), "SEI: sei_pivot_value",           p_SEI->seiToneMapping.sei_pivot_value[i],   bitstream);
@@ -1983,7 +1983,7 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
     (bitstream->byte_buf) <<= 1;
     bitstream->byte_buf |= 1;
     bitstream->bits_to_go--;
-    if ( bitstream->bits_to_go != 0 ) 
+    if ( bitstream->bits_to_go != 0 )
       (bitstream->byte_buf) <<= (bitstream->bits_to_go);
     bitstream->bits_to_go = 8;
     bitstream->streamBuffer[bitstream->byte_pos++]=bitstream->byte_buf;
@@ -1993,14 +1993,14 @@ static void FinalizeToneMapping(VideoParameters *p_Vid)
 }
 
 
-void UpdateToneMapping(SEIParameters *p_SEI) 
+void UpdateToneMapping(SEIParameters *p_SEI)
 {
   // return;
 
   // you may manually generate some test case here
 }
 
-static void ClearToneMapping(SEIParameters *p_SEI) 
+static void ClearToneMapping(SEIParameters *p_SEI)
 {
   memset( p_SEI->seiToneMapping.data->streamBuffer, 0, MAXRTPPAYLOADLEN);
   p_SEI->seiToneMapping.data->bits_to_go  = 8;
@@ -2011,7 +2011,7 @@ static void ClearToneMapping(SEIParameters *p_SEI)
   p_SEI->seiHasTone_mapping=FALSE;
 }
 
-static void CloseToneMapping(SEIParameters *p_SEI) 
+static void CloseToneMapping(SEIParameters *p_SEI)
 {
 
   if (p_SEI->seiToneMapping.data)
@@ -2106,7 +2106,7 @@ static void FinalizePostFilterHints(SEIParameters *p_SEI)
     (bitstream->byte_buf) <<= 1;
     bitstream->byte_buf |= 1;
     bitstream->bits_to_go--;
-    if ( bitstream->bits_to_go != 0 ) 
+    if ( bitstream->bits_to_go != 0 )
       (bitstream->byte_buf) <<= (bitstream->bits_to_go);
     bitstream->bits_to_go = 8;
     bitstream->streamBuffer[bitstream->byte_pos++]=bitstream->byte_buf;
@@ -2120,7 +2120,7 @@ static void ClosePostFilterHints(SEIParameters *p_SEI)
   if (p_SEI->seiPostFilterHints.data)
   {
     free(p_SEI->seiPostFilterHints.data->streamBuffer);
-    free(p_SEI->seiPostFilterHints.data);  
+    free(p_SEI->seiPostFilterHints.data);
     if (p_SEI->seiPostFilterHints.filter_hint)
       free_mem3Dint(p_SEI->seiPostFilterHints.filter_hint);
   }
@@ -2130,11 +2130,11 @@ static void ClosePostFilterHints(SEIParameters *p_SEI)
 /*
 **++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 *  \functions to write SEI message into NAL
-*  \brief     
+*  \brief
 **++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 */
 int Write_SEI_NALU(VideoParameters *p_Vid, int len)
-{  
+{
   NALU_t *nalu = NULL;
   int RBSPlen = 0;
   byte *rbsp;
@@ -2151,7 +2151,7 @@ int Write_SEI_NALU(VideoParameters *p_Vid, int len)
 
     len += p_Vid->WriteNALU (p_Vid, nalu, p_Vid->f_out);
     FreeNALU (nalu);
-  }  
+  }
 
   return len;
 }
@@ -2167,11 +2167,11 @@ void InitBufferingPeriod(VideoParameters *p_Vid)
 {
   SEIParameters *p_SEI = p_Vid->p_SEI;
   p_SEI->seiBufferingPeriod.data = malloc( sizeof(Bitstream) );
-  if( p_SEI->seiBufferingPeriod.data == NULL ) 
+  if( p_SEI->seiBufferingPeriod.data == NULL )
     no_mem_exit("InitBufferingPeriod: seiBufferingPeriod.data");
 
   p_SEI->seiBufferingPeriod.data->streamBuffer = malloc(MAXRTPPAYLOADLEN);
-  if( p_SEI->seiBufferingPeriod.data->streamBuffer == NULL ) 
+  if( p_SEI->seiBufferingPeriod.data->streamBuffer == NULL )
     no_mem_exit("InitBufferingPeriod: seiBufferingPeriod.data->streamBuffer");
 
   ClearBufferingPeriod(p_SEI, p_Vid->active_sps);
@@ -2269,17 +2269,17 @@ static void CloseBufferingPeriod(SEIParameters *p_SEI)
 /*
  ************************************************************************
  * \brief
- *    Initialize Picture Timing SEI data 
+ *    Initialize Picture Timing SEI data
  ************************************************************************
  */
 void InitPicTiming(SEIParameters *p_SEI)
 {
   p_SEI->seiPicTiming.data = malloc( sizeof(Bitstream) );
-  if( p_SEI->seiPicTiming.data == NULL ) 
+  if( p_SEI->seiPicTiming.data == NULL )
     no_mem_exit("InitPicTiming: seiPicTiming.data");
 
   p_SEI->seiPicTiming.data->streamBuffer = malloc(MAXRTPPAYLOADLEN);
-  if( p_SEI->seiPicTiming.data->streamBuffer == NULL ) 
+  if( p_SEI->seiPicTiming.data->streamBuffer == NULL )
     no_mem_exit("InitPicTiming: seiPicTiming.data->streamBuffer");
 
   ClearPicTiming(p_SEI);
@@ -2318,7 +2318,7 @@ void ClearPicTiming(SEIParameters *p_SEI)
   p_SEI->seiPicTiming.seconds_flag = FALSE;
   p_SEI->seiPicTiming.minutes_flag = FALSE;
   p_SEI->seiPicTiming.hours_flag = FALSE;
-  p_SEI->seiPicTiming.time_offset = 0;  
+  p_SEI->seiPicTiming.time_offset = 0;
 
   p_SEI->seiHasPicTiming_info = FALSE;
 }
@@ -2471,13 +2471,13 @@ void UpdatePicTiming(VideoParameters *p_Vid, InputParameters *p_Inp)
           p_SEI->seiPicTiming.n_frames              = 0;
 
           if ( p_SEI->seiPicTiming.full_timestamp_flag )
-          {      
+          {
             p_SEI->seiPicTiming.seconds_value = seconds;
             p_SEI->seiPicTiming.minutes_value = minutes;
             p_SEI->seiPicTiming.hours_value   = hours;
           }
           else
-          {            
+          {
             p_SEI->seiPicTiming.seconds_flag = FALSE;
             if (p_SEI->seiPicTiming.seconds_flag)
             {
@@ -2615,13 +2615,13 @@ static void FinalizePicTiming(VideoParameters *p_Vid)
         write_u_v( 8, "SEI: n_frames", p_SEI->seiPicTiming.n_frames, bitstream);
 
         if ( p_SEI->seiPicTiming.full_timestamp_flag )
-        {      
+        {
           write_u_v( 6, "SEI: seconds_value", p_SEI->seiPicTiming.seconds_value, bitstream);
           write_u_v( 6, "SEI: minutes_value", p_SEI->seiPicTiming.minutes_value, bitstream);
           write_u_v( 5, "SEI: hours_value",   p_SEI->seiPicTiming.hours_value, bitstream);
         }
         else
-        {            
+        {
           write_u_1( "SEI: seconds_flag", p_SEI->seiPicTiming.seconds_flag, bitstream);
           if (p_SEI->seiPicTiming.seconds_flag)
           {
@@ -2695,11 +2695,11 @@ static void InitFramePackingArrangement(VideoParameters *p_Vid)
   SEIParameters *p_SEI = p_Vid->p_SEI;
 
   p_SEI->seiFramePackingArrangement.data = malloc( sizeof(Bitstream) );
-  if( p_SEI->seiFramePackingArrangement.data == NULL ) 
+  if( p_SEI->seiFramePackingArrangement.data == NULL )
     no_mem_exit("InitFramePackingArrangement: seiFramePackingArrangement.data");
 
   p_SEI->seiFramePackingArrangement.data->streamBuffer = malloc(MAXRTPPAYLOADLEN);
-  if( p_SEI->seiFramePackingArrangement.data->streamBuffer == NULL ) 
+  if( p_SEI->seiFramePackingArrangement.data->streamBuffer == NULL )
     no_mem_exit("InitFramePackingArrangement: seiFramePackingArrangement.data->streamBuffer");
 
   ClearFramePackingArrangement(p_SEI);
@@ -2773,7 +2773,7 @@ static void FinalizeFramePackingArrangement(SEIParameters *p_SEI, InputParameter
       write_u_v( 4, "SEI: frame1_grid_position_y", (int)p_SEI->seiFramePackingArrangement.frame1_grid_position_y, bitstream );
     }
 
-    
+
     write_u_v( 8, "SEI: frame_packing_arrangement_reserved_byte", (int)p_SEI->seiFramePackingArrangement.frame_packing_arrangement_reserved_byte, bitstream );
     write_ue_v( "SEI: frame_packing_arrangement_repetition_period", (int)p_SEI->seiFramePackingArrangement.frame_packing_arrangement_repetition_period, bitstream );
   }
@@ -2807,17 +2807,17 @@ static void CloseFramePackingArrangement(SEIParameters *p_SEI)
 /*
  ************************************************************************
  * \brief
- *    Initialize dec_ref_pic_marking Repetition SEI data 
+ *    Initialize dec_ref_pic_marking Repetition SEI data
  ************************************************************************
  */
 static void InitDRPMRepetition(SEIParameters *p_SEI)
 {
   p_SEI->seiDRPMRepetition.data = malloc( sizeof(Bitstream) );
-  if( p_SEI->seiDRPMRepetition.data == NULL ) 
+  if( p_SEI->seiDRPMRepetition.data == NULL )
     no_mem_exit("InitDRPMRepetition: p_SEI->seiDRPMRepetition.data");
 
   p_SEI->seiDRPMRepetition.data->streamBuffer = malloc(MAXRTPPAYLOADLEN);
-  if( p_SEI->seiDRPMRepetition.data->streamBuffer == NULL ) 
+  if( p_SEI->seiDRPMRepetition.data->streamBuffer == NULL )
     no_mem_exit("InitDRPMRepetition: p_SEI->seiDRPMRepetition.data->streamBuffer");
 
   ClearDRPMRepetition(p_SEI);
@@ -2894,8 +2894,8 @@ static void FinalizeDRPMRepetition(VideoParameters *p_Vid)
     }
   }
   // now repeat dec_ref_pic_marking_buffer info
-  dec_ref_pic_marking( bitstream, 
-    p_SEI->seiDRPMRepetition.dec_ref_pic_marking_buffer_saved, 
+  dec_ref_pic_marking( bitstream,
+    p_SEI->seiDRPMRepetition.dec_ref_pic_marking_buffer_saved,
     p_SEI->seiDRPMRepetition.original_idr_flag, 0, 0);
 
   // make sure the payload is byte aligned, stuff bits are 10..0
@@ -3008,7 +3008,7 @@ void PrepareAggregationSEIMessage(VideoParameters *p_Vid)
     write_sei_message(p_SEI, AGGREGATION_SEI, p_SEI->seiUser_data_registered_itu_t_t35.data->streamBuffer, p_SEI->seiUser_data_registered_itu_t_t35.payloadSize, SEI_USER_DATA_REGISTERED_ITU_T_T35);
     ClearUser_data_registered_itu_t_t35(p_SEI);
     has_aggregation_sei_message = TRUE;
-  }  
+  }
   // more aggregation sei payload is written here...
 
   // write the scene information SEI payload

@@ -38,7 +38,7 @@
  *    Level & Profile related conformance functions
  * \author
  *  Main contributors (see contributors.h for copyright, address and affiliation details)
- *    - Karsten Suehring  
+ *    - Karsten Suehring
  *    - Alexis Michael Tourapis
  * \note
  *
@@ -92,7 +92,7 @@ static const int LEVELVMVLIMIT[21][6] =
   {-8192,8191,-16384,16383,-32768,32767}   // unconstrained (signed 16 bit)
 };
 
-const int LEVELHMVLIMIT[2][6] = 
+const int LEVELHMVLIMIT[2][6] =
 {
   { -2047, 2047,  -4096,  4095,  -8192,  8191},  // below 6.0
    {-8192, 8191, -16384, 16383, -32768, 32767}   // 6.0 and above: unconstrained
@@ -136,7 +136,7 @@ int get_level_index(unsigned int profile_idc, unsigned int level_idc, unsigned i
   switch(level_idc)
   {
   case 9:
-    // we will accept level_idc equal to 9 for non-FRExt profiles, 
+    // we will accept level_idc equal to 9 for non-FRExt profiles,
     // because it may be specified this way in the encoder config file
     return LEVEL_1b;
     break;
@@ -354,7 +354,7 @@ void profile_check(InputParameters *p_Inp)
     fprintf( stderr, "\n Warning: ChromaIntraDisable and FastCrIntraDecision cannot be combined together.\n Using only Chroma Intra DC mode.\n");
     p_Inp->FastCrIntraDecision=0;
   }
-  
+
   if ((p_Inp->sp_periodicity) && (p_Inp->ProfileIDC != EXTENDED ))
   {
     snprintf(errortext, ET_SIZE, "SP pictures are only allowed in Extended profile (ProfileIDC = 88).");
@@ -460,25 +460,25 @@ void profile_check(InputParameters *p_Inp)
     error (errortext, 500);
   }
 
-  if (p_Inp->IntraProfile && !p_Inp->idr_period) 
+  if (p_Inp->IntraProfile && !p_Inp->idr_period)
   {
     snprintf(errortext, ET_SIZE, "\nIntraProfile requires IDRPeriod >= 1.");
     error (errortext, 500);
   }
 
-  if (p_Inp->IntraProfile && p_Inp->intra_period != 1) 
+  if (p_Inp->IntraProfile && p_Inp->intra_period != 1)
   {
     snprintf(errortext, ET_SIZE, "\nIntraProfile requires IntraPeriod equal 1.");
     error (errortext, 500);
   }
 
-  if (p_Inp->IntraProfile && p_Inp->num_ref_frames) 
+  if (p_Inp->IntraProfile && p_Inp->num_ref_frames)
   {
     fprintf( stderr, "\nWarning: Setting NumberReferenceFrames to 0 in IntraProfile.");
     p_Inp->num_ref_frames = 0;
   }
 
-  if (p_Inp->IntraProfile == 0 && p_Inp->num_ref_frames == 0) 
+  if (p_Inp->IntraProfile == 0 && p_Inp->num_ref_frames == 0)
   {
     snprintf(errortext, ET_SIZE, "\nProfiles other than IntraProfile require NumberReferenceFrames > 0.");
     error (errortext, 500);
@@ -570,7 +570,7 @@ void level_check(VideoParameters *p_Vid, InputParameters *p_Inp)
   unsigned int PicSizeInMbs = ( (p_Inp->output.width[0] + p_Vid->auto_crop_right) * (p_Inp->output.height[0] + p_Vid->auto_crop_bottom) ) >> 8;
   unsigned int MBProcessingRate = (unsigned int) (PicSizeInMbs * p_Inp->output.frame_rate + 0.5);
   int cpbBrFactor = ( p_Inp->ProfileIDC >= FREXT_HP ) ? 1500 : 1200;
-  
+
   if (p_Inp->LevelIDC == 0)
   {
     printf("WARNING: LevelIDC equal to 0 disables level checking. \nThis allows experimental coding, but will create non-conforming streams!\n");
@@ -599,8 +599,8 @@ void level_check(VideoParameters *p_Vid, InputParameters *p_Inp)
     snprintf(errortext, ET_SIZE, "\nPicSizeInMbs exceeds maximum allowed size at specified LevelIdc %.1f\n", (float) p_Inp->LevelIDC / 10.0);
     error (errortext, 500);
   }
-  
-  if (p_Inp->IntraProfile && (PicSizeInMbs > 1620) && p_Inp->slice_mode != 1) 
+
+  if (p_Inp->IntraProfile && (PicSizeInMbs > 1620) && p_Inp->slice_mode != 1)
   {
     error ("\nIntraProfile with PicSizeInMbs > 1620 requires SliceMode equal 1.", 500);
   }
@@ -614,14 +614,14 @@ void level_check(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   if ( MBProcessingRate > getMaxMBPS(p_Inp->ProfileIDC, p_Inp->LevelIDC, 0) )
   {
-    snprintf(errortext, ET_SIZE, "\nMB Processing Rate (%d) exceeds maximum allowed processing rate (%d) at specified LevelIdc %.1f\n", 
+    snprintf(errortext, ET_SIZE, "\nMB Processing Rate (%d) exceeds maximum allowed processing rate (%d) at specified LevelIdc %.1f\n",
       MBProcessingRate, getMaxMBPS(p_Inp->ProfileIDC, p_Inp->LevelIDC, 0), (float) p_Inp->LevelIDC / 10.0);
     error (errortext, 500);
   }
 
   if ( p_Inp->bit_rate > (int)(cpbBrFactor * getMaxBR(p_Inp->ProfileIDC, p_Inp->LevelIDC, 0)) )
   {
-    snprintf(errortext, ET_SIZE, "\nBit Rate (%d) exceeds maximum allowed bit rate (%d) at specified LevelIdc %.1f for NAL HRD\n", 
+    snprintf(errortext, ET_SIZE, "\nBit Rate (%d) exceeds maximum allowed bit rate (%d) at specified LevelIdc %.1f for NAL HRD\n",
       p_Inp->bit_rate, cpbBrFactor * getMaxBR(p_Inp->ProfileIDC, p_Inp->LevelIDC, 0), (float) p_Inp->LevelIDC / 10.0);
     error (errortext, 500);
   }
@@ -693,7 +693,7 @@ void test_clip_mvs(VideoParameters *p_Vid, MotionVector *mv, Boolean write_mb)
     mv->mv_y = (short) iClip3( p_Vid->MaxVmvR[4], p_Vid->MaxVmvR[5], mv->mv_y);
   }
 }
-  
+
 /*!
  ***********************************************************************
  * \brief
@@ -716,7 +716,7 @@ int InvalidWeightsForBiPrediction(Slice *currSlice, Block8x8Info* b8x8info, int 
   for (cur_blk = 0; cur_blk < 4; cur_blk ++)
   {
     if (b8x8info->best[mode][cur_blk].pdir == 2)
-    { 
+    {
       best8x8l0ref = (int) b8x8info->best[mode][cur_blk].ref[LIST_0];
       best8x8l1ref = (int) b8x8info->best[mode][cur_blk].ref[LIST_1];
       wbp0 = &currSlice->wbp_weight[LIST_0][best8x8l0ref][best8x8l1ref][0];
@@ -726,7 +726,7 @@ int InvalidWeightsForBiPrediction(Slice *currSlice, Block8x8Info* b8x8info, int 
       {
         weight_sum = *wbp0++ + *wbp1++;
 
-        if (weight_sum < -128 ||  weight_sum > 127) 
+        if (weight_sum < -128 ||  weight_sum > 127)
         {
           invalid_mode = 1;
           break;
@@ -817,7 +817,7 @@ Boolean CheckPredictionParams(Macroblock  *currMB, Block8x8Info *b8x8info, int m
   if (currSlice->slice_type == B_SLICE)
   {
     // check if weights are in valid range for biprediction.
-    if (currSlice->weighted_prediction == 1 &&  mode < P8x8) 
+    if (currSlice->weighted_prediction == 1 &&  mode < P8x8)
     {
       if (InvalidWeightsForBiPrediction(currSlice, b8x8info, mode))
         return FALSE;

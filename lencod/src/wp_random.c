@@ -66,7 +66,7 @@ void EstimateWPPSliceRandom(Slice *currSlice, int select_offset)
   short default_weight[3];
   int list_offset   = ((currSlice->mb_aff_frame_flag) && (p_Vid->mb_data[p_Vid->current_mb_nr].mb_field))? (p_Vid->current_mb_nr & 0x01) ? 4 : 2 : 0;
   int clist;
-  int start_mb, end_mb; 
+  int start_mb, end_mb;
   int comp;
   int bitdepth[3] = { (p_Vid->bitdepth_luma - 8), (p_Vid->bitdepth_chroma - 8), (p_Vid->bitdepth_chroma - 8)};
 
@@ -87,12 +87,12 @@ void EstimateWPPSliceRandom(Slice *currSlice, int select_offset)
 
   if(p_Inp->slice_mode == 1)
   {
-    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument; 
+    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument;
   }
   else
     cur_slice = 0;
 
- 
+
   if(p_Inp->slice_mode == 1)
   {
     start_mb = cur_slice * p_Inp->slice_argument;
@@ -109,7 +109,7 @@ void EstimateWPPSliceRandom(Slice *currSlice, int select_offset)
   for (clist = 0; clist < 2 + list_offset; clist++)
   {
     for (n = 0; n < currSlice->listXsize[clist]; n++)
-    {          
+    {
       for (comp=0; comp < 3; comp ++)
       {
         cur_weight  =  ((int) (255.0 * (((float) rand()) / RAND_MAX))) - 128;
@@ -133,7 +133,7 @@ void EstimateWPPSliceRandom(Slice *currSlice, int select_offset)
         if(p_Vid->wp_offsets)
           p_Vid->wp_offsets[comp][clist][n][cur_slice] = offset[clist][n][comp];
       }
-#if DEBUG_WP 
+#if DEBUG_WP
       for(comp = 0; comp < 3; comp++)
         printf("slice %d: index %d component %d weight %d offset %d\n", cur_slice, n,comp,currSlice->wp_weight[clist][n][comp],currSlice->wp_offset[clist][n][comp]);
 #endif
@@ -183,7 +183,7 @@ void EstimateWPBSliceRandom(Slice *currSlice)
 
   if(p_Inp->slice_mode == 1)
   {
-    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument ; 
+    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument ;
   }
   else
     cur_slice = 0;
@@ -245,7 +245,7 @@ void EstimateWPBSliceRandom(Slice *currSlice)
     for (clist=0; clist<2 + list_offset; clist++)
     {
       for (n = 0; n < currSlice->listXsize[clist]; n++)
-      {          
+      {
         for (comp=0; comp < 3; comp ++)
         {
           cur_weight  =  ((int) (255.0 * (((float) rand()) / RAND_MAX))) - 128;
@@ -299,7 +299,7 @@ void EstimateWPBSliceRandom(Slice *currSlice)
         }
       }
     }
-  }    
+  }
 }
 
 
@@ -310,9 +310,9 @@ void EstimateWPBSliceRandom(Slice *currSlice)
 ************************************************************************
 */
 int TestWPPSliceRandom(Slice *currSlice, int select_offset)
-{  
+{
   VideoParameters *p_Vid = currSlice->p_Vid;
-  p_Vid->wp_parameters_set = 1; 
+  p_Vid->wp_parameters_set = 1;
 
   return 1;
 }
@@ -328,7 +328,7 @@ int TestWPPSliceRandom(Slice *currSlice, int select_offset)
 int TestWPBSliceRandom(Slice *currSlice, int select_method)
 {
   VideoParameters *p_Vid = currSlice->p_Vid;
-  p_Vid->wp_parameters_set = 1; 
+  p_Vid->wp_parameters_set = 1;
 
   return 1;
 }

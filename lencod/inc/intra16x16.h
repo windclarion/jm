@@ -36,7 +36,7 @@
  * \file intra16x16.h
  *
  * \brief
- *    prototypes of 16x16 intra prediction 
+ *    prototypes of 16x16 intra prediction
  *
  * \date
  *    26 September 2009

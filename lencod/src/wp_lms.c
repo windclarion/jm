@@ -53,15 +53,15 @@
 #include "wp.h"
 
 
-static double ComputeBlockNormMean(imgpel **CurrentImage, 
-                                   int height_in_blk, int width_in_blk, 
-                                   int blk_size_y, int blk_size_x, 
+static double ComputeBlockNormMean(imgpel **CurrentImage,
+                                   int height_in_blk, int width_in_blk,
+                                   int blk_size_y, int blk_size_x,
                                    int cur_blk, double dc_mean)
 {
-  int blkx, blky; 
+  int blkx, blky;
   int x, y;
-  double sum = 0.; 
-  imgpel *img_ptr; 
+  double sum = 0.;
+  imgpel *img_ptr;
 
   blkx = cur_blk % width_in_blk;
   blky = cur_blk / width_in_blk;
@@ -75,24 +75,24 @@ static double ComputeBlockNormMean(imgpel **CurrentImage,
     }
   }
 
-  return sum; 
+  return sum;
 }
 
-static void ComputeNormMeanBlockBased(imgpel **CurrentImage, int height_in_blk, int width_in_blk, 
-                                      int blk_size_y, int blk_size_x, 
-                                      int start_blk, int end_blk, 
+static void ComputeNormMeanBlockBased(imgpel **CurrentImage, int height_in_blk, int width_in_blk,
+                                      int blk_size_y, int blk_size_x,
+                                      int start_blk, int end_blk,
                                       double dc_mean, double *norm_slice)
 {
   int cur_blk;
-  double block_norm; 
+  double block_norm;
   double norm;
-  
+
   {
     norm = 0.;
     for(cur_blk = start_blk; cur_blk < end_blk; cur_blk++)
     {
       block_norm = ComputeBlockNormMean(CurrentImage, height_in_blk, width_in_blk, blk_size_y, blk_size_x, cur_blk, dc_mean);
-      norm += block_norm; 
+      norm += block_norm;
     }
     (*norm_slice) = (double) norm;
   }
@@ -101,7 +101,7 @@ static void ComputeNormMeanBlockBased(imgpel **CurrentImage, int height_in_blk, 
 void ComputeExplicitWPParamsLMS(Slice *currSlice,
                                 int select_offset,
                                 int start_mb,
-                                int end_mb, 
+                                int end_mb,
                                 short default_weight[3],
                                 short weight[6][MAX_REFERENCE_PICTURES][3],
                                 short offset[6][MAX_REFERENCE_PICTURES][3])
@@ -109,18 +109,18 @@ void ComputeExplicitWPParamsLMS(Slice *currSlice,
   VideoParameters *p_Vid = currSlice->p_Vid;
   InputParameters *p_Inp = p_Vid->p_Inp;
   int clist, n, k, comp;
-  int slice_size, slice_size_cr; 
+  int slice_size, slice_size_cr;
 
   double dc_org[3];
   double dc_ref[3];
   double norm_org[3];
-  double norm_ref[3]; 
+  double norm_ref[3];
   double numer[3];
-  double denom[3]; 
+  double denom[3];
   short  cur_weight, cur_offset;
   int   bit_depth = (p_Vid->bitdepth_luma - 8);
 
-  imgpel **cur_ref; 
+  imgpel **cur_ref;
 
   for (clist=0; clist< 2; clist++)
   {
@@ -138,19 +138,19 @@ void ComputeExplicitWPParamsLMS(Slice *currSlice,
   slice_size_cr = (end_mb-start_mb)*p_Vid->mb_cr_size_x*p_Vid->mb_cr_size_y;
 
   ComputeImgSumBlockBased(p_Vid->pCurImg, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE,
-    start_mb, end_mb, &dc_org[0]);  
+    start_mb, end_mb, &dc_org[0]);
 
   norm_org[0] = dc_org[0]/((double) slice_size);
-  ComputeNormMeanBlockBased(p_Vid->pCurImg, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE, 
-    start_mb, end_mb, norm_org[0], &numer[0]);  
+  ComputeNormMeanBlockBased(p_Vid->pCurImg, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE,
+    start_mb, end_mb, norm_org[0], &numer[0]);
 
   if (p_Inp->ChromaWeightSupport == 1)
   {
     for (k = 0; k < 2; k++)
     {
       ComputeImgSumBlockBased(p_Vid->pImgOrg[k + 1], p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x,
-        start_mb, end_mb, &dc_org[k+1]);  
-    } 
+        start_mb, end_mb, &dc_org[k+1]);
+    }
   }
 
   for (clist = 0; clist < 2; clist++)
@@ -158,20 +158,20 @@ void ComputeExplicitWPParamsLMS(Slice *currSlice,
     for (n = 0; n < currSlice->listXsize[clist]; n++)
     {
       cur_ref = currSlice->listX[clist][n]->p_curr_img;
-      ComputeImgSumBlockBased(cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE, 
-        start_mb, end_mb, &dc_ref[0]);  
+      ComputeImgSumBlockBased(cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE,
+        start_mb, end_mb, &dc_ref[0]);
       norm_ref[0] = dc_ref[0] / ((double) slice_size);
-      ComputeNormMeanBlockBased(cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE, 
-        start_mb, end_mb, norm_ref[0], &denom[0]);  
+      ComputeNormMeanBlockBased(cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE,
+        start_mb, end_mb, norm_ref[0], &denom[0]);
 
       if (p_Inp->ChromaWeightSupport == 1)
       {
         for (k = 0; k < 2; k++)
         {
           cur_ref = currSlice->listX[clist][n]->imgUV[k];
-          ComputeImgSumBlockBased(cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x, 
-            start_mb, end_mb, &dc_ref[k+1]);  
-        }        
+          ComputeImgSumBlockBased(cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x,
+            start_mb, end_mb, &dc_ref[k+1]);
+        }
       }
 
       if (select_offset == 0)
@@ -237,9 +237,9 @@ void ComputeExplicitWPParamsLMS(Slice *currSlice,
 }
 
 
-void ComputeExplicitWPParamsJNT(Slice *currSlice,                                  
+void ComputeExplicitWPParamsJNT(Slice *currSlice,
                                 int start_mb,
-                                int end_mb, 
+                                int end_mb,
                                 short default_weight[3],
                                 short weight[6][MAX_REFERENCE_PICTURES][3],
                                 short offset[6][MAX_REFERENCE_PICTURES][3])
@@ -253,7 +253,7 @@ void ComputeExplicitWPParamsJNT(Slice *currSlice,
   int64 dc_cur_ref[2][MAX_REFERENCE_PICTURES][3];
   short w0 = default_weight[0], w1 = default_weight[0];
 
-  imgpel **cur_ref; 
+  imgpel **cur_ref;
 
   for (clist=0; clist< 2; clist++)
   {
@@ -268,15 +268,15 @@ void ComputeExplicitWPParamsJNT(Slice *currSlice,
   }
 
   dc_org[0] = ComputeSumBlockBased   (p_Vid->pCurImg, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE,
-    start_mb, end_mb);  
+    start_mb, end_mb);
 
   if (p_Inp->ChromaWeightSupport == 1)
   {
     for (k = 0; k < 2; k++)
     {
       dc_org[k+1] = ComputeSumBlockBased(p_Vid->pImgOrg[k + 1], p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x,
-        start_mb, end_mb);  
-    } 
+        start_mb, end_mb);
+    }
   }
 
   for (clist = 0; clist < 2; clist++)
@@ -284,15 +284,15 @@ void ComputeExplicitWPParamsJNT(Slice *currSlice,
     for (n = 0; n < currSlice->listXsize[clist]; n++)
     {
       cur_ref = currSlice->listX[clist][n]->p_curr_img;
-      dc_cur_ref[clist][n][0] = ComputeSumBlockBased (cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE, start_mb, end_mb);  
+      dc_cur_ref[clist][n][0] = ComputeSumBlockBased (cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, MB_BLOCK_SIZE, MB_BLOCK_SIZE, start_mb, end_mb);
 
       if (p_Inp->ChromaWeightSupport == 1)
       {
         for (k = 0; k < 2; k++)
         {
           cur_ref = currSlice->listX[clist][n]->imgUV[k];
-          dc_cur_ref[clist][n][k+1] = ComputeSumBlockBased (cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x, start_mb, end_mb);  
-        }        
+          dc_cur_ref[clist][n][k+1] = ComputeSumBlockBased (cur_ref, p_Vid->FrameHeightInMbs, p_Vid->PicWidthInMbs, p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x, start_mb, end_mb);
+        }
       }
     }
   }
@@ -386,17 +386,17 @@ void EstimateWPPSliceAlg1(Slice *currSlice, int select_offset)
   currSlice->wp_chroma_round         = 1 << (currSlice->chroma_log_weight_denom - 1);
   default_weight[0]       = 1 << currSlice->luma_log_weight_denom;
   default_weight[1]       = default_weight[2] = 1 << currSlice->chroma_log_weight_denom;
-  
+
   if(p_Inp->slice_mode == 1)
   {
-    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument; 
+    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument;
   }
   else
     cur_slice = 0;
 
   if(p_Vid->wp_parameters_set == 0)
   {
-    int start_mb, end_mb; 
+    int start_mb, end_mb;
     int comp;
 
     short weight[2][MAX_REFERENCE_PICTURES][3];
@@ -432,7 +432,7 @@ void EstimateWPPSliceAlg1(Slice *currSlice, int select_offset)
             if(p_Vid->wp_offsets)
               p_Vid->wp_offsets[comp][clist][n][cur_slice] = offset[clist][n][comp];
           }
-#if DEBUG_WP 
+#if DEBUG_WP
         for(comp = 0; comp < 3; comp++)
           printf("slice %d: index %d component %d weight %d offset %d\n", cur_slice, n,comp,currSlice->wp_weight[clist][n][comp],currSlice->wp_offset[clist][n][comp]);
 #endif
@@ -501,7 +501,7 @@ void EstimateWPBSliceAlg1(Slice *currSlice)
 
   if(p_Inp->slice_mode == 1)
   {
-    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument ; 
+    cur_slice = p_Vid->current_mb_nr / p_Inp->slice_argument ;
   }
   else
     cur_slice = 0;
@@ -511,7 +511,7 @@ void EstimateWPBSliceAlg1(Slice *currSlice)
     if (p_Vid->active_pps->weighted_bipred_idc == 2) //! implicit mode
     {
       short im_weight[6][MAX_REFERENCE_PICTURES][MAX_REFERENCE_PICTURES][3];
-  
+
       ComputeImplicitWeights(currSlice, default_weight, im_weight);
 
       for (k = 0; k < 2; k++)
@@ -543,7 +543,7 @@ void EstimateWPBSliceAlg1(Slice *currSlice)
     else  // explicit mode
     {
       int start_mb, end_mb;
-      
+
       int comp;
 
       short wp_weight[6][MAX_REFERENCE_PICTURES][3];
@@ -571,7 +571,7 @@ void EstimateWPBSliceAlg1(Slice *currSlice)
       {
         for (n = 0; n < currSlice->listXsize[clist]; n++)
         {
-          if ( wpxDetermineWP( currSlice, clist, n ) )  
+          if ( wpxDetermineWP( currSlice, clist, n ) )
           {
             for (comp=0; comp < 3; comp ++)
             {
@@ -683,7 +683,7 @@ int TestWPPSliceAlg1(Slice *currSlice, int select_offset)
   int perform_wp = 0;
 
   int cur_slice, num_slice;
-  int start_mb, end_mb; 
+  int start_mb, end_mb;
 
   short luma_log_weight_denom   = 5;
   short chroma_log_weight_denom = 5;
@@ -769,7 +769,7 @@ int TestWPPSliceAlg1(Slice *currSlice, int select_offset)
     if(perform_wp == 1) break;
   }
 
-  p_Vid->wp_parameters_set = 1; 
+  p_Vid->wp_parameters_set = 1;
 
   return perform_wp;
 }
@@ -798,7 +798,7 @@ int TestWPBSliceAlg1(Slice *currSlice, int select_method)
   short wp_offset[6][MAX_REFERENCE_PICTURES][3];
 
   int cur_slice, num_slice;
-  int start_mb, end_mb; 
+  int start_mb, end_mb;
 
   int clist;
   int perform_wp = 1;
@@ -824,14 +824,14 @@ int TestWPBSliceAlg1(Slice *currSlice, int select_method)
       {
         for (comp = 0; comp < 3; comp++)
         {
-          short weight0, weight1; 
+          short weight0, weight1;
 
           if(perform_wp)
           {
             weight0 = im_weight[0][i][j][comp];
             weight1 = im_weight[1][i][j][comp];
           }
-          else  
+          else
           {
             weight0 = default_weight[comp];
             weight1 = default_weight[comp];
@@ -864,7 +864,7 @@ int TestWPBSliceAlg1(Slice *currSlice, int select_method)
         start_mb = 0;
         end_mb = p_Vid->FrameSizeInMbs;
       }
-  
+
       if (p_Inp->EnhancedBWeightSupport == 2)
         ComputeExplicitWPParamsJNT(currSlice, start_mb, end_mb, default_weight, wp_weight, wp_offset);
       else
@@ -887,7 +887,7 @@ int TestWPBSliceAlg1(Slice *currSlice, int select_method)
       }
     }
 
-    perform_wp = 0; 
+    perform_wp = 0;
     for(cur_slice = 0; cur_slice < num_slice; cur_slice++)
     {
       for (clist=0; clist<2 + list_offset; clist++)
@@ -896,7 +896,7 @@ int TestWPBSliceAlg1(Slice *currSlice, int select_method)
         {
           for (comp=0; comp < 3; comp ++)
           {
-            if (p_Vid->wp_weights[comp][clist][index][cur_slice] != default_weight[comp] || 
+            if (p_Vid->wp_weights[comp][clist][index][cur_slice] != default_weight[comp] ||
               p_Vid->wp_offsets[comp][clist][index][cur_slice] != 0)
             {
               perform_wp = 1;
@@ -911,7 +911,7 @@ int TestWPBSliceAlg1(Slice *currSlice, int select_method)
     }
   }
 
-  p_Vid->wp_parameters_set = 1; 
+  p_Vid->wp_parameters_set = 1;
 
   return perform_wp;
 }

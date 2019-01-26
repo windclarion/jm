@@ -66,7 +66,7 @@ void generate_pred_error_4x4(imgpel **cur_img, imgpel **prd_img, imgpel **cur_pr
     {
       *m7_line++ = (int) (*cur_line++ - *prd_line++);
     }
-  }        
+  }
 }
 
 // Notation for comments regarding prediction and predictors.
@@ -258,7 +258,7 @@ static inline void get_i4x4_vertright(imgpel **cur_pred, imgpel *PredPel)
   cur_pred[2][2] = (imgpel) ((P_A + P_B + 1) >> 1);
   cur_pred[0][2] =
   cur_pred[2][3] = (imgpel) ((P_B + P_C + 1) >> 1);
-  cur_pred[0][3] = (imgpel) ((P_C + P_D + 1) >> 1);  
+  cur_pred[0][3] = (imgpel) ((P_C + P_D + 1) >> 1);
   cur_pred[1][0] =
   cur_pred[3][1] = (imgpel) ((P_I + 2*P_X + P_A + 2) >> 2);
   cur_pred[1][1] =
@@ -555,11 +555,11 @@ void get_intrapred_4x4(Macroblock *currMB, ColorPlane pl, int i4x4_mode, int img
   imgpel        *PredPel = currMB->intra4x4_pred[pl];  // array of predictor pels
   imgpel ***curr_mpr_4x4 = currMB->p_Slice->mpr_4x4[pl];
 
-  // Note that currently prediction values are always placed starting from (0,0) and not according to block position. 
+  // Note that currently prediction values are always placed starting from (0,0) and not according to block position.
 
   switch (i4x4_mode)
   {
-  case VERT_PRED :    
+  case VERT_PRED :
     get_i4x4_vertical(curr_mpr_4x4[VERT_PRED], PredPel);
     break;
   case HOR_PRED :

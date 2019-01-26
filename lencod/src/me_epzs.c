@@ -69,7 +69,7 @@
 *    AMT/HYC
 ***********************************************************************
 */
-static inline void set_integer_mv(MotionVector *mv) 
+static inline void set_integer_mv(MotionVector *mv)
 {
   mv->mv_x &= 0xFFFC;
   mv->mv_y &= 0xFFFC;
@@ -147,13 +147,13 @@ EPZS_motion_estimation (Macroblock * currMB,     // <--  current Macroblock
   min_mcost += mv_block->computePredFPel (ref_picture, mv_block, DISTBLK_MAX - min_mcost, &cand);
 
   // Additional threshold for ref>0
-  if ((ref > 0 && currSlice->structure == FRAME) && (*prevSad < distblkmin (p_EPZS->medthres[blocktype] + lambda_dist, min_mcost))) 
+  if ((ref > 0 && currSlice->structure == FRAME) && (*prevSad < distblkmin (p_EPZS->medthres[blocktype] + lambda_dist, min_mcost)))
   {
 #if EPZSREF
     if (p_Inp->EPZSSpatialMem)
-#else 
+#else
     if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif 
+#endif
     {
       *p_motion = tmp;
     }
@@ -180,9 +180,9 @@ EPZS_motion_estimation (Macroblock * currMB,     // <--  current Macroblock
     {
 #if EPZSREF
       if (p_Inp->EPZSSpatialMem)
-#else 
+#else
       if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif 
+#endif
       {
         *p_motion = tmp;
       }
@@ -193,19 +193,19 @@ EPZS_motion_estimation (Macroblock * currMB,     // <--  current Macroblock
     //! Add Spatial Predictors in predictor list.
     //! Scheme adds zero, left, top-left, top, top-right. Note that top-left adds very little
     //! in terms of performance and could be removed with little penalty if any.
-    invalid_refs = EPZS_spatial_predictors (p_EPZS, mv_block, 
+    invalid_refs = EPZS_spatial_predictors (p_EPZS, mv_block,
       list, currMB->list_offset, ref, motion);
 
     if (p_Inp->EPZSSpatialMem)
       EPZS_spatial_memory_predictors (p_EPZS, mv_block, cur_list, &prednum, ref_picture->size_x >> 2);
-   
+
     //if (p_Inp->HMEEnable == 1 && p_Inp->EPZSUseHMEPredictors == 1 && blocktype == 4)
     //if (p_Inp->HMEEnable == 1 && p_Inp->EPZSUseHMEPredictors == 1 && (currSlice->slice_type == P_SLICE || currSlice->slice_type == SP_SLICE || p_Inp->EnableReorderBslice) )
     if (p_Inp->HMEEnable == 1 && p_Inp->EPZSUseHMEPredictors == 1)
       EPZS_hierarchical_predictors (p_EPZS, mv_block, &prednum, ref_picture, currSlice);
 
 #if (MVC_EXTENSION_ENABLE)
-    if ( p_Inp->EPZSTemporal[currSlice->view_id] && blocktype < 5 ) 
+    if ( p_Inp->EPZSTemporal[currSlice->view_id] && blocktype < 5 )
 #else
     // Temporal predictors
     if (p_Inp->EPZSTemporal && blocktype < 5)
@@ -234,7 +234,7 @@ EPZS_motion_estimation (Macroblock * currMB,     // <--  current Macroblock
       && (p_Inp->EPZSFixed > 1 || (p_Inp->EPZSFixed && currSlice->slice_type == P_SLICE)));
 
     if (conditionEPZS)
-      EPZSWindowPredictors (mv, p_EPZS->predictor, &prednum, 
+      EPZSWindowPredictors (mv, p_EPZS->predictor, &prednum,
       (p_Inp->EPZSAggressiveWindow != 0) || ((blocktype < 5) && (invalid_refs > 2) && (ref < 1 + (currSlice->structure != FRAME || currMB->list_offset)))
       ? p_EPZS->window_predictor_ext : p_EPZS->window_predictor);
 
@@ -306,7 +306,7 @@ EPZS_motion_estimation (Macroblock * currMB,     // <--  current Macroblock
       {
         if ((min_mcost < stopCriterion + ((3 * p_EPZS->medthres[blocktype]) >> 1)))
         {
-          if ((tmp.mv_x == 0 && tmp.mv_y == 0) 
+          if ((tmp.mv_x == 0 && tmp.mv_y == 0)
             || (iabs (tmp.mv_x - mv->mv_x) < (mv_range) && iabs (tmp.mv_y - mv->mv_y) < (mv_range)))
             searchPatternF = p_Vid->sdiamond;
           else
@@ -379,15 +379,15 @@ EPZS_motion_estimation (Macroblock * currMB,     // <--  current Macroblock
         }
         while (patternStop != 1);
 
-        if ((ref > 0) && (currSlice->structure == FRAME) 
+        if ((ref > 0) && (currSlice->structure == FRAME)
           && ((4 * *prevSad < min_mcost) || ((3 * *prevSad < min_mcost) && (*prevSad <= stopCriterion))))
         {
           *mv = tmp;
 #if EPZSREF
           if (p_Inp->EPZSSpatialMem)
-#else  
+#else
           if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif  
+#endif
           {
             *p_motion = tmp;
           }
@@ -429,9 +429,9 @@ EPZS_motion_estimation (Macroblock * currMB,     // <--  current Macroblock
     *prevSad = min_mcost;
 #if EPZSREF
   if (p_Inp->EPZSSpatialMem)
-#else  
+#else
   if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif  
+#endif
   {
     *p_motion = tmp;
     //printf("value %d %d %d %d\n", p_motion->mv_x, p_motion->mv_y, p_motion[cur_list][ref][0][0][0].mv_x, p_motion[list + list_offset][ref][0][0][0].mv_y);
@@ -496,9 +496,9 @@ EPZS_subMB_motion_estimation  (Macroblock * currMB,     // <--  current Macroblo
   {
 #if EPZSREF
     p_motion = &p_EPZS->p_motion[cur_list][ref][blocktype - 1][mv_block->block_y][pic_pix_x2];
-#else 
+#else
     p_motion = &p_EPZS->p_motion[cur_list][blocktype - 1][mv_block->block_y][pic_pix_x2];
-#endif 
+#endif
   }
 
   // Clear p_EPZS->EPZSMap
@@ -514,14 +514,14 @@ EPZS_subMB_motion_estimation  (Macroblock * currMB,     // <--  current Macroblo
   min_mcost += mv_block->computePredFPel (ref_picture, mv_block, DISTBLK_MAX-min_mcost, &cand);
 
   // Additional threshold for ref>0
-  if ((ref > 0 && currSlice->structure == FRAME) && 
+  if ((ref > 0 && currSlice->structure == FRAME) &&
     (*prevSad < distblkmin (p_EPZS->medthres[blocktype] + lambda_dist, min_mcost)))
   {
 #if EPZSREF
     if (p_Inp->EPZSSpatialMem)
-#else 
+#else
     if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif 
+#endif
     {
       *p_motion = tmp;
     }
@@ -548,9 +548,9 @@ EPZS_subMB_motion_estimation  (Macroblock * currMB,     // <--  current Macroblo
     {
 #if EPZSREF
       if (p_Inp->EPZSSpatialMem)
-#else 
+#else
       if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif 
+#endif
       {
         *p_motion = tmp;
       }
@@ -624,9 +624,9 @@ EPZS_subMB_motion_estimation  (Macroblock * currMB,     // <--  current Macroblo
       {
 #if EPZSREF
         if (p_Inp->EPZSSpatialMem)
-#else 
+#else
         if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif 
+#endif
         {
           *p_motion = tmp;
         }
@@ -724,9 +724,9 @@ EPZS_subMB_motion_estimation  (Macroblock * currMB,     // <--  current Macroblo
           *mv = tmp;
 #if EPZSREF
           if (p_Inp->EPZSSpatialMem)
-#else 
+#else
           if (p_Inp->EPZSSpatialMem && ref == 0)
-#endif 
+#endif
           {
             *p_motion = tmp;
           }
@@ -757,7 +757,7 @@ EPZS_subMB_motion_estimation  (Macroblock * currMB,     // <--  current Macroblo
         else
           searchPatternF = p_EPZS->searchPatternD;
 
-        //! Now consider second best. 
+        //! Now consider second best.
         center = tmp2;
         checkMedian = FALSE;
       }
@@ -786,7 +786,7 @@ EPZS_subMB_motion_estimation  (Macroblock * currMB,     // <--  current Macroblo
 * \brief
 *    FAST Motion Estimation using EPZS
 *    AMT/HYC
-* \return 
+* \return
 *    minimum motion cost after search
 ***********************************************************************
 */
@@ -796,7 +796,7 @@ EPZS_bipred_motion_estimation (Macroblock * currMB,     // <--  Current Macroblo
                                MotionVector * pred_mv1, // <--  motion vector predictor in sub-pel units
                                MotionVector * pred_mv2, // <--  motion vector predictor in sub-pel units
                                MotionVector * mv1,      // <--> in: search center (x|y) / out: motion vector (x|y) - in pel units
-                               MotionVector * mv2,      // <--> in: search center (x|y) 
+                               MotionVector * mv2,      // <--> in: search center (x|y)
                                MEBlock * mv_block,      // <--  motion vector information
                                int search_range,        // <--  1-d search range in pel units
                                distblk min_mcost,       // <--  minimum motion cost (cost for center or huge value)

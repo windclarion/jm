@@ -41,7 +41,7 @@
  * \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *     - Woo-Shik Kim                    <wooshik.kim@usc.edu>
- *     - Zhen Li                         <zli@dolby.com> 
+ *     - Zhen Li                         <zli@dolby.com>
  *     - Alexis Michael Tourapis         <alexismt@ieee.org>
  *************************************************************************************
  */
@@ -80,7 +80,7 @@ float compute_ssim (VideoParameters *p_Vid, InputParameters *p_Inp, imgpel **ref
     for (i = 0; i <= width - win_width; i += overlapSize)
     {
       imeanOrg = 0;
-      imeanEnc = 0; 
+      imeanEnc = 0;
       ivarOrg  = 0;
       ivarEnc  = 0;
       icovOrgEnc = 0;
@@ -134,7 +134,7 @@ void find_ssim (VideoParameters *p_Vid, InputParameters *p_Inp, ImageStructure *
   metricSSIM->value[0] = compute_ssim (p_Vid, p_Inp, ref->data[0], src->data[0], format->height[0], format->width[0], BLOCK_SIZE_8x8, BLOCK_SIZE_8x8, 0);
   // Chroma.
   if (format->yuv_format != YUV400)
-  {     
+  {
     metricSSIM->value[1]  = compute_ssim (p_Vid, p_Inp, ref->data[1], src->data[1], format->height[1], format->width[1], p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x, 1);
     metricSSIM->value[2]  = compute_ssim (p_Vid, p_Inp, ref->data[2], src->data[2], format->height[1], format->width[1], p_Vid->mb_cr_size_y, p_Vid->mb_cr_size_x, 2);
   }

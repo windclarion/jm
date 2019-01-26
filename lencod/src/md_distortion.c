@@ -79,7 +79,7 @@ int64 compute_SSE(imgpel **imgRef, imgpel **imgSrc, int xRef, int xSrc, int ySiz
 
   for (j = 0; j < ySize; j++)
   {
-    lineRef = &imgRef[j][xRef];    
+    lineRef = &imgRef[j][xRef];
     lineSrc = &imgSrc[j][xSrc];
 
     for (i = 0; i < xSize; i++)
@@ -96,7 +96,7 @@ distblk compute_SSE_cr(imgpel **imgRef, imgpel **imgSrc, int xRef, int xSrc, int
 
   for (j = 0; j < ySize; j++)
   {
-    lineRef = &imgRef[j][xRef];    
+    lineRef = &imgRef[j][xRef];
     lineSrc = &imgSrc[j][xSrc];
 
     for (i = 0; i < xSize; i++)
@@ -120,7 +120,7 @@ distblk compute_SSE16x16(imgpel **imgRef, imgpel **imgSrc, int xRef, int xSrc)
 
   for (j = 0; j < MB_BLOCK_SIZE; j++)
   {
-    lineRef = &imgRef[j][xRef];    
+    lineRef = &imgRef[j][xRef];
     lineSrc = &imgSrc[j][xSrc];
 
     for (i = 0; i < MB_BLOCK_SIZE; i++)
@@ -139,7 +139,7 @@ distblk compute_SSE16x16_thres(imgpel **imgRef, imgpel **imgSrc, int xRef, int x
 
   for (j = 0; j < MB_BLOCK_SIZE; j++)
   {
-    lineRef = &imgRef[j][xRef];    
+    lineRef = &imgRef[j][xRef];
     lineSrc = &imgSrc[j][xSrc];
 
     for (i = 0; i < MB_BLOCK_SIZE; i++)
@@ -164,7 +164,7 @@ distblk compute_SSE8x8(imgpel **imgRef, imgpel **imgSrc, int xRef, int xSrc)
 
   for (j = 0; j < BLOCK_SIZE_8x8; j++)
   {
-    lineRef = &imgRef[j][xRef];    
+    lineRef = &imgRef[j][xRef];
     lineSrc = &imgSrc[j][xSrc];
 
     for (i = 0; i < BLOCK_SIZE_8x8; i++)
@@ -189,7 +189,7 @@ distblk compute_SSE4x4(imgpel **imgRef, imgpel **imgSrc, int xRef, int xSrc)
 
   for (j = 0; j < BLOCK_SIZE; j++)
   {
-    lineRef = &imgRef[j][xRef];    
+    lineRef = &imgRef[j][xRef];
     lineSrc = &imgSrc[j][xSrc];
 
     for (i = 0; i < BLOCK_SIZE; i++)
@@ -205,7 +205,7 @@ distblk compute_SSE4x4(imgpel **imgRef, imgpel **imgSrc, int xRef, int xSrc)
 *    SSE distortion calculation for a macroblock
 *************************************************************************************
 */
-distblk distortionSSE(Macroblock *currMB) 
+distblk distortionSSE(Macroblock *currMB)
 {
   VideoParameters *p_Vid = currMB->p_Vid;
   InputParameters *p_Inp = currMB->p_Inp;

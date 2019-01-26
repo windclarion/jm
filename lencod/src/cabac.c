@@ -92,7 +92,7 @@ static const byte  pos2ctx_map4x4c[] = {
 const byte* pos2ctx_map    [] = {
   pos2ctx_map4x4, pos2ctx_map4x4, pos2ctx_map8x8, pos2ctx_map8x4,
   pos2ctx_map8x4, pos2ctx_map4x4, pos2ctx_map4x4, pos2ctx_map4x4,
-  pos2ctx_map2x4c, pos2ctx_map4x4c, 
+  pos2ctx_map2x4c, pos2ctx_map4x4c,
   pos2ctx_map4x4, pos2ctx_map4x4, pos2ctx_map8x8,pos2ctx_map8x4,
   pos2ctx_map8x4, pos2ctx_map4x4,  //Cb component
   pos2ctx_map4x4, pos2ctx_map4x4, pos2ctx_map8x8,pos2ctx_map8x4,
@@ -108,7 +108,7 @@ static const byte  pos2ctx_map8x8i[] = {
   9, 10, 10,  8, 13, 13,  9,  9, 10, 10, 14, 14, 14, 14, 14, 14
 }; // 15 CTX
 
-static const byte  pos2ctx_map8x4i[] = { 
+static const byte  pos2ctx_map8x4i[] = {
   0,  1,  2,  3,  4,  5,  6,  3,  4,  5,  6,  3,  4,  7,  6,  8,
   9,  7,  6,  8,  9, 10, 11, 12, 12, 10, 11, 13, 13, 14, 14, 14
 }; // 15 CTX
@@ -127,7 +127,7 @@ const byte* pos2ctx_map_int[] = {
   pos2ctx_map8x4i,pos2ctx_map4x4, //Cb component
   pos2ctx_map4x4, pos2ctx_map4x4, pos2ctx_map8x8i,pos2ctx_map8x4i,
   pos2ctx_map8x4i,pos2ctx_map4x4  //Cr component}
-};  
+};
 
 
 //===== position -> ctx for LAST =====
@@ -151,7 +151,7 @@ static const byte  pos2ctx_last2x4c[] = {
   0,  0,  1,  1,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2
 }; // 15 CTX
 
-static const byte  pos2ctx_last4x4c[] = { 
+static const byte  pos2ctx_last4x4c[] = {
   0,  0,  0,  0,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,  2
 }; // 15 CTX
 
@@ -211,7 +211,7 @@ static void unary_bin_encode(EncodingEnvironmentPtr eep_dp,
                       unsigned int symbol,
                       BiContextTypePtr ctx,
                       int ctx_offset)
-{  
+{
   if (symbol==0)
   {
     biari_encode_symbol(eep_dp, 0, ctx );
@@ -251,7 +251,7 @@ static void unary_bin_max_encode(EncodingEnvironmentPtr eep_dp,
   {
     unsigned int l = symbol;
     biari_encode_symbol(eep_dp, 1, ctx );
-    
+
     ctx += ctx_offset;
     while ((--l)>0)
       biari_encode_symbol(eep_dp, 1, ctx);
@@ -283,9 +283,9 @@ static void unary_exp_golomb_level_encode( EncodingEnvironmentPtr eep_dp,
     biari_encode_symbol(eep_dp, 1, ctx );
     while (((--l)>0) && (++k <= 13))
       biari_encode_symbol(eep_dp, 1, ctx);
-    if (symbol < 13) 
+    if (symbol < 13)
       biari_encode_symbol(eep_dp, 0, ctx);
-    else 
+    else
       exp_golomb_encode_eq_prob(eep_dp,symbol - 13, 0);
   }
 }
@@ -301,7 +301,7 @@ static void unary_exp_golomb_mv_encode(EncodingEnvironmentPtr eep_dp,
                                 unsigned int symbol,
                                 BiContextTypePtr ctx,
                                 unsigned int max_bin)
-{  
+{
   if (symbol==0)
   {
     biari_encode_symbol(eep_dp, 0, ctx );
@@ -316,14 +316,14 @@ static void unary_exp_golomb_mv_encode(EncodingEnvironmentPtr eep_dp,
     while (((--l)>0) && (++k <= 8))
     {
       biari_encode_symbol(eep_dp, 1, ctx  );
-      if ((++bin) == 2) 
+      if ((++bin) == 2)
         ++ctx;
-      if (bin == max_bin) 
+      if (bin == max_bin)
         ++ctx;
     }
-    if (symbol < 8) 
+    if (symbol < 8)
       biari_encode_symbol(eep_dp, 0, ctx);
-    else 
+    else
       exp_golomb_encode_eq_prob(eep_dp, symbol - 8, 3);
   }
 }
@@ -424,7 +424,7 @@ void delete_contexts_TextureInfo(TextureInfoContexts *enco_ctx)
  */
 void writeFieldModeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartition *dp)
 {
-  EncodingEnvironmentPtr eep_dp = &(dp->ee_cabac);  
+  EncodingEnvironmentPtr eep_dp = &(dp->ee_cabac);
   int curr_len = arienco_bits_written(eep_dp);
   VideoParameters *p_Vid = currMB->p_Vid;
   Macroblock *mb_data = p_Vid->mb_data;
@@ -436,7 +436,7 @@ void writeFieldModeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartiti
 
 #if ENABLE_FIELD_CTX
   TextureInfoContexts *ctx = dp->p_Slice->tex_ctx;
-  
+
   biari_encode_symbol(eep_dp, (se->value1 != 0), &ctx->mb_aff_contexts[act_ctx]);
 #endif
 
@@ -553,10 +553,10 @@ void writeMB_P_typeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartiti
 {
   EncodingEnvironmentPtr eep_dp = &(dp->ee_cabac);
   int curr_len = arienco_bits_written(eep_dp);
-  
+
   BiContextType *mb_type_contexts = dp->p_Slice->mot_ctx->mb_type_contexts[1];
 
-  int act_ctx = 0;  
+  int act_ctx = 0;
   int mode_sym = 0;
   int act_sym = se->value1;
   int mode16x16 = 7;
@@ -658,10 +658,10 @@ void writeMB_P_typeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartiti
 void writeMB_B_typeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartition *dp)
 {
   EncodingEnvironmentPtr eep_dp = &(dp->ee_cabac);
-  int curr_len = arienco_bits_written(eep_dp);  
-  
-  int csym;  
-  int act_sym = se->value1;  
+  int curr_len = arienco_bits_written(eep_dp);
+
+  int csym;
+  int act_sym = se->value1;
 
   int mode_sym = 0;
   int mode16x16 = 24;
@@ -716,7 +716,7 @@ void writeMB_B_typeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartiti
   }
   else
   {
-    int temp_sym = (act_sym > 22) ? act_sym - 13 : act_sym - 12;    
+    int temp_sym = (act_sym > 22) ? act_sym - 13 : act_sym - 12;
     biari_encode_symbol (eep_dp, 1, &mb_type_contexts[act_ctx]);
     biari_encode_symbol (eep_dp, 1, &mb_type_contexts[4]);
     biari_encode_symbol (eep_dp, 1, &mb_type_contexts[5]);
@@ -732,7 +732,7 @@ void writeMB_B_typeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartiti
 
 
   if(act_sym == mode16x16) // additional info for 16x16 Intra-mode
-  {    
+  {
     mb_type_contexts = ctx->mb_type_contexts[1];
     if( mode_sym == 24 )
     {
@@ -788,7 +788,7 @@ void writeMB_I_typeInfo_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartiti
   int a, b;
   int act_ctx = 0;
   int act_sym;
-  Slice *currSlice = dp->p_Slice;  
+  Slice *currSlice = dp->p_Slice;
   int mode_sym = 0;
 
   MotionInfoContexts *ctx         = currSlice->mot_ctx;
@@ -954,7 +954,7 @@ void writeB8_typeInfo_CABAC(SyntaxElement *se, DataPartition *dp)
     biari_encode_symbol (eep_dp, 1, &b8_type_contexts[3]);
     biari_encode_symbol (eep_dp, 0, &b8_type_contexts[4]);
     break;
-  }   
+  }
 
   dp->bitstream->write_flag = 1;
   se->len = (arienco_bits_written(eep_dp) - curr_len);
@@ -1013,7 +1013,7 @@ void writeRefPic_P_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartition *d
   int   a = 0, b = 0;
   int   act_ctx;
   int   act_sym;
-  int   list = se->value2;  
+  int   list = se->value2;
 
   PixelPos block_a, block_b;
   int *mb_size = p_Vid->mb_size[IS_LUMA];
@@ -1151,7 +1151,7 @@ void writeDquant_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartition *dp)
   int curr_len = arienco_bits_written(eep_dp);
 
   TextureInfoContexts *ctx = dp->p_Slice->tex_ctx;
- 
+
   int dquant  = se->value1;
   int sign    = (dquant <= 0) ? 0 : -1;
   int act_sym = (iabs(dquant) << 1) + sign;
@@ -1282,7 +1282,7 @@ void writeCIPredMode_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartition 
   TextureInfoContexts *ctx     = dp->p_Slice->tex_ctx;
 
   int                 act_sym  = se->value1;
-  
+
   Macroblock          *MbUp   = currMB->mb_up;
   Macroblock          *MbLeft = currMB->mb_left;
 
@@ -1339,7 +1339,7 @@ void writeCBP_BIT_CABAC (Macroblock* currMB, int b8, int bit, int cbp, EncodingE
     if (block_a.available && (!(p_Vid->mb_data[block_a.mb_addr].mb_type==IPCM)))
     {
       a = (( (p_Vid->mb_data[block_a.mb_addr].cbp & (1<<(2*(block_a.y>>1)+1))) == 0) ? 1 : 0); //VG-ADD
-    }    
+    }
   }
   else
     a = ( ((cbp & (1<<mb_y)) == 0) ? 1: 0);
@@ -1397,14 +1397,14 @@ void writeCBP_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartition *dp)
     {
       if (currMB->mb_up != NULL)
       {
-        if((currMB->mb_up)->mb_type == IPCM || 
+        if((currMB->mb_up)->mb_type == IPCM ||
           (((currMB->mb_up)->cbp > 15) && ( ((currMB->mb_up)->cbp >> 4) == 2)))
           b1 = 2;
       }
 
       if (currMB->mb_left != NULL)
       {
-        if((currMB->mb_left)->mb_type==IPCM || 
+        if((currMB->mb_left)->mb_type==IPCM ||
           (((currMB->mb_left)->cbp > 15) && ( ((currMB->mb_left)->cbp >> 4) == 2)))
           a1 = 1;
       }
@@ -1428,13 +1428,13 @@ void writeCBP_CABAC(Macroblock *currMB, SyntaxElement *se, DataPartition *dp)
  */
 void write_and_store_CBP_block_bit_444 (Macroblock* currMB, EncodingEnvironmentPtr eep_dp, int type, int cbp_bit, TextureInfoContexts*  tex_ctx)
 {
-  VideoParameters *p_Vid = currMB->p_Vid;  
+  VideoParameters *p_Vid = currMB->p_Vid;
   Macroblock *mb_data = p_Vid->mb_data;
 
   int y_ac        = (type==LUMA_16AC || type==LUMA_8x8 || type==LUMA_8x4 || type==LUMA_4x8 || type==LUMA_4x4
                      || type==CB_16AC || type==CB_8x8 || type==CB_8x4 || type==CB_4x8 || type==CB_4x4
                      || type==CR_16AC || type==CR_8x8 || type==CR_8x4 || type==CR_4x8 || type==CR_4x4);
-  int y_dc        = (type==LUMA_16DC || type==CB_16DC || type==CR_16DC); 
+  int y_dc        = (type==LUMA_16DC || type==CB_16DC || type==CR_16DC);
   int u_ac        = (type==CHROMA_AC && !p_Vid->is_v_block);
   int v_ac        = (type==CHROMA_AC &&  p_Vid->is_v_block);
   int chroma_dc   = (type==CHROMA_DC || type==CHROMA_DC_2x4 || type==CHROMA_DC_4x4);
@@ -1481,7 +1481,7 @@ void write_and_store_CBP_block_bit_444 (Macroblock* currMB, EncodingEnvironmentP
   bit = (y_dc ? 0 : y_ac ? 1 + j + (i >> 2) : u_dc ? 17 : v_dc ? 18 : u_ac ? 19 + j + (i >> 2): 35 + j + (i >> 2));
   //--- set bits for current block ---
   if (cbp_bit)
-  {    
+  {
     if (type==LUMA_8x8)
     {
       currMB->cbp_bits[0] |= ((int64) 0x33 << bit);
@@ -1502,11 +1502,11 @@ void write_and_store_CBP_block_bit_444 (Macroblock* currMB, EncodingEnvironmentP
       currMB->cbp_bits[2]     |= ((int64) 0x33 << bit);
     }
     else if (type==LUMA_8x4)
-    {      
+    {
       currMB->cbp_bits[0]     |= ((int64) 0x03 << bit);
     }
     else if (type==LUMA_4x8)
-    {      
+    {
       currMB->cbp_bits[0]     |= ((int64) 0x11 << bit);
     }
     else if (type==CB_8x4)
@@ -1595,7 +1595,7 @@ void write_and_store_CBP_block_bit_444 (Macroblock* currMB, EncodingEnvironmentP
       biari_encode_symbol (eep_dp, cbp_bit, tex_ctx->bcbp_contexts[type2ctx_bcbp[type]] + ctx);
     }
   }
-  else 
+  else
   {
     if (block_b.available)
     {
@@ -1672,7 +1672,7 @@ void write_and_store_CBP_block_bit (Macroblock* currMB, EncodingEnvironmentPtr e
   VideoParameters *p_Vid = currMB->p_Vid;
   Macroblock *mb_data = p_Vid->mb_data;
   int y_ac        = (type==LUMA_16AC || type==LUMA_8x8 || type==LUMA_8x4 || type==LUMA_4x8 || type==LUMA_4x4);
-  int y_dc        = (type==LUMA_16DC); 
+  int y_dc        = (type==LUMA_16DC);
   int u_ac        = (type==CHROMA_AC && !p_Vid->is_v_block);
   int v_ac        = (type==CHROMA_AC &&  p_Vid->is_v_block);
   int chroma_dc   = (type==CHROMA_DC || type==CHROMA_DC_2x4 || type==CHROMA_DC_4x4);
@@ -1719,17 +1719,17 @@ void write_and_store_CBP_block_bit (Macroblock* currMB, EncodingEnvironmentPtr e
   bit = (y_dc ? 0 : y_ac ? 1 + j + (i >> 2): u_dc ? 17 : v_dc ? 18 : u_ac ? 19 + j + (i >> 2): 35 + j + (i >> 2));
   //--- set bits for current block ---
   if (cbp_bit)
-  {    
+  {
     if (type==LUMA_8x8)
     {
       currMB->cbp_bits[0] |= ((int64) 0x33 << bit);
     }
     else if (type==LUMA_8x4)
-    {      
+    {
       currMB->cbp_bits[0] |= ((int64) 0x03 << bit);
     }
     else if (type==LUMA_4x8)
-    {      
+    {
       currMB->cbp_bits[0] |= ((int64) 0x11 << bit);
     }
     else
@@ -1761,7 +1761,7 @@ void write_and_store_CBP_block_bit (Macroblock* currMB, EncodingEnvironmentPtr e
 
     ctx = (upper_bit << 1) + left_bit;
 
-    //===== encode symbol =====    
+    //===== encode symbol =====
     biari_encode_symbol (eep_dp, cbp_bit, tex_ctx->bcbp_contexts[type2ctx_bcbp[type]] + ctx);
   }
 }
@@ -1792,8 +1792,8 @@ void write_significance_map (Macroblock* currMB, EncodingEnvironmentPtr eep_dp, 
 
   if (!c1isdc[type])
   {
-    ++k0; 
-    ++k1; 
+    ++k0;
+    ++k1;
     --coeff;
   }
 
@@ -1806,7 +1806,7 @@ void write_significance_map (Macroblock* currMB, EncodingEnvironmentPtr eep_dp, 
       last = (--coeff_ctr == 0);
 
       biari_encode_symbol(eep_dp, last, last_ctx + pos2ctxlast[k]);
-      if (last) 
+      if (last)
         return;
     }
   }
@@ -1822,7 +1822,7 @@ void write_significance_map (Macroblock* currMB, EncodingEnvironmentPtr eep_dp, 
 void write_significant_coefficients (EncodingEnvironmentPtr eep_dp, int type, int coeff[], TextureInfoContexts*  tex_ctx, int coeff_cnt)
 {
   BiContextType *one_contexts = tex_ctx->one_contexts[type2ctx_one[type]];
-  BiContextType *abs_contexts = tex_ctx->abs_contexts[type2ctx_abs[type]];  
+  BiContextType *abs_contexts = tex_ctx->abs_contexts[type2ctx_abs[type]];
   int   absLevel;
   int   ctx;
   short sign;
@@ -1839,12 +1839,12 @@ void write_significant_coefficients (EncodingEnvironmentPtr eep_dp, int type, in
 
       if (coeff[i] > 0)
       {
-        absLevel =  coeff[i];  
+        absLevel =  coeff[i];
         sign = 0;
       }
-      else            
+      else
       {
-        absLevel = -coeff[i];  
+        absLevel = -coeff[i];
         sign = 1;
       }
 
@@ -1878,7 +1878,7 @@ void write_significant_coefficients (EncodingEnvironmentPtr eep_dp, int type, in
  ****************************************************************************
  */
 void writeRunLevel_CABAC (Macroblock* currMB, SyntaxElement *se, DataPartition *dp)
-{  
+{
   Slice *currSlice = currMB->p_Slice;
   EncodingEnvironmentPtr eep_dp = &(dp->ee_cabac);
   int curr_len = arienco_bits_written(eep_dp);

@@ -40,7 +40,7 @@
  *  \author
  *     Copyright (C) 2009 Dolby
  *  Yuwen He (yhe@dolby.com)
- *  
+ *
  ************************************************************************
  */
 #ifndef _H264DECODER_H_
@@ -52,7 +52,7 @@ typedef enum
 {
   DEC_GEN_NOERR = 0,
   DEC_OPEN_NOERR = 0,
-  DEC_CLOSE_NOERR = 0,  
+  DEC_CLOSE_NOERR = 0,
   DEC_SUCCEED = 0,
   DEC_EOS =1,
   DEC_NEED_DATA = 2,

@@ -294,7 +294,7 @@ void rc_init_seq(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_
   p_quad->MBPerRow = p_Vid->PicWidthInMbs;
 
   /*adaptive field/frame coding*/
-  p_gen->FieldControl=0;  
+  p_gen->FieldControl=0;
 
   if (p_Inp->SeinitialQP==0)
   {
@@ -383,11 +383,11 @@ void rc_init_GOP(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_
           tmp = gop;
           while ( tmp > 1 )
           {
-            tmp >>= 1; // divide by 2          
+            tmp >>= 1; // divide by 2
             num_frames[levels] = 1 << levels;
-            levels++;          
+            levels++;
           }
-          assert( levels >= 1 && levels <= RC_MAX_TEMPORAL_LEVELS );        
+          assert( levels >= 1 && levels <= RC_MAX_TEMPORAL_LEVELS );
         }
         else if ( p_Inp->HierarchicalCoding == 3 )
         {
@@ -399,7 +399,7 @@ void rc_init_GOP(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_
           levels = 1;
           num_frames[0] = p_Inp->NumberBFrames;
         }
-        p_gen->temporal_levels = levels;      
+        p_gen->temporal_levels = levels;
       }
       else
       {
@@ -779,7 +779,7 @@ void rc_init_pict(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p
  * \param p_quad
  *    quadratic model
  * \param p_gen
- *    generic rate control parameters 
+ *    generic rate control parameters
  * \param nbits
  *    number of bits used for picture
  *
@@ -789,7 +789,7 @@ void rc_update_pict(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic 
 {
   int delta_bits = (nbits - (int)floor(p_quad->bit_rate / p_quad->frame_rate + 0.5F) );
   // remaining # of bits in GOP
-  p_gen->RemainingBits -= nbits; 
+  p_gen->RemainingBits -= nbits;
   p_gen->CurrentBufferFullness += delta_bits;
 
   // update the lower bound and the upper bound for the target bits of each frame, HRD consideration
@@ -864,12 +864,12 @@ void updateBparams( RCQuadratic *p_quad, RCGeneric *p_gen, int complexity )
 {
   p_quad->Xb = complexity;
   p_quad->Nb--;
-  p_quad->Wb = p_quad->Xb / THETA;     
+  p_quad->Wb = p_quad->Xb / THETA;
   p_quad->NumberofBFrames++;
   p_gen->NumberofCodedBFrame++;
 }
 
-/*! 
+/*!
  *************************************************************************************
  * \brief
  *    update after frame encoding
@@ -880,7 +880,7 @@ void updateBparams( RCQuadratic *p_quad, RCGeneric *p_gen, int complexity )
  * \param p_quad
  *    quadratic model
  * \param p_gen
- *    generic rate control parameters 
+ *    generic rate control parameters
  * \param nbits
  *    number of bits used for frame
  *
@@ -888,7 +888,7 @@ void updateBparams( RCQuadratic *p_quad, RCGeneric *p_gen, int complexity )
 */
 void rc_update_pict_frame(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_quad, RCGeneric *p_gen, int nbits)
 {
-  /* update the complexity weight of I, P, B frame */  
+  /* update the complexity weight of I, P, B frame */
   int complexity = 0;
 
   switch( p_Inp->RCUpdateMode )
@@ -938,7 +938,7 @@ void rc_update_pict_frame(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuad
       p_gen->hierNb[ p_Inp->HierarchicalCoding ? (p_Vid->p_curr_frm_struct->layer - 1) : 0 ]--;
     }
     break;
-  }   
+  }
 }
 
 
@@ -988,10 +988,10 @@ void updateRCModel (VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic 
             p_quad->PAveHeaderBits3 * p_quad->NumberofBasicUnit)/p_quad->TotalNumberofBasicUnit+0.5);
         }
       }
-      
+
       if ((p_quad->NumberofBasicUnit >= p_quad->TotalNumberofBasicUnit) || (p_quad->NumberofBasicUnit<0))
       {
-        fprintf(stderr, "Write into invalid memory in updateRCModel at frame %d, p_quad->NumberofBasicUnit %d\n", 
+        fprintf(stderr, "Write into invalid memory in updateRCModel at frame %d, p_quad->NumberofBasicUnit %d\n",
           p_Vid->framepoc, p_quad->NumberofBasicUnit);
       }
 
@@ -2010,7 +2010,7 @@ int updateQPRC3(VideoParameters *p_Vid, InputParameters *p_Inp, RCQuadratic *p_q
           else {
             m_Bits = p_quad->Target-m_Hp;
             m_Bits = imax(m_Bits, (int)(p_quad->bit_rate/(MINVALUE*p_quad->frame_rate)));
-          }          
+          }
           updateModelQPFrame( p_quad, m_Bits );
 
           p_quad->m_Qc = iClip3(p_Vid->RCMinQP + p_quad->bitdepth_qp_scale, p_Vid->RCMaxQP + p_quad->bitdepth_qp_scale, p_quad->m_Qc); // clipping
@@ -2522,7 +2522,7 @@ int rc_handle_mb( Macroblock *currMB, int prev_mb )
 {
   VideoParameters *p_Vid = currMB->p_Vid;
   InputParameters *p_Inp = currMB->p_Inp;
-  Macroblock     *prevMB = currMB->PrevMB; 
+  Macroblock     *prevMB = currMB->PrevMB;
   int mb_qp = p_Vid->qp;
   RCGeneric   *p_gen   = p_Vid->p_rc_gen;
   RCQuadratic *p_quad = p_Vid->p_rc_quad;
@@ -2545,8 +2545,8 @@ int rc_handle_mb( Macroblock *currMB, int prev_mb )
     {
       if (!p_Vid->write_macroblock) //write macroblock
       {
-        if (prev_mb > -1) 
-        {      
+        if (prev_mb > -1)
+        {
           if (!((p_Inp->MbInterlace) && p_Vid->bot_MB)) //top macroblock
           {
             if (prevMB->prev_cbp != 1)
@@ -2604,7 +2604,7 @@ void rc_init_top_field ( VideoParameters *p_Vid, InputParameters *p_Inp )
 
   p_Vid->BasicUnit = p_Inp->basicunit;
   p_gen->TopFieldFlag = 1;
-  p_Vid->rc_init_pict_ptr(p_Vid, p_Inp, p_quad, p_gen, 0, 1, (p_Inp->PicInterlace == FIELD_CODING), 1.0F); 
+  p_Vid->rc_init_pict_ptr(p_Vid, p_Inp, p_quad, p_gen, 0, 1, (p_Inp->PicInterlace == FIELD_CODING), 1.0F);
   p_Vid->p_curr_frm_struct->qp = p_Vid->qp = p_Vid->updateQP(p_Vid, p_Inp, p_quad, p_gen, 1) - p_quad->bitdepth_qp_scale;
 }
 
@@ -2621,8 +2621,8 @@ void rc_init_bottom_field ( VideoParameters *p_Vid, InputParameters *p_Inp, int 
 
   p_quad->bits_topfield = TopFieldBits;
   p_gen->TopFieldFlag = 0;
-  p_Vid->rc_init_pict_ptr(p_Vid, p_Inp, p_quad, p_gen, 0,0,0, 1.0F); 
-  p_Vid->p_curr_frm_struct->qp = p_Vid->qp = p_Vid->updateQP(p_Vid, p_Inp, p_quad, p_gen, 0) - p_quad->bitdepth_qp_scale; 
+  p_Vid->rc_init_pict_ptr(p_Vid, p_Inp, p_quad, p_gen, 0,0,0, 1.0F);
+  p_Vid->p_curr_frm_struct->qp = p_Vid->qp = p_Vid->updateQP(p_Vid, p_Inp, p_quad, p_gen, 0) - p_quad->bitdepth_qp_scale;
 }
 
 /*!
@@ -2721,7 +2721,7 @@ void rc_free_memory( VideoParameters *p_Vid, InputParameters *p_Inp )
 void rc_update_mb_stats(Macroblock *currMB)
 {
   VideoParameters *p_Vid = currMB->p_Vid;
-  InputParameters *p_Inp = currMB->p_Inp; 
+  InputParameters *p_Inp = currMB->p_Inp;
   BitCounter *mbBits = &currMB->bits;
   RCGeneric *p_gen = p_Vid->p_rc_gen;
 

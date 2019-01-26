@@ -36,8 +36,8 @@
  *    hme_distortion.h
  *
  * \author
- *    Yuwen He                       
- *    Alexis Michael Tourapis       
+ *    Yuwen He
+ *    Alexis Michael Tourapis
  *
  * \date
  *    11. August 2006 / Updated 18. December 2013

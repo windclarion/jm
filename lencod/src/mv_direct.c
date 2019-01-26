@@ -71,7 +71,7 @@
  */
 void Get_Direct_MV_Temporal (Macroblock *currMB)
 {
-  Slice *currSlice = currMB->p_Slice; 
+  Slice *currSlice = currMB->p_Slice;
   int   block_x, block_y, pic_block_x, pic_block_y, opic_block_x, opic_block_y;
   MotionVector *****all_mvs;
   int   mv_scale;
@@ -114,7 +114,7 @@ void Get_Direct_MV_Temporal (Macroblock *currMB)
             colocated.ref_pic[LIST_0] = list1[0]->frame->mv_info[iPosBlkY][RSD(opic_block_x)].ref_pic[LIST_0];
           if(colocated.ref_idx[LIST_1]>=0)
             colocated.ref_pic[LIST_1] = list1[0]->frame->mv_info[iPosBlkY][RSD(opic_block_x)].ref_pic[LIST_1];
-        }        
+        }
       }
       else
       {
@@ -138,7 +138,7 @@ void Get_Direct_MV_Temporal (Macroblock *currMB)
                 colocated = currSlice->listX[LIST_1+2][0]->mv_info[RSD(opic_block_y)>>1][RSD(opic_block_x)];
             }
             else
-            { 
+            {
               if(currMB->p_Inp->separate_colour_plane_flag && currMB->p_Vid->yuv_format==YUV444)
                 colocated = currSlice->listX[LIST_1+2][0]->JVmv_info[currMB->p_Slice->colour_plane_id][(opic_block_y)>>1][(opic_block_x)];
               else
@@ -185,29 +185,29 @@ void Get_Direct_MV_Temporal (Macroblock *currMB)
       {
         if (iabs(p_Vid->enc_picture->poc - list1[0]->bottom_field->poc)> iabs(p_Vid->enc_picture->poc -list1[0]->top_field->poc) )
         {
-          colocated = p_Vid->active_sps->direct_8x8_inference_flag ? 
+          colocated = p_Vid->active_sps->direct_8x8_inference_flag ?
             list1[0]->top_field->mv_info[RSD(opic_block_y)>>1][RSD(opic_block_x)] : list1[0]->top_field->mv_info[(opic_block_y)>>1][opic_block_x];
         }
         else
         {
-          colocated = p_Vid->active_sps->direct_8x8_inference_flag ? 
+          colocated = p_Vid->active_sps->direct_8x8_inference_flag ?
             list1[0]->bottom_field->mv_info[RSD(opic_block_y)>>1][RSD(opic_block_x)] : list1[0]->bottom_field->mv_info[(opic_block_y)>>1][opic_block_x];
         }
       }
       else if(!p_Vid->active_sps->frame_mbs_only_flag && currSlice->structure && list1[0]->coded_frame)
       {
-        int iPosBlkY; 
+        int iPosBlkY;
         int currentmb = 2*(list1[0]->size_x>>4) * (opic_block_y >> 2)+ (opic_block_x>>2)*2 + ((opic_block_y>>1) & 0x01);
         if(currSlice->structure!=list1[0]->structure)
         {
           if (currSlice->structure == TOP_FIELD)
           {
-            colocated = p_Vid->active_sps->direct_8x8_inference_flag ? 
+            colocated = p_Vid->active_sps->direct_8x8_inference_flag ?
               list1[0]->frame->top_field->mv_info[RSD(opic_block_y)][RSD(opic_block_x)] : list1[0]->frame->top_field->mv_info[opic_block_y][opic_block_x];
           }
           else
           {
-            colocated = p_Vid->active_sps->direct_8x8_inference_flag ? 
+            colocated = p_Vid->active_sps->direct_8x8_inference_flag ?
               list1[0]->frame->bottom_field->mv_info[RSD(opic_block_y)][RSD(opic_block_x)] : list1[0]->frame->bottom_field->mv_info[opic_block_y][opic_block_x];
           }
         }
@@ -239,13 +239,13 @@ void Get_Direct_MV_Temporal (Macroblock *currMB)
       {
         int mapped_idx=INVALIDINDEX;
         int iref;
-        if (colocated.ref_pic[refList] == NULL) 
+        if (colocated.ref_pic[refList] == NULL)
         {
            printf("invalid index found\n");
         }
         else
-        {    
-          if( (currSlice->mb_aff_frame_flag && ( (currMB->mb_field && colocated.ref_pic[refList]->structure==FRAME) || 
+        {
+          if( (currSlice->mb_aff_frame_flag && ( (currMB->mb_field && colocated.ref_pic[refList]->structure==FRAME) ||
             (!currMB->mb_field && colocated.ref_pic[refList]->structure!=FRAME))) ||
             (!currSlice->mb_aff_frame_flag && ((currSlice->structure==FRAME && colocated.ref_pic[refList]->structure!=FRAME)||
             (currSlice->structure!=FRAME && colocated.ref_pic[refList]->structure==FRAME))) )
@@ -255,7 +255,7 @@ void Get_Direct_MV_Temporal (Macroblock *currMB)
             {
               if (currSlice->listX[LIST_0 + list_offset][iref]->top_field == colocated.ref_pic[refList] ||
                 currSlice->listX[LIST_0 + list_offset][iref]->bottom_field == colocated.ref_pic[refList] ||
-                currSlice->listX[LIST_0 + list_offset][iref]->frame == colocated.ref_pic[refList] ) 
+                currSlice->listX[LIST_0 + list_offset][iref]->frame == colocated.ref_pic[refList] )
               {
                 if ((p_Vid->field_picture==1) && (currSlice->listX[LIST_0 + list_offset][iref]->structure != currSlice->structure))
                 {
@@ -263,7 +263,7 @@ void Get_Direct_MV_Temporal (Macroblock *currMB)
                 }
                 else
                 {
-                  mapped_idx = iref;            
+                  mapped_idx = iref;
                   break;
                 }
               }
@@ -277,7 +277,7 @@ void Get_Direct_MV_Temporal (Macroblock *currMB)
             {
               if(currSlice->listX[LIST_0 + list_offset][iref] == colocated.ref_pic[refList])
               {
-                mapped_idx = iref;            
+                mapped_idx = iref;
                 break;
               }
               else //! invalid index. Default to zero even though this case should not happen
@@ -447,7 +447,7 @@ static void test_valid_direct(Slice *currSlice, seq_parameter_set_rbsp_t *active
 /*!
 *************************************************************************************
 * \brief
-*    Temporary function for colocated info when direct_inference is enabled. 
+*    Temporary function for colocated info when direct_inference is enabled.
 *
 *************************************************************************************
 */
@@ -478,7 +478,7 @@ int get_colocated_info(Macroblock *currMB, StorablePicture *list1, int i, int j)
       else
       {
         if( (currSlice->mb_aff_frame_flag && ((!currMB->mb_field && list1->motion.mb_field[currMB->mbAddrX]) ||
-          (!currMB->mb_field && !list1->coded_frame))) 
+          (!currMB->mb_field && !list1->coded_frame)))
           || (!currSlice->mb_aff_frame_flag))
         {
           if (iabs(p_Vid->enc_picture->poc - list1->bottom_field->poc)> iabs(p_Vid->enc_picture->poc -list1->top_field->poc) )
@@ -514,7 +514,7 @@ int get_colocated_info(Macroblock *currMB, StorablePicture *list1, int i, int j)
         &&  (iabs(fs->mv[LIST_1].mv_x)>>1 == 0)
         &&  (iabs(fs->mv[LIST_1].mv_y)>>1 == 0)));
 
-      return moving;  
+      return moving;
     }
   }
 }
@@ -522,7 +522,7 @@ int get_colocated_info(Macroblock *currMB, StorablePicture *list1, int i, int j)
 /*!
 *************************************************************************************
 * \brief
-*    Colocated info <= direct_inference is disabled. 
+*    Colocated info <= direct_inference is disabled.
 *************************************************************************************
 */
 int get_colocated_info_4x4(Macroblock *currMB, StorablePicture *list1, int i, int j)
@@ -541,19 +541,19 @@ int get_colocated_info_4x4(Macroblock *currMB, StorablePicture *list1, int i, in
       &&  (iabs(fs->mv[LIST_1].mv_x)>>1 == 0)
       &&  (iabs(fs->mv[LIST_1].mv_y)>>1 == 0)));
 
-    return moving;  
+    return moving;
   }
 }
 
 /*!
 ************************************************************************
 * \brief
-*    Calculate Spatial Direct Mode Motion Vectors 
+*    Calculate Spatial Direct Mode Motion Vectors
 ************************************************************************
 */
 void Get_Direct_MV_Spatial_Normal (Macroblock *currMB)
 {
-  Slice *currSlice = currMB->p_Slice; 
+  Slice *currSlice = currMB->p_Slice;
   VideoParameters *p_Vid = currMB->p_Vid;
   PicMotionParams **mv_info = p_Vid->enc_picture->mv_info;
   char l0_refA, l0_refB, l0_refC;
@@ -566,7 +566,7 @@ void Get_Direct_MV_Spatial_Normal (Macroblock *currMB)
   char  *direct_ref_idx;
   StorablePicture **list1 = currSlice->listX[LIST_1];
 
-  PixelPos mb[4];  
+  PixelPos mb[4];
   get_neighbors(currMB, mb, 0, 0, 16);
 
   set_direct_references(&mb[0], &l0_refA,  &l1_refA,  mv_info);
@@ -606,7 +606,7 @@ void Get_Direct_MV_Spatial_Normal (Macroblock *currMB)
   }
   else if (l0_refX == 0 || l1_refX == 0)
   {
-    int (*get_colocated)(Macroblock *currMB, StorablePicture *list1, int i, int j) = 
+    int (*get_colocated)(Macroblock *currMB, StorablePicture *list1, int i, int j) =
       p_Vid->active_sps->direct_8x8_inference_flag ? get_colocated_info : get_colocated_info_4x4;
 
     int is_moving_block;
@@ -639,7 +639,7 @@ void Get_Direct_MV_Spatial_Normal (Macroblock *currMB)
           all_mvs[LIST_0][(short) l0_refX][0][block_y][block_x] = pmvfw;
           direct_ref_idx[LIST_0] = (char)l0_refX;
         }
-        
+
         if (l1_refX < 0)
         {
           all_mvs[LIST_1][0][0][block_y][block_x] = zero_mv;
@@ -683,7 +683,7 @@ void Get_Direct_MV_Spatial_Normal (Macroblock *currMB)
         if (l0_refX > 0)
         {
           all_mvs[LIST_0][(short) l0_refX][0][block_y][block_x] = pmvfw;
-          direct_ref_idx[LIST_0]= (char)l0_refX;          
+          direct_ref_idx[LIST_0]= (char)l0_refX;
         }
         else
         {
@@ -719,7 +719,7 @@ void Get_Direct_MV_Spatial_Normal (Macroblock *currMB)
 /*!
 ************************************************************************
 * \brief
-*    Calculate Spatial Direct Mode Motion Vectors 
+*    Calculate Spatial Direct Mode Motion Vectors
 ************************************************************************
 */
 void Get_Direct_MV_Spatial_MBAFF (Macroblock *currMB)
@@ -738,10 +738,10 @@ void Get_Direct_MV_Spatial_MBAFF (Macroblock *currMB)
   PicMotionParams **mv_info = p_Vid->enc_picture->mv_info;
   StorablePicture **list1 = currSlice->listX[LIST_1 + currMB->list_offset];
 
-  int (*get_colocated)(Macroblock *currMB, StorablePicture *list1, int i, int j) = 
+  int (*get_colocated)(Macroblock *currMB, StorablePicture *list1, int i, int j) =
     p_Vid->active_sps->direct_8x8_inference_flag ? get_colocated_info : get_colocated_info_4x4;
 
-  PixelPos mb[4];  
+  PixelPos mb[4];
   get_neighbors(currMB, mb, 0, 0, 16);
 
 
@@ -828,7 +828,7 @@ void Get_Direct_MV_Spatial_MBAFF (Macroblock *currMB)
         direct_ref_idx[LIST_0] = -1;
         direct_ref_idx[LIST_1] = -1;
         currSlice->direct_pdir   [pic_block_y][pic_block_x]         = -1;
-      }     
+      }
       else
       {
         if (l0_refX < 0 && l1_refX < 0)

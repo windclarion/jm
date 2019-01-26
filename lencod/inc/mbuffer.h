@@ -78,7 +78,7 @@ typedef struct pic_motion_params
 {
   struct storable_picture *ref_pic[2];  //!< referrence picture pointer
   char                     ref_idx[2];  //!< reference picture   [list][subblock_y][subblock_x]
-  MotionVector             mv[2];       //!< motion vector  
+  MotionVector             mv[2];       //!< motion vector
   byte                     field_frame; //!< indicates if co_located is field or frame. Will be removed at some point
 } PicMotionParams;
 
@@ -97,7 +97,7 @@ typedef struct storable_picture
   int         pic_num;
   int         long_term_pic_num;
   int         long_term_frame_idx;
-  int         temporal_layer;     
+  int         temporal_layer;
 
   byte        is_long_term;
   int         used_for_reference;
@@ -108,7 +108,7 @@ typedef struct storable_picture
   int         size_x_padded, size_y_padded;
   int         size_x_pad, size_y_pad;
   int         size_x_cr_pad, size_y_cr_pad;
-  int         pad_size_uv_y, pad_size_uv_x; 
+  int         pad_size_uv_y, pad_size_uv_x;
   int         chroma_vector_adjustment;
   int         coded_frame;
   int         mb_aff_frame_flag;
@@ -124,13 +124,13 @@ typedef struct storable_picture
   imgpel **** p_img_sub[MAX_PLANE];      //!< pointer array for storing top address of imgY_sub/imgUV_sub[]
   imgpel **   p_curr_img;                //!< current int-pel ref. picture area to be used for motion estimation
   imgpel **** p_curr_img_sub;            //!< current sub-pel ref. picture area to be used for motion estimation
-  
+
   // Hierarchical ME Image buffer
   imgpel ***  pHmeImage;     //!< Array allocated with dimensions [level][y][x];
   int    *    pHmeWidth;     //!< Width of hierarchical image at each level
   int    *    pHmeHeight;    //!< Height of hierarchical image at each level
-  
-  Dist_Estm * de_mem; 
+
+  Dist_Estm * de_mem;
 
   PicMotionParams **mv_info;                 //!< Motion info
   PicMotionParams **JVmv_info[MAX_PLANE];    //!< Motion info for 4:4:4 independent coding
@@ -232,7 +232,7 @@ typedef struct decoded_picture_buffer
   unsigned      used_size_il;
 
   FrameFormat   storage_format;
-  
+
   void (*pf_GetHMEIntImagesLuma)( VideoParameters *p_Vid, int size_x, int size_y, imgpel ***cImgInt);
 
 

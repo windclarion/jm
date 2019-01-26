@@ -103,7 +103,7 @@ CSobj *create_coding_state (InputParameters *p_Inp)
 
   //=== coding state structure ===
   if ((cs = (CSobj *) calloc (1, sizeof(CSobj))) == NULL)
-    no_mem_exit("init_coding_state: cs"); 
+    no_mem_exit("init_coding_state: cs");
 
   //=== important variables of data partition array ===
   cs->no_part = p_Inp->partition_mode == 0 ? 1 : 3;
@@ -128,11 +128,11 @@ CSobj *create_coding_state (InputParameters *p_Inp)
     cs->mot_ctx = NULL;
     cs->tex_ctx = NULL;
   }
-  
+
   if (p_Inp->ProfileIDC == FREXT_Hi444)
   {
     if ((cs->cbp_bits_8x8 = (int64 *) calloc (3, sizeof(int64))) == NULL)
-      no_mem_exit("init_coding_state: cs->cbp_bits_8x8"); 
+      no_mem_exit("init_coding_state: cs->cbp_bits_8x8");
   }
   else
     cs->cbp_bits_8x8 = NULL;
@@ -161,7 +161,7 @@ void store_coding_state_cavlc (Macroblock *currMB, CSobj *cs)
 {
   int  i;
   Slice *currSlice = currMB->p_Slice;
-  int  i_last = currSlice->idr_flag? 1 : cs->no_part;  
+  int  i_last = currSlice->idr_flag? 1 : cs->no_part;
 
   //=== important variables of data partition array ===
   for (i = 0; i < i_last; i++)
@@ -191,7 +191,7 @@ static void store_coding_state_cabac (Macroblock *currMB, CSobj *cs)
 {
   int  i;
   Slice *currSlice = currMB->p_Slice;
-  int  i_last = currSlice->idr_flag? 1:cs->no_part;  
+  int  i_last = currSlice->idr_flag? 1:cs->no_part;
   DataPartition *partArr = &currSlice->partArr[0];
 
   //=== important variables of data partition array ===
@@ -199,7 +199,7 @@ static void store_coding_state_cabac (Macroblock *currMB, CSobj *cs)
   for (i = 0; i < i_last; i++)
   {
     cs->bitstream[i] = *partArr->bitstream;
-    cs->encenv[i]    = (partArr++)->ee_cabac;    
+    cs->encenv[i]    = (partArr++)->ee_cabac;
   }
 
   //=== contexts for binary arithmetic coding ===
@@ -238,7 +238,7 @@ void reset_coding_state_cavlc (Macroblock *currMB, CSobj *cs)
 {
   int  i;
   Slice *currSlice = currMB->p_Slice;
-  int  i_last = currSlice->idr_flag? 1:cs->no_part;   
+  int  i_last = currSlice->idr_flag? 1:cs->no_part;
 
   //=== important variables of data partition array ===
   //only one partition for an IDR picture
@@ -270,7 +270,7 @@ static void reset_coding_state_cabac (Macroblock *currMB, CSobj *cs)
 {
   int  i;
   Slice *currSlice = currMB->p_Slice;
-  int  i_last = currSlice->idr_flag? 1:cs->no_part;   
+  int  i_last = currSlice->idr_flag? 1:cs->no_part;
   DataPartition *partArr = &currSlice->partArr[0];
 
   //=== important variables of data partition array ===

@@ -83,8 +83,8 @@ void initialize_fast_full_search (VideoParameters *p_Vid, InputParameters *p_Inp
   int  search_range = p_Inp->SearchMode[0] == FAST_FULL_SEARCH ? p_Inp->search_range[0] : p_Inp->search_range[1];
   int  max_pos      = (2*search_range+1) * (2*search_range+1);
   MEFullFast *p_me_ffast = NULL;
-   
-   if ((p_Vid->p_ffast_me = calloc (1, sizeof (MEFullFast))) == NULL) 
+
+   if ((p_Vid->p_ffast_me = calloc (1, sizeof (MEFullFast))) == NULL)
     no_mem_exit ("initialize_fast_full_search: p_Vid->p_ffast_me");
    p_me_ffast = p_Vid->p_ffast_me;
 
@@ -335,7 +335,7 @@ void setup_fast_full_search (Macroblock *currMB, MEBlock *mv_block, int list)  /
   int   wp_chroma_round = 0;
   short weight_luma = mv_block->weight_luma, weight_cr[2];
   short offset_luma = mv_block->offset_luma, offset_cr[2];
-  search_range <<= 2;  
+  search_range <<= 2;
 
   //===== get search center: predictor of 16x16 block =====
   get_neighbors(currMB, block, 0, 0, 16);
@@ -417,7 +417,7 @@ void setup_fast_full_search (Macroblock *currMB, MEBlock *mv_block, int list)  /
 
     for (pos = 0; pos < max_pos; pos++)
     {
-      cand = add_MVs(offset, &p_Vid->spiral_qpel_search[pos]);      
+      cand = add_MVs(offset, &p_Vid->spiral_qpel_search[pos]);
 
       srcptr = orig_pels;
       bindex = 0;
@@ -658,7 +658,7 @@ fast_full_search_motion_estimation (Macroblock   *currMB,        // <--  current
   InputParameters *p_Inp = currMB->p_Inp;
   MEFullFast *p_me_ffast = p_Vid->p_ffast_me;
   distblk mcost;
-  int   pos;  
+  int   pos;
   int  search_range   = imax(mv_block->searchRange.max_x, mv_block->searchRange.max_y) >> 2;
   int   max_pos       = (2*search_range+1)*(2*search_range+1);              // number of search positions
   int   best_pos      = 0;                                                  // position with minimum motion cost
@@ -671,7 +671,7 @@ fast_full_search_motion_estimation (Macroblock   *currMB,        // <--  current
 
   block_index = (mv_block->block_y << 2) + (mv_block->block_x); // block index for indexing SAD array
   block_sad   = p_me_ffast->BlockSAD[list][ref][mv_block->blocktype][block_index];         // pointer to SAD array
-  
+
   //===== set up fast full integer search if needed / set search center =====
   if (!p_Vid->p_ffast_me->search_setup_done[list][ref])
   {

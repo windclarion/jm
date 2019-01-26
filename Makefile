@@ -2,7 +2,7 @@
 ###     Makefile for JM H.264/AVC encoder/decoder
 ###
 ###             generated for UNIX/LINUX environments
-###             by Limin Wang(lance.lmwang@gmail.com) 
+###             by Limin Wang(lance.lmwang@gmail.com)
 ###
 
 SUBDIRS := lencod ldecod rtpdump rtp_loss
@@ -25,7 +25,7 @@ else
 endif
 
 export DBG
-export STC 
+export STC
 export M32
 export OPENMP
 export CFLAGS

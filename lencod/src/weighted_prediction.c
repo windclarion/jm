@@ -117,7 +117,7 @@ void ResetWP(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   default_weights[0] = 1 << luma_log_weight_denom;
   default_weights[1] = default_weights[2] = 1 << chroma_log_weight_denom;
-  
+
   p_Vid->wp_parameters_set = 0;
   for (cur_slice = 0; cur_slice < p_Vid->num_slices_wp; cur_slice++)
   {
@@ -199,7 +199,7 @@ double ComputeImgSum(imgpel **CurrentImage, int height, int width)
 static int ComputeBlockSum(imgpel **CurrentImage, int height_in_blk, int width_in_blk, int blk_size_y, int blk_size_x, int cur_blk)
 {
   int x, y;
-  int sum = 0; 
+  int sum = 0;
 
   int blkx = cur_blk % width_in_blk;
   int blky = cur_blk / width_in_blk;
@@ -216,29 +216,29 @@ static int ComputeBlockSum(imgpel **CurrentImage, int height_in_blk, int width_i
     }
   }
 
-  return sum; 
+  return sum;
 }
 
-void ComputeImgSumBlockBased(imgpel **CurrentImage, 
-                             int height_in_blk, int width_in_blk, 
-                             int blk_size_y, int blk_size_x, 
+void ComputeImgSumBlockBased(imgpel **CurrentImage,
+                             int height_in_blk, int width_in_blk,
+                             int blk_size_y, int blk_size_x,
                              int start_blk, int end_blk, double *dc)
 {
   int cur_blk;
-  int block_sum; 
+  int block_sum;
   int64 slice_sum = 0;
 
   for(cur_blk = start_blk; cur_blk < end_blk; cur_blk++)
   {
     block_sum = ComputeBlockSum(CurrentImage, height_in_blk, width_in_blk, blk_size_y, blk_size_x, cur_blk);
-    slice_sum += block_sum; 
+    slice_sum += block_sum;
   }
   (*dc) = (double) slice_sum;
 }
 
-int64 ComputeSumBlockBased(imgpel **CurrentImage, 
-                             int height_in_blk, int width_in_blk, 
-                             int blk_size_y, int blk_size_x, 
+int64 ComputeSumBlockBased(imgpel **CurrentImage,
+                             int height_in_blk, int width_in_blk,
+                             int blk_size_y, int blk_size_x,
                              int start_blk, int end_blk)
 {
   int cur_blk;
@@ -284,7 +284,7 @@ void EstimateWPPSliceAlg0(Slice *currSlice, int select_offset)
   currSlice->wp_chroma_round         = 1 << (currSlice->chroma_log_weight_denom - 1);
   default_weight[0]       = 1 << currSlice->luma_log_weight_denom;
   default_weight[1]       = default_weight[2] = 1 << currSlice->chroma_log_weight_denom;
-  
+
   dc_org = ComputeImgSum(p_Vid->pCurImg, p_Vid->height, p_Vid->width);
 
   if (p_Inp->ChromaWeightSupport == 1)
@@ -292,7 +292,7 @@ void EstimateWPPSliceAlg0(Slice *currSlice, int select_offset)
     for (k = 0; k < 2; k++)
     {
       dc_org_UV[k] = ComputeImgSum(p_Vid->pImgOrg[k + 1], p_Vid->height_cr, p_Vid->width_cr);
-    } 
+    }
   }
 
   for (clist = 0; clist < 2 + list_offset; clist++)
@@ -311,7 +311,7 @@ void EstimateWPPSliceAlg0(Slice *currSlice, int select_offset)
         }
 
         // Y
-        tmpPtr = currSlice->listX[clist][n]->p_curr_img;      
+        tmpPtr = currSlice->listX[clist][n]->p_curr_img;
         dc_ref[n] = ComputeImgSum(tmpPtr, p_Vid->height, p_Vid->width);
 
         if (p_Inp->ChromaWeightSupport == 1)
@@ -321,7 +321,7 @@ void EstimateWPPSliceAlg0(Slice *currSlice, int select_offset)
             // UV
             tmpPtr = currSlice->listX[clist][n]->imgUV[k];
             dc_ref_UV[n][k] = ComputeImgSum(tmpPtr, p_Vid->height_cr, p_Vid->width_cr);
-          }        
+          }
         }
 
         if (select_offset == 0)
@@ -368,7 +368,7 @@ void EstimateWPPSliceAlg0(Slice *currSlice, int select_offset)
             offset[clist][n][1] = (offset[clist][n][1] + ((p_Vid->bitdepth_chroma - 8)>>1))>>(p_Vid->bitdepth_chroma-8);
             offset[clist][n][1] = sClip3( -128, 127, offset[clist][n][1]);
             offset[clist][n][1] = offset[clist][n][1]<<(p_Vid->bitdepth_chroma - 8);
-            
+
             weight[clist][n][1] = default_weight[1];
 
             offset[clist][n][2] = (short) ((dc_org_UV[1] - dc_ref_UV[n][1])/(p_Vid->size_cr)+0.5);
@@ -477,7 +477,7 @@ void EstimateWPBSliceAlg0(Slice *currSlice)
       for (k = 0; k < 2; k++)
       {
         dc_org_UV[k] = ComputeImgSum(p_Vid->pImgOrg[k + 1], p_Vid->height_cr, p_Vid->width_cr);
-      } 
+      }
     }
 
     for (clist=0; clist<2 + list_offset; clist++)
@@ -494,7 +494,7 @@ void EstimateWPBSliceAlg0(Slice *currSlice)
             offset   [clist][n][i] = 0;
             weight   [clist][n][i] = default_weight[i];
           }
-          // To simplify these computations we may wish to perform these after a reference is 
+          // To simplify these computations we may wish to perform these after a reference is
           // stored in the reference buffer and attach them to the storedimage structure!!!
           // Y
           tmpPtr = currSlice->listX[clist][n]->p_curr_img;
@@ -514,9 +514,9 @@ void EstimateWPBSliceAlg0(Slice *currSlice)
 
           // UV
           if (p_Inp->ChromaWeightSupport == 1)
-          {          
+          {
             for (k = 0; k < 2; k++)
-            {        	
+            {
               tmpPtr = currSlice->listX[clist][n]->imgUV[k];
               dc_ref_UV[clist][n][k] = ComputeImgSum(tmpPtr, p_Vid->height_cr, p_Vid->width_cr);
 
@@ -534,7 +534,7 @@ void EstimateWPBSliceAlg0(Slice *currSlice)
           else
           {
             weight[clist][n][1] = default_weight[1];
-            weight[clist][n][2] = default_weight[2];        
+            weight[clist][n][2] = default_weight[2];
             offset[clist][n][1] = 0;
             offset[clist][n][2] = 0;
           }
@@ -600,7 +600,7 @@ int TestWPPSliceAlg0(Slice *currSlice, int select_offset)
   int index;
   int comp;
   double dc_org = 0.0;
-  double dc_org_UV[2] = {0.0};  
+  double dc_org_UV[2] = {0.0};
   double dc_ref[MAX_REFERENCE_PICTURES] = { 0.0 };
   double dc_ref_UV[MAX_REFERENCE_PICTURES][2] = { {0.0}};
 
@@ -643,7 +643,7 @@ int TestWPPSliceAlg0(Slice *currSlice, int select_offset)
     for (k = 0; k < 2; k++)
     {
       dc_org_UV[k] = ComputeImgSum(p_Vid->pImgOrg[k + 1], p_Vid->height_cr, p_Vid->width_cr);
-    } 
+    }
   }
 
   for (clist = 0; clist < 2 + list_offset; clist++)
@@ -659,7 +659,7 @@ int TestWPPSliceAlg0(Slice *currSlice, int select_offset)
         {
           tmpPtr = currSlice->listX[clist][n]->imgUV[k];
           dc_ref_UV[n][k] = ComputeImgSum(tmpPtr, p_Vid->height_cr, p_Vid->width_cr);
-        }        
+        }
       }
 
       if (select_offset == 0)
@@ -758,8 +758,8 @@ int TestWPBSliceAlg0(Slice *currSlice, int select_method)
   int index;
   int comp;
   double dc_org = 0.0;
-  double dc_org_UV[2] = { 0.0 };    
-  double dc_ref[6][MAX_REFERENCE_PICTURES] = { {0.0} };  
+  double dc_org_UV[2] = { 0.0 };
+  double dc_ref[6][MAX_REFERENCE_PICTURES] = { {0.0} };
   double dc_ref_UV[6][MAX_REFERENCE_PICTURES][2] = { {{0.0}} };
 
   short default_weight[3];
@@ -826,14 +826,14 @@ int TestWPBSliceAlg0(Slice *currSlice, int select_method)
       for (k = 0; k < 2; k++)
       {
         dc_org_UV[k] = ComputeImgSum(p_Vid->pImgOrg[k + 1], p_Vid->height_cr, p_Vid->width_cr);
-      } 
+      }
     }
 
     for (clist=0; clist<2 + list_offset; clist++)
     {
       for (n = 0; n < currSlice->listXsize[clist]; n++)
       {
-        // To simplify these computations we may wish to perform these after a reference is 
+        // To simplify these computations we may wish to perform these after a reference is
         // stored in the reference buffer and attach them to the storedimage structure!!!
         // Y
         tmpPtr = currSlice->listX[clist][n]->p_curr_img;
@@ -851,7 +851,7 @@ int TestWPBSliceAlg0(Slice *currSlice, int select_method)
 
         // UV
         if (p_Inp->ChromaWeightSupport == 1)
-        {          
+        {
           for (k = 0; k < 2; k++)
           {
             tmpPtr = currSlice->listX[clist][n]->imgUV[k];
@@ -871,7 +871,7 @@ int TestWPBSliceAlg0(Slice *currSlice, int select_method)
         else
         {
           weight[clist][n][1] = default_weight[1];
-          weight[clist][n][2] = default_weight[2];        
+          weight[clist][n][2] = default_weight[2];
           offset[clist][n][1] = 0;
           offset[clist][n][2] = 0;
         }

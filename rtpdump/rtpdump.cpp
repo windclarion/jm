@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
     return -2;
   }
 
-  for (;;) 
+  for (;;)
   {
     if (4 != fread (&bufsize, 1, 4, f))
       return 0;

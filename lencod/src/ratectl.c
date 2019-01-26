@@ -72,7 +72,7 @@ void rc_store_mad(Macroblock *currMB)
   if(p_Inp->basicunit < p_Vid->FrameSizeInMbs)
   {
     p_gen->TotalMADBasicUnit += p_gen->MADofMB[currMB->mbAddrX];
-  }  
+  }
 }
 
 /*!
@@ -274,7 +274,7 @@ void rc_init_gop_params(VideoParameters *p_Vid, InputParameters *p_Inp)
   switch( p_Inp->RCUpdateMode )
   {
   case RC_MODE_1:
-  case RC_MODE_3: 
+  case RC_MODE_3:
     if ( !(p_Vid->curr_frm_idx) )
     {
       /* number of P frames */
@@ -298,7 +298,7 @@ void rc_init_gop_params(VideoParameters *p_Vid, InputParameters *p_Inp)
         rc_init_GOP(p_Vid, p_Inp, p_quad, p_gen, np, nb);
       }
     }
-    else if ( p_Vid->p_curr_frm_struct->idr_flag )  
+    else if ( p_Vid->p_curr_frm_struct->idr_flag )
     {
       int M = p_Inp->NumberBFrames + 1;
       int n = p_Inp->idr_period;
@@ -310,7 +310,7 @@ void rc_init_gop_params(VideoParameters *p_Vid, InputParameters *p_Inp)
       }
 
       /* number of P frames */
-      np = (p_Vid->curr_frm_idx == 0) ? 1 + ((n - 2) / M) : (n - 1) / M; 
+      np = (p_Vid->curr_frm_idx == 0) ? 1 + ((n - 2) / M) : (n - 1) / M;
       /* number of B frames */
       nb = n - np - 1;
       rc_init_GOP(p_Vid, p_Inp, p_quad, p_gen, np, nb);
@@ -342,8 +342,8 @@ void rc_init_frame(VideoParameters *p_Vid, InputParameters *p_Inp)
     p_Vid->BasicUnit = p_Inp->basicunit;
 
     if ( p_Inp->RDPictureDecision )
-    {    
-      rc_copy_quadratic( p_Vid, p_Inp, p_Vid->p_rc_quad_init, p_Vid->p_rc_quad ); // store rate allocation quadratic...    
+    {
+      rc_copy_quadratic( p_Vid, p_Inp, p_Vid->p_rc_quad_init, p_Vid->p_rc_quad ); // store rate allocation quadratic...
       rc_copy_generic( p_Vid, p_Vid->p_rc_gen_init, p_Vid->p_rc_gen ); // ...and generic model
     }
     p_Vid->rc_init_pict_ptr(p_Vid, p_Inp, p_Vid->p_rc_quad, p_Vid->p_rc_gen, 1,0,1, 1.0F);
@@ -405,7 +405,7 @@ void rc_store_diff(int diffy[16][16], imgpel **p_curImg, int cpix_x,imgpel **pre
 {
   int i, j;
   int *iDst;
-  imgpel *Src1, *Src2;  
+  imgpel *Src1, *Src2;
 
   for(j = 0; j < MB_BLOCK_SIZE; j++)
   {
@@ -423,7 +423,7 @@ void rc_store_diff_16b(int diffy[16][16], imgpel **p_curImg, int cpix_x,imgpel *
 {
   int i, j;
   int *iDst;
-  uint16 *Src1, *Src2;  
+  uint16 *Src1, *Src2;
 
   for(j = 0; j < MB_BLOCK_SIZE; j++)
   {

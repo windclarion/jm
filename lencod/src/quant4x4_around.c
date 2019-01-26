@@ -64,7 +64,7 @@
 
 /*!
  ************************************************************************
- * \brief 
+ * \brief
  *   Quantization process for All coefficients for a 4x4 block
  *
  ************************************************************************
@@ -81,13 +81,13 @@ int quant_4x4_around(Macroblock *currMB, int **tblock, struct quant_methods *q_m
   int   block_x = q_method->block_x;
   int  qp = q_method->qp;
   int*  ACL = &q_method->ACLevel[0];
-  int*  ACR = &q_method->ACRun[0];  
+  int*  ACR = &q_method->ACRun[0];
   LevelQuantParams **q_params_4x4 = q_method->q_params;
   const byte (*pos_scan)[2] = q_method->pos_scan;
   const byte *c_cost = q_method->c_cost;
   int *coeff_cost = q_method->coeff_cost;
 
-  
+
   LevelQuantParams *q_params = NULL;
   int **fadjust4x4 = q_method->fadjust;
 
@@ -134,23 +134,23 @@ int quant_4x4_around(Macroblock *currMB, int **tblock, struct quant_methods *q_m
         // arithmetic is satisfied.
         // *m7 = (qp_per<4) ? rshift_rnd_sf((level*q_params->InvScaleComp),4-qp_per) : (level*q_params->InvScaleComp)<<(qp_per-4);
         *ACL++  = level;
-        *ACR++  = run; 
+        *ACR++  = run;
         // reset zero level counter
         run     = 0;
-        nonzero = TRUE;        
+        nonzero = TRUE;
       }
       else
       {
         *padjust4x4 = 0;
         *m7 = 0;
         ++run;
-      } 
+      }
     }
     else
     {
       *padjust4x4 = 0;
       ++run;
-    } 
+    }
   }
 
   *ACL = 0;
@@ -164,7 +164,7 @@ int quant_ac4x4_around(Macroblock *currMB, int **tblock, struct quant_methods *q
 
   int qp = q_method->qp;
   int*  ACL = &q_method->ACLevel[0];
-  int*  ACR = &q_method->ACRun[0]; 
+  int*  ACR = &q_method->ACRun[0];
   LevelQuantParams **q_params_4x4 = q_method->q_params;
   int **fadjust4x4 = q_method->fadjust;
   const byte (*pos_scan)[2] = q_method->pos_scan;
@@ -183,7 +183,7 @@ int quant_ac4x4_around(Macroblock *currMB, int **tblock, struct quant_methods *q
   int scaled_coeff;
 
   int   level, run = 0;
-  int   nonzero = FALSE;  
+  int   nonzero = FALSE;
   int   qp_per = p_Quant->qp_per_matrix[qp];
   int   q_bits = Q_BITS + qp_per;
   const byte *p_scan = &pos_scan[1][0];
@@ -218,7 +218,7 @@ int quant_ac4x4_around(Macroblock *currMB, int **tblock, struct quant_methods *q
         // arithmetic is satisfied.
         // *m7 = (qp_per<4) ? rshift_rnd_sf((level*q_params->InvScaleComp),4-qp_per) : (level*q_params->InvScaleComp)<<(qp_per-4);
         *ACL++  = level;
-        *ACR++  = run; 
+        *ACR++  = run;
         // reset zero level counter
         run     = 0;
         nonzero = TRUE;
@@ -227,21 +227,21 @@ int quant_ac4x4_around(Macroblock *currMB, int **tblock, struct quant_methods *q
       {
         *padjust4x4 = 0;
         *m7 = 0;
-        ++run;        
+        ++run;
       }
     }
     else
     {
       *padjust4x4 = 0;
       ++run;
-    }          
+    }
   }
 
   *ACL = 0;
 
   return nonzero;
 }
- 
+
 /*!
  ************************************************************************
  * \brief
@@ -249,7 +249,7 @@ int quant_ac4x4_around(Macroblock *currMB, int **tblock, struct quant_methods *q
  *
  ************************************************************************
  */
-int quant_dc4x4_around(Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun, 
+int quant_dc4x4_around(Macroblock *currMB, int **tblock, int qp, int* DCLevel, int* DCRun,
                        LevelQuantParams *q_params_4x4, const byte (*pos_scan)[2])
 {
   QuantParameters *p_Quant = currMB->p_Vid->p_Quant;
@@ -260,7 +260,7 @@ int quant_dc4x4_around(Macroblock *currMB, int **tblock, int qp, int* DCLevel, i
   int scaled_coeff;
 
   int   level, run = 0;
-  int   nonzero = FALSE;  
+  int   nonzero = FALSE;
   int   qp_per = p_Quant->qp_per_matrix[qp];
   int   q_bits = Q_BITS + qp_per + 1;
   const byte *p_scan = &pos_scan[0][0];
@@ -276,7 +276,7 @@ int quant_dc4x4_around(Macroblock *currMB, int **tblock, int qp, int* DCLevel, i
     m7 = &tblock[j][i];
 
     if (*m7 != 0)
-    {    
+    {
       scaled_coeff = iabs (*m7) * q_params_4x4->ScaleComp;
       level = (scaled_coeff + (q_params_4x4->OffsetComp << 1) ) >> q_bits;
 
@@ -302,7 +302,7 @@ int quant_dc4x4_around(Macroblock *currMB, int **tblock, int qp, int* DCLevel, i
     else
     {
       ++run;
-    }                    
+    }
   }
 
   *DCL = 0;

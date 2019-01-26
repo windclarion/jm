@@ -121,12 +121,12 @@ void wpxInitWPXPasses( VideoParameters *p_Vid, InputParameters *p_Inp )
     break;
   case 1:
     p_Vid->pWPX->wp_rd_passes[0].algorithm = WP_REGULAR;
-    p_Vid->pWPX->wp_rd_passes[1].algorithm = WP_MCPREC_MINUS0;      
+    p_Vid->pWPX->wp_rd_passes[1].algorithm = WP_MCPREC_MINUS0;
     break;
   case 2:
     p_Vid->pWPX->wp_rd_passes[0].algorithm = WP_REGULAR;
     p_Vid->pWPX->wp_rd_passes[1].algorithm = WP_MCPREC_MINUS0;
-    p_Vid->pWPX->wp_rd_passes[2].algorithm = WP_MCPREC_MINUS1;      
+    p_Vid->pWPX->wp_rd_passes[2].algorithm = WP_MCPREC_MINUS1;
     break;
   }
 }
@@ -144,7 +144,7 @@ void wpxModifyRefPicList( Slice *currSlice )
   unsigned int i, j, cloned_refs;
   int   default_order_list0[32];
   int   default_order_list1[32];
-  int   re_order[32], *list_order;  
+  int   re_order[32], *list_order;
   int          pred_list;
   DecodedPictureBuffer *p_Dpb = currSlice->p_Dpb;
 
@@ -177,7 +177,7 @@ void wpxModifyRefPicList( Slice *currSlice )
     int  poc_diff[32];
     int  tmp_value;
     int  abs_poc_dist;
-    
+
     for (i=0; i < p_Dpb->ref_frames_in_buffer; i++)
     {
       re_order[i] = p_Dpb->fs_ref[i]->frame->pic_num;
@@ -256,7 +256,7 @@ void wpxModifyRefPicList( Slice *currSlice )
       {
         p_Vid->pWPX->wp_ref_list[pred_list][j].PicNum = list_order[j - (cloned_refs - 1)];
         p_Vid->pWPX->num_wp_ref_list[pred_list]++;
-      }      
+      }
       break;
     }
     // constrain list length
@@ -300,7 +300,7 @@ int wpxDetermineWP( Slice *currSlice, int clist, int n )
       for (i = 0; i < 3; i++)
       {
         currSlice->wp_weight[clist][n][i] = default_weight[i];
-      }      
+      }
     }
     else if ( currSlice->slice_type == B_SLICE )
     {
@@ -316,7 +316,7 @@ int wpxDetermineWP( Slice *currSlice, int clist, int n )
       {
         for (i = 0; i < 3; i++)
           currSlice->wbp_weight[clist][n][j][i] = default_weight[i];
-      }      
+      }
     }
     // algorithm consideration
     switch( p_Vid->pWPX->curr_wp_rd_pass->algorithm )
@@ -345,7 +345,7 @@ int wpxDetermineWP( Slice *currSlice, int clist, int n )
     case WP_REGULAR:
       determine_wp = 1;
       break;
-    }    
+    }
     // check list (play with the WP factors)
     if ( currSlice->slice_type == B_SLICE && cur_list == LIST_0 )
     {
@@ -402,6 +402,6 @@ void wpxAdaptRefNum( Slice *currSlice )
         currSlice->listXsize[LIST_1] = currSlice->num_ref_idx_active[LIST_1] = (char) imax( ((currSlice->structure !=0) + 1), currSlice->num_ref_idx_active[LIST_1] - ((currSlice->structure !=0) + 1) );
       }
       break;
-    }    
+    }
   }
 }

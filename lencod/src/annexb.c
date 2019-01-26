@@ -197,7 +197,7 @@ void OpenAnnexbFile (char *Filename, FILE **f_annexb)
  *    none.  Function terminates the program in case of an error
  ********************************************************************************************
 */
-void CloseAnnexbFile(FILE *f_annexb) 
+void CloseAnnexbFile(FILE *f_annexb)
 {
   if (fclose (f_annexb))
   {

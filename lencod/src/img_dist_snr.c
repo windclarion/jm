@@ -65,10 +65,10 @@ void find_snr(VideoParameters *p_Vid, ImageStructure *imgREF, ImageStructure *im
   FrameFormat *format = &imgREF->format;
   // Luma.
   metricSSE ->value[0] = (float) compute_SSE(imgREF->data[0], imgSRC->data[0], 0, 0, format->height[0], format->width[0]);
-  metricPSNR->value[0] = psnr(format->max_value_sq[0], format->size_cmp[0], metricSSE->value[0]);  
+  metricPSNR->value[0] = psnr(format->max_value_sq[0], format->size_cmp[0], metricSSE->value[0]);
   // Chroma.
   if (format->yuv_format != YUV400)
-  {   
+  {
     metricSSE ->value[1] = (float) compute_SSE(imgREF->data[1], imgSRC->data[1], 0, 0, format->height[1], format->width[1]);
     metricPSNR->value[1] = psnr(format->max_value_sq[1], format->size_cmp[1], metricSSE->value[1]);
     metricSSE ->value[2] = (float) compute_SSE(imgREF->data[2], imgSRC->data[2], 0, 0, format->height[1], format->width[1]);
@@ -90,7 +90,7 @@ void find_snr(VideoParameters *p_Vid, ImageStructure *imgREF, ImageStructure *im
     }
   }
 #endif
-   
+
   {
     accumulate_average(metricSSE,  p_Dist->frame_ctr);
     accumulate_average(metricPSNR, p_Dist->frame_ctr);

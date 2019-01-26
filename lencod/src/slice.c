@@ -104,7 +104,7 @@ int allocate_block_mem(Slice *currSlice)
   alloc_size += get_mem2Dint(&currSlice->tblk4x4, BLOCK_SIZE, BLOCK_SIZE);
   alloc_size += get_mem2Dint(&currSlice->tblk16x16, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
   alloc_size += get_mem4Dint(&currSlice->i16blk4x4, BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
-  
+
   return (alloc_size);
 }
 
@@ -143,13 +143,13 @@ static int alloc_rddata(Slice *currSlice, RD_DATA *rd_data)
   alloc_size += get_mem3Dpel(&(rd_data->rec_mb), 3, MB_BLOCK_SIZE, MB_BLOCK_SIZE);
 
   alloc_size += get_mem_ACcoeff (currSlice->p_Vid, &(rd_data->cofAC));
-  alloc_size += get_mem_DCcoeff (&(rd_data->cofDC));  
+  alloc_size += get_mem_DCcoeff (&(rd_data->cofDC));
 
   if ((currSlice->slice_type != I_SLICE) && currSlice->slice_type != SI_SLICE)
-  {          
+  {
     alloc_size += get_mem5Dmv (&(rd_data->all_mv), 2, currSlice->max_num_references, 9, 4, 4);
   }
-  
+
   // Why is this stored as height_blk * width_blk?
   alloc_size += get_mem2D((byte***)&(rd_data->ipredmode), currSlice->height_blk, currSlice->width_blk);
   alloc_size += get_mem3D((byte****)&(rd_data->refar), 2, 4, 4);
@@ -163,9 +163,9 @@ static void nullify_rddata(RD_DATA *rd_data)
   rd_data->rec_mb = NULL;
 
   rd_data->cofAC = NULL;
-  rd_data->cofDC = NULL;  
+  rd_data->cofDC = NULL;
   rd_data->all_mv = NULL;
-  
+
   rd_data->ipredmode = NULL;
   rd_data->refar = NULL;
 
@@ -181,7 +181,7 @@ static void free_rddata(Slice *currSlice, RD_DATA *rd_data)
     free_mem2D((byte**)  rd_data->ipredmode);
 
   if ((currSlice->slice_type != I_SLICE) && currSlice->slice_type != SI_SLICE)
-  {  
+  {
     if(rd_data->all_mv)
       free_mem5Dmv (rd_data->all_mv);
   }
@@ -189,7 +189,7 @@ static void free_rddata(Slice *currSlice, RD_DATA *rd_data)
   if(rd_data->cofDC)
     free_mem_DCcoeff (rd_data->cofDC);
   if(rd_data->cofAC)
-    free_mem_ACcoeff (rd_data->cofAC);  
+    free_mem_ACcoeff (rd_data->cofAC);
 
   if(rd_data->rec_mb)
     free_mem3Dpel(rd_data->rec_mb);
@@ -464,13 +464,13 @@ int encode_one_slice (VideoParameters *p_Vid, int SliceGroupId, int TotalCodedMB
 {
   InputParameters *p_Inp = p_Vid->p_Inp;
   Boolean end_of_slice = FALSE;
-  
+
   int len;
   int NumberOfCodedMBs = 0;
   Macroblock* currMB   = NULL;
   int CurrentMbAddr;
   StatParameters *cur_stats = &p_Vid->enc_picture->stats;
-  Slice *currSlice = NULL;  
+  Slice *currSlice = NULL;
 
   if( (p_Inp->separate_colour_plane_flag != 0) )
   {
@@ -482,7 +482,7 @@ int encode_one_slice (VideoParameters *p_Vid, int SliceGroupId, int TotalCodedMB
   CurrentMbAddr = FmoGetFirstMacroblockInSlice (p_Vid, SliceGroupId);
   // printf ("\n\nEncode_one_slice: PictureID %d SliceGroupId %d  SliceID %d  FirstMB %d \n", p_Vid->frame_no, SliceGroupId, p_Vid->current_slice_nr, CurrentMbInScanOrder);
 
-  p_Vid->enc_picture->temporal_layer = p_Vid->p_curr_frm_struct->temporal_layer; 
+  p_Vid->enc_picture->temporal_layer = p_Vid->p_curr_frm_struct->temporal_layer;
   init_slice (p_Vid, &currSlice, CurrentMbAddr);
   currSlice->rdoq_motion_copy = 0;
   init_bipred_enabled(p_Vid);
@@ -535,7 +535,7 @@ int encode_one_slice (VideoParameters *p_Vid, int SliceGroupId, int TotalCodedMB
 
     if(currSlice->UseRDOQuant)
     {
-      trellis_coding(currMB);   
+      trellis_coding(currMB);
     }
     else
     {
@@ -611,7 +611,7 @@ int encode_one_slice_MBAFF (VideoParameters *p_Vid, int SliceGroupId, int TotalC
   int CurrentMbAddr;
   double FrameRDCost = DBL_MAX, FieldRDCost = DBL_MAX;
   StatParameters *cur_stats = &p_Vid->enc_picture->stats;
-  Slice *currSlice = NULL;  
+  Slice *currSlice = NULL;
 
   if( (p_Inp->separate_colour_plane_flag != 0) )
   {
@@ -947,7 +947,7 @@ int encode_one_slice_MBAFF (VideoParameters *p_Vid, int SliceGroupId, int TotalC
 static void setup_cabac(Slice *currSlice, char *listXsize)
 {
   seq_parameter_set_rbsp_t *active_sps = currSlice->active_sps;
-  int i; 
+  int i;
 
   if (currSlice->slice_type == I_SLICE)
   {
@@ -1013,7 +1013,7 @@ static void setup_cabac(Slice *currSlice, char *listXsize)
     }
   }
 
-  currSlice->writeIntraPredMode     = writeIntraPredMode_CABAC;  
+  currSlice->writeIntraPredMode     = writeIntraPredMode_CABAC;
   currSlice->writeCoeff16x16        = writeCoeff16x16_CABAC;
   currSlice->writeMVD               = writeMVD_CABAC;
   currSlice->writeCBP               = writeCBP_CABAC;
@@ -1095,9 +1095,9 @@ static void setup_cavlc(Slice *currSlice, char *listXsize)
   else
     currSlice->writeCoeff4x4_CAVLC = writeCoeff4x4_CAVLC_normal;
 }
-    
+
 static void setup_slice(Slice *currSlice)
-{  
+{
   if (currSlice->P444_joined)
   {
     currSlice->luma_residual_coding = luma_residual_coding_p444;
@@ -1153,7 +1153,7 @@ static void setup_slice(Slice *currSlice)
     currSlice->set_intrapred_16x16 = set_intrapred_16x16_mbaff;
     currSlice->rdo_low_intra_chroma_decision = rdo_low_intra_chroma_decision_mbaff;
     currSlice->intra_chroma_prediction = intra_chroma_prediction_mbaff;
-    if (currSlice->direct_spatial_mv_pred_flag)  //spatial direct 
+    if (currSlice->direct_spatial_mv_pred_flag)  //spatial direct
       currSlice->Get_Direct_Motion_Vectors = Get_Direct_MV_Spatial_MBAFF;
     else
       currSlice->Get_Direct_Motion_Vectors = Get_Direct_MV_Temporal;
@@ -1165,7 +1165,7 @@ static void setup_slice(Slice *currSlice)
     currSlice->set_intrapred_16x16 = set_intrapred_16x16;
     currSlice->rdo_low_intra_chroma_decision = rdo_low_intra_chroma_decision;
     currSlice->intra_chroma_prediction = intra_chroma_prediction;
-    if (currSlice->direct_spatial_mv_pred_flag)  //spatial direct 
+    if (currSlice->direct_spatial_mv_pred_flag)  //spatial direct
       currSlice->Get_Direct_Motion_Vectors = Get_Direct_MV_Spatial_Normal;
     else
       currSlice->Get_Direct_Motion_Vectors = Get_Direct_MV_Temporal;
@@ -1183,10 +1183,10 @@ static void  ClipWPParams(Slice *currSlice )
 {
   // Keeping this disabled since it seems that all WP functions already do clipping internally
   // Otherwise, this should be modified to support different bitdepths and to also
-  // properly clip wbp_weights. 
+  // properly clip wbp_weights.
   /*
   VideoParameters *p_Vid = currSlice->p_Vid;
-  int list, ref, comp; 
+  int list, ref, comp;
   int bitdepth[3] = { (p_Vid->bitdepth_luma - 8), (p_Vid->bitdepth_chroma - 8), (p_Vid->bitdepth_chroma - 8)};
 
   for(list = 0; list <= (currSlice->slice_type == B_SLICE ? LIST_1:LIST_0); list++)
@@ -1204,7 +1204,7 @@ static void  ClipWPParams(Slice *currSlice )
 }
 
 void setup_open_gop_lists(VideoParameters *p_Vid, Slice *currSlice)
-{ 
+{
   int i, j;
 
   if (currSlice->slice_type != I_SLICE && currSlice->slice_type != SI_SLICE)
@@ -1233,7 +1233,7 @@ void setup_open_gop_lists(VideoParameters *p_Vid, Slice *currSlice)
           currSlice->listX[LIST_1][j] = currSlice->listX[LIST_1][j+1];
         }
         currSlice->listXsize[LIST_1]--;
-        i--;        
+        i--;
       }
     }
 
@@ -1264,8 +1264,8 @@ void setup_open_gop_lists(VideoParameters *p_Vid, Slice *currSlice)
       }
     }
 
-    currSlice->num_ref_idx_active[LIST_0] = currSlice->listXsize[LIST_0]; 
-    currSlice->num_ref_idx_active[LIST_1] = currSlice->listXsize[LIST_1]; 
+    currSlice->num_ref_idx_active[LIST_0] = currSlice->listXsize[LIST_0];
+    currSlice->num_ref_idx_active[LIST_1] = currSlice->listXsize[LIST_1];
   }
 }
 
@@ -1302,7 +1302,7 @@ void set_slice (VideoParameters *p_Vid, Slice *currSlice)
   currSlice->RDOQ_QP_Num       = p_Inp->RDOQ_QP_Num;
   currSlice->Transform8x8Mode  = p_Inp->Transform8x8Mode;
 
-  currSlice->slice_too_big     = dummy_slice_too_big;  
+  currSlice->slice_too_big     = dummy_slice_too_big;
   currSlice->width_blk         = p_Vid->width_blk;
   currSlice->height_blk        = p_Vid->height_blk;
   currSlice->partition_mode    = (short) p_Inp->partition_mode;
@@ -1310,7 +1310,7 @@ void set_slice (VideoParameters *p_Vid, Slice *currSlice)
   currSlice->num_blk8x8_uv     = p_Vid->num_blk8x8_uv;
   currSlice->nal_reference_idc = p_Vid->nal_reference_idc;
   currSlice->bitdepth_luma     = p_Vid->bitdepth_luma;
-  currSlice->bitdepth_chroma   = p_Vid->bitdepth_chroma;  
+  currSlice->bitdepth_chroma   = p_Vid->bitdepth_chroma;
   currSlice->bitdepth_scale[0] = p_Vid->bitdepth_scale[0];
   currSlice->bitdepth_scale[1] = p_Vid->bitdepth_scale[1];
   currSlice->bitdepth_luma_qp_scale = p_Vid->bitdepth_luma_qp_scale;
@@ -1484,12 +1484,12 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
   update_pic_num(*currSlice);
 
   (*currSlice)->init_lists(*currSlice);
-  
+
   // assign list sizes
   (*currSlice)->num_ref_idx_active[LIST_0] = (*currSlice)->listXsize[LIST_0];
   (*currSlice)->num_ref_idx_active[LIST_1] = (*currSlice)->listXsize[LIST_1];
 
-  if (p_Vid->is_hme == 0) 
+  if (p_Vid->is_hme == 0)
   {
 #if CRA
   if ( p_Inp->useCRA )
@@ -1520,7 +1520,7 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
   }
 #endif
 
-  //Perform memory management based on poc distances  
+  //Perform memory management based on poc distances
   if (p_Inp->SetFirstAsLongTerm && p_Vid->number == 0)
   {
     mmco_long_term(p_Vid, p_Vid->number);
@@ -1530,11 +1530,11 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
     if (p_Vid->structure == FRAME && p_Dpb->ref_frames_in_buffer == active_sps->num_ref_frames)
       poc_based_ref_management_frame_pic(p_Dpb, p_Vid->frame_num);
     else if (p_Vid->structure == TOP_FIELD && p_Dpb->ref_frames_in_buffer== active_sps->num_ref_frames)
-      poc_based_ref_management_field_pic(p_Dpb, (p_Vid->frame_num << 1) + 1);      
+      poc_based_ref_management_field_pic(p_Dpb, (p_Vid->frame_num << 1) + 1);
     else if (p_Vid->structure == BOTTOM_FIELD)
       poc_based_ref_management_field_pic(p_Dpb, (p_Vid->frame_num << 1) + 1);
   }
-  else if (p_Vid->nal_reference_idc && p_Inp->PocMemoryManagement == 2) 
+  else if (p_Vid->nal_reference_idc && p_Inp->PocMemoryManagement == 2)
   {
     if (p_Vid->structure == FRAME)
       tlyr_based_ref_management_frame_pic(p_Vid, p_Vid->frame_num);
@@ -1548,7 +1548,7 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
 
 #if (MVC_EXTENSION_ENABLE)
   p_Vid->MVCInterViewReorder = 0;
-  
+
   if(p_Vid->num_of_layers == 2 && p_Inp->MVCInterViewReorder == 1 && layer_id == 1)
   {
     // enable MVC reordering
@@ -1570,7 +1570,7 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
   }
   else
 #endif
-    // reference list reordering 
+    // reference list reordering
     // RPLR for redundant pictures
     // !KS: that should actually be moved somewhere else
     if(p_Inp->redundant_pic_flag && p_Vid->redundant_coding)
@@ -1581,7 +1581,7 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
       (*currSlice)->modification_of_pic_nums_idc[LIST_0][1] = 3;
       (*currSlice)->abs_diff_pic_num_minus1[LIST_0][0] = p_Vid->redundant_ref_idx - 1;
       (*currSlice)->long_term_pic_idx[LIST_0][0] = 0;
-      
+
       reorder_ref_pic_list ( *currSlice, LIST_0);
     }
     else if (( (*currSlice)->slice_type == P_SLICE || (*currSlice)->slice_type == B_SLICE) && p_Inp->WPMCPrecision && p_Vid->pWPX->curr_wp_rd_pass->algorithm != WP_REGULAR )
@@ -1694,7 +1694,7 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
 
     if (p_Inp->SearchMode[layer_id] == EPZS)
     {
-      if (((*currSlice)->p_EPZS =  (EPZSParameters*) calloc(1, sizeof(EPZSParameters)))==NULL) 
+      if (((*currSlice)->p_EPZS =  (EPZSParameters*) calloc(1, sizeof(EPZSParameters)))==NULL)
         no_mem_exit("init_slice: p_EPZS");
       EPZSStructInit (*currSlice);
       EPZSSliceInit  (*currSlice);
@@ -1727,8 +1727,8 @@ void init_slice (VideoParameters *p_Vid, Slice **currSlice, int start_mb_addr)
 
   if (p_Inp->UseRDOQuant)
   {
-    if (((*currSlice)->estBitsCabac = (estBitsCabacStruct*) calloc(NUM_BLOCK_TYPES, sizeof(estBitsCabacStruct)))==NULL) 
-      no_mem_exit("init_slice: (*currSlice)->estBitsCabac"); 
+    if (((*currSlice)->estBitsCabac = (estBitsCabacStruct*) calloc(NUM_BLOCK_TYPES, sizeof(estBitsCabacStruct)))==NULL)
+      no_mem_exit("init_slice: (*currSlice)->estBitsCabac");
 
     init_rdoq_slice(*currSlice);
 
@@ -1820,7 +1820,7 @@ void init_slice_lite (VideoParameters *p_Vid, Slice **currSlice, int start_mb_ad
   *currSlice = malloc_slice_lite(p_Vid, p_Inp);
 
   set_slice (p_Vid, *currSlice);
-  
+
 
   if (((*currSlice)->slice_type == P_SLICE || (*currSlice)->slice_type == SP_SLICE) && p_Inp->P_List0_refs[layer_id])
   {
@@ -1873,7 +1873,7 @@ void init_slice_lite (VideoParameters *p_Vid, Slice **currSlice, int start_mb_ad
   }
   else
 #endif
-    // reference list reordering 
+    // reference list reordering
     // RPLR for redundant pictures
     // !KS: that should actually be moved somewhere else
     if(p_Inp->redundant_pic_flag && p_Vid->redundant_coding)
@@ -1928,7 +1928,7 @@ void init_slice_lite (VideoParameters *p_Vid, Slice **currSlice, int start_mb_ad
       }
     }
 
-    (*currSlice)->all_mv    = NULL;  
+    (*currSlice)->all_mv    = NULL;
     (*currSlice)->bipred_mv = NULL;
 
     (*currSlice)->tmp_mv8      = NULL;
@@ -1952,7 +1952,7 @@ void init_slice_lite (VideoParameters *p_Vid, Slice **currSlice, int start_mb_ad
     (*currSlice)->i16blk4x4 = NULL;
 
     (*currSlice)->direct_ref_idx = NULL;
-    (*currSlice)->direct_pdir = NULL;   
+    (*currSlice)->direct_pdir = NULL;
 
     init_coding_state_methods(*currSlice);
 }
@@ -1994,7 +1994,7 @@ static Slice *malloc_slice(VideoParameters *p_Vid, InputParameters *p_Inp)
   currSlice->p_Vid             = p_Vid;
   currSlice->p_Inp             = p_Inp;
 
-  if (((currSlice->p_RDO)  = (RDOPTStructure *) calloc(1, sizeof(RDOPTStructure)))==NULL) 
+  if (((currSlice->p_RDO)  = (RDOPTStructure *) calloc(1, sizeof(RDOPTStructure)))==NULL)
     no_mem_exit("malloc_slice: p_RDO");
 
   currSlice->symbol_mode  = (char) p_Inp->symbol_mode;
@@ -2022,14 +2022,14 @@ static Slice *malloc_slice(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   currSlice->num_mb = 0;          // no coded MBs so far
 
-  if ((currSlice->partArr = (DataPartition *) calloc(currSlice->max_part_nr, sizeof(DataPartition))) == NULL) 
+  if ((currSlice->partArr = (DataPartition *) calloc(currSlice->max_part_nr, sizeof(DataPartition))) == NULL)
     no_mem_exit ("malloc_slice: partArr");
   for (i=0; i<currSlice->max_part_nr; i++) // loop over all data partitions
   {
     dataPart = &(currSlice->partArr[i]);
-    if ((dataPart->bitstream = (Bitstream *) calloc(1, sizeof(Bitstream))) == NULL) 
+    if ((dataPart->bitstream = (Bitstream *) calloc(1, sizeof(Bitstream))) == NULL)
       no_mem_exit ("malloc_slice: Bitstream");
-    if ((dataPart->bitstream->streamBuffer = (byte *) calloc(buffer_size, sizeof(byte))) == NULL) 
+    if ((dataPart->bitstream->streamBuffer = (byte *) calloc(buffer_size, sizeof(byte))) == NULL)
       no_mem_exit ("malloc_slice: StreamBuffer");
     dataPart->bitstream->buffer_size = buffer_size;
     // Initialize storage of bitstream parameters
@@ -2187,7 +2187,7 @@ void free_slice(Slice *currSlice)
           {
             if (dataPart->bitstream->streamBuffer != NULL)
             {
-              free(dataPart->bitstream->streamBuffer);       
+              free(dataPart->bitstream->streamBuffer);
               dataPart->bitstream->streamBuffer = NULL;
             }
             free(dataPart->bitstream);
@@ -2308,7 +2308,7 @@ void free_slice(Slice *currSlice)
       if (p_Inp->SearchMode[p_Vid->view_id] == EPZS)
       {
         if(currSlice->p_EPZS)
-          EPZSStructDelete (currSlice);    
+          EPZSStructDelete (currSlice);
       }
     }
 
@@ -2342,7 +2342,7 @@ void free_slice_list(Picture *currPic)
 }
 
 void UpdateMELambda(Slice *currSlice)
-{  
+{
   InputParameters *p_Inp = currSlice->p_Inp;
 
   if (p_Inp->UpdateLambdaChromaME)
@@ -2358,7 +2358,7 @@ void UpdateMELambda(Slice *currSlice)
     {
     case YUV420:
       for (qp = -currSlice->bitdepth_luma_qp_scale; qp < 52; qp++)
-      { 
+      {
         for (k = 0; k < 3; k++)
         {
           if ((p_Inp->MEErrorMetric[k] == ERROR_SAD) && (p_Inp->ChromaMEEnable))
@@ -2371,7 +2371,7 @@ void UpdateMELambda(Slice *currSlice)
       break;
     case YUV422:
       for (qp = -currSlice->bitdepth_luma_qp_scale; qp < 52; qp++)
-      { 
+      {
         for (k = 0; k < 3; k++)
         {
           if ((p_Inp->MEErrorMetric[k] == ERROR_SAD) && (p_Inp->ChromaMEEnable))
@@ -2384,7 +2384,7 @@ void UpdateMELambda(Slice *currSlice)
       break;
     case YUV444:
       for (qp = -currSlice->bitdepth_luma_qp_scale; qp < 52; qp++)
-      { 
+      {
         for (k = 0; k < 3; k++)
         {
           if ((p_Inp->MEErrorMetric[k] == ERROR_SAD) && (p_Inp->ChromaMEEnable))
@@ -2411,14 +2411,14 @@ void SetLagrangianMultipliersOn(Slice *currSlice)
   else if (p_Inp->UseExplicitLambdaParams == 2) // consideration of fixed lambda values.
     get_fixed_lambda(currSlice);
   else
-  {    
+  {
     switch(currSlice->slice_type)
     {
     case I_SLICE:
-      get_implicit_lambda_i_slice(currSlice);     
+      get_implicit_lambda_i_slice(currSlice);
       break;
     default:
-    case P_SLICE:      
+    case P_SLICE:
       get_implicit_lambda_p_slice(currSlice);
       break;
     case B_SLICE:

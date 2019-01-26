@@ -90,7 +90,7 @@ int picture_coding_decision (VideoParameters *p_Vid, Picture *picture1, Picture 
 
   sse_picture1 = picture1->distortion.value[0] + picture1->distortion.value[1] + picture1->distortion.value[2];
   sse_picture2 = picture2->distortion.value[0] + picture2->distortion.value[1] + picture2->distortion.value[2];
- 
+
   return rd_pic_decision(sse_picture1, sse_picture2, picture1->bits_per_picture, picture2->bits_per_picture, lambda_picture);
 }
 

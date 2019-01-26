@@ -33,10 +33,10 @@
 /*!
  **************************************************************************
  *  \file errdo_dist_mhyp.h
- *  \brief  
+ *  \brief
  *    Header file for distortion estimation with multiple decoder based method
  *
- *  \author 
+ *  \author
  *    Main contributors (see contributors.h for copyright, address and affiliation details)
  *    - Zhifeng Chen                     <zzchen@dolby.com>
  *

@@ -78,7 +78,7 @@ int create_RGB_memory(VideoParameters *p_Vid)
   {
     memory_size += get_mem2Dpel (&p_Vid->imgRGB_ref.data[j], p_Vid->height, p_Vid->width);
   }
-  
+
   return memory_size;
 }
 
@@ -96,7 +96,7 @@ void delete_RGB_memory(VideoParameters *p_Vid)
 }
 
 void init_YUVtoRGB(VideoParameters *p_Vid, InputParameters *p_Inp)
-{ 
+{
   float conv_scale = (float) (65536.0f);
 
   p_Vid->wka0 = float2int(  conv_scale * K0);
@@ -111,7 +111,7 @@ void init_YUVtoRGB(VideoParameters *p_Vid, InputParameters *p_Inp)
 #endif
 }
 
-/*! 
+/*!
 *************************************************************************************
 * \brief
 *    YUV to RGB conversion

@@ -138,7 +138,7 @@
 
 //check the scaling factor to avoid overflow;
 #if !IMGTYPE
-#if JCOST_CALC_SCALEUP && (LAMBDA_ACCURACY_BITS>8) 
+#if JCOST_CALC_SCALEUP && (LAMBDA_ACCURACY_BITS>8)
 #error "LAMBDA_ACCURACY_BITS is greater than 8. Overflow!"
 #endif
 #endif
@@ -185,13 +185,13 @@ void init_dstats (DistortionParams *p_Dist)
  */
 static void alloc_video_params( VideoParameters **p_Vid)
 {
-  if ((*p_Vid = (VideoParameters *) calloc(1, sizeof(VideoParameters)))==NULL) 
+  if ((*p_Vid = (VideoParameters *) calloc(1, sizeof(VideoParameters)))==NULL)
     no_mem_exit("alloc_video_params: p_Vid");
-  if ((((*p_Vid)->p_Dist)  = (DistortionParams *) calloc(1, sizeof(DistortionParams)))==NULL) 
+  if ((((*p_Vid)->p_Dist)  = (DistortionParams *) calloc(1, sizeof(DistortionParams)))==NULL)
     no_mem_exit("alloc_video_params: p_Dist");
-  if ((((*p_Vid)->p_Stats) = (StatParameters *) calloc(1, sizeof(StatParameters)))==NULL) 
+  if ((((*p_Vid)->p_Stats) = (StatParameters *) calloc(1, sizeof(StatParameters)))==NULL)
     no_mem_exit("alloc_video_params: p_Stats");
-  if (((*p_Vid)->p_Dpb_layer[0]     = (DecodedPictureBuffer *) calloc(MAX_NUM_DPB_LAYERS, sizeof(DecodedPictureBuffer)))==NULL) 
+  if (((*p_Vid)->p_Dpb_layer[0]     = (DecodedPictureBuffer *) calloc(MAX_NUM_DPB_LAYERS, sizeof(DecodedPictureBuffer)))==NULL)
     no_mem_exit("alloc_video_params: p_Dpb_layer");
   {
     int i;
@@ -201,11 +201,11 @@ static void alloc_video_params( VideoParameters **p_Vid)
       (*p_Vid)->p_Dpb_layer[i]->layer_id = i;
     }
   }
-  if ((((*p_Vid)->p_Quant)  = (QuantParameters *) calloc(1, sizeof(QuantParameters)))==NULL) 
+  if ((((*p_Vid)->p_Quant)  = (QuantParameters *) calloc(1, sizeof(QuantParameters)))==NULL)
     no_mem_exit("alloc_video_params: p_Quant");
-  if ((((*p_Vid)->p_QScale)  = (ScaleParameters *) calloc(1, sizeof(ScaleParameters)))==NULL) 
+  if ((((*p_Vid)->p_QScale)  = (ScaleParameters *) calloc(1, sizeof(ScaleParameters)))==NULL)
     no_mem_exit("alloc_video_params: p_QScale");
-  if ((((*p_Vid)->p_SEI)  = (SEIParameters *) calloc(1, sizeof(SEIParameters)))==NULL) 
+  if ((((*p_Vid)->p_SEI)  = (SEIParameters *) calloc(1, sizeof(SEIParameters)))==NULL)
     no_mem_exit("alloc_video_params: p_SEI");
 
 
@@ -217,7 +217,7 @@ static void alloc_video_params( VideoParameters **p_Vid)
   (*p_Vid)->f_annexb = NULL;
   // Init rtp related info
   (*p_Vid)->f_rtp = NULL;
-  (*p_Vid)->CurrentRTPTimestamp = 0;         
+  (*p_Vid)->CurrentRTPTimestamp = 0;
   (*p_Vid)->CurrentRTPSequenceNumber = 0;
 }
 
@@ -231,7 +231,7 @@ static void alloc_video_params( VideoParameters **p_Vid)
  */
 static void alloc_params( InputParameters **p_Inp )
 {
-  if ((*p_Inp = (InputParameters *) calloc(1, sizeof(InputParameters)))==NULL) 
+  if ((*p_Inp = (InputParameters *) calloc(1, sizeof(InputParameters)))==NULL)
     no_mem_exit("alloc_params: p_Inp");
 
   (*p_Inp)->top_left          = NULL;
@@ -251,7 +251,7 @@ static void alloc_params( InputParameters **p_Inp )
  */
 static void alloc_encoder( EncoderParams **p_Enc)
 {
-  if ((*p_Enc = (EncoderParams *) calloc(1, sizeof(EncoderParams)))==NULL) 
+  if ((*p_Enc = (EncoderParams *) calloc(1, sizeof(EncoderParams)))==NULL)
     no_mem_exit("alloc_encoder: p_Enc");
 
   alloc_video_params(&((*p_Enc)->p_Vid));
@@ -303,7 +303,7 @@ int main(int argc, char **argv)
   // terminate sequence
   free_encoder_memory(p_Enc->p_Vid, p_Enc->p_Inp);
 
-  free_params (p_Enc->p_Inp);  
+  free_params (p_Enc->p_Inp);
   free_encoder(p_Enc);
 
   return 0;
@@ -438,10 +438,10 @@ static void init_encoder(VideoParameters *p_Vid, InputParameters *p_Inp)
   p_Vid->frame_statistic_start = 1;
 
   if (p_Inp->Log2MaxFNumMinus4 == -1)
-  {    
+  {
     p_Vid->log2_max_frame_num_minus4 = iClip3(0,12, (int) (CeilLog2(p_Inp->no_frames) - 4)); // hack for now...
   }
-  else  
+  else
     p_Vid->log2_max_frame_num_minus4 = p_Inp->Log2MaxFNumMinus4;
 
   if (p_Vid->log2_max_frame_num_minus4 == 0 && p_Inp->num_ref_frames == 16)
@@ -513,7 +513,7 @@ static void init_encoder(VideoParameters *p_Vid, InputParameters *p_Inp)
   }
   if (p_Vid->auto_crop_bottom || p_Vid->auto_crop_right)
   {
-    fprintf (stderr, "Warning: Automatic cropping activated: Coded frame Size: %dx%d\n", 
+    fprintf (stderr, "Warning: Automatic cropping activated: Coded frame Size: %dx%d\n",
       p_Inp->output.width[0] + p_Vid->auto_crop_right, p_Inp->output.height[0] + p_Vid->auto_crop_bottom);
   }
 
@@ -579,7 +579,7 @@ static void init_encoder(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   if (p_Inp->rdopt == 3)
   {
-    init_error_conceal(p_Vid,p_Inp->ErrorConcealment); 
+    init_error_conceal(p_Vid,p_Inp->ErrorConcealment);
     //Zhifeng 090611
     init_distortion_estimation(p_Vid,p_Inp->de);
   }
@@ -597,7 +597,7 @@ static void init_encoder(VideoParameters *p_Vid, InputParameters *p_Inp)
   p_Vid->total_frame_buffer = 0;
 #endif
 
-  // Prepare hierarchical coding structures. 
+  // Prepare hierarchical coding structures.
   // Code could be extended in the future to allow structure adaptation.
   if (p_Inp->NumberBFrames && p_Inp->HierarchicalCoding == 3)
   {
@@ -650,7 +650,7 @@ static void init_encoder(VideoParameters *p_Vid, InputParameters *p_Inp)
   p_Vid->tot_time = 0;                 // time for total encoding session
   p_Vid->last_bit_ctr_n = 0;
 
-  p_Vid->initial_Bframes = p_Inp->NumberBFrames;  
+  p_Vid->initial_Bframes = p_Inp->NumberBFrames;
 
   p_Vid->type = I_SLICE;
   // Write sequence header (with parameter sets)
@@ -683,9 +683,9 @@ static void init_encoder(VideoParameters *p_Vid, InputParameters *p_Inp)
   p_Vid->searchRange.min_y = -p_Inp->search_range[0] << 2;
   p_Vid->searchRange.max_y =  p_Inp->search_range[0] << 2;
 
-  
+
   if(p_Inp->HMEEnable)
-    InitHMEInfo(p_Vid, p_Inp); 
+    InitHMEInfo(p_Vid, p_Inp);
   else
     p_Vid->pHMEInfo = NULL;
 
@@ -709,7 +709,7 @@ void setup_coding_layer(VideoParameters *p_Vid)
   p_Vid->p_CurrEncodePar = p_Vid->p_EncodePar[dpb_layer_id];
 
   if (p_Vid->p_CurrEncodePar->last_ref_idc == 1)
-  {      
+  {
     p_Vid->p_CurrEncodePar->frame_num++;
     p_Vid->p_CurrEncodePar->frame_num %= p_Vid->max_frame_num;
   }
@@ -721,15 +721,15 @@ void setup_coding_layer(VideoParameters *p_Vid)
 //all these initializations will be removed later;
     CodingParameters *cps = p_Vid->p_CurrEncodePar;
 
-    p_Vid->yuv_format  = cps->yuv_format; 
-    p_Vid->P444_joined = cps->P444_joined; 
+    p_Vid->yuv_format  = cps->yuv_format;
+    p_Vid->P444_joined = cps->P444_joined;
     p_Vid->bitdepth_luma            = cps->bitdepth_luma;
     p_Vid->bitdepth_scale[0]        = cps->bitdepth_scale[0];
-    p_Vid->bitdepth_lambda_scale    = cps->bitdepth_lambda_scale; 
+    p_Vid->bitdepth_lambda_scale    = cps->bitdepth_lambda_scale;
     p_Vid->bitdepth_luma_qp_scale   = cps->bitdepth_luma_qp_scale;
     p_Vid->dc_pred_value_comp[0]    =  cps->dc_pred_value_comp[0];
-    
-    p_Vid->max_pel_value_comp[0] = cps->max_pel_value_comp[0]; 
+
+    p_Vid->max_pel_value_comp[0] = cps->max_pel_value_comp[0];
     p_Vid->max_imgpel_value_comp_sq[0] = cps->max_imgpel_value_comp_sq[0];
     p_Vid->mb_size[0][0]            = p_Vid->mb_size[0][1] = cps->mb_size[0][0];
 
@@ -744,22 +744,22 @@ void setup_coding_layer(VideoParameters *p_Vid)
       p_Vid->chroma_qp_offset[1] = 0;
     }
     p_Vid->bitdepth_chroma             = cps->bitdepth_chroma;
-    p_Vid->bitdepth_scale[1]           = cps->bitdepth_scale[1]; 
-    p_Vid->dc_pred_value_comp[2]       = p_Vid->dc_pred_value_comp[1]       = cps->dc_pred_value_comp[1]; 
-    p_Vid->max_pel_value_comp[2]       = p_Vid->max_pel_value_comp[1]       = cps->max_pel_value_comp[1]; 
-    p_Vid->max_imgpel_value_comp_sq[1] = cps->max_imgpel_value_comp_sq[1]; 
-    p_Vid->max_imgpel_value_comp_sq[2] = cps->max_imgpel_value_comp_sq[2]; 
-    p_Vid->num_blk8x8_uv               = cps->num_blk8x8_uv; 
-    p_Vid->num_cdc_coeff               = cps->num_cdc_coeff; 
-    p_Vid->mb_size[1][0] = p_Vid->mb_size[2][0] = p_Vid->mb_cr_size_x = cps->mb_cr_size_x; 
-    p_Vid->mb_size[1][1] = p_Vid->mb_size[2][1] = p_Vid->mb_cr_size_y = cps->mb_cr_size_y; 
-    p_Vid->bitdepth_chroma_qp_scale = cps->bitdepth_chroma_qp_scale; 
+    p_Vid->bitdepth_scale[1]           = cps->bitdepth_scale[1];
+    p_Vid->dc_pred_value_comp[2]       = p_Vid->dc_pred_value_comp[1]       = cps->dc_pred_value_comp[1];
+    p_Vid->max_pel_value_comp[2]       = p_Vid->max_pel_value_comp[1]       = cps->max_pel_value_comp[1];
+    p_Vid->max_imgpel_value_comp_sq[1] = cps->max_imgpel_value_comp_sq[1];
+    p_Vid->max_imgpel_value_comp_sq[2] = cps->max_imgpel_value_comp_sq[2];
+    p_Vid->num_blk8x8_uv               = cps->num_blk8x8_uv;
+    p_Vid->num_cdc_coeff               = cps->num_cdc_coeff;
+    p_Vid->mb_size[1][0] = p_Vid->mb_size[2][0] = p_Vid->mb_cr_size_x = cps->mb_cr_size_x;
+    p_Vid->mb_size[1][1] = p_Vid->mb_size[2][1] = p_Vid->mb_cr_size_y = cps->mb_cr_size_y;
+    p_Vid->bitdepth_chroma_qp_scale = cps->bitdepth_chroma_qp_scale;
     p_Vid->max_bitCount =  cps->max_bitCount;
 
     ////if ( p_Inp->ChromaMCBuffer )
       //chroma_mc_setup(p_Vid);
-    p_Vid->pad_size_uv_x = cps->pad_size_uv_x; 
-    p_Vid->pad_size_uv_y = cps->pad_size_uv_y; 
+    p_Vid->pad_size_uv_x = cps->pad_size_uv_x;
+    p_Vid->pad_size_uv_y = cps->pad_size_uv_y;
     p_Vid->chroma_mask_mv_y = cps->chroma_mask_mv_y;
     p_Vid->chroma_mask_mv_x = cps->chroma_mask_mv_x;
     p_Vid->chroma_shift_y = cps->chroma_shift_y;
@@ -767,19 +767,19 @@ void setup_coding_layer(VideoParameters *p_Vid)
     p_Vid->shift_cr_y  = cps->shift_cr_y;
     p_Vid->shift_cr_x  = cps->shift_cr_x;
 
-    p_Vid->padded_size_x       = cps->padded_size_x; 
-    p_Vid->padded_size_x_m8x8  = cps->padded_size_x_m8x8; 
-    p_Vid->padded_size_x_m4x4  = cps->padded_size_x_m4x4; 
-    p_Vid->cr_padded_size_x    = cps->cr_padded_size_x; 
-    p_Vid->cr_padded_size_x2   = cps->cr_padded_size_x2; 
-    p_Vid->cr_padded_size_x4   = cps->cr_padded_size_x4; 
-    p_Vid->cr_padded_size_x_m8 = cps->cr_padded_size_x_m8; 
+    p_Vid->padded_size_x       = cps->padded_size_x;
+    p_Vid->padded_size_x_m8x8  = cps->padded_size_x_m8x8;
+    p_Vid->padded_size_x_m4x4  = cps->padded_size_x_m4x4;
+    p_Vid->cr_padded_size_x    = cps->cr_padded_size_x;
+    p_Vid->cr_padded_size_x2   = cps->cr_padded_size_x2;
+    p_Vid->cr_padded_size_x4   = cps->cr_padded_size_x4;
+    p_Vid->cr_padded_size_x_m8 = cps->cr_padded_size_x_m8;
 //end;
 
     p_Vid->dc_pred_value            = p_Vid->dc_pred_value_comp[0]; // set defaults
     p_Vid->max_imgpel_value         = (short) p_Vid->max_pel_value_comp[0];
 
-    p_Vid->lambda = p_Vid->lambda_buf[dpb_layer_id]; 
+    p_Vid->lambda = p_Vid->lambda_buf[dpb_layer_id];
     p_Vid->lambda_md = p_Vid->lambda_md_buf[dpb_layer_id];
     p_Vid->lambda_me = p_Vid->lambda_me_buf[dpb_layer_id];
     p_Vid->lambda_mf = p_Vid->lambda_mf_buf[dpb_layer_id];
@@ -812,7 +812,7 @@ void setup_coding_layer(VideoParameters *p_Vid)
     p_Vid->OneComponentChromaPrediction4x4 = p_Dpb->pf_OneComponentChromaPrediction4x4_retrieve;
   else
     p_Vid->OneComponentChromaPrediction4x4 = p_Dpb->pf_OneComponentChromaPrediction4x4_regenerate;
-  
+
   select_distortion(p_Vid, p_Inp);
   // Setup Distortion Metrics depending on refinement level
   for (i=0; i<3; i++)
@@ -899,13 +899,13 @@ static void prepare_frame_params(VideoParameters *p_Vid, InputParameters *p_Inp,
     }
     p_Vid->frame_num = 0;
   }
-  
+
   //Rate control
   if (p_Inp->RCEnable && p_Vid->type == I_SLICE)
     rc_init_gop_params(p_Vid, p_Inp);
 
   // which layer does the image belong to?
-  p_Vid->layer = ((p_Vid->curr_frm_idx - p_Vid->last_idr_code_order) % (p_Inp->NumFramesInELSubSeq + 1)) ? 0 : 1;  
+  p_Vid->layer = ((p_Vid->curr_frm_idx - p_Vid->last_idr_code_order) % (p_Inp->NumFramesInELSubSeq + 1)) ? 0 : 1;
 }
 
 /*!
@@ -939,7 +939,7 @@ static void encode_sequence(VideoParameters *p_Vid, InputParameters *p_Inp)
     p_frm = p_seq_struct->p_frm;
     frm_struct_buffer = p_Vid->frm_struct_buffer;
   }
-  
+
   for (curr_frame_to_code = 0; curr_frame_to_code < frames_to_code; curr_frame_to_code++)
   {
 #if (MVC_EXTENSION_ENABLE)
@@ -975,7 +975,7 @@ static void encode_sequence(VideoParameters *p_Vid, InputParameters *p_Inp)
       }
       if ( p_Vid->view_id == 1 && tmp_rate_control_enable )
       {
-        p_Inp->RCEnable = 0;        
+        p_Inp->RCEnable = 0;
       }
       else
       {
@@ -1078,7 +1078,7 @@ void free_encoder_memory(VideoParameters *p_Vid, InputParameters *p_Inp)
   flush_dpb(p_Vid->p_Dpb_layer[0], &p_Inp->output);
   flush_dpb(p_Vid->p_Dpb_layer[1], &p_Inp->output);
   CloseFiles(&p_Inp->input_file1);
-  
+
   if (-1 != p_Vid->p_dec)
     close(p_Vid->p_dec);
 
@@ -1088,7 +1088,7 @@ void free_encoder_memory(VideoParameters *p_Vid, InputParameters *p_Inp)
   if (-1 != p_Vid->p_dec2)
     close(p_Vid->p_dec2);
 #endif
-  
+
   if (p_Enc->p_trace)
     fclose(p_Enc->p_trace);
 
@@ -1150,7 +1150,7 @@ static void init_img( VideoParameters *p_Vid)
   p_Vid->last_mmco_5_disp_order = -1;
   // Color format
   p_Vid->yuv_format  = p_Inp->output.yuv_format;
-  p_Vid->P444_joined = (p_Vid->yuv_format == YUV444 && (p_Inp->separate_colour_plane_flag == 0));  
+  p_Vid->P444_joined = (p_Vid->yuv_format == YUV444 && (p_Inp->separate_colour_plane_flag == 0));
 
   //pel bitdepth init
   p_Vid->bitdepth_luma            = (short) p_Inp->output.bit_depth[0];
@@ -1217,7 +1217,7 @@ static void init_img( VideoParameters *p_Vid)
 
     p_Vid->chroma_qp_offset[0] = 0;
     p_Vid->chroma_qp_offset[1] = 0;
-  }  
+  }
 
   p_Vid->max_bitCount =  128 + 256 * p_Vid->bitdepth_luma + 2 * p_Vid->mb_cr_size_y * p_Vid->mb_cr_size_x * p_Vid->bitdepth_chroma;
   //p_Vid->max_bitCount =  (128 + 256 * p_Vid->bitdepth_luma + 2 *p_Vid->mb_cr_size_y * p_Vid->mb_cr_size_x * p_Vid->bitdepth_chroma)*2;
@@ -1232,7 +1232,7 @@ static void init_img( VideoParameters *p_Vid)
   p_Vid->sec_view_force_fld = 0;
 #endif
 
-  p_Vid->base_dist = p_Inp->jumpd + 1;  
+  p_Vid->base_dist = p_Inp->jumpd + 1;
 
   // Intra/IDR related parameters
   p_Vid->lastIntraNumber = 0;
@@ -1248,7 +1248,7 @@ static void init_img( VideoParameters *p_Vid)
     {
       get_mem4Dint(&(p_Vid->ARCofAdj4x4), 3, MAXMODE, MB_BLOCK_SIZE, MB_BLOCK_SIZE); //all modes
       get_mem4Dint(&(p_Vid->ARCofAdj8x8), p_Vid->P444_joined ? 3 : 1, MAXMODE, MB_BLOCK_SIZE, MB_BLOCK_SIZE); //modes 0, 1, 2, 3, P8x8
-    }     
+    }
     else
     {
       get_mem4Dint(&(p_Vid->ARCofAdj4x4), 1, MAXMODE, MB_BLOCK_SIZE, MB_BLOCK_SIZE); //all modes
@@ -1342,7 +1342,7 @@ static void init_img( VideoParameters *p_Vid)
    p_Vid->nz_coeff = p_Vid->nz_coeff_buf[0];
    p_Vid->nz_coeff_buf[1] = NULL;
   }
-  
+
   get_mem2Dolm     (&(p_Vid->lambda_buf[0])   , 10, 52 + p_Vid->bitdepth_luma_qp_scale, p_Vid->bitdepth_luma_qp_scale);
   p_Vid->lambda = p_Vid->lambda_buf[0];
   get_mem2Dodouble (&(p_Vid->lambda_md_buf[0]), 10, 52 + p_Vid->bitdepth_luma_qp_scale, p_Vid->bitdepth_luma_qp_scale);
@@ -1361,7 +1361,7 @@ static void init_img( VideoParameters *p_Vid)
     get_mem2Dodouble(&(p_Vid->lambda_mf_factor_buf[0]), 10, 52 + p_Vid->bitdepth_luma_qp_scale, p_Vid->bitdepth_luma_qp_scale);
     p_Vid->lambda_mf_factor = p_Vid->lambda_mf_factor_buf[0];
   }
-  if(p_Vid->num_of_layers>1) 
+  if(p_Vid->num_of_layers>1)
   {
       p_Vid->lambda_buf[1] = p_Vid->lambda_buf[0];
       p_Vid->lambda_md_buf[1] = p_Vid->lambda_md_buf[0];
@@ -1376,15 +1376,15 @@ static void init_img( VideoParameters *p_Vid)
   if(((p_Inp->RDPictureDecision) && p_Inp->GenerateMultiplePPS) || (p_Inp->WeightedPrediction || p_Inp->WeightedBiprediction))
   {
     int num_slices;
-    
+
     if(p_Inp->slice_mode == 1)
     {
       num_slices = p_Vid->FrameSizeInMbs/p_Inp->slice_argument;
       if((unsigned int)(num_slices * p_Inp->slice_argument) < p_Vid->FrameSizeInMbs)
         num_slices++;
     }
-    else 
-      num_slices = 1; 
+    else
+      num_slices = 1;
 
     // All weight structures assigned using "MAX_REFERENCE_PICTURES". This plays it safe since one may
     // consider reordering or use this for MVC/FCFR coding where references are expanded by 1.
@@ -1403,7 +1403,7 @@ static void init_img( VideoParameters *p_Vid)
 
   RandomIntraInit (p_Vid, p_Vid->PicWidthInMbs, p_Vid->FrameHeightInMbs, p_Inp->RandomIntraMBRefresh);
 
-  InitSEIMessages(p_Vid, p_Inp); 
+  InitSEIMessages(p_Vid, p_Inp);
 
   initInput(p_Vid, &p_Inp->source, &p_Inp->output);
 
@@ -1485,10 +1485,10 @@ static void init_img( VideoParameters *p_Vid)
  */
 static void free_img (VideoParameters *p_Vid, InputParameters *p_Inp)
 {
-  // Delete Frame memory 
+  // Delete Frame memory
   DeleteFrameMemory(p_Vid);
 
-  CloseSEIMessages(p_Vid, p_Inp); 
+  CloseSEIMessages(p_Vid, p_Inp);
 
   free_context_memory (p_Vid);
 
@@ -1589,7 +1589,7 @@ int init_orig_buffers(VideoParameters *p_Vid, ImageData *imgData)
 
   // allocate memory for reference frame buffers: imgData->frm_data
   imgData->format           = p_Inp->output;
-  imgData->format.width[0]  = p_Vid->width;    
+  imgData->format.width[0]  = p_Vid->width;
   imgData->format.width[1]  = p_Vid->width_cr;
   imgData->format.width[2]  = p_Vid->width_cr;
   imgData->format.height[0] = p_Vid->height;
@@ -1608,7 +1608,7 @@ int init_orig_buffers(VideoParameters *p_Vid, ImageData *imgData)
   imgData->frm_data_buf[0][0] = imgData->frm_data_buf[0][1] = imgData->frm_data_buf[0][2] = NULL;
   imgData->frm_data_buf[1][0] = imgData->frm_data_buf[1][1] = imgData->frm_data_buf[1][2] = NULL;
   if( (p_Inp->separate_colour_plane_flag != 0) )
-  { 
+  {
     for( nplane=0; nplane<MAX_PLANE; nplane++ )
     {
       memory_size += get_mem2Dpel(&(imgData->frm_data[nplane]), p_Vid->height, p_Vid->width);
@@ -1725,7 +1725,7 @@ static int init_global_buffers(VideoParameters *p_Vid, InputParameters *p_Inp)
 #else
   // Allocate memory for field picture coding
   if (p_Inp->PicInterlace != FRAME_CODING)
-  { 
+  {
     if ((p_Vid->field_pic = (Picture**)malloc(2 * sizeof(Picture*))) == NULL)
       no_mem_exit("init_global_buffers: *p_Vid->field_pic");
 
@@ -1794,7 +1794,7 @@ static int init_global_buffers(VideoParameters *p_Vid, InputParameters *p_Inp)
 
   // allocate and set memory relating to motion estimation
   if (!p_Inp->IntraProfile)
-  {  
+  {
     if (p_Inp->SearchMode[0] == UM_HEX || p_Inp->SearchMode[1] == UM_HEX)
     {
       if ((p_Vid->p_UMHex = (UMHexStruct*)calloc(1, sizeof(UMHexStruct))) == NULL)
@@ -1849,7 +1849,7 @@ static int init_global_buffers(VideoParameters *p_Vid, InputParameters *p_Inp)
   p_Vid->cr_padded_size_x_m8 = (p_Vid->cr_padded_size_x - 8);
 
   // RGB images for distortion calculation
-  // Recommended to do this allocation (and de-allocation) in 
+  // Recommended to do this allocation (and de-allocation) in
   // the appropriate file instead of here.
   if(p_Inp->DistortionYUVtoRGB)
   {
@@ -2172,7 +2172,7 @@ static void free_global_buffers(VideoParameters *p_Vid, InputParameters *p_Inp)
 int get_mem_ACcoeff (VideoParameters *p_Vid, int***** cofAC)
 {
   int num_blk8x8 = BLOCK_SIZE + p_Vid->num_blk8x8_uv;
-  
+
   get_mem4Dint(cofAC, num_blk8x8, BLOCK_SIZE, 2, 65);
 
   return num_blk8x8 * BLOCK_SIZE * 2 * 65 * sizeof(int);// 18->65 for ABT
@@ -2185,7 +2185,7 @@ int get_mem_ACcoeff (VideoParameters *p_Vid, int***** cofAC)
  ************************************************************************
  */
 int get_mem_ACcoeff_new (int****** cofAC, int chroma)
-{ 
+{
   get_mem5Dint(cofAC, BLOCK_SIZE, chroma, BLOCK_SIZE, 2, 65);
   return chroma * BLOCK_PIXELS * 2 * 65 * sizeof(int);// 18->65 for ABT
 }
@@ -2199,7 +2199,7 @@ int get_mem_ACcoeff_new (int****** cofAC, int chroma)
 int get_mem_DCcoeff (int**** cofDC)
 {
   get_mem3Dint(cofDC, 3, 2, 18);
-  return 3 * 2 * 18 * sizeof(int); 
+  return 3 * 2 * 18 * sizeof(int);
 }
 
 
@@ -2239,7 +2239,7 @@ void free_mem_DCcoeff (int*** cofDC)
 /*!
  ************************************************************************
  * \brief
- *    Sets indices to appropriate level constraints, depending on 
+ *    Sets indices to appropriate level constraints, depending on
  *    current level_idc
  ************************************************************************
  */
@@ -2433,11 +2433,11 @@ static void gen_enc_par(VideoParameters *p_Vid, int layer_idx)
 
   cps = p_Vid->p_EncodePar[layer_idx];
   p_Dpb = p_Vid->p_Dpb_layer[layer_idx];
-  
+
   cps->layer_id = layer_idx;
   cps->yuv_format = p_Dpb->storage_format.yuv_format;
-  cps->P444_joined = (cps->yuv_format == YUV444 && (p_Inp->separate_colour_plane_flag == 0));  
-  cps->bitdepth_luma            = (short)p_Dpb->storage_format.bit_depth[0]; 
+  cps->P444_joined = (cps->yuv_format == YUV444 && (p_Inp->separate_colour_plane_flag == 0));
+  cps->bitdepth_luma            = (short)p_Dpb->storage_format.bit_depth[0];
   cps->bitdepth_scale[0]        = 1 << (cps->bitdepth_luma - 8);
   cps->bitdepth_lambda_scale    = 2 * (cps->bitdepth_luma - 8);
   cps->bitdepth_luma_qp_scale   = 3 *  cps->bitdepth_lambda_scale;
@@ -2475,7 +2475,7 @@ static void gen_enc_par(VideoParameters *p_Vid, int layer_idx)
     cps->mb_size[1][1] = cps->mb_size[2][1] = cps->mb_cr_size_y = 0;
 
     cps->bitdepth_chroma_qp_scale = 0;
-  }  
+  }
   cps->max_bitCount =  128 + 256 * cps->bitdepth_luma + 2 * cps->mb_cr_size_y * cps->mb_cr_size_x * cps->bitdepth_chroma;
   cps->width         = (p_Inp->output.width[0]  + p_Vid->auto_crop_right);
   cps->height        = (p_Inp->output.height[0] + p_Vid->auto_crop_bottom);
@@ -2546,7 +2546,7 @@ static void gen_enc_par(VideoParameters *p_Vid, int layer_idx)
 
 static void generate_encode_parameters(VideoParameters *p_Vid)
 {
-  int i;  
+  int i;
   p_Vid->p_EncodePar[0] = (CodingParameters *)calloc(p_Vid->num_of_layers, sizeof(CodingParameters));
   //init;
   for(i=0; i<p_Vid->num_of_layers; i++)
@@ -2596,5 +2596,5 @@ void clear_process_image( VideoParameters *p_Vid, InputParameters *p_Inp)
     if( (p_Vid->num_of_layers == 2) && is_MVC_profile(p_Inp->ProfileIDC) )
       free_orig_planes(p_Vid, &p_Vid->tempData3);
     break;
-  }   
+  }
 }
