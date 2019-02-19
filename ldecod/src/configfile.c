@@ -108,8 +108,11 @@ static void PatchInp(InputParameters *p_Inp);
  */
 void JMDecHelpExit(void)
 {
-    fprintf(stderr, "\n   ldecod [-h] [-d defdec.cfg] {[-f curenc1.cfg]...[-f curencN.cfg]}"
-            " {[-p EncParam1=EncValue1]..[-p EncParamM=EncValueM]}\n\n"
+    fprintf(stderr, "\n ldecod [-s] [-h] [-d defdec.cfg] {[-f curenc1.cfg]...[-f curencN.cfg]}\n"
+            "        {[-p EncParam1=EncValue1]..[-p EncParamM=EncValueM]}\n"
+            "        [-i bitstream.264] [-o output.yuv] [-r reference.yuv]\n"
+            "        [-n Nframes] [-mpr LValue]\n\n"
+
             "## Parameters\n\n"
 
             "## Options\n"
@@ -118,8 +121,14 @@ void JMDecHelpExit(void)
             "         If not used then file defaults to encoder.cfg in local directory.\n"
             "   -f :  read <curencM.cfg> for reseting selected encoder parameters.\n"
             "         Multiple files could be used that set different parameters\n"
-            "   -p :  Set parameter <DecParamM> to <DecValueM>.\n"
-            "         See default decoder.cfg file for description of all parameters.\n\n"
+            "   -i :  Decode file <bitstream.264>. Default is test.264.\n"
+            "   -mpr: Set Number of layers (LValue) to decode.\n"
+            "   -n :  Number of frames to be decoded.\n"
+            "   -o :  Reconstructed file name is set to <output.yuv>. Default is test_dec.yuv.\n"
+            "   -r :  Reference sequence file for PSNR computation is set to <reference.yuv>. Default is test_rec.yuv.\n"
+            "   -p :  Set parameter <DecParamM> to <DecValueM>.The entry for <DecParamM> is case insensitive. \n"
+            "         See default decoder.cfg file for description of all parameters.\n"
+            "   -s :  silent decoding.\n\n"
 
             "## Examples of usage:\n"
             "   ldecod\n"
