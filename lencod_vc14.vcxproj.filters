@@ -400,6 +400,9 @@
     <ClInclude Include="lencod\inc\wp_periodic.h">
       <Filter>Project Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lcommon\inc\xtool.h">
+      <Filter>Common Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lencod\src\pred_struct.c">
@@ -800,6 +803,9 @@
     </ClCompile>
     <ClCompile Include="lencod\src\me_hme.c">
       <Filter>Project Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lcommon\src\xtool.c">
+      <Filter>Common Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

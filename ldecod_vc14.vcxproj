@@ -295,6 +295,7 @@
     <ClInclude Include="lcommon\inc\types.h" />
     <ClInclude Include="lcommon\inc\vui_params.h" />
     <ClInclude Include="lcommon\inc\win32.h" />
+    <ClInclude Include="lcommon\inc\xtool.h" />
     <ClInclude Include="ldecod\inc\annexb.h" />
     <ClInclude Include="ldecod\inc\biaridecod.h" />
     <ClInclude Include="ldecod\inc\block.h" />
@@ -350,6 +351,7 @@
     <ClCompile Include="lcommon\src\parsetcommon.c" />
     <ClCompile Include="lcommon\src\transform.c" />
     <ClCompile Include="lcommon\src\win32.c" />
+    <ClCompile Include="lcommon\src\xtool.c" />
     <ClCompile Include="ldecod\src\annexb.c" />
     <ClCompile Include="ldecod\src\biaridecod.c" />
     <ClCompile Include="ldecod\src\block.c" />

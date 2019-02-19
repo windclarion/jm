@@ -74,6 +74,8 @@
 #include "distortion.h"
 #include "io_video.h"
 
+#include "xtool.h"
+
 typedef struct bit_stream_dec Bitstream;
 
 #define ET_SIZE 300      //!< size of error text buffer

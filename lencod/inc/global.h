@@ -61,6 +61,8 @@
 #include "quant_params.h"
 #include "rc_types.h"
 
+#include "xtool.h"
+
 typedef struct bit_stream_enc Bitstream;
 
 #include "pred_struct_types.h"
