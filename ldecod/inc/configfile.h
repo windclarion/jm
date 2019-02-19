@@ -58,7 +58,8 @@ InputParameters cfgparams;
 // Types : {0:int, 1:text, 2: double}
 // LimitType: {0:none, 1:both, 2:minimum, 3: QP based}
 // We could separate this based on types to make it more flexible and allow also defaults for text types.
-Mapping Map[] = {
+Mapping Map[] =
+{
     {"InputFile",                &cfgparams.infile,                       1,   0.0,                       0,  0.0,              0.0,             FILE_NAME_SIZE, },
     {"OutputFile",               &cfgparams.outfile,                      1,   0.0,                       0,  0.0,              0.0,             FILE_NAME_SIZE, },
     {"RefFile",                  &cfgparams.reffile,                      1,   0.0,                       0,  0.0,              0.0,             FILE_NAME_SIZE, },
@@ -91,7 +92,7 @@ Mapping Map[] = {
 #ifndef INCLUDED_BY_CONFIGFILE_C
 extern Mapping Map[];
 #endif
-extern void JMDecHelpExit ();
+extern void JMDecHelpExit();
 extern void ParseCommand(InputParameters *p_Inp, int ac, char *av[]);
 
 #endif

@@ -51,6 +51,6 @@
 // http://partners.adobe.com/public/developer/tiff/index.html
 
 
-extern int ReadTIFFImage (InputParameters *p_Inp, VideoDataFile *input_file, int FrameNoInFile, FrameFormat *source, unsigned char *buf);
+extern int ReadTIFFImage(InputParameters *p_Inp, VideoDataFile *input_file, int FrameNoInFile, FrameFormat *source, unsigned char *buf);
 
 #endif

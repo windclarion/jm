@@ -132,7 +132,7 @@
 #include "sei.h"
 #include "memalloc.h"
 
-int RTPReadPacket (RTPpacket_t *p, int bitstream);
+int RTPReadPacket(RTPpacket_t *p, int bitstream);
 
 /*!
  ************************************************************************
@@ -142,13 +142,13 @@ int RTPReadPacket (RTPpacket_t *p, int bitstream);
  *    none
  ************************************************************************
  */
-void OpenRTPFile (char *fn, int *p_BitStreamFile)
+void OpenRTPFile(char *fn, int *p_BitStreamFile)
 {
-  if (((*p_BitStreamFile) = open(fn, OPENFLAGS_READ)) == -1)
-  {
-    snprintf (errortext, ET_SIZE, "Cannot open RTP file '%s'", fn);
-    error(errortext,500);
-  }
+    if (((*p_BitStreamFile) = open(fn, OPENFLAGS_READ)) == -1)
+    {
+        snprintf(errortext, ET_SIZE, "Cannot open RTP file '%s'", fn);
+        error(errortext, 500);
+    }
 }
 
 
@@ -160,11 +160,11 @@ void OpenRTPFile (char *fn, int *p_BitStreamFile)
  */
 void CloseRTPFile(int *p_BitStreamFile)
 {
-  if ((*p_BitStreamFile) != -1)
-  {
-    close(*p_BitStreamFile);
-    (*p_BitStreamFile) = - 1;
-  }
+    if ((*p_BitStreamFile) != -1)
+    {
+        close(*p_BitStreamFile);
+        (*p_BitStreamFile) = - 1;
+    }
 }
 
 
@@ -183,62 +183,62 @@ void CloseRTPFile(int *p_BitStreamFile)
  ************************************************************************
  */
 
-int GetRTPNALU (VideoParameters *p_Vid, NALU_t *nalu, int BitStreamFile)
+int GetRTPNALU(VideoParameters *p_Vid, NALU_t *nalu, int BitStreamFile)
 {
-  static uint16 first_call = 1;  //!< triggers sequence number initialization on first call
-  static uint16 old_seq = 0;     //!< store the last RTP sequence number for loss detection
+    static uint16 first_call = 1;  //!< triggers sequence number initialization on first call
+    static uint16 old_seq = 0;     //!< store the last RTP sequence number for loss detection
 
-  RTPpacket_t *p;
-  int ret;
+    RTPpacket_t *p;
+    int ret;
 
-  if ((p=malloc (sizeof (RTPpacket_t)))== NULL)
-    no_mem_exit ("GetRTPNALU-1");
-  if ((p->packet=malloc (MAXRTPPACKETSIZE))== NULL)
-    no_mem_exit ("GetRTPNALU-2");
-  if ((p->payload=malloc (MAXRTPPACKETSIZE))== NULL)
-    no_mem_exit ("GetRTPNALU-3");
+    if ((p = malloc(sizeof(RTPpacket_t))) == NULL)
+        no_mem_exit("GetRTPNALU-1");
+    if ((p->packet = malloc(MAXRTPPACKETSIZE)) == NULL)
+        no_mem_exit("GetRTPNALU-2");
+    if ((p->payload = malloc(MAXRTPPACKETSIZE)) == NULL)
+        no_mem_exit("GetRTPNALU-3");
 
-  ret = RTPReadPacket (p, BitStreamFile);
-  nalu->forbidden_bit = 1;
-  nalu->len = 0;
+    ret = RTPReadPacket(p, BitStreamFile);
+    nalu->forbidden_bit = 1;
+    nalu->len = 0;
 
-  if (ret > 0) // we got a packet ( -1=error, 0=end of file )
-  {
-    if (first_call)
+    if (ret > 0) // we got a packet ( -1=error, 0=end of file )
     {
-      first_call = 0;
-      old_seq = (uint16) (p->seq - 1);
+        if (first_call)
+        {
+            first_call = 0;
+            old_seq = (uint16)(p->seq - 1);
+        }
+
+        nalu->lost_packets = (uint16)(p->seq - (old_seq + 1));
+        old_seq = p->seq;
+
+        assert(p->paylen < nalu->max_size);
+
+        nalu->len = p->paylen;
+        memcpy(nalu->buf, p->payload, p->paylen);
+        nalu->forbidden_bit = (nalu->buf[0] >> 7) & 1;
+        nalu->nal_reference_idc = (NalRefIdc)((nalu->buf[0] >> 5) & 3);
+        nalu->nal_unit_type = (NaluType)((nalu->buf[0]) & 0x1f);
+        if (nalu->lost_packets)
+        {
+            printf("Warning: RTP sequence number discontinuity detected\n");
+        }
     }
 
-    nalu->lost_packets = (uint16) ( p->seq - (old_seq + 1) );
-    old_seq = p->seq;
-
-    assert (p->paylen < nalu->max_size);
-
-    nalu->len = p->paylen;
-    memcpy (nalu->buf, p->payload, p->paylen);
-    nalu->forbidden_bit = (nalu->buf[0]>>7) & 1;
-    nalu->nal_reference_idc = (NalRefIdc) ((nalu->buf[0]>>5) & 3);
-    nalu->nal_unit_type = (NaluType) ((nalu->buf[0]) & 0x1f);
-    if (nalu->lost_packets)
-    {
-      printf ("Warning: RTP sequence number discontinuity detected\n");
-    }
-  }
-
-  // free memory
-  free (p->payload);
-  free (p->packet);
-  free (p);
+    // free memory
+    free(p->payload);
+    free(p->packet);
+    free(p);
 
 //  printf ("Got an RTP NALU, len %d, first byte %x\n", nalu->len, nalu->buf[0]);
 
-  if (ret>0)
-    // length of packet
-    return nalu->len;
-  else
-    // error code
-    return ret;
+    if (ret > 0)
+        // length of packet
+        return nalu->len;
+    else
+        // error code
+        return ret;
 }
 
 
@@ -268,46 +268,46 @@ int GetRTPNALU (VideoParameters *p_Vid, NALU_t *nalu, int BitStreamFile)
  *    Stephan Wenger   stewe@cs.tu-berlin.de
  *****************************************************************************/
 
-int DecomposeRTPpacket (RTPpacket_t *p)
+int DecomposeRTPpacket(RTPpacket_t *p)
 
 {
-  // consistency check
-  assert (p->packlen < 65536 - 28);  // IP, UDP headers
-  assert (p->packlen >= 12);         // at least a complete RTP header
-  assert (p->payload != NULL);
-  assert (p->packet != NULL);
+    // consistency check
+    assert(p->packlen < 65536 - 28);   // IP, UDP headers
+    assert(p->packlen >= 12);          // at least a complete RTP header
+    assert(p->payload != NULL);
+    assert(p->packet != NULL);
 
-  // Extract header information
+    // Extract header information
 
-  p->v  = (p->packet[0] >> 6) & 0x03;
-  p->p  = (p->packet[0] >> 5) & 0x01;
-  p->x  = (p->packet[0] >> 4) & 0x01;
-  p->cc = (p->packet[0] >> 0) & 0x0F;
+    p->v  = (p->packet[0] >> 6) & 0x03;
+    p->p  = (p->packet[0] >> 5) & 0x01;
+    p->x  = (p->packet[0] >> 4) & 0x01;
+    p->cc = (p->packet[0] >> 0) & 0x0F;
 
-  p->m  = (p->packet[1] >> 7) & 0x01;
-  p->pt = (p->packet[1] >> 0) & 0x7F;
+    p->m  = (p->packet[1] >> 7) & 0x01;
+    p->pt = (p->packet[1] >> 0) & 0x7F;
 
-  memcpy (&p->seq, &p->packet[2], 2);
-  p->seq = ntohs((uint16)p->seq);
+    memcpy(&p->seq, &p->packet[2], 2);
+    p->seq = ntohs((uint16)p->seq);
 
-  memcpy (&p->timestamp, &p->packet[4], 4);// change to shifts for unified byte sex
-  p->timestamp = ntohl(p->timestamp);
-  memcpy (&p->ssrc, &p->packet[8], 4);// change to shifts for unified byte sex
-  p->ssrc = ntohl(p->ssrc);
+    memcpy(&p->timestamp, &p->packet[4], 4); // change to shifts for unified byte sex
+    p->timestamp = ntohl(p->timestamp);
+    memcpy(&p->ssrc, &p->packet[8], 4); // change to shifts for unified byte sex
+    p->ssrc = ntohl(p->ssrc);
 
-  // header consistency checks
-  if (     (p->v != 2)
-        || (p->p != 0)
-        || (p->x != 0)
-        || (p->cc != 0) )
-  {
-    printf ("DecomposeRTPpacket, RTP header consistency problem, header follows\n");
-    DumpRTPHeader (p);
-    return -1;
-  }
-  p->paylen = p->packlen-12;
-  memcpy (p->payload, &p->packet[12], p->paylen);
-  return 0;
+    // header consistency checks
+    if ((p->v != 2)
+            || (p->p != 0)
+            || (p->x != 0)
+            || (p->cc != 0))
+    {
+        printf("DecomposeRTPpacket, RTP header consistency problem, header follows\n");
+        DumpRTPHeader(p);
+        return -1;
+    }
+    p->paylen = p->packlen - 12;
+    memcpy(p->payload, &p->packet[12], p->paylen);
+    return 0;
 }
 
 /*!
@@ -332,21 +332,21 @@ int DecomposeRTPpacket (RTPpacket_t *p)
  *    Stephan Wenger   stewe@cs.tu-berlin.de
  *****************************************************************************/
 
-void DumpRTPHeader (RTPpacket_t *p)
+void DumpRTPHeader(RTPpacket_t *p)
 
 {
-  int i;
-  for (i=0; i< 30; i++)
-    printf ("%02x ", p->packet[i]);
-  printf ("Version (V): %d\n", (int) p->v);
-  printf ("Padding (P): %d\n", (int) p->p);
-  printf ("Extension (X): %d\n", (int) p->x);
-  printf ("CSRC count (CC): %d\n", (int) p->cc);
-  printf ("Marker bit (M): %d\n", (int) p->m);
-  printf ("Payload Type (PT): %d\n", (int) p->pt);
-  printf ("Sequence Number: %d\n", (int) p->seq);
-  printf ("Timestamp: %d\n", (int) p->timestamp);
-  printf ("SSRC: %d\n", (int) p->ssrc);
+    int i;
+    for (i = 0; i < 30; i++)
+        printf("%02x ", p->packet[i]);
+    printf("Version (V): %d\n", (int) p->v);
+    printf("Padding (P): %d\n", (int) p->p);
+    printf("Extension (X): %d\n", (int) p->x);
+    printf("CSRC count (CC): %d\n", (int) p->cc);
+    printf("Marker bit (M): %d\n", (int) p->m);
+    printf("Payload Type (PT): %d\n", (int) p->pt);
+    printf("Sequence Number: %d\n", (int) p->seq);
+    printf("Timestamp: %d\n", (int) p->timestamp);
+    printf("SSRC: %d\n", (int) p->ssrc);
 }
 
 
@@ -377,44 +377,44 @@ void DumpRTPHeader (RTPpacket_t *p)
  * \author
  *    Stephan Wenger, stewe@cs.tu-berlin.de
  *****************************************************************************/
-int RTPReadPacket (RTPpacket_t *p, int bitstream)
+int RTPReadPacket(RTPpacket_t *p, int bitstream)
 {
-  int64 Filepos;
-  int intime;
+    int64 Filepos;
+    int intime;
 
-  assert (p != NULL);
-  assert (p->packet != NULL);
-  assert (p->payload != NULL);
+    assert(p != NULL);
+    assert(p->packet != NULL);
+    assert(p->payload != NULL);
 
-  Filepos = tell (bitstream);
-  if (4 != read (bitstream, &p->packlen, 4))
-  {
-    return 0;
-  }
-  if (4 != read (bitstream, &intime, 4))
-  {
-    lseek (bitstream, Filepos, SEEK_SET);
-    printf ("RTPReadPacket: File corruption, could not read Timestamp, exit\n");
-    exit (-1);
-  }
+    Filepos = tell(bitstream);
+    if (4 != read(bitstream, &p->packlen, 4))
+    {
+        return 0;
+    }
+    if (4 != read(bitstream, &intime, 4))
+    {
+        lseek(bitstream, Filepos, SEEK_SET);
+        printf("RTPReadPacket: File corruption, could not read Timestamp, exit\n");
+        exit(-1);
+    }
 
-  assert (p->packlen < MAXRTPPACKETSIZE);
+    assert(p->packlen < MAXRTPPACKETSIZE);
 
-  if (p->packlen != (unsigned int) read (bitstream, p->packet, p->packlen))
-  {
-    printf ("RTPReadPacket: File corruption, could not read %d bytes\n", (int) p->packlen);
-    exit (-1);    // EOF inidication
-  }
+    if (p->packlen != (unsigned int) read(bitstream, p->packet, p->packlen))
+    {
+        printf("RTPReadPacket: File corruption, could not read %d bytes\n", (int) p->packlen);
+        exit(-1);     // EOF inidication
+    }
 
-  if (DecomposeRTPpacket (p) < 0)
-  {
-    // this should never happen, hence exit() is ok.  We probably do not want to attempt
-    // to decode a packet that obviously wasn't generated by RTP
-    printf ("Errors reported by DecomposePacket(), exit\n");
-    exit (-700);
-  }
-  assert (p->pt == H264PAYLOADTYPE);
-  assert (p->ssrc == H264SSRC);
-  return p->packlen;
+    if (DecomposeRTPpacket(p) < 0)
+    {
+        // this should never happen, hence exit() is ok.  We probably do not want to attempt
+        // to decode a packet that obviously wasn't generated by RTP
+        printf("Errors reported by DecomposePacket(), exit\n");
+        exit(-700);
+    }
+    assert(p->pt == H264PAYLOADTYPE);
+    assert(p->ssrc == H264SSRC);
+    return p->packlen;
 }
 

@@ -89,51 +89,51 @@
  *    Stephan Wenger   stewe@cs.tu-berlin.de
  *****************************************************************************/
 
-int ComposeRTPPacket (RTPpacket_t *p)
+int ComposeRTPPacket(RTPpacket_t *p)
 
 {
-  unsigned int temp32;
-  uint16 temp16;
+    unsigned int temp32;
+    uint16 temp16;
 
-  // Consistency checks through assert, only used for debug purposes
-  assert (p->v == 2);
-  assert (p->p == 0);
-  assert (p->x == 0);
-  assert (p->cc == 0);    // mixer designers need to change this one
-  assert (p->m == 0 || p->m == 1);
-  assert (p->pt < 128);
-  assert (p->payload != NULL);
-  assert (p->paylen < 65536 - 40);  // 2**16 -40 for IP/UDP/RTP header
-  assert (p->packet != NULL);
+    // Consistency checks through assert, only used for debug purposes
+    assert(p->v == 2);
+    assert(p->p == 0);
+    assert(p->x == 0);
+    assert(p->cc == 0);     // mixer designers need to change this one
+    assert(p->m == 0 || p->m == 1);
+    assert(p->pt < 128);
+    assert(p->payload != NULL);
+    assert(p->paylen < 65536 - 40);   // 2**16 -40 for IP/UDP/RTP header
+    assert(p->packet != NULL);
 
-  // Compose RTP header, little endian
+    // Compose RTP header, little endian
 
-  p->packet[0] = (byte)
-    ( ((p->v  & 0x03) << 6)
-    | ((p->p  & 0x01) << 5)
-    | ((p->x  & 0x01) << 4)
-    | ((p->cc & 0x0F) << 0) );
+    p->packet[0] = (byte)
+                   (((p->v  & 0x03) << 6)
+                    | ((p->p  & 0x01) << 5)
+                    | ((p->x  & 0x01) << 4)
+                    | ((p->cc & 0x0F) << 0));
 
-  p->packet[1] = (byte)
-    ( ((p->m  & 0x01) << 7)
-    | ((p->pt & 0x7F) << 0) );
+    p->packet[1] = (byte)
+                   (((p->m  & 0x01) << 7)
+                    | ((p->pt & 0x7F) << 0));
 
-  // sequence number, msb first
-  temp16 = htons((uint16)p->seq);
-  memcpy (&p->packet[2], &temp16, 2);  // change to shifts for unified byte sex
+    // sequence number, msb first
+    temp16 = htons((uint16)p->seq);
+    memcpy(&p->packet[2], &temp16, 2);   // change to shifts for unified byte sex
 
-  //declare a temporary variable to perform network byte order conversion
-  temp32 = htonl(p->timestamp);
-  memcpy (&p->packet[4], &temp32, 4);  // change to shifts for unified byte sex
+    //declare a temporary variable to perform network byte order conversion
+    temp32 = htonl(p->timestamp);
+    memcpy(&p->packet[4], &temp32, 4);   // change to shifts for unified byte sex
 
-  temp32 = htonl(p->ssrc);
-  memcpy (&p->packet[8], &temp32, 4);// change to shifts for unified byte sex
+    temp32 = htonl(p->ssrc);
+    memcpy(&p->packet[8], &temp32, 4); // change to shifts for unified byte sex
 
-  // Copy payload
+    // Copy payload
 
-  memcpy (&p->packet[12], p->payload, p->paylen);
-  p->packlen = p->paylen+12;
-  return 0;
+    memcpy(&p->packet[12], p->payload, p->paylen);
+    p->packlen = p->paylen + 12;
+    return 0;
 }
 
 
@@ -160,22 +160,22 @@ int ComposeRTPPacket (RTPpacket_t *p)
  *    Stephan Wenger   stewe@cs.tu-berlin.de
  *****************************************************************************/
 
-int WriteRTPPacket (RTPpacket_t *p, FILE *f)
+int WriteRTPPacket(RTPpacket_t *p, FILE *f)
 
 {
-  int intime = -1;
+    int intime = -1;
 
-  assert (f != NULL);
-  assert (p != NULL);
+    assert(f != NULL);
+    assert(p != NULL);
 
 
-  if (1 != fwrite (&p->packlen, 4, 1, f))
-    return -1;
-  if (1 != fwrite (&intime, 4, 1, f))
-    return -1;
-  if (1 != fwrite (p->packet, p->packlen, 1, f))
-    return -1;
-  return 0;
+    if (1 != fwrite(&p->packlen, 4, 1, f))
+        return -1;
+    if (1 != fwrite(&intime, 4, 1, f))
+        return -1;
+    if (1 != fwrite(p->packet, p->packlen, 1, f))
+        return -1;
+    return 0;
 }
 
 
@@ -202,63 +202,63 @@ int WriteRTPPacket (RTPpacket_t *p, FILE *f)
  *****************************************************************************/
 
 
-int WriteRTPNALU (VideoParameters *p_Vid, NALU_t *n, FILE **f_rtp)
+int WriteRTPNALU(VideoParameters *p_Vid, NALU_t *n, FILE **f_rtp)
 {
-  RTPpacket_t *p;
+    RTPpacket_t *p;
 
-  byte first_byte;
+    byte first_byte;
 
-  assert ((*f_rtp) != NULL);
-  assert (n != NULL);
-  assert (n->len < 65000);
+    assert((*f_rtp) != NULL);
+    assert(n != NULL);
+    assert(n->len < 65000);
 
-  first_byte = (byte)
-    (n->forbidden_bit << 7      |
-     n->nal_reference_idc << 5  |
-     n->nal_unit_type );
+    first_byte = (byte)
+                 (n->forbidden_bit << 7      |
+                  n->nal_reference_idc << 5  |
+                  n->nal_unit_type);
 
-  // Set RTP structure elements and alloca() memory foor the buffers
-  if ((p = (RTPpacket_t *) malloc (sizeof (RTPpacket_t))) == NULL)
-    no_mem_exit ("RTPWriteNALU-1");
-  if ((p->packet = malloc (MAXRTPPACKETSIZE)) == NULL)
-    no_mem_exit ("RTPWriteNALU-2");
-  if ((p->payload = malloc (MAXRTPPACKETSIZE)) == NULL)
-    no_mem_exit ("RTPWriteNALU-3");
+    // Set RTP structure elements and alloca() memory foor the buffers
+    if ((p = (RTPpacket_t *) malloc(sizeof(RTPpacket_t))) == NULL)
+        no_mem_exit("RTPWriteNALU-1");
+    if ((p->packet = malloc(MAXRTPPACKETSIZE)) == NULL)
+        no_mem_exit("RTPWriteNALU-2");
+    if ((p->payload = malloc(MAXRTPPACKETSIZE)) == NULL)
+        no_mem_exit("RTPWriteNALU-3");
 
-  p->v=2;
-  p->p=0;
-  p->x=0;
-  p->cc=0;
-  p->m=(n->startcodeprefix_len==4)&1;     // a long startcode of Annex B sets marker bit of RTP
-                                          // Not exactly according to the RTP paylaod spec, but
-                                          // good enough for now (hopefully).
-                                          //! For error resilience work, we need the correct
-                                          //! marker bit.  Introduce a nalu->marker and set it in
-                                          //! terminate_slice()?
-  p->pt=H264PAYLOADTYPE;
-  p->seq = p_Vid->CurrentRTPSequenceNumber++;
-  p->timestamp = p_Vid->CurrentRTPTimestamp;
-  p->ssrc=H264SSRC;
-  p->paylen = 1 + n->len;
+    p->v = 2;
+    p->p = 0;
+    p->x = 0;
+    p->cc = 0;
+    p->m = (n->startcodeprefix_len == 4) & 1; // a long startcode of Annex B sets marker bit of RTP
+    // Not exactly according to the RTP paylaod spec, but
+    // good enough for now (hopefully).
+    //! For error resilience work, we need the correct
+    //! marker bit.  Introduce a nalu->marker and set it in
+    //! terminate_slice()?
+    p->pt = H264PAYLOADTYPE;
+    p->seq = p_Vid->CurrentRTPSequenceNumber++;
+    p->timestamp = p_Vid->CurrentRTPTimestamp;
+    p->ssrc = H264SSRC;
+    p->paylen = 1 + n->len;
 
-  p->payload[0] = first_byte;
-  memcpy (p->payload+1, n->buf, n->len);
+    p->payload[0] = first_byte;
+    memcpy(p->payload + 1, n->buf, n->len);
 
-  // Generate complete RTP packet
-  if (ComposeRTPPacket (p) < 0)
-  {
-    printf ("Cannot compose RTP packet, exit\n");
-    exit (-1);
-  }
-  if (WriteRTPPacket (p, *f_rtp) < 0)
-  {
-    printf ("Cannot write %d bytes of RTP packet to outfile, exit\n", p->packlen);
-    exit (-1);
-  }
-  free (p->packet);
-  free (p->payload);
-  free (p);
-  return (n->len * 8);
+    // Generate complete RTP packet
+    if (ComposeRTPPacket(p) < 0)
+    {
+        printf("Cannot compose RTP packet, exit\n");
+        exit(-1);
+    }
+    if (WriteRTPPacket(p, *f_rtp) < 0)
+    {
+        printf("Cannot write %d bytes of RTP packet to outfile, exit\n", p->packlen);
+        exit(-1);
+    }
+    free(p->packet);
+    free(p->payload);
+    free(p);
+    return (n->len * 8);
 }
 
 
@@ -279,36 +279,36 @@ int WriteRTPNALU (VideoParameters *p_Vid, NALU_t *n, FILE **f_rtp)
 */
 
 
-void RTPUpdateTimestamp (VideoParameters *p_Vid, int tr)
+void RTPUpdateTimestamp(VideoParameters *p_Vid, int tr)
 {
-  int delta;
-  static int oldtr = -1;
+    int delta;
+    static int oldtr = -1;
 
-  if (oldtr == -1)            // First invocation
-  {
-    p_Vid->CurrentRTPTimestamp = 0;  //! This is a violation of the security req. of
-                              //! RTP (random timestamp), but easier to debug
-    oldtr = 0;
-    return;
-  }
+    if (oldtr == -1)            // First invocation
+    {
+        p_Vid->CurrentRTPTimestamp = 0;  //! This is a violation of the security req. of
+        //! RTP (random timestamp), but easier to debug
+        oldtr = 0;
+        return;
+    }
 
-  /*! The following code assumes a wrap around of TR at 256, and
-      needs to be changed as soon as this is no more true.
+    /*! The following code assumes a wrap around of TR at 256, and
+        needs to be changed as soon as this is no more true.
 
-      The support for B frames is a bit tricky, because it is not easy to distinguish
-      between a natural wrap-around of the tr, and the intentional going back of the
-      tr because of a B frame.  It is solved here by a heuristic means: It is assumed that
-      B frames are never "older" than 10 tr ticks.  Everything higher than 10 is considered
-      a wrap around.
-  */
+        The support for B frames is a bit tricky, because it is not easy to distinguish
+        between a natural wrap-around of the tr, and the intentional going back of the
+        tr because of a B frame.  It is solved here by a heuristic means: It is assumed that
+        B frames are never "older" than 10 tr ticks.  Everything higher than 10 is considered
+        a wrap around.
+    */
 
-  delta = tr - oldtr;
+    delta = tr - oldtr;
 
-  if (delta < -10)        // wrap-around
-    delta+=256;
+    if (delta < -10)        // wrap-around
+        delta += 256;
 
-  p_Vid->CurrentRTPTimestamp += delta * RTP_TR_TIMESTAMP_MULT;
-  oldtr = tr;
+    p_Vid->CurrentRTPTimestamp += delta * RTP_TR_TIMESTAMP_MULT;
+    oldtr = tr;
 }
 
 
@@ -328,13 +328,13 @@ void RTPUpdateTimestamp (VideoParameters *p_Vid, int tr)
  ********************************************************************************************
 */
 
-void OpenRTPFile (char *Filename, FILE **f_rtp)
+void OpenRTPFile(char *Filename, FILE **f_rtp)
 {
-  if (((*f_rtp) = fopen (Filename, "wb")) == NULL)
-  {
-    printf ("Fatal: cannot open bitstream file '%s', exit (-1)\n", Filename);
-    exit (-1);
-  }
+    if (((*f_rtp) = fopen(Filename, "wb")) == NULL)
+    {
+        printf("Fatal: cannot open bitstream file '%s', exit (-1)\n", Filename);
+        exit(-1);
+    }
 }
 
 
@@ -349,8 +349,8 @@ void OpenRTPFile (char *Filename, FILE **f_rtp)
  ********************************************************************************************
 */
 
-void CloseRTPFile (FILE *f_rtp)
+void CloseRTPFile(FILE *f_rtp)
 {
-  fclose(f_rtp);
+    fclose(f_rtp);
 }
 

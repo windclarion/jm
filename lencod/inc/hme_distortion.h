@@ -60,7 +60,7 @@ static inline imgpel *UMVLine4X_int_hme(StorablePicture *ref, MEBlock *mv_block,
 
 // SAD functions
 
-extern distblk computeSAD_hme(StorablePicture *ref1, MEBlock*, distblk, MotionVector *);
+extern distblk computeSAD_hme(StorablePicture *ref1, MEBlock *, distblk, MotionVector *);
 
 
 #endif

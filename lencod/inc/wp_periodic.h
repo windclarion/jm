@@ -51,8 +51,8 @@
 
 extern void EstimateWPPSlicePeriodic(Slice *currSlice, int offset);
 extern void EstimateWPBSlicePeriodic(Slice *currSlice);
-extern int  TestWPPSlicePeriodic    (Slice *currSlice, int offset);
-extern int  TestWPBSlicePeriodic    (Slice *currSlice, int method);
+extern int  TestWPPSlicePeriodic(Slice *currSlice, int offset);
+extern int  TestWPBSlicePeriodic(Slice *currSlice, int method);
 
 #endif
 

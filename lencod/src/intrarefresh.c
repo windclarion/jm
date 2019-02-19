@@ -65,41 +65,41 @@
  */
 void RandomIntraInit(VideoParameters *p_Vid, int xsize, int ysize, int refresh)
 {
-  int i, pos;
+    int i, pos;
 
-  srand (1);      // A fixed random initializer to make things reproducible
-  p_Vid->NumberOfMBs = xsize * ysize;
-  p_Vid->NumberIntraPerPicture = refresh;
+    srand(1);       // A fixed random initializer to make things reproducible
+    p_Vid->NumberOfMBs = xsize * ysize;
+    p_Vid->NumberIntraPerPicture = refresh;
 
-  if (refresh != 0)
-  {
-    p_Vid->RefreshPattern = malloc (sizeof (int) * p_Vid->NumberOfMBs);
-    if (p_Vid->RefreshPattern == NULL) no_mem_exit("RandomIntraInit: p_Vid->RefreshPattern");
-
-    p_Vid->IntraMBs = malloc (sizeof (int) * refresh);
-    if (p_Vid->IntraMBs == NULL) no_mem_exit("RandomIntraInit: p_Vid->IntraMBs");
-
-    for (i= 0; i<p_Vid->NumberOfMBs; i++)
-      p_Vid->RefreshPattern[i] = -1;
-
-    for (i=0; i<p_Vid->NumberOfMBs; i++)
+    if (refresh != 0)
     {
-      do
-      {
-        pos = rand() % p_Vid->NumberOfMBs;
-      } while (p_Vid->RefreshPattern [pos] != -1);
-      p_Vid->RefreshPattern [pos] = i;
+        p_Vid->RefreshPattern = malloc(sizeof(int) * p_Vid->NumberOfMBs);
+        if (p_Vid->RefreshPattern == NULL) no_mem_exit("RandomIntraInit: p_Vid->RefreshPattern");
+
+        p_Vid->IntraMBs = malloc(sizeof(int) * refresh);
+        if (p_Vid->IntraMBs == NULL) no_mem_exit("RandomIntraInit: p_Vid->IntraMBs");
+
+        for (i = 0; i < p_Vid->NumberOfMBs; i++)
+            p_Vid->RefreshPattern[i] = -1;
+
+        for (i = 0; i < p_Vid->NumberOfMBs; i++)
+        {
+            do
+            {
+                pos = rand() % p_Vid->NumberOfMBs;
+            } while (p_Vid->RefreshPattern [pos] != -1);
+            p_Vid->RefreshPattern [pos] = i;
+        }
+        /*
+        for (i=0; i<p_Vid->NumberOfMBs; i++) printf ("%d\t", p_Vid->RefreshPattern[i]);
+        getchar();
+        */
     }
-    /*
-    for (i=0; i<p_Vid->NumberOfMBs; i++) printf ("%d\t", p_Vid->RefreshPattern[i]);
-    getchar();
-    */
-  }
-  else
-  {
-    p_Vid->RefreshPattern = NULL;
-    p_Vid->IntraMBs = NULL;
-  }
+    else
+    {
+        p_Vid->RefreshPattern = NULL;
+        p_Vid->IntraMBs = NULL;
+    }
 }
 
 /*!
@@ -116,14 +116,14 @@ void RandomIntraInit(VideoParameters *p_Vid, int xsize, int ysize, int refresh)
  *
  ************************************************************************
  */
-int RandomIntra (VideoParameters *p_Vid, int mb)
+int RandomIntra(VideoParameters *p_Vid, int mb)
 {
-  int i;
+    int i;
 
-  for (i=0; i<p_Vid->NumberIntraPerPicture; i++)
-    if (p_Vid->IntraMBs[i] == mb)
-      return 1;
-  return 0;
+    for (i = 0; i < p_Vid->NumberIntraPerPicture; i++)
+        if (p_Vid->IntraMBs[i] == mb)
+            return 1;
+    return 0;
 }
 
 
@@ -138,20 +138,20 @@ int RandomIntra (VideoParameters *p_Vid, int mb)
  *
  ************************************************************************
  */
-void RandomIntraNewPicture (VideoParameters *p_Vid)
+void RandomIntraNewPicture(VideoParameters *p_Vid)
 {
-  int i, j;
+    int i, j;
 
-  p_Vid->WalkAround += p_Vid->NumberIntraPerPicture;
-  for (j=0, i = p_Vid->WalkAround; j<p_Vid->NumberIntraPerPicture; j++, i++)
-    p_Vid->IntraMBs[j] = p_Vid->RefreshPattern [i%p_Vid->NumberOfMBs];
+    p_Vid->WalkAround += p_Vid->NumberIntraPerPicture;
+    for (j = 0, i = p_Vid->WalkAround; j < p_Vid->NumberIntraPerPicture; j++, i++)
+        p_Vid->IntraMBs[j] = p_Vid->RefreshPattern [i % p_Vid->NumberOfMBs];
 }
 
 void RandomIntraUninit(VideoParameters *p_Vid)
 {
-  if (p_Vid->NumberIntraPerPicture >0 )
-  {
-    free(p_Vid->RefreshPattern);
-    free(p_Vid->IntraMBs);
-  }
+    if (p_Vid->NumberIntraPerPicture > 0)
+    {
+        free(p_Vid->RefreshPattern);
+        free(p_Vid->IntraMBs);
+    }
 }

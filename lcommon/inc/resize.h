@@ -47,13 +47,13 @@
 
 #ifndef _RESIZE_H_
 #define _RESIZE_H_
-extern int PyrDownG5x5_U8CnR(  const imgpel* src,
-                        int srcstep,      //stride of source in bytes;
-                        int width,        //width of source;
-                        int height,       //height of source;
-                        imgpel* dst,
-                        int dststep,
-                        int Cs
-                     );
+extern int PyrDownG5x5_U8CnR(const imgpel *src,
+                             int srcstep,      //stride of source in bytes;
+                             int width,        //width of source;
+                             int height,       //height of source;
+                             imgpel *dst,
+                             int dststep,
+                             int Cs
+                            );
 #endif
 

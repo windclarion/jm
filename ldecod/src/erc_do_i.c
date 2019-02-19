@@ -50,8 +50,8 @@
 #include "global.h"
 #include "erc_do.h"
 
-static void concealBlocks          ( VideoParameters *p_Vid, int lastColumn, int lastRow, int comp, frame *recfr, int picSizeX, char *condition );
-static void pixMeanInterpolateBlock( VideoParameters *p_Vid, imgpel *src[], imgpel *block, int blockSize, int frameWidth );
+static void concealBlocks(VideoParameters *p_Vid, int lastColumn, int lastRow, int comp, frame *recfr, int picSizeX, char *condition);
+static void pixMeanInterpolateBlock(VideoParameters *p_Vid, imgpel *src[], imgpel *block, int blockSize, int frameWidth);
 
 /*!
  ************************************************************************
@@ -73,33 +73,33 @@ static void pixMeanInterpolateBlock( VideoParameters *p_Vid, imgpel *src[], imgp
  *      Variables for error concealment
  ************************************************************************
  */
-int ercConcealIntraFrame( VideoParameters *p_Vid, frame *recfr, int picSizeX, int picSizeY, ercVariables_t *errorVar )
+int ercConcealIntraFrame(VideoParameters *p_Vid, frame *recfr, int picSizeX, int picSizeY, ercVariables_t *errorVar)
 {
-  int lastColumn = 0, lastRow = 0;
+    int lastColumn = 0, lastRow = 0;
 
-  // if concealment is on
-  if ( errorVar && errorVar->concealment )
-  {
-    // if there are segments to be concealed
-    if ( errorVar->nOfCorruptedSegments )
+    // if concealment is on
+    if (errorVar && errorVar->concealment)
     {
-      // Y
-      lastRow = (int) (picSizeY>>3);
-      lastColumn = (int) (picSizeX>>3);
-      concealBlocks( p_Vid, lastColumn, lastRow, 0, recfr, picSizeX, errorVar->yCondition );
+        // if there are segments to be concealed
+        if (errorVar->nOfCorruptedSegments)
+        {
+            // Y
+            lastRow = (int)(picSizeY >> 3);
+            lastColumn = (int)(picSizeX >> 3);
+            concealBlocks(p_Vid, lastColumn, lastRow, 0, recfr, picSizeX, errorVar->yCondition);
 
-      // U (dimensions halved compared to Y)
-      lastRow = (int) (picSizeY>>4);
-      lastColumn = (int) (picSizeX>>4);
-      concealBlocks( p_Vid, lastColumn, lastRow, 1, recfr, picSizeX, errorVar->uCondition );
+            // U (dimensions halved compared to Y)
+            lastRow = (int)(picSizeY >> 4);
+            lastColumn = (int)(picSizeX >> 4);
+            concealBlocks(p_Vid, lastColumn, lastRow, 1, recfr, picSizeX, errorVar->uCondition);
 
-      // V ( dimensions equal to U )
-      concealBlocks( p_Vid, lastColumn, lastRow, 2, recfr, picSizeX, errorVar->vCondition );
+            // V ( dimensions equal to U )
+            concealBlocks(p_Vid, lastColumn, lastRow, 2, recfr, picSizeX, errorVar->vCondition);
+        }
+        return 1;
     }
-    return 1;
-  }
-  else
-    return 0;
+    else
+        return 0;
 }
 
 /*!
@@ -125,29 +125,29 @@ int ercConcealIntraFrame( VideoParameters *p_Vid, frame *recfr, int picSizeX, in
  */
 void ercPixConcealIMB(VideoParameters *p_Vid, imgpel *currFrame, int row, int column, int predBlocks[], int frameWidth, int mbWidthInBlocks)
 {
-   imgpel *src[8]={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
-   imgpel *currBlock = NULL;
+    imgpel *src[8] = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+    imgpel *currBlock = NULL;
 
-   // collect the reliable neighboring blocks
-   if (predBlocks[0])
-      src[0] = currFrame + (row-mbWidthInBlocks)*frameWidth*8 + (column+mbWidthInBlocks)*8;
-   if (predBlocks[1])
-      src[1] = currFrame + (row-mbWidthInBlocks)*frameWidth*8 + (column-mbWidthInBlocks)*8;
-   if (predBlocks[2])
-      src[2] = currFrame + (row+mbWidthInBlocks)*frameWidth*8 + (column-mbWidthInBlocks)*8;
-   if (predBlocks[3])
-      src[3] = currFrame + (row+mbWidthInBlocks)*frameWidth*8 + (column+mbWidthInBlocks)*8;
-   if (predBlocks[4])
-      src[4] = currFrame + (row-mbWidthInBlocks)*frameWidth*8 + column*8;
-   if (predBlocks[5])
-      src[5] = currFrame + row*frameWidth*8 + (column-mbWidthInBlocks)*8;
-   if (predBlocks[6])
-      src[6] = currFrame + (row+mbWidthInBlocks)*frameWidth*8 + column*8;
-   if (predBlocks[7])
-      src[7] = currFrame + row*frameWidth*8 + (column+mbWidthInBlocks)*8;
+    // collect the reliable neighboring blocks
+    if (predBlocks[0])
+        src[0] = currFrame + (row - mbWidthInBlocks) * frameWidth * 8 + (column + mbWidthInBlocks) * 8;
+    if (predBlocks[1])
+        src[1] = currFrame + (row - mbWidthInBlocks) * frameWidth * 8 + (column - mbWidthInBlocks) * 8;
+    if (predBlocks[2])
+        src[2] = currFrame + (row + mbWidthInBlocks) * frameWidth * 8 + (column - mbWidthInBlocks) * 8;
+    if (predBlocks[3])
+        src[3] = currFrame + (row + mbWidthInBlocks) * frameWidth * 8 + (column + mbWidthInBlocks) * 8;
+    if (predBlocks[4])
+        src[4] = currFrame + (row - mbWidthInBlocks) * frameWidth * 8 + column * 8;
+    if (predBlocks[5])
+        src[5] = currFrame + row * frameWidth * 8 + (column - mbWidthInBlocks) * 8;
+    if (predBlocks[6])
+        src[6] = currFrame + (row + mbWidthInBlocks) * frameWidth * 8 + column * 8;
+    if (predBlocks[7])
+        src[7] = currFrame + row * frameWidth * 8 + (column + mbWidthInBlocks) * 8;
 
-   currBlock = currFrame + row*frameWidth*8 + column*8;
-   pixMeanInterpolateBlock( p_Vid, src, currBlock, mbWidthInBlocks*8, frameWidth );
+    currBlock = currFrame + row * frameWidth * 8 + column * 8;
+    pixMeanInterpolateBlock(p_Vid, src, currBlock, mbWidthInBlocks * 8, frameWidth);
 }
 
 /*!
@@ -183,90 +183,91 @@ void ercPixConcealIMB(VideoParameters *p_Vid, imgpel *currFrame, int row, int co
  *      No corner neighbors are considered
  ************************************************************************
  */
-int ercCollect8PredBlocks( int predBlocks[], int currRow, int currColumn, char *condition,
-                           int maxRow, int maxColumn, int step, byte fNoCornerNeigh )
+int ercCollect8PredBlocks(int predBlocks[], int currRow, int currColumn, char *condition,
+                          int maxRow, int maxColumn, int step, byte fNoCornerNeigh)
 {
-  int srcCounter  = 0;
-  int srcCountMin = (fNoCornerNeigh ? 2 : 4);
-  int threshold   = ERC_BLOCK_OK;
+    int srcCounter  = 0;
+    int srcCountMin = (fNoCornerNeigh ? 2 : 4);
+    int threshold   = ERC_BLOCK_OK;
 
-  memset( predBlocks, 0, 8*sizeof(int) );
+    memset(predBlocks, 0, 8 * sizeof(int));
 
-  // collect the reliable neighboring blocks
-  do
-  {
-    srcCounter = 0;
-    // top
-    if (currRow > 0 && condition[ (currRow-1)*maxColumn + currColumn ] >= threshold )
-    {                           //ERC_BLOCK_OK (3) or ERC_BLOCK_CONCEALED (2)
-      predBlocks[4] = condition[ (currRow-1)*maxColumn + currColumn ];
-      srcCounter++;
-    }
-    // bottom
-    if ( currRow < (maxRow-step) && condition[ (currRow+step)*maxColumn + currColumn ] >= threshold )
+    // collect the reliable neighboring blocks
+    do
     {
-      predBlocks[6] = condition[ (currRow+step)*maxColumn + currColumn ];
-      srcCounter++;
-    }
-
-    if ( currColumn > 0 )
-    {
-      // left
-      if ( condition[ currRow*maxColumn + currColumn - 1 ] >= threshold )
-      {
-        predBlocks[5] = condition[ currRow*maxColumn + currColumn - 1 ];
-        srcCounter++;
-      }
-
-      if ( !fNoCornerNeigh )
-      {
-        // top-left
-        if ( currRow > 0 && condition[ (currRow-1)*maxColumn + currColumn - 1 ] >= threshold )
+        srcCounter = 0;
+        // top
+        if (currRow > 0 && condition[(currRow - 1)*maxColumn + currColumn ] >= threshold)
         {
-          predBlocks[1] = condition[ (currRow-1)*maxColumn + currColumn - 1 ];
-          srcCounter++;
+            //ERC_BLOCK_OK (3) or ERC_BLOCK_CONCEALED (2)
+            predBlocks[4] = condition[(currRow - 1) * maxColumn + currColumn ];
+            srcCounter++;
         }
-        // bottom-left
-        if ( currRow < (maxRow-step) && condition[ (currRow+step)*maxColumn + currColumn - 1 ] >= threshold )
+        // bottom
+        if (currRow < (maxRow - step) && condition[(currRow + step)*maxColumn + currColumn ] >= threshold)
         {
-          predBlocks[2] = condition[ (currRow+step)*maxColumn + currColumn - 1 ];
-          srcCounter++;
+            predBlocks[6] = condition[(currRow + step) * maxColumn + currColumn ];
+            srcCounter++;
         }
-      }
-    }
 
-    if ( currColumn < (maxColumn-step) )
-    {
-      // right
-      if ( condition[ currRow*maxColumn+currColumn + step ] >= threshold )
-      {
-        predBlocks[7] = condition[ currRow*maxColumn+currColumn + step ];
-        srcCounter++;
-      }
-
-      if ( !fNoCornerNeigh )
-      {
-        // top-right
-        if ( currRow > 0 && condition[ (currRow-1)*maxColumn + currColumn + step ] >= threshold )
+        if (currColumn > 0)
         {
-          predBlocks[0] = condition[ (currRow-1)*maxColumn + currColumn + step ];
-          srcCounter++;
-        }
-        // bottom-right
-        if ( currRow < (maxRow-step) && condition[ (currRow+step)*maxColumn + currColumn + step ] >= threshold )
-        {
-          predBlocks[3] = condition[ (currRow+step)*maxColumn + currColumn + step ];
-          srcCounter++;
-        }
-      }
-    }
-    // prepare for the next round
-    threshold--;
-    if (threshold < ERC_BLOCK_CONCEALED)
-      break;
-  } while ( srcCounter < srcCountMin);
+            // left
+            if (condition[ currRow * maxColumn + currColumn - 1 ] >= threshold)
+            {
+                predBlocks[5] = condition[ currRow * maxColumn + currColumn - 1 ];
+                srcCounter++;
+            }
 
-  return srcCounter;
+            if (!fNoCornerNeigh)
+            {
+                // top-left
+                if (currRow > 0 && condition[(currRow - 1)*maxColumn + currColumn - 1 ] >= threshold)
+                {
+                    predBlocks[1] = condition[(currRow - 1) * maxColumn + currColumn - 1 ];
+                    srcCounter++;
+                }
+                // bottom-left
+                if (currRow < (maxRow - step) && condition[(currRow + step)*maxColumn + currColumn - 1 ] >= threshold)
+                {
+                    predBlocks[2] = condition[(currRow + step) * maxColumn + currColumn - 1 ];
+                    srcCounter++;
+                }
+            }
+        }
+
+        if (currColumn < (maxColumn - step))
+        {
+            // right
+            if (condition[ currRow * maxColumn + currColumn + step ] >= threshold)
+            {
+                predBlocks[7] = condition[ currRow * maxColumn + currColumn + step ];
+                srcCounter++;
+            }
+
+            if (!fNoCornerNeigh)
+            {
+                // top-right
+                if (currRow > 0 && condition[(currRow - 1)*maxColumn + currColumn + step ] >= threshold)
+                {
+                    predBlocks[0] = condition[(currRow - 1) * maxColumn + currColumn + step ];
+                    srcCounter++;
+                }
+                // bottom-right
+                if (currRow < (maxRow - step) && condition[(currRow + step)*maxColumn + currColumn + step ] >= threshold)
+                {
+                    predBlocks[3] = condition[(currRow + step) * maxColumn + currColumn + step ];
+                    srcCounter++;
+                }
+            }
+        }
+        // prepare for the next round
+        threshold--;
+        if (threshold < ERC_BLOCK_CONCEALED)
+            break;
+    } while (srcCounter < srcCountMin);
+
+    return srcCounter;
 }
 
 /*!
@@ -292,25 +293,25 @@ int ercCollect8PredBlocks( int predBlocks[], int currRow, int currColumn, char *
  *      in vertical/horizontal direction. (Y:2 U,V:1)
  ************************************************************************
  */
-int ercCollectColumnBlocks( int predBlocks[], int currRow, int currColumn, char *condition, int maxRow, int maxColumn, int step )
+int ercCollectColumnBlocks(int predBlocks[], int currRow, int currColumn, char *condition, int maxRow, int maxColumn, int step)
 {
-  int srcCounter = 0, threshold = ERC_BLOCK_CORRUPTED;
+    int srcCounter = 0, threshold = ERC_BLOCK_CORRUPTED;
 
-  memset( predBlocks, 0, 8*sizeof(int) );
+    memset(predBlocks, 0, 8 * sizeof(int));
 
-  // in this case, row > 0 and row < 17
-  if ( condition[ (currRow-1)*maxColumn + currColumn ] > threshold )
-  {
-    predBlocks[4] = 1;
-    srcCounter++;
-  }
-  if ( condition[ (currRow+step)*maxColumn + currColumn ] > threshold )
-  {
-    predBlocks[6] = 1;
-    srcCounter++;
-  }
+    // in this case, row > 0 and row < 17
+    if (condition[(currRow - 1)*maxColumn + currColumn ] > threshold)
+    {
+        predBlocks[4] = 1;
+        srcCounter++;
+    }
+    if (condition[(currRow + step)*maxColumn + currColumn ] > threshold)
+    {
+        predBlocks[6] = 1;
+        srcCounter++;
+    }
 
-  return srcCounter;
+    return srcCounter;
 }
 
 /*!
@@ -338,175 +339,175 @@ int ercCollectColumnBlocks( int predBlocks[], int currRow, int currColumn, char 
  *      The block condition (ok, lost) table
  ************************************************************************
  */
-static void concealBlocks( VideoParameters *p_Vid, int lastColumn, int lastRow, int comp, frame *recfr, int picSizeX, char *condition )
+static void concealBlocks(VideoParameters *p_Vid, int lastColumn, int lastRow, int comp, frame *recfr, int picSizeX, char *condition)
 {
-  int row, column, srcCounter = 0,  thr = ERC_BLOCK_CORRUPTED,
-      lastCorruptedRow = -1, firstCorruptedRow = -1, currRow = 0,
-      areaHeight = 0, i = 0, smoothColumn = 0;
-  int predBlocks[8], step = 1;
+    int row, column, srcCounter = 0,  thr = ERC_BLOCK_CORRUPTED,
+                     lastCorruptedRow = -1, firstCorruptedRow = -1, currRow = 0,
+                     areaHeight = 0, i = 0, smoothColumn = 0;
+    int predBlocks[8], step = 1;
 
-  // in the Y component do the concealment MB-wise (not block-wise):
-  // this is useful if only whole MBs can be damaged or lost
-  if ( comp == 0 )
-    step = 2;
-  else
-    step = 1;
+    // in the Y component do the concealment MB-wise (not block-wise):
+    // this is useful if only whole MBs can be damaged or lost
+    if (comp == 0)
+        step = 2;
+    else
+        step = 1;
 
-  for ( column = 0; column < lastColumn; column += step )
-  {
-    for ( row = 0; row < lastRow; row += step )
+    for (column = 0; column < lastColumn; column += step)
     {
-      if ( condition[row*lastColumn+column] <= thr )
-      {
-        firstCorruptedRow = row;
-        // find the last row which has corrupted blocks (in same continuous area)
-        for ( lastCorruptedRow = row+step; lastCorruptedRow < lastRow; lastCorruptedRow += step )
+        for (row = 0; row < lastRow; row += step)
         {
-          // check blocks in the current column
-          if ( condition[ lastCorruptedRow*lastColumn + column ] > thr )
-          {
-            // current one is already OK, so the last was the previous one
-            lastCorruptedRow -= step;
-            break;
-          }
+            if (condition[row * lastColumn + column] <= thr)
+            {
+                firstCorruptedRow = row;
+                // find the last row which has corrupted blocks (in same continuous area)
+                for (lastCorruptedRow = row + step; lastCorruptedRow < lastRow; lastCorruptedRow += step)
+                {
+                    // check blocks in the current column
+                    if (condition[ lastCorruptedRow * lastColumn + column ] > thr)
+                    {
+                        // current one is already OK, so the last was the previous one
+                        lastCorruptedRow -= step;
+                        break;
+                    }
+                }
+                if (lastCorruptedRow >= lastRow)
+                {
+                    // correct only from above
+                    lastCorruptedRow = lastRow - step;
+                    for (currRow = firstCorruptedRow; currRow < lastRow; currRow += step)
+                    {
+                        srcCounter = ercCollect8PredBlocks(predBlocks, currRow, column, condition, lastRow, lastColumn, step, 1);
+
+                        switch (comp)
+                        {
+                        case 0 :
+                            ercPixConcealIMB(p_Vid, recfr->yptr, currRow, column, predBlocks, picSizeX, 2);
+                            break;
+                        case 1 :
+                            ercPixConcealIMB(p_Vid, recfr->uptr, currRow, column, predBlocks, (picSizeX >> 1), 1);
+                            break;
+                        case 2 :
+                            ercPixConcealIMB(p_Vid, recfr->vptr, currRow, column, predBlocks, (picSizeX >> 1), 1);
+                            break;
+                        }
+
+                        if (comp == 0)
+                        {
+                            condition[ currRow * lastColumn + column] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + 1] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + lastColumn] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + lastColumn + 1] = ERC_BLOCK_CONCEALED;
+                        }
+                        else
+                        {
+                            condition[ currRow * lastColumn + column] = ERC_BLOCK_CONCEALED;
+                        }
+
+                    }
+                    row = lastRow;
+                }
+                else if (firstCorruptedRow == 0)
+                {
+                    // correct only from below
+                    for (currRow = lastCorruptedRow; currRow >= 0; currRow -= step)
+                    {
+                        srcCounter = ercCollect8PredBlocks(predBlocks, currRow, column, condition, lastRow, lastColumn, step, 1);
+
+                        switch (comp)
+                        {
+                        case 0 :
+                            ercPixConcealIMB(p_Vid, recfr->yptr, currRow, column, predBlocks, picSizeX, 2);
+                            break;
+                        case 1 :
+                            ercPixConcealIMB(p_Vid, recfr->uptr, currRow, column, predBlocks, (picSizeX >> 1), 1);
+                            break;
+                        case 2 :
+                            ercPixConcealIMB(p_Vid, recfr->vptr, currRow, column, predBlocks, (picSizeX >> 1), 1);
+                            break;
+                        }
+
+                        if (comp == 0)
+                        {
+                            condition[ currRow * lastColumn + column] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + 1] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + lastColumn] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + lastColumn + 1] = ERC_BLOCK_CONCEALED;
+                        }
+                        else
+                        {
+                            condition[ currRow * lastColumn + column] = ERC_BLOCK_CONCEALED;
+                        }
+
+                    }
+
+                    row = lastCorruptedRow + step;
+                }
+                else
+                {
+                    // correct bi-directionally
+
+                    row = lastCorruptedRow + step;
+                    areaHeight = lastCorruptedRow - firstCorruptedRow + step;
+
+                    // Conceal the corrupted area switching between the up and the bottom rows
+                    for (i = 0; i < areaHeight; i += step)
+                    {
+                        if (i % 2)
+                        {
+                            currRow = lastCorruptedRow;
+                            lastCorruptedRow -= step;
+                        }
+                        else
+                        {
+                            currRow = firstCorruptedRow;
+                            firstCorruptedRow += step;
+                        }
+
+                        if (smoothColumn > 0)
+                        {
+                            srcCounter = ercCollectColumnBlocks(predBlocks, currRow, column, condition, lastRow, lastColumn, step);
+                        }
+                        else
+                        {
+                            srcCounter = ercCollect8PredBlocks(predBlocks, currRow, column, condition, lastRow, lastColumn, step, 1);
+                        }
+
+                        switch (comp)
+                        {
+                        case 0 :
+                            ercPixConcealIMB(p_Vid, recfr->yptr, currRow, column, predBlocks, picSizeX, 2);
+                            break;
+
+                        case 1 :
+                            ercPixConcealIMB(p_Vid, recfr->uptr, currRow, column, predBlocks, (picSizeX >> 1), 1);
+                            break;
+
+                        case 2 :
+                            ercPixConcealIMB(p_Vid, recfr->vptr, currRow, column, predBlocks, (picSizeX >> 1), 1);
+                            break;
+                        }
+
+                        if (comp == 0)
+                        {
+                            condition[ currRow * lastColumn + column] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + 1] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + lastColumn] = ERC_BLOCK_CONCEALED;
+                            condition[ currRow * lastColumn + column + lastColumn + 1] = ERC_BLOCK_CONCEALED;
+                        }
+                        else
+                        {
+                            condition[ currRow * lastColumn + column ] = ERC_BLOCK_CONCEALED;
+                        }
+                    }
+                }
+
+                lastCorruptedRow = -1;
+                firstCorruptedRow = -1;
+
+            }
         }
-        if ( lastCorruptedRow >= lastRow )
-        {
-          // correct only from above
-          lastCorruptedRow = lastRow-step;
-          for ( currRow = firstCorruptedRow; currRow < lastRow; currRow += step )
-          {
-            srcCounter = ercCollect8PredBlocks( predBlocks, currRow, column, condition, lastRow, lastColumn, step, 1 );
-
-            switch( comp )
-            {
-            case 0 :
-              ercPixConcealIMB( p_Vid, recfr->yptr, currRow, column, predBlocks, picSizeX, 2 );
-              break;
-            case 1 :
-              ercPixConcealIMB( p_Vid, recfr->uptr, currRow, column, predBlocks, (picSizeX>>1), 1 );
-              break;
-            case 2 :
-              ercPixConcealIMB( p_Vid, recfr->vptr, currRow, column, predBlocks, (picSizeX>>1), 1 );
-              break;
-            }
-
-            if ( comp == 0 )
-            {
-              condition[ currRow*lastColumn+column] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + 1] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + lastColumn] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + lastColumn + 1] = ERC_BLOCK_CONCEALED;
-            }
-            else
-            {
-              condition[ currRow*lastColumn+column] = ERC_BLOCK_CONCEALED;
-            }
-
-          }
-          row = lastRow;
-        }
-        else if ( firstCorruptedRow == 0 )
-        {
-          // correct only from below
-          for ( currRow = lastCorruptedRow; currRow >= 0; currRow -= step )
-          {
-            srcCounter = ercCollect8PredBlocks( predBlocks, currRow, column, condition, lastRow, lastColumn, step, 1 );
-
-            switch( comp )
-            {
-            case 0 :
-              ercPixConcealIMB( p_Vid, recfr->yptr, currRow, column, predBlocks, picSizeX, 2 );
-              break;
-            case 1 :
-              ercPixConcealIMB( p_Vid, recfr->uptr, currRow, column, predBlocks, (picSizeX>>1), 1 );
-              break;
-            case 2 :
-              ercPixConcealIMB( p_Vid, recfr->vptr, currRow, column, predBlocks, (picSizeX>>1), 1 );
-              break;
-            }
-
-            if ( comp == 0 )
-            {
-              condition[ currRow*lastColumn+column] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + 1] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + lastColumn] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + lastColumn + 1] = ERC_BLOCK_CONCEALED;
-            }
-            else
-            {
-              condition[ currRow*lastColumn+column] = ERC_BLOCK_CONCEALED;
-            }
-
-          }
-
-          row = lastCorruptedRow+step;
-        }
-        else
-        {
-          // correct bi-directionally
-
-          row = lastCorruptedRow+step;
-          areaHeight = lastCorruptedRow-firstCorruptedRow+step;
-
-          // Conceal the corrupted area switching between the up and the bottom rows
-          for ( i = 0; i < areaHeight; i += step )
-          {
-            if ( i % 2 )
-            {
-              currRow = lastCorruptedRow;
-              lastCorruptedRow -= step;
-            }
-            else
-            {
-              currRow = firstCorruptedRow;
-              firstCorruptedRow += step;
-            }
-
-            if (smoothColumn > 0)
-            {
-              srcCounter = ercCollectColumnBlocks( predBlocks, currRow, column, condition, lastRow, lastColumn, step );
-            }
-            else
-            {
-              srcCounter = ercCollect8PredBlocks( predBlocks, currRow, column, condition, lastRow, lastColumn, step, 1 );
-            }
-
-            switch( comp )
-            {
-            case 0 :
-              ercPixConcealIMB( p_Vid, recfr->yptr, currRow, column, predBlocks, picSizeX, 2 );
-              break;
-
-            case 1 :
-              ercPixConcealIMB( p_Vid, recfr->uptr, currRow, column, predBlocks, (picSizeX>>1), 1 );
-              break;
-
-            case 2 :
-              ercPixConcealIMB( p_Vid, recfr->vptr, currRow, column, predBlocks, (picSizeX>>1), 1 );
-              break;
-            }
-
-            if ( comp == 0 )
-            {
-              condition[ currRow*lastColumn+column] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + 1] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + lastColumn] = ERC_BLOCK_CONCEALED;
-              condition[ currRow*lastColumn+column + lastColumn + 1] = ERC_BLOCK_CONCEALED;
-            }
-            else
-            {
-              condition[ currRow*lastColumn+column ] = ERC_BLOCK_CONCEALED;
-            }
-          }
-        }
-
-        lastCorruptedRow = -1;
-        firstCorruptedRow = -1;
-
-      }
     }
-  }
 }
 
 /*!
@@ -526,51 +527,51 @@ static void concealBlocks( VideoParameters *p_Vid, int lastColumn, int lastRow, 
  *      Width of the frame in pixels
  ************************************************************************
  */
-static void pixMeanInterpolateBlock( VideoParameters *p_Vid, imgpel *src[], imgpel *block, int blockSize, int frameWidth )
+static void pixMeanInterpolateBlock(VideoParameters *p_Vid, imgpel *src[], imgpel *block, int blockSize, int frameWidth)
 {
-  int row, column, k, tmp, srcCounter = 0, weight = 0, bmax = blockSize - 1;
+    int row, column, k, tmp, srcCounter = 0, weight = 0, bmax = blockSize - 1;
 
-  k = 0;
-  for ( row = 0; row < blockSize; row++ )
-  {
-    for ( column = 0; column < blockSize; column++ )
+    k = 0;
+    for (row = 0; row < blockSize; row++)
     {
-      tmp = 0;
-      srcCounter = 0;
-      // above
-      if ( src[4] != NULL )
-      {
-        weight = blockSize-row;
-        tmp += weight * (*(src[4]+bmax*frameWidth+column));
-        srcCounter += weight;
-      }
-      // left
-      if ( src[5] != NULL )
-      {
-        weight = blockSize-column;
-        tmp += weight * (*(src[5]+row*frameWidth+bmax));
-        srcCounter += weight;
-      }
-      // below
-      if ( src[6] != NULL )
-      {
-        weight = row+1;
-        tmp += weight * (*(src[6]+column));
-        srcCounter += weight;
-      }
-      // right
-      if ( src[7] != NULL )
-      {
-        weight = column+1;
-        tmp += weight * (*(src[7]+row*frameWidth));
-        srcCounter += weight;
-      }
+        for (column = 0; column < blockSize; column++)
+        {
+            tmp = 0;
+            srcCounter = 0;
+            // above
+            if (src[4] != NULL)
+            {
+                weight = blockSize - row;
+                tmp += weight * (*(src[4] + bmax * frameWidth + column));
+                srcCounter += weight;
+            }
+            // left
+            if (src[5] != NULL)
+            {
+                weight = blockSize - column;
+                tmp += weight * (*(src[5] + row * frameWidth + bmax));
+                srcCounter += weight;
+            }
+            // below
+            if (src[6] != NULL)
+            {
+                weight = row + 1;
+                tmp += weight * (*(src[6] + column));
+                srcCounter += weight;
+            }
+            // right
+            if (src[7] != NULL)
+            {
+                weight = column + 1;
+                tmp += weight * (*(src[7] + row * frameWidth));
+                srcCounter += weight;
+            }
 
-      if ( srcCounter > 0 )
-        block[ k + column ] = (imgpel)(tmp/srcCounter);
-      else
-        block[ k + column ] = (imgpel) (blockSize == 8 ? p_Vid->dc_pred_value_comp[1] : p_Vid->dc_pred_value_comp[0]);
+            if (srcCounter > 0)
+                block[ k + column ] = (imgpel)(tmp / srcCounter);
+            else
+                block[ k + column ] = (imgpel)(blockSize == 8 ? p_Vid->dc_pred_value_comp[1] : p_Vid->dc_pred_value_comp[0]);
+        }
+        k += frameWidth;
     }
-    k += frameWidth;
-  }
 }

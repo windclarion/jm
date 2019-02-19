@@ -107,7 +107,7 @@ typedef int   intptr_t;
 # define  OPEN_PERMISSIONS S_IRUSR | S_IWUSR
 
 # if __STDC_VERSION__ >= 199901L
-   /* "inline" is a keyword */
+/* "inline" is a keyword */
 # else
 #  define inline /* nothing */
 # endif
@@ -130,9 +130,9 @@ typedef unsigned long long  uint64;
 # endif
 #endif
 
-extern void   gettime(TIME_T* time);
+extern void   gettime(TIME_T *time);
 extern void   init_time(void);
-extern int64 timediff(TIME_T* start, TIME_T* end);
+extern int64 timediff(TIME_T *start, TIME_T *end);
 extern int64 timenorm(int64 cur_time);
 
 #endif

@@ -51,8 +51,8 @@
 
 #include "img_distortion.h"
 
-extern void init_YUVtoRGB    (VideoParameters *p_Vid, InputParameters *p_Inp);
-extern void YUVtoRGB         (VideoParameters *p_Vid, ImageStructure *YUV, ImageStructure *RGB);
+extern void init_YUVtoRGB(VideoParameters *p_Vid, InputParameters *p_Inp);
+extern void YUVtoRGB(VideoParameters *p_Vid, ImageStructure *YUV, ImageStructure *RGB);
 extern int  create_RGB_memory(VideoParameters *p_Vid);
 extern void delete_RGB_memory(VideoParameters *p_Vid);
 

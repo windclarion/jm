@@ -102,18 +102,19 @@
 #define MAX_NUM_DPB_LAYERS      2
 
 //AVC Profile IDC definitions
-typedef enum {
-  NO_PROFILE     =  0,       //!< disable profile checking for experimental coding (enables FRExt, but disables MV)
-  FREXT_CAVLC444 = 44,       //!< YUV 4:4:4/14 "CAVLC 4:4:4"
-  BASELINE       = 66,       //!< YUV 4:2:0/8  "Baseline"
-  MAIN           = 77,       //!< YUV 4:2:0/8  "Main"
-  EXTENDED       = 88,       //!< YUV 4:2:0/8  "Extended"
-  FREXT_HP       = 100,      //!< YUV 4:2:0/8  "High"
-  FREXT_Hi10P    = 110,      //!< YUV 4:2:0/10 "High 10"
-  FREXT_Hi422    = 122,      //!< YUV 4:2:2/10 "High 4:2:2"
-  FREXT_Hi444    = 244,      //!< YUV 4:4:4/14 "High 4:4:4"
-  MVC_HIGH       = 118,      //!< YUV 4:2:0/8  "Multiview High"
-  STEREO_HIGH    = 128       //!< YUV 4:2:0/8  "Stereo High"
+typedef enum
+{
+    NO_PROFILE     =  0,       //!< disable profile checking for experimental coding (enables FRExt, but disables MV)
+    FREXT_CAVLC444 = 44,       //!< YUV 4:4:4/14 "CAVLC 4:4:4"
+    BASELINE       = 66,       //!< YUV 4:2:0/8  "Baseline"
+    MAIN           = 77,       //!< YUV 4:2:0/8  "Main"
+    EXTENDED       = 88,       //!< YUV 4:2:0/8  "Extended"
+    FREXT_HP       = 100,      //!< YUV 4:2:0/8  "High"
+    FREXT_Hi10P    = 110,      //!< YUV 4:2:0/10 "High 10"
+    FREXT_Hi422    = 122,      //!< YUV 4:2:2/10 "High 4:2:2"
+    FREXT_Hi444    = 244,      //!< YUV 4:4:4/14 "High 4:4:4"
+    MVC_HIGH       = 118,      //!< YUV 4:2:0/8  "Multiview High"
+    STEREO_HIGH    = 128       //!< YUV 4:2:0/8  "Stereo High"
 } ProfileIDC;
 
 #define FILE_NAME_SIZE  255
@@ -146,72 +147,76 @@ typedef enum {
 #define BLOCK_SIZE_8x8_SP  32  // BLOCK_SIZE8x8 << 2
 
 //  Available MB modes
-typedef enum {
-  PSKIP        =  0,
-  BSKIP_DIRECT =  0,
-  P16x16       =  1,
-  P16x8        =  2,
-  P8x16        =  3,
-  SMB8x8       =  4,
-  SMB8x4       =  5,
-  SMB4x8       =  6,
-  SMB4x4       =  7,
-  P8x8         =  8,
-  I4MB         =  9,
-  I16MB        = 10,
-  IBLOCK       = 11,
-  SI4MB        = 12,
-  I8MB         = 13,
-  IPCM         = 14,
-  MAXMODE      = 15
+typedef enum
+{
+    PSKIP        =  0,
+    BSKIP_DIRECT =  0,
+    P16x16       =  1,
+    P16x8        =  2,
+    P8x16        =  3,
+    SMB8x8       =  4,
+    SMB8x4       =  5,
+    SMB4x8       =  6,
+    SMB4x4       =  7,
+    P8x8         =  8,
+    I4MB         =  9,
+    I16MB        = 10,
+    IBLOCK       = 11,
+    SI4MB        = 12,
+    I8MB         = 13,
+    IPCM         = 14,
+    MAXMODE      = 15
 } MBModeTypes;
 
 // number of intra prediction modes
 #define NO_INTRA_PMODE  9
 
 // Direct Mode types
-typedef enum {
-  DIR_TEMPORAL = 0, //!< Temporal Direct Mode
-  DIR_SPATIAL  = 1 //!< Spatial Direct Mode
+typedef enum
+{
+    DIR_TEMPORAL = 0, //!< Temporal Direct Mode
+    DIR_SPATIAL  = 1 //!< Spatial Direct Mode
 } DirectModes;
 
 // CAVLC block types
-typedef enum {
-  LUMA              =  0,
-  LUMA_INTRA16x16DC =  1,
-  LUMA_INTRA16x16AC =  2,
-  CB                =  3,
-  CB_INTRA16x16DC   =  4,
-  CB_INTRA16x16AC   =  5,
-  CR                =  8,
-  CR_INTRA16x16DC   =  9,
-  CR_INTRA16x16AC   = 10
+typedef enum
+{
+    LUMA              =  0,
+    LUMA_INTRA16x16DC =  1,
+    LUMA_INTRA16x16AC =  2,
+    CB                =  3,
+    CB_INTRA16x16DC   =  4,
+    CB_INTRA16x16AC   =  5,
+    CR                =  8,
+    CR_INTRA16x16DC   =  9,
+    CR_INTRA16x16AC   = 10
 } CAVLCBlockTypes;
 
 // CABAC block types
-typedef enum {
-  LUMA_16DC     =   0,
-  LUMA_16AC     =   1,
-  LUMA_8x8      =   2,
-  LUMA_8x4      =   3,
-  LUMA_4x8      =   4,
-  LUMA_4x4      =   5,
-  CHROMA_DC     =   6,
-  CHROMA_AC     =   7,
-  CHROMA_DC_2x4 =   8,
-  CHROMA_DC_4x4 =   9,
-  CB_16DC       =  10,
-  CB_16AC       =  11,
-  CB_8x8        =  12,
-  CB_8x4        =  13,
-  CB_4x8        =  14,
-  CB_4x4        =  15,
-  CR_16DC       =  16,
-  CR_16AC       =  17,
-  CR_8x8        =  18,
-  CR_8x4        =  19,
-  CR_4x8        =  20,
-  CR_4x4        =  21
+typedef enum
+{
+    LUMA_16DC     =   0,
+    LUMA_16AC     =   1,
+    LUMA_8x8      =   2,
+    LUMA_8x4      =   3,
+    LUMA_4x8      =   4,
+    LUMA_4x4      =   5,
+    CHROMA_DC     =   6,
+    CHROMA_AC     =   7,
+    CHROMA_DC_2x4 =   8,
+    CHROMA_DC_4x4 =   9,
+    CB_16DC       =  10,
+    CB_16AC       =  11,
+    CB_8x8        =  12,
+    CB_8x4        =  13,
+    CB_4x8        =  14,
+    CB_4x4        =  15,
+    CR_16DC       =  16,
+    CR_16AC       =  17,
+    CR_8x8        =  18,
+    CR_8x4        =  19,
+    CR_4x8        =  20,
+    CR_4x4        =  21
 } CABACBlockTypes;
 
 // Macro defines
@@ -232,64 +237,71 @@ typedef enum {
 #define MIN_QP          0
 #define MAX_QP          51
 // 4x4 intra prediction modes
-typedef enum {
-  VERT_PRED            = 0,
-  HOR_PRED             = 1,
-  DC_PRED              = 2,
-  DIAG_DOWN_LEFT_PRED  = 3,
-  DIAG_DOWN_RIGHT_PRED = 4,
-  VERT_RIGHT_PRED      = 5,
-  HOR_DOWN_PRED        = 6,
-  VERT_LEFT_PRED       = 7,
-  HOR_UP_PRED          = 8
+typedef enum
+{
+    VERT_PRED            = 0,
+    HOR_PRED             = 1,
+    DC_PRED              = 2,
+    DIAG_DOWN_LEFT_PRED  = 3,
+    DIAG_DOWN_RIGHT_PRED = 4,
+    VERT_RIGHT_PRED      = 5,
+    HOR_DOWN_PRED        = 6,
+    VERT_LEFT_PRED       = 7,
+    HOR_UP_PRED          = 8
 } I4x4PredModes;
 
 // 16x16 intra prediction modes
-typedef enum {
-  VERT_PRED_16   = 0,
-  HOR_PRED_16    = 1,
-  DC_PRED_16     = 2,
-  PLANE_16       = 3
+typedef enum
+{
+    VERT_PRED_16   = 0,
+    HOR_PRED_16    = 1,
+    DC_PRED_16     = 2,
+    PLANE_16       = 3
 } I16x16PredModes;
 
 // 8x8 chroma intra prediction modes
-typedef enum {
-  DC_PRED_8     =  0,
-  HOR_PRED_8    =  1,
-  VERT_PRED_8   =  2,
-  PLANE_8       =  3
+typedef enum
+{
+    DC_PRED_8     =  0,
+    HOR_PRED_8    =  1,
+    VERT_PRED_8   =  2,
+    PLANE_8       =  3
 } I8x8PredModes;
 
 // Color components
-enum {
-  Y_COMP = 0,    // Y Component
-  U_COMP = 1,    // U Component
-  V_COMP = 2,    // V Component
-  R_COMP = 3,    // R Component
-  G_COMP = 4,    // G Component
-  B_COMP = 5,    // B Component
-  T_COMP = 6
+enum
+{
+    Y_COMP = 0,    // Y Component
+    U_COMP = 1,    // U Component
+    V_COMP = 2,    // V Component
+    R_COMP = 3,    // R Component
+    G_COMP = 4,    // G Component
+    B_COMP = 5,    // B Component
+    T_COMP = 6
 } ColorComponent;
 
-enum {
-  EOS = 1,    //!< End Of Sequence
-  SOP = 2,    //!< Start Of Picture
-  SOS = 3,     //!< Start Of Slice
-  SOS_CONT = 4
+enum
+{
+    EOS = 1,    //!< End Of Sequence
+    SOP = 2,    //!< Start Of Picture
+    SOS = 3,     //!< Start Of Slice
+    SOS_CONT = 4
 };
 
 // MV Prediction types
-typedef enum {
-  MVPRED_MEDIAN   = 0,
-  MVPRED_L        = 1,
-  MVPRED_U        = 2,
-  MVPRED_UR       = 3
+typedef enum
+{
+    MVPRED_MEDIAN   = 0,
+    MVPRED_L        = 1,
+    MVPRED_U        = 2,
+    MVPRED_UR       = 3
 } MVPredTypes;
 
-enum {
-  DECODING_OK     = 0,
-  SEARCH_SYNC     = 1,
-  PICTURE_DECODED = 2
+enum
+{
+    DECODING_OK     = 0,
+    SEARCH_SYNC     = 1,
+    PICTURE_DECODED = 2
 };
 
 #define  LAMBDA_ACCURACY_BITS         16

@@ -75,9 +75,10 @@ typedef int32  transpel;
 #ifdef FALSE
 #  define Boolean int
 #else
-typedef enum {
-  FALSE,
-  TRUE
+typedef enum
+{
+    FALSE,
+    TRUE
 } Boolean;
 #endif
 
