@@ -74,6 +74,8 @@ NALU_t *AllocNALU(int buffersize)
         no_mem_exit("AllocNALU: n->buf");
     }
 
+    XLOGI("alloc NALU buffer size = %d", buffersize);
+
     return n;
 }
 

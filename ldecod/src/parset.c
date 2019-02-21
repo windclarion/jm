@@ -557,8 +557,11 @@ void SubsetSPSConsistencyCheck(subset_seq_parameter_set_rbsp_t *subset_sps)
 
 void MakePPSavailable(VideoParameters *p_Vid, int id, pic_parameter_set_rbsp_t *pps)
 {
+    ENTER("id=%d", id);
+
     assert(pps->Valid == TRUE);
 
+    XLOGD("PicParSet[%d].Valid=%d slice_group_id=%p", id, p_Vid->PicParSet[id].Valid, p_Vid->PicParSet[id].slice_group_id);
     if (p_Vid->PicParSet[id].Valid == TRUE && p_Vid->PicParSet[id].slice_group_id != NULL)
         free(p_Vid->PicParSet[id].slice_group_id);
 
@@ -568,6 +571,8 @@ void MakePPSavailable(VideoParameters *p_Vid, int id, pic_parameter_set_rbsp_t *
     // call and will not try to free if pps->slice_group_id == NULL
     p_Vid->PicParSet[id].slice_group_id = pps->slice_group_id;
     pps->slice_group_id          = NULL;
+
+    LEAVE();
 }
 
 void CleanUpPPS(VideoParameters *p_Vid)

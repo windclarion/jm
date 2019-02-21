@@ -175,6 +175,8 @@ void ParseCommand(InputParameters *p_Inp, int ac, char *av[])
     int CLcount, ContentLen, NumberParams;
     char *filename = DEFAULTCONFIGFILENAME;
 
+    ENTER();
+
     if (ac == 2)
     {
         if (0 == strncmp(av[1], "-v", 2))
@@ -333,6 +335,8 @@ void ParseCommand(InputParameters *p_Inp, int ac, char *av[])
     p_Inp->enable_32_pulldown = 0;
     if (p_Inp->bDisplayDecParams)
         DisplayParams(Map, "Decoder Parameters");
+
+    LEAVE();
 }
 
 

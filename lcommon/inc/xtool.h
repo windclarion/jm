@@ -35,7 +35,7 @@
 #define XLOG_LEVEL_DEBUG        4
 #define XLOG_LEVEL_VERBOSE      5
 
-#define XLOG_LEVEL XLOG_LEVEL_DEBUG
+#define XLOG_LEVEL XLOG_LEVEL_VERBOSE
 
 #define XLOGV(format, ...) if (XLOG_LEVEL >= XLOG_LEVEL_VERBOSE) fprintf(XLOG_STD_TARGET, "%s:%d: " format "\n", __func__, __LINE__, ## __VA_ARGS__)
 #define XLOGD(format, ...) if (XLOG_LEVEL >= XLOG_LEVEL_DEBUG) fprintf(XLOG_STD_TARGET, "%s:%d: " format "\n", __func__, __LINE__, ## __VA_ARGS__)
@@ -66,6 +66,14 @@
 #define LEAVE(...) do { \
     if (XLOG_LEVEL_VERBOSE <= XLOG_LEVEL) { \
         fprintf(XLOG_STD_TARGET, "%s:%d: leave.", __func__, __LINE__); \
+        fprintf(XLOG_STD_TARGET, " " __VA_ARGS__); \
+        fprintf(XLOG_STD_TARGET, "\n"); \
+    } \
+} while(0)
+
+#define LEAVEF(...) do { \
+    if (XLOG_LEVEL_VERBOSE <= XLOG_LEVEL) { \
+        fprintf(XLOG_STD_TARGET, "%s:%d: leave with fail.", __func__, __LINE__); \
         fprintf(XLOG_STD_TARGET, " " __VA_ARGS__); \
         fprintf(XLOG_STD_TARGET, "\n"); \
     } \

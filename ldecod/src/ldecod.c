@@ -158,6 +158,8 @@ static void reset_dpb(VideoParameters *p_Vid, DecodedPictureBuffer *p_Dpb)
  */
 static void alloc_video_params(VideoParameters **p_Vid)
 {
+    ENTER();
+
     int i;
     if ((*p_Vid   = (VideoParameters *) calloc(1, sizeof(VideoParameters))) == NULL)
         no_mem_exit("alloc_video_params: p_Vid");
@@ -200,6 +202,8 @@ static void alloc_video_params(VideoParameters **p_Vid)
     (*p_Vid)->pDecOuputPic = (DecodedPicList *)calloc(1, sizeof(DecodedPicList));
     (*p_Vid)->pNextPPS = AllocPPS();
     (*p_Vid)->first_sps = TRUE;
+
+    LEAVE();
 }
 
 
@@ -227,9 +231,10 @@ static void alloc_params(InputParameters **p_Inp)
 */
 static int alloc_decoder(DecoderParams **p_Dec)
 {
+    ENTER();
     if ((*p_Dec = (DecoderParams *) calloc(1, sizeof(DecoderParams))) == NULL)
     {
-        fprintf(stderr, "alloc_decoder: p_Dec\n");
+        LEAVEF("out of memory!");
         return -1;
     }
 
@@ -239,6 +244,8 @@ static int alloc_decoder(DecoderParams **p_Dec)
     (*p_Dec)->p_trace = NULL;
     (*p_Dec)->bufferSize = 0;
     (*p_Dec)->bitcounter = 0;
+
+    LEAVE();
     return 0;
 }
 
@@ -685,6 +692,8 @@ static void Report(VideoParameters *p_Vid)
 
 DataPartition *AllocPartition(int n)
 {
+    ENTER("n=%d", n);
+
     DataPartition *partArr, *dataPart;
     int i;
 
@@ -711,6 +720,8 @@ DataPartition *AllocPartition(int n)
             error(errortext, 100);
         }
     }
+
+    LEAVE();
     return partArr;
 }
 
@@ -760,6 +771,8 @@ void FreePartition(DataPartition *dp, int n)
  */
 Slice *malloc_slice(InputParameters *p_Inp, VideoParameters *p_Vid)
 {
+    ENTER();
+
     int i, j, memory_size = 0;
     Slice *currSlice;
 
@@ -814,6 +827,7 @@ Slice *malloc_slice(InputParameters *p_Inp, VideoParameters *p_Vid)
         currSlice->listXsize[j] = 0;
     }
 
+    LEAVE();
     return currSlice;
 }
 
@@ -1100,7 +1114,10 @@ void report_stats_on_error(void)
 
 void ClearDecPicList(VideoParameters *p_Vid)
 {
+    ENTER();
+
     DecodedPicList *pPic = p_Vid->pDecOuputPic, *pPrior = NULL;
+    XLOGD("pPic=%p", pPic);
     //find the head first;
     while (pPic && !pPic->bValid)
     {
@@ -1108,9 +1125,10 @@ void ClearDecPicList(VideoParameters *p_Vid)
         pPic = pPic->pNext;
     }
 
+    XLOGD("pPic=%p pPrior=%p", pPic, pPrior);
     if (pPic && (pPic != p_Vid->pDecOuputPic))
     {
-        //move all nodes before pPic to the end;
+        XLOGD("move all nodes before pPic to the end.");
         DecodedPicList *pPicTail = pPic;
         while (pPicTail->pNext)
             pPicTail = pPicTail->pNext;
@@ -1119,6 +1137,8 @@ void ClearDecPicList(VideoParameters *p_Vid)
         p_Vid->pDecOuputPic = pPic;
         pPrior->pNext = NULL;
     }
+
+    LEAVE();
 }
 
 DecodedPicList *get_one_avail_dec_pic_from_list(DecodedPicList *pDecPicList, int b3D, int view_id)
@@ -1159,6 +1179,8 @@ int OpenDecoder(InputParameters *p_Inp)
 {
     int iRet;
     DecoderParams *pDecoder;
+
+    ENTER();
 
     iRet = alloc_decoder(&p_Dec);
     if (iRet)
@@ -1269,6 +1291,7 @@ int OpenDecoder(InputParameters *p_Inp)
     fprintf(pDecoder->p_Vid->fpDbg, "\ndecoder is opened.\n");
 #endif
 
+    LEAVE();
     return DEC_OPEN_NOERR;
 }
 
@@ -1281,10 +1304,13 @@ Return:
 ************************************/
 int DecodeOneFrame(DecodedPicList **ppDecPicList)
 {
+    ENTER();
+
     int iRet;
     DecoderParams *pDecoder = p_Dec;
     ClearDecPicList(pDecoder->p_Vid);
     iRet = decode_one_frame(pDecoder);
+    XLOGD("iRet=%d=%s", iRet, StartEndMarker_to_s(iRet));
     if (iRet == SOP)
     {
         iRet = DEC_SUCCEED;
@@ -1299,6 +1325,8 @@ int DecodeOneFrame(DecodedPicList **ppDecPicList)
     }
 
     *ppDecPicList = pDecoder->p_Vid->pDecOuputPic;
+
+    LEAVE();
     return iRet;
 }
 
@@ -1406,6 +1434,8 @@ int CloseDecoder()
 #if (MVC_EXTENSION_ENABLE)
 void OpenOutputFiles(VideoParameters *p_Vid, int view0_id, int view1_id)
 {
+    ENTER();
+
     InputParameters *p_Inp = p_Vid->p_Inp;
     char out_ViewFileName[2][FILE_NAME_SIZE], chBuf[FILE_NAME_SIZE], *pch;
     if ((strcasecmp(p_Inp->outfile, "\"\"") != 0) && (strlen(p_Inp->outfile) > 0))
@@ -1443,6 +1473,8 @@ void OpenOutputFiles(VideoParameters *p_Vid, int view0_id, int view1_id)
             }
         }
     }
+
+    LEAVE();
 }
 #endif
 

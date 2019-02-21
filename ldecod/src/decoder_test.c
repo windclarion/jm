@@ -65,6 +65,8 @@
 
 static void Configure(InputParameters *p_Inp, int ac, char *av[])
 {
+    ENTER();
+
     //char *config_filename=NULL;
     //char errortext[ET_SIZE];
     memset(p_Inp, 0, sizeof(InputParameters));
@@ -99,6 +101,7 @@ static void Configure(InputParameters *p_Inp, int ac, char *av[])
 #endif
     }
 
+    LEAVE();
 }
 
 /*********************************************************
@@ -252,6 +255,8 @@ int main(int argc, char **argv)
     int iFramesOutput = 0, iFramesDecoded = 0;
     InputParameters InputParams;
 
+    ENTER();
+
 #if DECOUTPUT_TEST
     hFileDecOutput0 = open(DECOUTPUT_VIEW0_FILENAME, OPENFLAGS_WRITE, OPEN_PERMISSIONS);
     fprintf(stdout, "Decoder output view0: %s\n", DECOUTPUT_VIEW0_FILENAME);
@@ -303,6 +308,8 @@ int main(int argc, char **argv)
     }
 
     printf("%d frames are decoded.\n", iFramesDecoded);
+
+    LEAVE();
     return 0;
 }
 

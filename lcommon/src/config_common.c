@@ -116,6 +116,8 @@ char *GetConfigFileContent(char *Filename)
     FILE *f;
     char *buf;
 
+    ENTER();
+
     if (NULL == (f = fopen(Filename, "r")))
     {
         snprintf(errortext, ET_SIZE, "Cannot open configuration file %s.", Filename);
@@ -152,6 +154,8 @@ char *GetConfigFileContent(char *Filename)
 
 
     fclose(f);
+
+    LEAVE();
     return buf;
 }
 
@@ -183,6 +187,8 @@ void ParseContent(InputParameters *p_Inp, Mapping *Map, char *buf, int bufsize)
     int IntContent;
     double DoubleContent;
     int i;
+
+    ENTER();
 
     // Stage one: Generate an argc/argv-type list in items[], without comments and whitespace.
     // This is context insensitive and could be done most easily with lex(1).
@@ -292,6 +298,8 @@ void ParseContent(InputParameters *p_Inp, Mapping *Map, char *buf, int bufsize)
         }
     }
     *p_Inp = cfgparams;
+
+    LEAVE();
 }
 
 /*!

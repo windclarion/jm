@@ -798,6 +798,9 @@ static void Error_tracking(VideoParameters *p_Vid, Slice *currSlice)
 {
     int i;
 
+    XLOGD("redundant_pic_cnt=%d p_Vid->type=%d=%s", currSlice->redundant_pic_cnt,
+        p_Vid->type, SliceType_to_s(p_Vid->type));
+
     if (currSlice->redundant_pic_cnt == 0)
     {
         p_Vid->Is_primary_correct = p_Vid->Is_redundant_correct = 1;
@@ -805,8 +808,10 @@ static void Error_tracking(VideoParameters *p_Vid, Slice *currSlice)
 
     if (currSlice->redundant_pic_cnt == 0 && p_Vid->type != I_SLICE)
     {
+        XLOGD("currSlice->num_ref_idx_active[LIST_0]=%d", currSlice->num_ref_idx_active[LIST_0]);
         for (i = 0; i < currSlice->num_ref_idx_active[LIST_0]; ++i)
         {
+            XLOGD("currSlice->ref_flag[%d]=%d", i, currSlice->ref_flag[i]);
             if (currSlice->ref_flag[i] == 0) // any reference of primary slice is incorrect
             {
                 p_Vid->Is_primary_correct = 0; // primary slice is incorrect
@@ -815,6 +820,8 @@ static void Error_tracking(VideoParameters *p_Vid, Slice *currSlice)
     }
     else if (currSlice->redundant_pic_cnt != 0 && p_Vid->type != I_SLICE)
     {
+        XLOGD("currSlice->ref_flag[%d]=%d", currSlice->redundant_slice_ref_idx,
+            currSlice->ref_flag[currSlice->redundant_slice_ref_idx]);
         if (currSlice->ref_flag[currSlice->redundant_slice_ref_idx] == 0) // reference of redundant slice is incorrect
         {
             p_Vid->Is_redundant_correct = 0;  // redundant slice is incorrect
@@ -841,6 +848,8 @@ static void CopyPOC(Slice *pSlice0, Slice *currSlice)
  */
 int decode_one_frame(DecoderParams *pDecoder)
 {
+    ENTER();
+
     VideoParameters *p_Vid = pDecoder->p_Vid;
     InputParameters *p_Inp = p_Vid->p_Inp;
     int current_header, iRet;
@@ -853,8 +862,10 @@ int decode_one_frame(DecoderParams *pDecoder)
     current_header = 0;
     p_Vid->iNumOfSlicesDecoded = 0;
     p_Vid->num_dec_mb = 0;
+    XLOGD("p_Vid->newframe=%d", p_Vid->newframe);
     if (p_Vid->newframe)
     {
+        XLOGD("p_Vid->pNextPPS->Valid=%d", p_Vid->pNextPPS->Valid);
         if (p_Vid->pNextPPS->Valid)
         {
             //assert((int) p_Vid->pNextPPS->pic_parameter_set_id == p_Vid->pNextSlice->pic_parameter_set_id);
@@ -878,8 +889,10 @@ int decode_one_frame(DecoderParams *pDecoder)
         p_Vid->iSliceNumOfCurrPic++;
         current_header = SOS;
     }
+    XLOGD("current_header=%d=%s", current_header, StartEndMarker_to_s(current_header));
     while (current_header != SOP && current_header != EOS)
     {
+        XLOGD("iSliceNumOfCurrPic=%d iNumOfSlicesAllocated=%d", p_Vid->iSliceNumOfCurrPic, p_Vid->iNumOfSlicesAllocated);
         //no pending slices;
         assert(p_Vid->iSliceNumOfCurrPic < p_Vid->iNumOfSlicesAllocated);
         if (!ppSliceList[p_Vid->iSliceNumOfCurrPic])
@@ -907,12 +920,16 @@ int decode_one_frame(DecoderParams *pDecoder)
         Error_tracking(p_Vid, currSlice);
         // If primary and redundant are received and primary is correct, discard the redundant
         // else, primary slice will be replaced with redundant slice.
+        XLOGD("frame_num=%u previous_frame_num=%u redundant_pic_cnt=%d Is_primary_correct=%d current_header=%d=%s",
+            currSlice->frame_num, p_Vid->previous_frame_num, currSlice->redundant_pic_cnt,
+            p_Vid->Is_primary_correct, current_header, StartEndMarker_to_s(current_header));
         if (currSlice->frame_num == p_Vid->previous_frame_num && currSlice->redundant_pic_cnt != 0
                 && p_Vid->Is_primary_correct != 0 && current_header != EOS)
         {
             continue;
         }
 
+        XLOGD("iSliceNumOfCurrPic=%d", p_Vid->iSliceNumOfCurrPic);
         if ((current_header != SOP && current_header != EOS) || (p_Vid->iSliceNumOfCurrPic == 0 && current_header == SOP))
         {
             currSlice->current_slice_nr = (short) p_Vid->iSliceNumOfCurrPic;
@@ -930,7 +947,6 @@ int decode_one_frame(DecoderParams *pDecoder)
                 {
                     tmpSliceList = calloc((p_Vid->iNumOfSlicesAllocated + MAX_NUM_DECSLICES), sizeof(Slice *));
                     memcpy(tmpSliceList, p_Vid->ppSliceList, p_Vid->iSliceNumOfCurrPic * sizeof(Slice *));
-                    //free;
                     free(p_Vid->ppSliceList);
                     ppSliceList = p_Vid->ppSliceList = tmpSliceList;
                 }
@@ -983,6 +999,8 @@ int decode_one_frame(DecoderParams *pDecoder)
 #if MVC_EXTENSION_ENABLE
     p_Vid->last_dec_view_id = p_Vid->dec_picture->view_id;
 #endif
+    XLOGD("p_Vid->dec_picture->structure=%d=%s", p_Vid->dec_picture->structure,
+        PictureStructure_to_s(p_Vid->dec_picture->structure));
     if (p_Vid->dec_picture->structure == FRAME)
         p_Vid->last_dec_poc = p_Vid->dec_picture->frame_poc;
     else if (p_Vid->dec_picture->structure == TOP_FIELD)
@@ -991,6 +1009,8 @@ int decode_one_frame(DecoderParams *pDecoder)
         p_Vid->last_dec_poc = p_Vid->dec_picture->bottom_poc;
     exit_picture(p_Vid, &p_Vid->dec_picture);
     p_Vid->previous_frame_num = ppSliceList[0]->frame_num;
+
+    LEAVE();
     return (iRet);
 }
 
@@ -1375,6 +1395,8 @@ void reorder_lists(Slice *currSlice)
  */
 int read_new_slice(Slice *currSlice)
 {
+    ENTER();
+
     VideoParameters *p_Vid = currSlice->p_Vid;
     InputParameters *p_Inp = currSlice->p_Inp;
 
@@ -1822,6 +1844,8 @@ process_nalu:
         break;
         }
     }
+
+    LEAVE();
 }
 
 void pad_buf(imgpel *pImgBuf, int iWidth, int iHeight, int iStride, int iPadX, int iPadY)
@@ -1911,6 +1935,8 @@ void pad_dec_picture(VideoParameters *p_Vid, StorablePicture *dec_picture)
  */
 void exit_picture(VideoParameters *p_Vid, StorablePicture **dec_picture)
 {
+    ENTER();
+
     InputParameters *p_Inp = p_Vid->p_Inp;
     SNRParameters   *snr   = p_Vid->snr;
     char yuv_types[4][6] = {"4:0:0", "4:2:0", "4:2:2", "4:4:4"};
@@ -2136,6 +2162,8 @@ void exit_picture(VideoParameters *p_Vid, StorablePicture **dec_picture)
 
     //p_Vid->currentSlice->current_mb_nr = -4712;   // impossible value for debugging, StW
     //p_Vid->currentSlice->current_slice_nr = 0;
+
+    LEAVE();
 }
 
 /*!
