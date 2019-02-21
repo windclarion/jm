@@ -48,6 +48,7 @@
 #define _NALUCOMMON_H_
 
 #include "defines.h"
+#include "typedefs.h"
 
 #define MAXRBSPSIZE 64000
 #define MAXNALUSIZE 64000
@@ -74,6 +75,7 @@ typedef enum
     NALU_TYPE_VDRD     = 24  // View and Dependency Representation Delimiter NAL Unit
 #endif
 } NaluType;
+const char* NaluType_to_s(int);
 
 //! values for nal_ref_idc
 typedef enum
@@ -83,6 +85,7 @@ typedef enum
     NALU_PRIORITY_LOW         = 1,
     NALU_PRIORITY_DISPOSABLE  = 0
 } NalRefIdc;
+const char* NalRefIdc_to_s(int);
 
 //! NAL unit structure
 typedef struct nalu_t

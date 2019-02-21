@@ -123,6 +123,7 @@ enum
     MULTIVIEW_HIGH = 118,      //!< YUV 4:2:0/8  "Multiview High"
     STEREO_HIGH    = 128       //!< YUV 4:2:0/8  "Stereo High"
 } ProfileIDC;
+const char* ProfileIDC_to_s(int);
 
 // Some typedefs used in the software
 #include "types.h"
@@ -217,6 +218,7 @@ enum
     IPCM         = 14,
     MAXMODE      = 15
 } MBModeTypes;
+const char* MBModeTypes_to_s(int);
 
 // number of intra prediction modes
 #define NO_INTRA_PMODE  9
@@ -227,6 +229,7 @@ enum
     DIR_TEMPORAL = 0, //!< Temporal Direct Mode
     DIR_SPATIAL  = 1 //!< Spatial Direct Mode
 } DirectModes;
+const char* DirectModes_to_s(int);
 
 // CAVLC block types
 enum
@@ -241,6 +244,7 @@ enum
     CR_INTRA16x16DC   =  9,
     CR_INTRA16x16AC   = 10
 } CAVLCBlockTypes;
+const char* CAVLCBlockTypes_to_s(int);
 
 // CABAC block types
 enum
@@ -268,6 +272,7 @@ enum
     CR_4x8        =  20,
     CR_4x4        =  21
 } CABACBlockTypes;
+const char* CABACBlockTypes_to_s(int);
 
 // Color components
 enum
@@ -280,6 +285,7 @@ enum
     B_COMP = 5,    // B Component
     T_COMP = 6
 } ColorComponent;
+const char* ColorComponent_to_s(int);
 
 
 #define LEVEL_NUM         6
@@ -305,6 +311,7 @@ enum
     VERT_LEFT_PRED       = 7,
     HOR_UP_PRED          = 8
 } I4x4PredModes;
+const char* I4x4PredModes_to_s(int);
 
 // 16x16 intra prediction modes
 enum
@@ -314,6 +321,7 @@ enum
     DC_PRED_16     = 2,
     PLANE_16       = 3
 } I16x16PredModes;
+const char* I16x16PredModes_to_s(int);
 
 // 8x8 chroma intra prediction modes
 enum
@@ -323,6 +331,7 @@ enum
     VERT_PRED_8   =  2,
     PLANE_8       =  3
 } I8x8PredModes;
+const char* I8x8PredModes_to_s(int);
 
 #define INIT_FRAME_RATE 30
 enum
@@ -331,6 +340,7 @@ enum
     SOP = 2,    //!< Start Of Picture
     SOS = 3     //!< Start Of Slice
 };
+const char* anonymous_enum_1_to_s(int);
 
 // MV Prediction types
 enum
@@ -340,6 +350,7 @@ enum
     MVPRED_U        = 2,
     MVPRED_UR       = 3
 } MVPredTypes;
+const char* MVPredTypes_to_s(int);
 
 #define MAX_SYMBOLS_PER_MB  1200  //!< Maximum number of different syntax elements for one MB
 // CAVLC needs more symbols per MB
@@ -390,12 +401,14 @@ enum // JLT : on-the-fly levels/modes
     OTF_L1 = 1, // Store full pel & interpolated 1/2 pel positions; 1/4 pel positions interpolate on-the-fly
     OTF_L2 = 2  // Store only full pell positions; 1/2 & 1/4 pel positions interpolate on-the-fly
 } OTFMode;
+const char* OTFMode_to_s(int);
 
 enum
 {
     OTF_ME = 0,
     OTF_MC = 1
 } OTFFunction;
+const char* OTFFunction_to_s(int);
 
 #if IMGTYPE
 #if JM_MEM_DISTORTION

@@ -339,6 +339,7 @@
   <ItemGroup>
     <ClCompile Include="lcommon\src\blk_prediction.c" />
     <ClCompile Include="lcommon\src\config_common.c" />
+    <ClCompile Include="lcommon\src\common_enum_to_s.c" />
     <ClCompile Include="lcommon\src\img_io.c" />
     <ClCompile Include="lcommon\src\img_process.c" />
     <ClCompile Include="lcommon\src\input.c" />
@@ -360,6 +361,7 @@
     <ClCompile Include="ldecod\src\context_ini.c" />
     <ClCompile Include="ldecod\src\decoder_test.c" />
     <ClCompile Include="ldecod\src\dec_statistics.c" />
+    <ClCompile Include="ldecod\src\decoder_enum_to_s.c" />
     <ClCompile Include="ldecod\src\erc_api.c" />
     <ClCompile Include="ldecod\src\erc_do_i.c" />
     <ClCompile Include="ldecod\src\erc_do_p.c" />

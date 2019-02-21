@@ -51,6 +51,7 @@ typedef enum
     CM_RGB     =  1,
     CM_XYZ     =  2
 } ColorModel;
+const char* ColorModel_to_s(int);
 
 typedef enum
 {
@@ -60,6 +61,7 @@ typedef enum
     YUV422     =  2,     //!< 4:2:2
     YUV444     =  3      //!< 4:4:4
 } ColorFormat;
+const char* ColorFormat_to_s(int);
 
 typedef enum
 {
@@ -71,6 +73,7 @@ typedef enum
     BGR        =  3,     //!< BGR
     V210       =  4      //!< Video Clarity 422 format (10 bits)
 } PixelFormat;
+const char* PixelFormat_to_s(int);
 
 
 typedef struct frame_format

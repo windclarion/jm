@@ -118,6 +118,7 @@ typedef enum
 
     SEI_MAX_ELEMENTS  //!< number of maximum syntax elements
 } SEI_type;
+const char* SEI_type_to_s(int);
 
 typedef struct
 {

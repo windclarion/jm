@@ -47,6 +47,7 @@
 #ifndef _ERRDO_H_
 #define _ERRDO_H_
 
+#include "mbuffer.h"
 
 typedef enum
 {
@@ -54,6 +55,7 @@ typedef enum
     ROPE = 1,
     RMPC = 2,
 } DE_Type;
+const char* DE_Type_to_s(int);
 
 struct distortion_estimation
 {

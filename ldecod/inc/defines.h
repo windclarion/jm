@@ -116,6 +116,7 @@ typedef enum
     MVC_HIGH       = 118,      //!< YUV 4:2:0/8  "Multiview High"
     STEREO_HIGH    = 128       //!< YUV 4:2:0/8  "Stereo High"
 } ProfileIDC;
+const char* ProfileIDC_to_s(int);
 
 #define FILE_NAME_SIZE  255
 #define INPUT_TEXT_SIZE 1024
@@ -167,6 +168,7 @@ typedef enum
     IPCM         = 14,
     MAXMODE      = 15
 } MBModeTypes;
+const char* MBModeTypes_to_s(int);
 
 // number of intra prediction modes
 #define NO_INTRA_PMODE  9
@@ -177,6 +179,7 @@ typedef enum
     DIR_TEMPORAL = 0, //!< Temporal Direct Mode
     DIR_SPATIAL  = 1 //!< Spatial Direct Mode
 } DirectModes;
+const char* DirectModes_to_s(int);
 
 // CAVLC block types
 typedef enum
@@ -191,6 +194,7 @@ typedef enum
     CR_INTRA16x16DC   =  9,
     CR_INTRA16x16AC   = 10
 } CAVLCBlockTypes;
+const char* CAVLCBlockTypes_to_s(int);
 
 // CABAC block types
 typedef enum
@@ -218,6 +222,7 @@ typedef enum
     CR_4x8        =  20,
     CR_4x4        =  21
 } CABACBlockTypes;
+const char* CABACBlockTypes_to_s(int);
 
 // Macro defines
 #define Q_BITS          15
@@ -249,6 +254,7 @@ typedef enum
     VERT_LEFT_PRED       = 7,
     HOR_UP_PRED          = 8
 } I4x4PredModes;
+const char* I4x4PredModes_to_s(int);
 
 // 16x16 intra prediction modes
 typedef enum
@@ -258,6 +264,7 @@ typedef enum
     DC_PRED_16     = 2,
     PLANE_16       = 3
 } I16x16PredModes;
+const char* I16x16PredModes_to_s(int);
 
 // 8x8 chroma intra prediction modes
 typedef enum
@@ -267,6 +274,7 @@ typedef enum
     VERT_PRED_8   =  2,
     PLANE_8       =  3
 } I8x8PredModes;
+const char* I8x8PredModes_to_s(int);
 
 // Color components
 enum
@@ -279,6 +287,7 @@ enum
     B_COMP = 5,    // B Component
     T_COMP = 6
 } ColorComponent;
+const char* ColorComponent_to_s(int);
 
 enum
 {
@@ -287,6 +296,7 @@ enum
     SOS = 3,     //!< Start Of Slice
     SOS_CONT = 4
 };
+const char* StartEndMarker_to_s(int);
 
 // MV Prediction types
 typedef enum
@@ -296,6 +306,7 @@ typedef enum
     MVPRED_U        = 2,
     MVPRED_UR       = 3
 } MVPredTypes;
+const char* MVPredTypes_to_s(int);
 
 enum
 {
@@ -303,6 +314,7 @@ enum
     SEARCH_SYNC     = 1,
     PICTURE_DECODED = 2
 };
+const char* DecodeStatus_to_s(int);
 
 #define  LAMBDA_ACCURACY_BITS         16
 #define INVALIDINDEX  (-135792468)

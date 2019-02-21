@@ -62,6 +62,7 @@ typedef enum
     PLANE_B = 1,
     PLANE_R = 2
 } ColorPlane;
+const char* ColorPlane_to_s(int);
 
 enum
 {
@@ -71,6 +72,7 @@ enum
     BI_PRED_L0 = 3,
     BI_PRED_L1 = 4
 };
+const char* List_to_s(int);
 
 enum
 {
@@ -79,6 +81,7 @@ enum
     ERROR_SATD = 2,
     ERROR_PSATD = 3
 };
+const char* PIC_ERROR_to_s(int);
 
 enum
 {
@@ -86,12 +89,14 @@ enum
     ME_YUV_FP = 1,
     ME_YUV_FP_SP = 2
 };
+const char* ME_YUV_to_s(int);
 
 
 enum
 {
     DISTORTION_MSE = 0
 };
+const char* MSE_to_s(int);
 
 
 //! Data Partitioning Modes
@@ -100,6 +105,7 @@ typedef enum
     PAR_DP_1,   //!< no data partitioning is supported
     PAR_DP_3    //!< data partitioning with 3 partitions
 } PAR_DP_TYPE;
+const char* PAR_DP_TYPE_to_s(int);
 
 
 //! Output File Types
@@ -108,6 +114,7 @@ typedef enum
     PAR_OF_ANNEXB,    //!< Annex B byte stream format
     PAR_OF_RTP       //!< RTP packets in outfile
 } PAR_OF_TYPE;
+const char* PAR_OF_TYPE_to_s(int);
 
 //! Field Coding Types
 typedef enum
@@ -117,6 +124,7 @@ typedef enum
     ADAPTIVE_CODING      = 2,
     FRAME_MB_PAIR_CODING = 3
 } CodingType;
+const char* CodingType_to_s(int);
 
 
 //! definition of H.264 syntax elements
@@ -142,6 +150,7 @@ typedef enum
     SE_EOS,
     SE_MAX_ELEMENTS = 20 //!< number of maximum syntax elements
 } SE_type;             // substituting the definitions in elements.h
+const char* SE_type_to_s(int);
 
 
 typedef enum
@@ -151,6 +160,7 @@ typedef enum
     FIXED_RATE,
     CALL_BACK
 } SliceMode;
+const char* SliceMode_to_s(int);
 
 
 typedef enum
@@ -158,6 +168,7 @@ typedef enum
     CAVLC,
     CABAC
 } SymbolMode;
+const char* SymbolMode_to_s(int);
 
 typedef enum
 {
@@ -167,6 +178,7 @@ typedef enum
     UM_HEX_SIMPLE    =  2,
     EPZS             =  3
 } SearchType;
+const char* SearchType_to_s(int);
 
 
 typedef enum
@@ -175,6 +187,7 @@ typedef enum
     TOP_FIELD,
     BOTTOM_FIELD
 } PictureStructure;           //!< New enum for field processing
+const char* PictureStructure_to_s(int);
 
 typedef enum
 {
@@ -185,6 +198,7 @@ typedef enum
     SI_SLICE = 4,
     NUM_SLICE_TYPES = 5
 } SliceType;
+const char* SliceType_to_s(int);
 
 //Motion Estimation levels
 typedef enum
@@ -193,18 +207,21 @@ typedef enum
     H_PEL,   //!< Half Pel refinement
     Q_PEL    //!< Quarter Pel refinement
 } MELevel;
+const char* MELevel_to_s(int);
 
 typedef enum
 {
     FAST_ACCESS = 0,    //!< Fast/safe reference access
     UMV_ACCESS = 1      //!< unconstrained reference access
 } REF_ACCESS_TYPE;
+const char* REF_ACCESS_TYPE_to_s(int);
 
 typedef enum
 {
     IS_LUMA = 0,
     IS_CHROMA = 1
 } Component_Type;
+const char* Component_Type_to_s(int);
 
 typedef enum
 {
@@ -213,6 +230,7 @@ typedef enum
     RC_MODE_2 = 2,
     RC_MODE_3 = 3
 } RCModeType;
+const char* RCModeType_to_s(int);
 
 
 typedef enum
@@ -227,6 +245,7 @@ typedef enum
     MS_SSIM_RGB      = 7,
     TOTAL_DIST_TYPES = 8
 } distortion_types;
+const char* distortion_types_to_s(int);
 
 typedef enum
 {
@@ -237,5 +256,6 @@ typedef enum
     WP_MCPREC_MINUS_PLUS0 = 8,
     WP_REGULAR =            9
 } weighted_prediction_types;
+const char* weighted_prediction_types_to_s(int);
 
 #endif

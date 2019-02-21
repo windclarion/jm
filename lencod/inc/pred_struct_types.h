@@ -68,6 +68,7 @@ typedef enum
     POP_INTRA = 2,
     POP_SP = 3
 } SliceTypeToPop;
+const char* SliceTypeToPop_to_s(int);
 
 // prediction frame structure
 typedef struct pred_struct_frm

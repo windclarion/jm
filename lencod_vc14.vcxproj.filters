@@ -807,5 +807,11 @@
     <ClCompile Include="lcommon\src\xtool.c">
       <Filter>Common Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lcommon\src\common_enum_to_s.c">
+      <Filter>Common Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lencod\src\encoder_enum_to_s.c">
+      <Filter>Project Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

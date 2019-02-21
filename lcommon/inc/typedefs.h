@@ -80,6 +80,7 @@ typedef enum
     FALSE,
     TRUE
 } Boolean;
+const char* Boolean_to_s(int);
 #endif
 
 #ifndef MAXINT64

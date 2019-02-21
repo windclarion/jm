@@ -92,6 +92,7 @@ typedef enum
     LDIAMOND  = 3,
     SBDIAMOND = 4
 } EPZSPatterns;
+const char* EPZSPatterns_to_s(int);
 
 typedef struct epzs_params
 {

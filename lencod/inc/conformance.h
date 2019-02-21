@@ -47,6 +47,10 @@
 #ifndef _CONFORMANCE_H_
 #define _CONFORMANCE_H_
 
+#include "typedefs.h"
+#include "global.h"
+
+
 extern Boolean is_valid_level(unsigned int profileIdc, unsigned int levelIdc);
 extern int     get_level_index(unsigned int profile_idc, unsigned int level_idc, unsigned int constrained_set3_flag);
 extern void    profile_check(InputParameters *p_Inp);
@@ -86,6 +90,7 @@ typedef enum
     LEVEL_6_2 = 19,
     LEVEL_UNCONSTRAINED = 20
 } LevelId;
+const char* LevelId_to_s(int);
 
 #endif
 

@@ -46,6 +46,7 @@
 #ifndef _IO_VIDEO_H_
 #define _IO_VIDEO_H_
 
+#include "defines.h"
 #include "frame.h"
 
 typedef struct video_size
@@ -64,6 +65,7 @@ typedef enum
     VIDEO_TIFF    =  3,
     VIDEO_AVI     =  4
 } VideoFileType;
+const char* VideoFileType_to_s(int);
 
 typedef struct video_data_file
 {

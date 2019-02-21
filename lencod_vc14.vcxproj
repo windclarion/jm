@@ -395,6 +395,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lcommon\src\blk_prediction.c" />
+    <ClCompile Include="lcommon\src\common_enum_to_s.c" />
     <ClCompile Include="lcommon\src\config_common.c" />
     <ClCompile Include="lcommon\src\img_io.c" />
     <ClCompile Include="lcommon\src\img_process.c" />
@@ -418,6 +419,7 @@
     <ClCompile Include="lencod\src\configfile.c" />
     <ClCompile Include="lencod\src\conformance.c" />
     <ClCompile Include="lencod\src\context_ini.c" />
+    <ClCompile Include="lencod\src\encoder_enum_to_s.c" />
     <ClCompile Include="lencod\src\errdo.c" />
     <ClCompile Include="lencod\src\errdo_dist_mhyp.c" />
     <ClCompile Include="lencod\src\explicit_gop.c" />

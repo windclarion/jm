@@ -60,6 +60,7 @@ typedef enum
     DEC_ERRMASK = 0x8000
 //  DEC_ERRMASK = 0x80000000
 } DecErrCode;
+const char* DecErrCode_to_s(int);
 
 typedef struct dec_set_t
 {

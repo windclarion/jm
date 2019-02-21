@@ -60,6 +60,7 @@ typedef enum
     MECOST_CALC_RDN_PLUS_NP,
     MECOST_CALC_RDN_PLUS_NP_FAST,
 } HMEMECostCalcMethod;
+const char* HMEMECostCalcMethod_to_s(int);
 
 typedef struct hmeBlockInfo
 {

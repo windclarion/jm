@@ -93,6 +93,7 @@ typedef enum
     DEC_OPENED = 0,
     DEC_STOPPED,
 } DecoderStatus_e;
+const char* DecoderStatus_e_to_s(int);
 
 typedef enum
 {
@@ -100,6 +101,7 @@ typedef enum
     CrComp = 1,
     CbComp = 2
 } Color_Component;
+const char* Color_Component_to_s(int);
 
 /***********************************************************************
  * D a t a    t y p e s   f o r  C A B A C
